@@ -1,2 +1,2 @@
-# OOP---Programmeringsprojekt
+# OOP-Programmeringsprojekt
 Chalmers oop-projekt
