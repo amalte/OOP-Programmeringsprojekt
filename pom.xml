@@ -16,7 +16,6 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
     <maven.compiler.target>1.7</maven.compiler.target>
   </properties>
 
-
   <dependencies>
 
    <dependency>
@@ -26,6 +25,11 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
     <scope>test</scope>
    </dependency>
 
+	<dependency>
+	 <groupId>com.github.almasb</groupId>
+	 <artifactId>fxgl</artifactId>
+	 <version>11.10</version>
+	</dependency>
   </dependencies>
 
 
