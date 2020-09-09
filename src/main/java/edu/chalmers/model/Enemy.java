@@ -7,14 +7,14 @@ import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-public class Player extends Entity {
+public class Enemy extends Entity {
 
     private PhysicsComponent physics = new PhysicsComponent();
     private EntityBuilder builder = new EntityBuilder();
 
-    public Player(double x, double y) {
+    public Enemy(double x, double y) {
         physics.setBodyType(BodyType.DYNAMIC);
-        Entity player = builder.at(x,y).viewWithBBox(new Rectangle(50, 50, Color.BLUE)).with(physics).buildAndAttach();
+        Entity enemy = builder.at(x,y).viewWithBBox(new Rectangle(50, 50, Color.RED)).with(physics).buildAndAttach();
     }
 
     public void moveLeft(){
