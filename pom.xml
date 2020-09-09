@@ -30,6 +30,11 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 	 <artifactId>fxgl</artifactId>
 	 <version>11.10</version>
 	</dependency>
+      <dependency>
+          <groupId>org.openjfx</groupId>
+          <artifactId>javafx-graphics</artifactId>
+          <version>13.0.2</version>
+      </dependency>
   </dependencies>
 
 
