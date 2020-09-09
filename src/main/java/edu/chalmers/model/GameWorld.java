@@ -3,7 +3,7 @@ package edu.chalmers.model;
 import com.almasb.fxgl.physics.PhysicsWorld;
 
 /**
- * A class that allows you to create a {@see com.almasb.fxgl.physics.PhysicsWorld} but with support for tiles, manipulation of the background etc.
+ * A class that allows you to create a {@see com.almasb.fxgl.physics.PhysicsWorld} but with support for entities, manipulation of the background etc.
  */
 public class GameWorld {
     private static final double DEFAULT_PPM = 16;
