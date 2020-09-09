@@ -15,15 +15,10 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.hamcrest:hamcrest-core:1.3" level="project" />
     <orderEntry type="library" name="Maven: com.github.almasb:fxgl:11.10" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-swing:13.0.2" level="project" />
-    <orderEntry type="library" name="Maven: org.openjfx:javafx-swing:win:13.0.2" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-graphics:13.0.2" level="project" />
-    <orderEntry type="library" name="Maven: org.openjfx:javafx-graphics:win:13.0.2" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-base:13.0.2" level="project" />
-    <orderEntry type="library" name="Maven: org.openjfx:javafx-base:win:13.0.2" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-fxml:13.0.2" level="project" />
-    <orderEntry type="library" name="Maven: org.openjfx:javafx-fxml:win:13.0.2" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-controls:13.0.2" level="project" />
-    <orderEntry type="library" name="Maven: org.openjfx:javafx-controls:win:13.0.2" level="project" />
     <orderEntry type="library" name="Maven: com.github.almasb:fxgl-core:11.10" level="project" />
     <orderEntry type="library" name="Maven: com.github.almasb:fxgl-logging:11.10" level="project" />
     <orderEntry type="library" name="Maven: com.github.almasb:fxgl-io:11.10" level="project" />
@@ -38,7 +33,6 @@
     <orderEntry type="library" name="Maven: com.github.almasb:fxgl-ai:11.10" level="project" />
     <orderEntry type="library" name="Maven: com.github.almasb:fxgl-media:11.10" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-media:13.0.2" level="project" />
-    <orderEntry type="library" name="Maven: org.openjfx:javafx-media:win:13.0.2" level="project" />
     <orderEntry type="library" name="Maven: com.github.almasb:fxgl-events:11.10" level="project" />
     <orderEntry type="library" name="Maven: com.github.almasb:fxgl-input:11.10" level="project" />
     <orderEntry type="library" name="Maven: com.github.almasb:fxgl-scene:11.10" level="project" />
@@ -55,5 +49,6 @@
     <orderEntry type="library" name="Maven: org.jetbrains.kotlin:kotlin-stdlib:modular:1.3.41" level="project" />
     <orderEntry type="library" name="Maven: org.jetbrains.kotlin:kotlin-stdlib-common:1.3.41" level="project" />
     <orderEntry type="library" name="Maven: org.jetbrains:annotations:13.0" level="project" />
+    <orderEntry type="library" name="JavaFX" level="application" />
   </component>
 </module>
