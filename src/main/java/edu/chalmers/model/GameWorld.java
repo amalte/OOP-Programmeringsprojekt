@@ -1,9 +1,9 @@
 package edu.chalmers.model;
 
+import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.physics.PhysicsWorld;
 import com.almasb.fxgl.texture.Texture;
 
-import javax.swing.text.html.parser.Entity;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
