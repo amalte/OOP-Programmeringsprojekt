@@ -1,6 +1,11 @@
 package edu.chalmers.model;
 
 import com.almasb.fxgl.physics.PhysicsWorld;
+import com.almasb.fxgl.texture.Texture;
+
+import javax.swing.text.html.parser.Entity;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A class that allows you to create a {@see com.almasb.fxgl.physics.PhysicsWorld} but with support for entities, manipulation of the background etc.
@@ -9,6 +14,8 @@ public class GameWorld {
     private static final double DEFAULT_PPM = 16;
 
     private final PhysicsWorld physicsWorld;
+    private final int appHeight;
+    private final double ppm;
 
     /**
      * Primary constructor for GameWorld.
@@ -17,6 +24,8 @@ public class GameWorld {
      * @see com.almasb.fxgl.physics.PhysicsWorld
      */
     public GameWorld(int appHeight) {
+        this.appHeight = appHeight;
+        ppm = DEFAULT_PPM;
         physicsWorld = new PhysicsWorld(appHeight, DEFAULT_PPM);
     }
 
@@ -28,8 +37,8 @@ public class GameWorld {
      * @see com.almasb.fxgl.physics.PhysicsWorld
      */
     public GameWorld(int appHeight, double ppm) {
+        this.appHeight = appHeight;
+        this.ppm = ppm;
         physicsWorld = new PhysicsWorld(appHeight, ppm);
     }
-
-
 }
