@@ -1,4 +1,8 @@
 # OOP-Programmeringsprojekt
-Chalmers oop-projekt
+Chalmers OOP-Projekt
 
-Testing -Sam
+Group: Hmmm
+
+2D Platformer Wave Game
+
+By: Oscar, Sam, Erik, Malte, Anwarr

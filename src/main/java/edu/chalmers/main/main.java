@@ -14,12 +14,14 @@ public class main extends GameApplication {
     Controller controller;
 
     protected void initSettings(GameSettings gameSettings) {
-        gameSettings.setWidth(15*70);
-        gameSettings.setHeight(10*70);
+        gameSettings.setWidth(15 * 70);
+        gameSettings.setHeight(10 * 70);
         gameSettings.setTitle("Game Test");
     }
 
+
     public static void main(String[] args) {
+        System.setProperty("quantum.multithreaded", "false"); // DO NOT REMOVE. Caps FPS at 60 across all computers
         launch(args);
     }
 
