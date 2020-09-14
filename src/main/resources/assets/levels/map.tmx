@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="15" height="10" tilewidth="70" tileheight="70" infinite="0" nextlayerid="3" nextobjectid="7">
- <tileset firstgid="1" name="TextureSheet70px" tilewidth="70" tileheight="70" tilecount="6" columns="3">
-  <image source="TextureSheet70px.png" width="210" height="140"/>
+ <tileset firstgid="1" name="TextureSheet70px" tilewidth="70" tileheight="70" tilecount="12" columns="3">
+  <image source="TextureSheet70px.png" width="210" height="280"/>
  </tileset>
  <layer id="1" name="Tile Layer 1" width="15" height="10">
   <data encoding="csv">
@@ -11,10 +11,10 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,
-0,0,0,0,0,0,0,0,4,4,4,0,0,0,0,
-0,0,0,0,4,4,4,0,0,0,0,0,0,0,0,
-6,6,6,6,6,6,6,6,6,6,6,6,6,6,6
+0,0,0,0,0,0,0,0,0,0,0,0,7,7,7,
+0,0,0,0,0,0,0,0,7,7,7,0,0,0,0,
+0,0,0,0,7,7,7,0,0,0,0,0,0,0,0,
+2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
 </data>
  </layer>
  <objectgroup id="2" name="Object Layer 1">
