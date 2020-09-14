@@ -21,7 +21,7 @@ public class WaveManager {
     ArrayList<String> enemiesToSpawn = new ArrayList<String>();
 
     int currentWave = 1;
-    int shortSpawnMs = 1000;    // Lowest time between enemies spawning
+    int shortSpawnMs = 1500;    // Lowest time between enemies spawning
     int longSpawnMs = 2000;    // Longest time between enemies spawning
     SpawnData leftSpawnPoint = new SpawnData(0, 520);
     SpawnData rightSpawnPoint = new SpawnData(1000, 520);
@@ -87,7 +87,6 @@ public class WaveManager {
         public void run() {
             int spawnIndex = random.nextInt(enemiesToSpawn.size());
             // enemyFactory.spawn(enemiesToSpawn.get(spawnIndex));  // Spawns in random enemy from enemiesToSpawn list into enemies list
-            // enemies.add(enemiesToSpawn.get(spawnIndex));   // Adds random enemy from enemiesToSpawn list into enemies list TEMPORARY
             EnemyFactory.zombie(getRandomSpawnPoint(), p);
 
             enemiesToSpawn.remove(spawnIndex);
