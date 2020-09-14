@@ -1,7 +1,8 @@
 package edu.chalmers.model;
 
-import com.almasb.fxgl.dsl.EntityBuilder;
+import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
+import com.almasb.fxgl.entity.components.CollidableComponent;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import javafx.scene.paint.Color;
@@ -10,12 +11,23 @@ import javafx.scene.shape.Rectangle;
 public class Player extends Entity {
 
     private PhysicsComponent physics = new PhysicsComponent();
-    private EntityBuilder builder = new EntityBuilder();
+
+    private final int amountOfJumps = 1;
+    private int jumps = amountOfJumps;
+    public Entity player;
 
     public Player(double x, double y) {
         physics.setBodyType(BodyType.DYNAMIC);
-        Entity player = builder.at(x,y).viewWithBBox(new Rectangle(50, 50, Color.BLUE)).with(physics).buildAndAttach();
+        player = FXGL.entityBuilder().type(EntityType.PLAYER).at(x,y).viewWithBBox(new Rectangle(50, 50, Color.BLUE)).with(physics).with(new CollidableComponent(true)).buildAndAttach();
 
+    }
+
+    /**
+     * Get method used fot testing purposes.
+     * @return integer jumps jumps
+     */
+    public int getJumps() {
+        return jumps;
     }
 
     /**
@@ -33,10 +45,14 @@ public class Player extends Entity {
     }
 
     /**
-     * Method moves players Entity up (negative y).
+     * Method moves players Entity up (negative y) if the player have any jumps left.
      */
     public void jump(){
-        physics.setVelocityY(-300);
+        if(jumps != 0) {
+            physics.setVelocityY(-300);
+            jumps--;
+            System.out.println(jumps);
+        }
     }
 
     /**
@@ -44,5 +60,12 @@ public class Player extends Entity {
      */
     public void stop(){
         physics.setVelocityX(0);
+    }
+
+    /**
+     * Reset players amount of jumps.
+     */
+    public void resetJumpAmounts(){
+        jumps = amountOfJumps;
     }
 }
