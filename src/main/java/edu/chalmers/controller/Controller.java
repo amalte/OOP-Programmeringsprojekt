@@ -1,7 +1,11 @@
 package edu.chalmers.controller;
 
+import com.almasb.fxgl.dsl.FXGL;
+import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.input.Input;
 import com.almasb.fxgl.input.UserAction;
+import com.almasb.fxgl.physics.CollisionHandler;
+import edu.chalmers.model.EntityType;
 import edu.chalmers.model.Player;
 import javafx.scene.input.KeyCode;
 
@@ -11,7 +15,7 @@ public class Controller {
 
 
     public void initPlayerMovementInput(final Player p){
-        UserAction walkRight = new UserAction("walk right") {
+        UserAction walkRight = new UserAction("Walk right") {
             @Override
             protected void onAction() {
                 p.moveRight();
@@ -23,7 +27,7 @@ public class Controller {
             }
         };
 
-        UserAction walkLeft = new UserAction("walk left") {
+        UserAction walkLeft = new UserAction("Walk left") {
             @Override
             protected void onAction() {
                 p.moveLeft();
@@ -35,15 +39,16 @@ public class Controller {
             }
         };
 
-        UserAction jump = new UserAction("jump") {
+        UserAction jump = new UserAction("Jump") {
             @Override
-            protected void onAction() {
+            protected void onActionBegin() {
+                FXGL.getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityType.PLAYER, EntityType.PLATFORM) {
+                    @Override
+                    protected void onCollisionBegin(Entity a, Entity b) {
+                        p.resetJumpAmounts();
+                    }
+                });
                 p.jump();
-            }
-
-            @Override
-            protected void onActionEnd() {
-                p.stop();
             }
         };
 

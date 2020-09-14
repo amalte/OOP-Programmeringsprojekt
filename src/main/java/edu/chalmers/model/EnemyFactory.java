@@ -4,14 +4,12 @@ import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.EntityFactory;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.Spawns;
+import com.almasb.fxgl.physics.PhysicsComponent;
 
-public class EnemyFactory implements EntityFactory {
+public class EnemyFactory {
 
     private static int instanceAmount;
     private static EnemyFactory instance;
-
-    // ENEMY STRING CONSTANTS
-    public static String ENEMY = "enemy";
 
     public EnemyFactory() {
 
@@ -20,7 +18,7 @@ public class EnemyFactory implements EntityFactory {
         System.out.println("EnemyFactory instances: " + instanceAmount);
     }
 
-    public static EntityFactory get() {
+    public static EnemyFactory getInstance() {
         if(instance == null) {
             instance = new EnemyFactory();
         }
@@ -28,8 +26,7 @@ public class EnemyFactory implements EntityFactory {
         return instance;
     }
 
-    @Spawns("enemy")
-    public Entity enemy(SpawnData spawnData) {
-        return new Enemy(spawnData.getX(), spawnData.getY());
+    public static Zombie zombie(SpawnData spawnData, Player target) {
+        return new Zombie(spawnData.getX(), spawnData.getY(), target);
     }
 }

@@ -18,20 +18,22 @@ import java.util.*;
 public class WaveManager {
 
     ArrayList<Enemy> enemies = new ArrayList<Enemy>();
-    ArrayList<Enemy> enemiesToSpawn = new ArrayList<Enemy>();
-
-    //ArrayList<EnemyToSpawn> enemyToSpawnList = new ArrayList<EnemyToSpawn>();   // TEMPORARY
+    ArrayList<String> enemiesToSpawn = new ArrayList<String>();
 
     int currentWave = 1;
-    int shortSpawnMs = 500;    // Lowest time between enemies spawning
-    int longSpawnMs = 1000;    // Longest time between enemies spawning
-    // EnemyFactory enemyFactory = EnemyFactory.get(); // Used to spawn in enemies
-    SpawnData leftSpawnPoint = new SpawnData(0, 100);
-    SpawnData rightSpawnPoint = new SpawnData(300, 100);
+    int shortSpawnMs = 1000;    // Lowest time between enemies spawning
+    int longSpawnMs = 2000;    // Longest time between enemies spawning
+    SpawnData leftSpawnPoint = new SpawnData(0, 520);
+    SpawnData rightSpawnPoint = new SpawnData(1000, 520);
     Random random = new Random();
-    Timer timer = new Timer();
 
+    Player p;
 
+    public WaveManager(Player p) {
+        this.p = p;
+    }
+
+    public WaveManager() { }
 
     public boolean isWaveActive() {
         if(enemies.size() > 0) {
@@ -40,52 +42,20 @@ public class WaveManager {
         return false;
     }
 
-    public void GenerateNewWave(GameWorld gameWorld) {
+    public void generateNewWave() {
         currentWave++;
         calculateEnemiesToSpawn();
-        timer.schedule(new SpawnEnemyTask(timer, random, gameWorld), random.nextInt(longSpawnMs - shortSpawnMs) + shortSpawnMs);
 
-        // OPTION 2 TimerAction timerAction = runOnce(new SpawnEnemyRunnable(random), Duration.millis(random.nextInt(longSpawnMs - shortSpawnMs) + shortSpawnMs));
+        TimerAction timerAction = runOnce(new SpawnEnemyRunnable(random), Duration.millis(random.nextInt(longSpawnMs - shortSpawnMs) + shortSpawnMs));
     }
 
     public int getCurrentWave() {
         return currentWave;
     }
 
-    /**
-     * A Task class that spawns in enemies in an interval
-     */
-    private class SpawnEnemyTask extends TimerTask {
-        private Timer timer;
-        private Random random;
-        private GameWorld gameWorld;
-
-        SpawnEnemyTask(Timer timer, Random random, GameWorld gameWorld) {
-            this.timer = timer;
-            this.random = random;
-            this.gameWorld = gameWorld;
-        }
-
-        @Override
-        public void run() {
-            int spawnIndex = random.nextInt(enemiesToSpawn.size());
-            // enemyFactory.spawn(enemiesToSpawn.get(spawnIndex));  // Spawns in random enemy from enemiesToSpawn list into enemies list
-            gameWorld.spawn(enemiesToSpawn.get(spawnIndex).toString(), getRandomSpawnPoint()); // Spawns in random enemy from enemiesToSpawn list
-
-            enemiesToSpawn.remove(spawnIndex);
-
-            if(enemiesToSpawn.size() == 0) {    // Stop spawning enemies when list is empty
-                timer.cancel();
-            }
-            else {
-                timer.schedule(new SpawnEnemyTask(timer, random, gameWorld), random.nextInt(longSpawnMs - shortSpawnMs) + shortSpawnMs);
-            }
-        }
-    }
-
     public void calculateEnemiesToSpawn() {
         for (int i = 0; i < currentWave; i++) {
-            //enemiesToSpawn.add("Enemy1");
+            enemiesToSpawn.add("Zombie");
         }
         for (int i = 0; i < Math.round((double)currentWave / 3); i++) {
             //enemiesToSpawn.add("Enemy2");
@@ -106,12 +76,7 @@ public class WaveManager {
         }
     }
 
-
-
-    // OPTIONAL CODE \\
-
-
-    /* OPTION 2 TIMER  class SpawnEnemyRunnable implements Runnable {
+    class SpawnEnemyRunnable implements Runnable {
         Random random;
 
         SpawnEnemyRunnable(Random random) {
@@ -122,17 +87,19 @@ public class WaveManager {
         public void run() {
             int spawnIndex = random.nextInt(enemiesToSpawn.size());
             // enemyFactory.spawn(enemiesToSpawn.get(spawnIndex));  // Spawns in random enemy from enemiesToSpawn list into enemies list
-            enemies.add(enemiesToSpawn.get(spawnIndex));   // Adds random enemy from enemiesToSpawn list into enemies list TEMPORARY
+            // enemies.add(enemiesToSpawn.get(spawnIndex));   // Adds random enemy from enemiesToSpawn list into enemies list TEMPORARY
+            EnemyFactory.zombie(getRandomSpawnPoint(), p);
+
             enemiesToSpawn.remove(spawnIndex);
 
             if (enemiesToSpawn.size() > 0) {
                 runOnce(new SpawnEnemyRunnable(random), Duration.millis(random.nextInt(longSpawnMs - shortSpawnMs) + shortSpawnMs));
             }
         }
-    } */
+    }
 
 
-    /* OPTION 3  public class EnemyToSpawn {
+    /* OPTIONAL public class EnemyToSpawn {
         String name;
         int amount;
 
