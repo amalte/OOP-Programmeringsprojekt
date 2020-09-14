@@ -33,7 +33,9 @@ public class WaveManager {
         this.p = p;
     }
 
-    public WaveManager() { }
+    public WaveManager() {
+
+    }
 
     public boolean isWaveActive() {
         if(enemies.size() > 0) {

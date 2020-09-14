@@ -5,6 +5,7 @@ import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.components.CollidableComponent;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
+import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
@@ -25,7 +26,8 @@ public class Player {
 
     public Player(double x, double y) {
         physics.setBodyType(BodyType.DYNAMIC);
-        player = FXGL.entityBuilder().type(EntityType.PLAYER).at(x,y).viewWithBBox(new Rectangle(50, 50, Color.BLUE)).with(physics).with(new CollidableComponent(true)).buildAndAttach();
+        physics.setFixtureDef(new FixtureDef().friction(0.0f));
+        player = FXGL.entityBuilder().type(EntityType.PLAYER).at(x, y).viewWithBBox(new Rectangle(50, 50, Color.BLUE)).with(physics).with(new CollidableComponent(true)).buildAndAttach();
 
     }
 
@@ -52,7 +54,8 @@ public class Player {
     }
 
     /**
-     * Method moves players Entity up (negative y) if the player have any jumps left.
+     * Method moves players Entity up (negative y) with jumpHeight if the player have any jumps left.
+     * Reduce amount of jumps left by 1.
      */
     public void jump(){
         if(jumps != 0) {
@@ -93,7 +96,7 @@ public class Player {
     }
 
     /**
-     * Resets players jumps.
+     * Resets players jumps to be equal to amountOfJumps variable.
      */
     public void resetJumpAmounts(){
         jumps = amountOfJumps;
