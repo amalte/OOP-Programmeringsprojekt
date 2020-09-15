@@ -25,4 +25,14 @@ public class GameWorldFactory implements EntityFactory {
         return entityBuilder().type(EntityType.PLATFORM).from(spawnData).bbox(new HitBox(BoundingShape.box(spawnData.<Integer>get("width"), spawnData.<Integer>get("height")))).with(new CollidableComponent(true)).with(new PhysicsComponent()).build();
     }
 
+    @Spawns("platformSide")
+    public Entity newPlatformSide(SpawnData spawnData){
+        return entityBuilder().type(EntityType.PLATFORMSIDE).from(spawnData).bbox(new HitBox(BoundingShape.box(spawnData.<Integer>get("width"), spawnData.<Integer>get("height")))).with(new PhysicsComponent()).build();
+    }
+
+    @Spawns("platformBottom")
+    public Entity newPlatformBottom(SpawnData spawnData){
+        return entityBuilder().type(EntityType.PLATFORMBOTTOM).from(spawnData).bbox(new HitBox(BoundingShape.box(spawnData.<Integer>get("width"), spawnData.<Integer>get("height")))).with(new PhysicsComponent()).build();
+    }
+
 }
