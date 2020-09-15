@@ -37,6 +37,8 @@ public class WaveManager {
 
     }
 
+    public void test() {}
+
     public boolean isWaveActive() {
         if(enemies.size() > 0) {
             return true;
