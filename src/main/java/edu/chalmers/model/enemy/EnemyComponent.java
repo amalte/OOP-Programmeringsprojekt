@@ -1,7 +1,6 @@
-package edu.chalmers.model.Enemies;
+package edu.chalmers.model.enemy;
 
 import com.almasb.fxgl.entity.component.Component;
-import edu.chalmers.model.Enemies.ConcreteEnemies.Enemy;
 import edu.chalmers.model.Player;
 
 /**

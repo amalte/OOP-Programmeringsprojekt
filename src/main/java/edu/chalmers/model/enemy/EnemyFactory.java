@@ -1,9 +1,8 @@
-package edu.chalmers.model.Enemies;
+package edu.chalmers.model.enemy;
 
-import edu.chalmers.model.Blob;
-import edu.chalmers.model.Enemies.ConcreteEnemies.Enemy;
-import edu.chalmers.model.Enemies.ConcreteEnemies.Rex;
-import edu.chalmers.model.Enemies.ConcreteEnemies.Zombie;
+import edu.chalmers.model.enemy.enemytypes.Blob;
+import edu.chalmers.model.enemy.enemytypes.Rex;
+import edu.chalmers.model.enemy.enemytypes.Zombie;
 import edu.chalmers.model.Player;
 
 /**
