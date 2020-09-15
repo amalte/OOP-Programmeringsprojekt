@@ -1,5 +1,6 @@
-package edu.chalmers.model;
+package edu.chalmers.model.Enemies.ConcreteEnemies;
 
+import edu.chalmers.model.Player;
 import javafx.scene.paint.Color;
 
 /**

@@ -1,14 +1,8 @@
 package edu.chalmers.model.Wave;
 
-import com.almasb.fxgl.app.GameSettings;
-import com.almasb.fxgl.entity.Entity;
-import com.almasb.fxgl.entity.GameWorld;
-import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.time.TimerAction;
-import edu.chalmers.model.Enemy;
-import edu.chalmers.model.EnemyFactory;
+import edu.chalmers.model.Enemies.ConcreteEnemies.Enemy;
 import edu.chalmers.model.Player;
-import javafx.geometry.Point2D;
 import javafx.util.Duration;
 
 import static com.almasb.fxgl.dsl.FXGL.*;

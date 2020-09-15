@@ -1,7 +1,7 @@
 package edu.chalmers.model.Wave;
 
 import com.almasb.fxgl.entity.SpawnData;
-import edu.chalmers.model.EnemyFactory;
+import edu.chalmers.model.Enemies.EnemyFactory;
 import edu.chalmers.model.Player;
 import javafx.util.Duration;
 

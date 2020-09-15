@@ -1,9 +1,8 @@
-package edu.chalmers.model;
+package edu.chalmers.model.Enemies;
 
 import com.almasb.fxgl.entity.component.Component;
-import javafx.util.Duration;
-
-import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameTimer;
+import edu.chalmers.model.Enemies.ConcreteEnemies.Enemy;
+import edu.chalmers.model.Player;
 
 /**
  * EnemyComponent class. Contains very simple Enemy "AI".

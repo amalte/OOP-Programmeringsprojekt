@@ -1,9 +1,12 @@
-package edu.chalmers.model;
+package edu.chalmers.model.Enemies.ConcreteEnemies;
 
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
+import edu.chalmers.model.Enemies.EnemyComponent;
+import edu.chalmers.model.EntityType;
+import edu.chalmers.model.Player;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 

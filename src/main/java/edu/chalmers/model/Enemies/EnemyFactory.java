@@ -1,4 +1,10 @@
-package edu.chalmers.model;
+package edu.chalmers.model.Enemies;
+
+import edu.chalmers.model.Blob;
+import edu.chalmers.model.Enemies.ConcreteEnemies.Enemy;
+import edu.chalmers.model.Enemies.ConcreteEnemies.Rex;
+import edu.chalmers.model.Enemies.ConcreteEnemies.Zombie;
+import edu.chalmers.model.Player;
 
 /**
  * A factory used to create different types of Enemy entities.
