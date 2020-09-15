@@ -1,8 +1,8 @@
 package edu.chalmers.model;
 
 /**
- * Type of Entity's that can be spawned using a class which extends EntityFactory.
+ * Types used as Entity types in order to group or identify different Entities.
  */
 public enum EntityType {
-    PLATFORM,
+    PLATFORM, PLAYER, ENEMY
 }

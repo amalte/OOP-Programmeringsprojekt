@@ -1,23 +1,20 @@
 package edu.chalmers.model;
 
-import com.almasb.fxgl.entity.Entity;
-import com.almasb.fxgl.entity.EntityFactory;
-import com.almasb.fxgl.entity.SpawnData;
-import com.almasb.fxgl.entity.Spawns;
-import com.almasb.fxgl.physics.PhysicsComponent;
+/**
+ * A factory used to create different types of Enemy entities.
+ */
 
 public class EnemyFactory {
 
-    private static int instanceAmount;
     private static EnemyFactory instance;
 
-    public EnemyFactory() {
+    // Use 'getInstance' to get access to class
+    private EnemyFactory(){}
 
-        // DEBUG
-        instanceAmount++;
-        System.out.println("EnemyFactory instances: " + instanceAmount);
-    }
-
+    /**
+     * Singleton. Gets instance of this class, and creates one if instance doesn't already exist.
+     * @return Returns the singleton instance of the class.
+     */
     public static EnemyFactory getInstance() {
         if(instance == null) {
             instance = new EnemyFactory();
@@ -26,7 +23,30 @@ public class EnemyFactory {
         return instance;
     }
 
-    public static Zombie zombie(SpawnData spawnData, Player target) {
-        return new Zombie(spawnData.getX(), spawnData.getY(), target);
+    /**
+     * Method creates a Enemy entity.
+     * @param enemyName Name of the entity.
+     * @param xPosition X-Position where entity should be created.
+     * @param yPosition Y-Position where entity should be created.
+     * @param player A reference to the Player entity.
+     * @return Returns a Enemy entity.
+     */
+    public Enemy createEnemy(String enemyName, double xPosition, double yPosition, Player player) {
+        if(enemyName == null) {
+            return null;
+        }
+
+        if(enemyName == "ZOMBIE") {
+            return new Zombie(xPosition, yPosition, player);
+        }
+        else if(enemyName == "REX") {
+            return new Rex(xPosition, yPosition, player);
+        }
+        else if(enemyName == "BLOB") {
+            return new Blob(xPosition, yPosition, player);
+        }
+
+        // Return null if String "enemyName" doesn't match any known type of Enemy.
+        return null;
     }
 }

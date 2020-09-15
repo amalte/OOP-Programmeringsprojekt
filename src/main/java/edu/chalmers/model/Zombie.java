@@ -1,11 +1,13 @@
 package edu.chalmers.model;
 
+import javafx.scene.paint.Color;
+
 /**
  * Zombie class. A type of Enemy.
  */
 public class Zombie extends Enemy {
 
     public Zombie(double x, double y, Player target) {
-        super(100, 25, 75, 50, x, y, target);
+        super(Color.DARKGREEN, 100, 25, 80, 150, x, y, target);
     }
 }
