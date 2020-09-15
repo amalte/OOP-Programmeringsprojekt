@@ -1,9 +1,11 @@
 package edu.chalmers.model;
 
-import com.almasb.fxgl.dsl.EntityBuilder;
+import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
+import com.almasb.fxgl.entity.components.CollidableComponent;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
+import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
@@ -12,18 +14,29 @@ import javafx.scene.shape.Rectangle;
  */
 public class Player {
 
-    Entity player;
-    private EntityBuilder entityBuilder = new EntityBuilder();
+    private Entity player;
     private PhysicsComponent physics = new PhysicsComponent();
 
-    // STATS
+    //Stats
     protected int health = 100;
     protected int moveSpeed = 150;
     protected int jumpHeight = 350;
+    private final int amountOfJumps = 1;
+    private int jumps = amountOfJumps;
 
     public Player(double x, double y) {
         physics.setBodyType(BodyType.DYNAMIC);
-        player = entityBuilder.at(x,y).viewWithBBox(new Rectangle(50, 50, Color.BLUE)).with(physics).buildAndAttach();
+        physics.setFixtureDef(new FixtureDef().friction(0.0f));
+        player = FXGL.entityBuilder().type(EntityType.PLAYER).at(x, y).viewWithBBox(new Rectangle(50, 50, Color.BLUE)).with(physics).with(new CollidableComponent(true)).buildAndAttach();
+
+    }
+
+    /**
+     * Get method used fot testing purposes.
+     * @return integer jumps jumps
+     */
+    public int getJumps() {
+        return jumps;
     }
 
     /**
@@ -41,10 +54,14 @@ public class Player {
     }
 
     /**
-     * Method moves players Entity up (negative y).
+     * Method moves players Entity up (negative y) with jumpHeight if the player have any jumps left.
+     * Reduce amount of jumps left by 1.
      */
     public void jump(){
-        physics.setVelocityY(-jumpHeight);
+        if(jumps != 0) {
+            physics.setVelocityY(-jumpHeight);
+            jumps--;
+        }
     }
 
     /**
@@ -76,5 +93,12 @@ public class Player {
      */
     public float getY() {
         return getEntity().getComponent(PhysicsComponent.class).getBody().getTransform().p.y;
+    }
+
+    /**
+     * Resets players jumps to be equal to amountOfJumps variable.
+     */
+    public void resetJumpAmounts(){
+        jumps = amountOfJumps;
     }
 }

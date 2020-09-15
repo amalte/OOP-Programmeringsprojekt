@@ -2,40 +2,34 @@ package edu.chalmers.main;
 
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
-import com.almasb.fxgl.dsl.FXGL;
-import com.almasb.fxgl.entity.SpawnData;
 import edu.chalmers.controller.Controller;
-import edu.chalmers.model.Enemy;
-import edu.chalmers.model.EnemyFactory;
-import edu.chalmers.model.GameWorldFactory;
-import edu.chalmers.model.Player;
-
-import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameWorld;
+import edu.chalmers.model.GenericPlatformer;
+import edu.chalmers.view.GamePlayView;
 
 public class main extends GameApplication {
-
-    static Player p;
-    Controller controller;
-
-    protected void initSettings(GameSettings gameSettings) {
-        gameSettings.setWidth(15 * 70);
-        gameSettings.setHeight(10 * 70);
-        gameSettings.setTitle("2D Platformer Wave Game");
-    }
 
     public static void main(String[] args) {
         System.setProperty("quantum.multithreaded", "false"); // DO NOT REMOVE. Caps FPS at 60 across all computers
         launch(args);
     }
 
+    protected void initSettings(GameSettings gameSettings) {
+        gameSettings.setWidth(15 * 70);
+        gameSettings.setHeight(10 * 70);
+        gameSettings.setTitle("Generic Platformer");
+    }
+
     @Override
     protected void initGame() {
-        getGameWorld().addEntityFactory(new GameWorldFactory());
-        FXGL.setLevelFromMap("map.tmx");
-        controller = new Controller();
-        p = new Player(0, 0);
-        controller.initPlayerMovementInput(p);
+        Controller controller = new Controller();
+        GenericPlatformer game = new GenericPlatformer();
+        GamePlayView gameView = new GamePlayView(controller, game);
+        gameView.initGameWorld();
+        gameView.changeLevel("map.tmx");
+        controller.initPlayerMovementInput(game.getPlayer());
+        game.initWaveManager();
 
-        Enemy zombie = EnemyFactory.zombie(new SpawnData(400, 400), p);
+        //Put in controller later
+        game.getWaveManager().generateNewWave();
     }
 }
