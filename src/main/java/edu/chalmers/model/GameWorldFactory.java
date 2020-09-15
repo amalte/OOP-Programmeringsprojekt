@@ -9,6 +9,7 @@ import com.almasb.fxgl.entity.components.CollidableComponent;
 import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.physics.PhysicsComponent;
+import javafx.fxml.FXML;
 
 public class GameWorldFactory implements EntityFactory {
 
@@ -21,4 +22,20 @@ public class GameWorldFactory implements EntityFactory {
     public Entity newPlatform(SpawnData spawnData){
         return FXGL.entityBuilder().type(EntityType.PLATFORM).bbox(new HitBox(BoundingShape.box(spawnData.<Integer>get("width"), spawnData.<Integer>get("height")))).with(new CollidableComponent(true)).with(new PhysicsComponent()).build();
     }
+
+    @Spawns("platformSide")
+    public Entity newPlatformSide(SpawnData spawnData){
+        return FXGL.entityBuilder().type(EntityType.PLATFORMSIDE).from(spawnData).bbox(new HitBox(BoundingShape.box(spawnData.<Integer>get("width"), spawnData.<Integer>get("height")))).with(new PhysicsComponent()).build();
+    }
+
+    @Spawns("platformBottom")
+    public Entity newPlatformBottom(SpawnData spawnData){
+        return FXGL.entityBuilder().type(EntityType.PLATFORMBOTTOM).from(spawnData).bbox(new HitBox(BoundingShape.box(spawnData.<Integer>get("width"), spawnData.<Integer>get("height")))).with(new PhysicsComponent()).build();
+    }
+
+    @Spawns("worldBorder")
+    public Entity newWorldBorder(SpawnData spawnData){
+        return FXGL.entityBuilder().type(EntityType.WORLDBORDER).from(spawnData).bbox(new HitBox(BoundingShape.box(spawnData.<Integer>get("width"), spawnData.<Integer>get("height")))).with(new PhysicsComponent()).build();
+    }
+
 }
