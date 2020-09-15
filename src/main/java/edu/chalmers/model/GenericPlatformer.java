@@ -1,5 +1,7 @@
 package edu.chalmers.model;
 
+import edu.chalmers.model.Wave.WaveManager;
+
 /**
  * Aggregate root class for the game.
  */

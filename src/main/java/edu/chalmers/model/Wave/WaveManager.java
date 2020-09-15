@@ -1,10 +1,13 @@
-package edu.chalmers.model;
+package edu.chalmers.model.Wave;
 
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.GameWorld;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.time.TimerAction;
+import edu.chalmers.model.Enemy;
+import edu.chalmers.model.EnemyFactory;
+import edu.chalmers.model.Player;
 import javafx.geometry.Point2D;
 import javafx.util.Duration;
 
@@ -23,8 +26,6 @@ public class WaveManager {
     int currentWave = 1;
     int shortSpawnMs = 1500;    // Lowest time between enemies spawning
     int longSpawnMs = 2000;    // Longest time between enemies spawning
-    SpawnData leftSpawnPoint = new SpawnData(0, 520);
-    SpawnData rightSpawnPoint = new SpawnData(1000, 520);
     Random random = new Random();
 
     Player p;
@@ -32,12 +33,6 @@ public class WaveManager {
     public WaveManager(Player p) {
         this.p = p;
     }
-
-    public WaveManager() {
-
-    }
-
-    public void test() {}
 
     public boolean isWaveActive() {
         if(enemies.size() > 0) {
@@ -50,7 +45,7 @@ public class WaveManager {
         currentWave++;
         calculateEnemiesToSpawn();
 
-        TimerAction timerAction = runOnce(new SpawnEnemyRunnable(random), Duration.millis(random.nextInt(longSpawnMs - shortSpawnMs) + shortSpawnMs));
+        TimerAction timerAction = runOnce(new SpawnEnemyRunnable(random, shortSpawnMs, longSpawnMs, enemiesToSpawn, p), Duration.millis(random.nextInt(longSpawnMs - shortSpawnMs) + shortSpawnMs));
     }
 
     public int getCurrentWave() {
@@ -59,7 +54,7 @@ public class WaveManager {
 
     public void calculateEnemiesToSpawn() {
         for (int i = 0; i < currentWave; i++) {
-            enemiesToSpawn.add("Zombie");
+            enemiesToSpawn.add("ZOMBIE");
         }
         for (int i = 0; i < Math.round((double)currentWave / 3); i++) {
             //enemiesToSpawn.add("Enemy2");
@@ -67,38 +62,6 @@ public class WaveManager {
         if(currentWave % 5 == 0) {  // Spawn difficult enemy every 5 waves
             for (int i = 0; i < currentWave / 5; i++) {
                 //enemiesToSpawn.add("Enemy3");
-            }
-        }
-    }
-
-    public SpawnData getRandomSpawnPoint() {
-        if(random.nextInt(2) == 0) {    // Left side if random = 0
-            return leftSpawnPoint;
-        }
-        else {  // Right side
-            return rightSpawnPoint;
-        }
-    }
-
-    class SpawnEnemyRunnable implements Runnable {
-        Random random;
-
-        SpawnEnemyRunnable(Random random) {
-            this.random = random;
-        }
-
-        @Override
-        public void run() {
-            int spawnIndex = random.nextInt(enemiesToSpawn.size());
-            // enemyFactory.spawn(enemiesToSpawn.get(spawnIndex));  // Spawns in random enemy from enemiesToSpawn list into enemies list
-
-            EnemyFactory enemyFactory = EnemyFactory.getInstance();
-            enemyFactory.createEnemy("ZOMBIE", getRandomSpawnPoint().getX(), getRandomSpawnPoint().getY(), p);
-
-            enemiesToSpawn.remove(spawnIndex);
-
-            if (enemiesToSpawn.size() > 0) {
-                runOnce(new SpawnEnemyRunnable(random), Duration.millis(random.nextInt(longSpawnMs - shortSpawnMs) + shortSpawnMs));
             }
         }
     }
