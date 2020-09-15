@@ -18,9 +18,9 @@ public class Player {
     private PhysicsComponent physics = new PhysicsComponent();
 
     //Stats
-    protected int health = 100;
-    protected int moveSpeed = 150;
-    protected int jumpHeight = 350;
+    private int health = 100;
+    private int moveSpeed = 150;
+    private int jumpHeight = 350;
     private final int amountOfJumps = 1;
     private int jumps = amountOfJumps;
 
@@ -53,7 +53,8 @@ public class Player {
     }
 
     /**
-     * Method moves players Entity up (negative y) if the player have any jumps left.
+     * Method moves players Entity up (negative y) with jumpHeight if the player have any jumps left.
+     * Reduce amount of jumps left by 1.
      */
     public void jump(){
         if(jumps != 0) {
@@ -70,7 +71,7 @@ public class Player {
     }
 
     /**
-     * Resets players jumps.
+     * Resets players jumps to be equal to amountOfJumps variable.
      */
     public void resetJumpAmounts(){
         jumps = amountOfJumps;

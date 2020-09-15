@@ -53,14 +53,6 @@ public class EnemyComponent extends Component {
         }
     }
 
-    private boolean isEnemyToRightOfPlayer(double distance) {
-        return player.getRightX() - thisEnemy.getX() < -distance;
-    }
-
-    private boolean isEnemyToLeftOfPlayer(double distance) {
-        return player.getX() - thisEnemy.getRightX() > distance;
-    }
-
     /**
      * Temporary basic jump AI functionality.
      * Method makes the Entity jump when stuck on obstacles.
@@ -86,5 +78,23 @@ public class EnemyComponent extends Component {
 
         // Set value for next method call.
         thisEnemyPreviousXPosition = thisEnemy.getX();
+    }
+
+    /**
+     * Method checks if the Enemy entity is to the right of the Player entity.
+     * @param distance Distance from player to exclude in the check. Ex: if distance = 50, the check will ignore the first 50 pixels to the right of player.
+     * @return True or false.
+     */
+    private boolean isEnemyToRightOfPlayer(double distance) {
+        return player.getRightX() - thisEnemy.getX() < -distance;
+    }
+
+    /**
+     * Method checks if the Enemy entity is to the left of the Player entity.
+     * @param distance Distance from player to exclude in the check. Ex: if distance = 50, the check will ignore the first 50 pixels to the left of player.
+     * @return True or false.
+     */
+    private boolean isEnemyToLeftOfPlayer(double distance) {
+        return player.getX() - thisEnemy.getRightX() > distance;
     }
 }

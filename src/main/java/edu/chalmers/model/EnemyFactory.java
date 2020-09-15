@@ -3,6 +3,7 @@ package edu.chalmers.model;
 /**
  * A factory used to create different types of Enemy entities.
  */
+
 public class EnemyFactory {
 
     private static EnemyFactory instance;

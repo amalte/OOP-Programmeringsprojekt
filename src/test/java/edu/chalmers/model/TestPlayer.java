@@ -4,11 +4,11 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+public class TestPlayer{
 
-public class TestPlayer {
 
     @Before
-    public void initPlayerPosition(){
+    public void resetPlayer(){
     }
 
     @Test

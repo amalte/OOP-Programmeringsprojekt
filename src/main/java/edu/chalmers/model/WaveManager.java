@@ -33,7 +33,9 @@ public class WaveManager {
         this.p = p;
     }
 
-    public WaveManager() { }
+    public WaveManager() {
+
+    }
 
     public boolean isWaveActive() {
         if(enemies.size() > 0) {
@@ -87,7 +89,9 @@ public class WaveManager {
         public void run() {
             int spawnIndex = random.nextInt(enemiesToSpawn.size());
             // enemyFactory.spawn(enemiesToSpawn.get(spawnIndex));  // Spawns in random enemy from enemiesToSpawn list into enemies list
-            EnemyFactory.zombie(getRandomSpawnPoint(), p);
+
+            EnemyFactory enemyFactory = EnemyFactory.getInstance();
+            enemyFactory.createEnemy("ZOMBIE", getRandomSpawnPoint().getX(), getRandomSpawnPoint().getY(), p);
 
             enemiesToSpawn.remove(spawnIndex);
 

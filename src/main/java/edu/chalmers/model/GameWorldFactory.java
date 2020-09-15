@@ -14,7 +14,6 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.entityBuilder;
 
 public class GameWorldFactory implements EntityFactory {
 
-
     /**
      * Method used to spawn in "platform" types from tmx level files.
      * @param spawnData information brought over from the tmx file which contains value such as width, length, x-value and y-value.
@@ -24,5 +23,4 @@ public class GameWorldFactory implements EntityFactory {
     public Entity newPlatform(SpawnData spawnData){
         return entityBuilder().type(EntityType.PLATFORM).from(spawnData).bbox(new HitBox(BoundingShape.box(spawnData.<Integer>get("width"), spawnData.<Integer>get("height")))).with(new CollidableComponent(true)).with(new PhysicsComponent()).build();
     }
-
 }
