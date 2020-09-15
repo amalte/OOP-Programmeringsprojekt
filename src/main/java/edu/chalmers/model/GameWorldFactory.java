@@ -35,4 +35,10 @@ public class GameWorldFactory implements EntityFactory {
         return entityBuilder().type(EntityType.PLATFORMBOTTOM).from(spawnData).bbox(new HitBox(BoundingShape.box(spawnData.<Integer>get("width"), spawnData.<Integer>get("height")))).with(new PhysicsComponent()).build();
     }
 
+    @Spawns("worldBorder")
+    public Entity newWorldBorder(SpawnData spawnData){
+        return entityBuilder().type(EntityType.WORLDBORDER).from(spawnData).bbox(new HitBox(BoundingShape.box(spawnData.<Integer>get("width"), spawnData.<Integer>get("height")))).with(new PhysicsComponent()).build();
+    }
+
+
 }

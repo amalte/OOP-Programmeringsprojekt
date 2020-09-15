@@ -30,6 +30,6 @@ public class main extends GameApplication {
         game.initWaveManager();
 
         //Put in controller later
-        game.getWaveManager().generateNewWave();
+        //game.getWaveManager().generateNewWave();
     }
 }
