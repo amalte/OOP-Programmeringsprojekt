@@ -39,7 +39,7 @@ public class WaveManager {
         currentWave++;
         calculateEnemiesToSpawn();
 
-        TimerAction timerAction = runOnce(new SpawnEnemyRunnable(random, shortSpawnMs, longSpawnMs, enemiesToSpawn, p), Duration.millis(random.nextInt(longSpawnMs - shortSpawnMs) + shortSpawnMs));
+        TimerAction timerAction = runOnce(new SpawnEnemyRunnable(enemies, enemiesToSpawn, random, shortSpawnMs, longSpawnMs, p), Duration.millis(random.nextInt(longSpawnMs - shortSpawnMs) + shortSpawnMs));
     }
 
     public int getCurrentWave() {
