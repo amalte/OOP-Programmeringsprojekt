@@ -5,6 +5,7 @@ import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.SceneFactory;
 import edu.chalmers.controller.Controller;
+import edu.chalmers.controller.WaveController;
 import edu.chalmers.model.GenericPlatformer;
 import edu.chalmers.view.GamePlayView;
 import edu.chalmers.view.main.MainMenu;
@@ -41,7 +42,7 @@ public class Main extends GameApplication {
         controller.initPlayerMovementInput(game.getPlayer());
         game.initWaveManager();
 
-        //Put in controller later
-        game.getWaveManager().generateNewWave();
+        WaveController waveController = new WaveController(game);
+        waveController.onEnemyHasDied();    // Should be called whenever an enemy dies (using observer pattern)
     }
 }

@@ -1,9 +1,11 @@
 package edu.chalmers.model.wave;
 
 import com.almasb.fxgl.entity.SpawnData;
+import com.almasb.fxgl.time.TimerAction;
 import edu.chalmers.model.enemy.Enemy;
 import edu.chalmers.model.enemy.EnemyFactory;
 import edu.chalmers.model.Player;
+import javafx.geometry.Point2D;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
@@ -12,25 +14,27 @@ import java.util.Random;
 import static com.almasb.fxgl.dsl.FXGL.runOnce;
 
 public class SpawnEnemyRunnable implements Runnable {
-    ArrayList<Enemy> enemies;
-    ArrayList<String> enemiesToSpawn;
-    Random random;
-    int shortSpawnMs;
-    int longSpawnMs;
-    Player p;
-    SpawnData leftSpawnPoint = new SpawnData(0, 520);
-    SpawnData rightSpawnPoint = new SpawnData(1000, 520);
+    private Random random = new Random();
+    private ArrayList<Enemy> enemies;
+    private ArrayList<String> enemiesToSpawn;
+    private int shortSpawnMs;
+    private int longSpawnMs;
+    private Player p;
 
-    SpawnEnemyRunnable(ArrayList<Enemy> enemies, ArrayList<String> enemiesToSpawn, Random random, int shortSpawnMs, int longSpawnMs, Player p) {
+    private EnemyFactory enemyFactory = EnemyFactory.getInstance();
+    private Point2D leftSpawnPoint = new Point2D(0, 520);
+    private Point2D rightSpawnPoint = new Point2D(1000, 520);
+    private boolean isRunnableActive = true;
+
+    SpawnEnemyRunnable(ArrayList<Enemy> enemies, ArrayList<String> enemiesToSpawn, int shortSpawnMs, int longSpawnMs, Player p) {
         this.enemies = enemies;
         this.enemiesToSpawn = enemiesToSpawn;
-        this.random = random;
         this.shortSpawnMs = shortSpawnMs;
         this.longSpawnMs = longSpawnMs;
         this.p = p;
     }
 
-    public SpawnData getRandomSpawnPoint() {
+    private Point2D getRandomSpawnPoint() {
         if(random.nextInt(2) == 0) {    // Left side if random = 0
             return leftSpawnPoint;
         }
@@ -39,17 +43,22 @@ public class SpawnEnemyRunnable implements Runnable {
         }
     }
 
+    public boolean getIsRunnableActive() {
+        return isRunnableActive;
+    }
+
     @Override
     public void run() {
-        int spawnIndex = random.nextInt(enemiesToSpawn.size());
-
-        EnemyFactory enemyFactory = EnemyFactory.getInstance();
-        enemies.add(enemyFactory.createEnemy(enemiesToSpawn.get(spawnIndex), getRandomSpawnPoint().getX(), getRandomSpawnPoint().getY(), p));
-
-        enemiesToSpawn.remove(spawnIndex);
+        int spawnIndex = random.nextInt(enemiesToSpawn.size()); // Select random enemy from list
+        enemies.add(enemyFactory.createEnemy(enemiesToSpawn.get(spawnIndex), getRandomSpawnPoint().getX(), getRandomSpawnPoint().getY(), p));   // Spawn an enemy randomly from list
+        enemiesToSpawn.remove(spawnIndex);  // Enemy has been spawned so remove from enemiesToSpawn list
 
         if (enemiesToSpawn.size() > 0) {
-            runOnce(new SpawnEnemyRunnable(enemies, enemiesToSpawn, random, shortSpawnMs, longSpawnMs, p), Duration.millis(random.nextInt(longSpawnMs - shortSpawnMs) + shortSpawnMs));
+            isRunnableActive = true;
+            runOnce(this, Duration.millis(random.nextInt(longSpawnMs - shortSpawnMs) + shortSpawnMs));
+        }
+        else {  // No more enemies to spawn, runnable will no longer be active
+            isRunnableActive = false;
         }
     }
 }

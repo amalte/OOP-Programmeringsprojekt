@@ -1,5 +1,7 @@
 package edu.chalmers.model.wave;
 
+import com.almasb.fxgl.core.concurrent.Executor;
+import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.time.TimerAction;
 import edu.chalmers.model.enemy.Enemy;
 import edu.chalmers.model.Player;
@@ -8,6 +10,7 @@ import javafx.util.Duration;
 import static com.almasb.fxgl.dsl.FXGL.*;
 
 import java.util.*;
+import java.util.concurrent.Executors;
 
 /**
  * A class that handles waves in the game (it spawns in new enemies)
@@ -20,33 +23,32 @@ public class WaveManager {
     int currentWave = 1;
     int shortSpawnMs = 1500;    // Lowest time between enemies spawning
     int longSpawnMs = 2000;    // Longest time between enemies spawning
-    Random random = new Random();
+    TimerAction spawnWave;   // Timer which will be used to spawn enemies
 
+    SpawnEnemyRunnable spawnEnemyRunnable;  // Spawn enemies in a time interval
     Player p;
 
     public WaveManager(Player p) {
         this.p = p;
+        spawnEnemyRunnable = new SpawnEnemyRunnable(enemies, enemiesToSpawn, shortSpawnMs, longSpawnMs, p);
     }
 
-    public boolean isWaveActive() {
-        if(enemies.size() > 0) {
-            return true;
-        }
-        return false;
-    }
+    public int getAmountOfEnemies() { return enemies.size(); }
 
     public void generateNewWave() {
         currentWave++;
         calculateEnemiesToSpawn();
 
-        TimerAction timerAction = runOnce(new SpawnEnemyRunnable(enemies, enemiesToSpawn, random, shortSpawnMs, longSpawnMs, p), Duration.millis(random.nextInt(longSpawnMs - shortSpawnMs) + shortSpawnMs));
+        if(spawnWave == null || !spawnEnemyRunnable.getIsRunnableActive()) {   // Make sure only one spawn wave timer is active
+            spawnWave = runOnce(spawnEnemyRunnable, Duration.ZERO);  // Start spawn runnable, (first one will spawn with no delay)
+        }
     }
 
     public int getCurrentWave() {
         return currentWave;
     }
 
-    public void calculateEnemiesToSpawn() {
+    private void calculateEnemiesToSpawn() {
         for (int i = 0; i < currentWave; i++) {
             enemiesToSpawn.add("ZOMBIE");
         }
