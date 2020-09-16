@@ -12,7 +12,7 @@ import javafx.scene.input.KeyCode;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getInput;
 
 public class Controller {
-
+    private static boolean initialized = false;
 
     public void initPlayerMovementInput(final Player p){
         UserAction walkRight = new UserAction("Walk right") {
@@ -52,10 +52,15 @@ public class Controller {
             }
         };
 
-        Input input = getInput();
-        input.addAction(walkRight, KeyCode.D);
-        input.addAction(walkLeft, KeyCode.A);
-        input.addAction(jump, KeyCode.W);
+        if (!initialized)
+        {
+            Input input = getInput();
+            input.addAction(walkRight, KeyCode.D);
+            input.addAction(walkLeft, KeyCode.A);
+            input.addAction(jump, KeyCode.W);
+
+            initialized = true;
+        }
 
     }
 }
