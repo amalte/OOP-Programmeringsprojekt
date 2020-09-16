@@ -6,7 +6,7 @@ import edu.chalmers.controller.Controller;
 import edu.chalmers.model.GenericPlatformer;
 import edu.chalmers.view.GamePlayView;
 
-public class main extends GameApplication {
+public class Main extends GameApplication {
 
     public static void main(String[] args) {
         System.setProperty("quantum.multithreaded", "false"); // DO NOT REMOVE. Caps FPS at 60 across all computers

@@ -14,21 +14,20 @@ import javafx.scene.shape.Rectangle;
  */
 public class Player {
 
-    private Entity player;
+    private Entity entity;
     private PhysicsComponent physics = new PhysicsComponent();
 
     //Stats
-    protected int health = 100;
-    protected int moveSpeed = 150;
-    protected int jumpHeight = 350;
+    private int health = 100;
+    private int moveSpeed = 150;
+    private int jumpHeight = 350;
     private final int amountOfJumps = 1;
     private int jumps = amountOfJumps;
 
     public Player(double x, double y) {
         physics.setBodyType(BodyType.DYNAMIC);
         physics.setFixtureDef(new FixtureDef().friction(0.0f));
-        player = FXGL.entityBuilder().type(EntityType.PLAYER).at(x, y).viewWithBBox(new Rectangle(50, 50, Color.BLUE)).with(physics).with(new CollidableComponent(true)).buildAndAttach();
-
+        entity = FXGL.entityBuilder().type(EntityType.PLAYER).at(x,y).viewWithBBox(new Rectangle(50, 50, Color.BLUE)).with(physics).with(new CollidableComponent(true)).buildAndAttach();
     }
 
     /**
@@ -72,33 +71,50 @@ public class Player {
     }
 
     /**
-     * Method returns the actual player Entity.
-     * @return The player Entity.
-     */
-    public Entity getEntity() {
-        return player;
-    }
-
-    /**
-     * Gets the player entity's X-position from its PhysicsComponent.
-     * @return Player X-position.
-     */
-    public float getX() {
-        return getEntity().getComponent(PhysicsComponent.class).getBody().getTransform().p.x;
-    }
-
-    /**
-     * Gets the player entity's Y-position from its PhysicsComponent.
-     * @return Player Y-position.
-     */
-    public float getY() {
-        return getEntity().getComponent(PhysicsComponent.class).getBody().getTransform().p.y;
-    }
-
-    /**
      * Resets players jumps to be equal to amountOfJumps variable.
      */
     public void resetJumpAmounts(){
         jumps = amountOfJumps;
+    }
+
+    // -------------- GETTERS -------------- //
+    /**
+     * Method returns the actual player Entity.
+     * @return The player Entity.
+     */
+    public Entity getEntity() {
+        return entity;
+    }
+
+    /**
+     * Gets the player entity's left side X-position.
+     * @return Player X-position.
+     */
+    public double getX() {
+        return entity.getX();
+    }
+
+    /**
+     * Gets the player entity's right side X-position.
+     * @return Player X-position.
+     */
+    public double getRightX() {
+        return entity.getRightX();
+    }
+
+    /**
+     * Gets the player entity's top side Y-position.
+     * @return Player Y-position.
+     */
+    public double getY() {
+        return entity.getY();
+    }
+
+    /**
+     * Gets the player entity's bottom side Y-position.
+     * @return Player Y-position.
+     */
+    public double getBottomY() {
+        return entity.getBottomY();
     }
 }
