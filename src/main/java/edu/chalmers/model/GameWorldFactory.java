@@ -9,7 +9,8 @@ import com.almasb.fxgl.entity.components.CollidableComponent;
 import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.physics.PhysicsComponent;
-import javafx.fxml.FXML;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 public class GameWorldFactory implements EntityFactory {
 
@@ -38,4 +39,9 @@ public class GameWorldFactory implements EntityFactory {
         return FXGL.entityBuilder().type(EntityType.WORLDBORDER).from(spawnData).bbox(new HitBox(BoundingShape.box(spawnData.<Integer>get("width"), spawnData.<Integer>get("height")))).with(new PhysicsComponent()).build();
     }
 
+    @Spawns("player")
+    public Entity newPLayer(SpawnData spawnData){
+        PhysicsComponent physics = new PhysicsComponent();
+        return FXGL.entityBuilder().type(EntityType.PLAYER).at(spawnData.getX(),spawnData.getY()).viewWithBBox(new Rectangle(50, 50, Color.BLUE)).with(physics).with(new PlayerComponent(physics)).with(new CollidableComponent(true)).build();
+    }
 }

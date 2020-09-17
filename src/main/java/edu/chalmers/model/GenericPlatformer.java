@@ -1,13 +1,16 @@
 package edu.chalmers.model;
 
+import com.almasb.fxgl.entity.Entity;
 import edu.chalmers.model.wave.WaveManager;
+
+import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 
 /**
  * Aggregate root class for the game.
  */
 public class GenericPlatformer {
 
-    private Player player;
+    private Entity player;
     private GameWorldFactory gameWorldFactory;
     private WaveManager waveManager;
 
@@ -19,7 +22,7 @@ public class GenericPlatformer {
      * Get method that creates a new player if no player is already created.
      * @return A player object.
      */
-    public Player getPlayer(){
+    public Entity getPlayer(){
         if(player == null){
             createPlayer();
         }
@@ -45,7 +48,7 @@ public class GenericPlatformer {
      * Creates a player at position 0,0.
      */
     private void createPlayer(){
-        player = new Player(0,0);
+        player = spawn("player");
     }
 
     /**

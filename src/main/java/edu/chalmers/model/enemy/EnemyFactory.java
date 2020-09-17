@@ -1,9 +1,9 @@
 package edu.chalmers.model.enemy;
 
+import com.almasb.fxgl.entity.Entity;
 import edu.chalmers.model.enemy.enemytypes.Blob;
 import edu.chalmers.model.enemy.enemytypes.Rex;
 import edu.chalmers.model.enemy.enemytypes.Zombie;
-import edu.chalmers.model.Player;
 
 /**
  * A factory used to create different types of Enemy entities.
@@ -36,7 +36,7 @@ public class EnemyFactory {
      * @param player A reference to the Player entity.
      * @return Returns a Enemy entity.
      */
-    public Enemy createEnemy(String enemyName, double xPosition, double yPosition, Player player) {
+    public Enemy createEnemy(String enemyName, double xPosition, double yPosition, Entity player) {
         if(enemyName == null) {
             return null;
         }

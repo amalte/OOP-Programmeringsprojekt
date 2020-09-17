@@ -6,7 +6,7 @@ import com.almasb.fxgl.input.Input;
 import com.almasb.fxgl.input.UserAction;
 import com.almasb.fxgl.physics.CollisionHandler;
 import edu.chalmers.model.EntityType;
-import edu.chalmers.model.Player;
+import edu.chalmers.model.PlayerComponent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 
@@ -15,28 +15,28 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.getInput;
 public class Controller {
     private static boolean initialized = false;
 
-    public void initPlayerMovementInput(final Player p){
+    public void initPlayerMovementInput(final Entity p){
         UserAction walkRight = new UserAction("Walk right") {
             @Override
             protected void onAction() {
-                p.moveRight();
+                p.getComponent(PlayerComponent.class).moveRight();
             }
 
             @Override
             protected void onActionEnd() {
-                p.stop();
+                p.getComponent(PlayerComponent.class).stop();
             }
         };
 
         UserAction walkLeft = new UserAction("Walk left") {
             @Override
             protected void onAction() {
-                p.moveLeft();
+                p.getComponent(PlayerComponent.class).moveLeft();
             }
 
             @Override
             protected void onActionEnd() {
-                p.stop();
+                p.getComponent(PlayerComponent.class).stop();
             }
         };
 
@@ -46,16 +46,16 @@ public class Controller {
                 FXGL.getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityType.PLAYER, EntityType.PLATFORM) {
                     @Override
                     protected void onCollisionBegin(Entity a, Entity b) {
-                        p.resetJumpAmounts();
+                        p.getComponent(PlayerComponent.class).resetJumpAmounts();
                     }
                 });
-                p.jump();
+                p.getComponent(PlayerComponent.class).jump();
             }
         };
         UserAction shoot = new UserAction("Shoot") {
             @Override
             protected void onActionBegin() {
-                p.shoot();
+                p.getComponent(PlayerComponent.class).shoot();
             }
         };
 

@@ -1,10 +1,8 @@
 package edu.chalmers.model.wave;
 
-import com.almasb.fxgl.entity.SpawnData;
-import com.almasb.fxgl.time.TimerAction;
+import com.almasb.fxgl.entity.Entity;
 import edu.chalmers.model.enemy.Enemy;
 import edu.chalmers.model.enemy.EnemyFactory;
-import edu.chalmers.model.Player;
 import javafx.geometry.Point2D;
 import javafx.util.Duration;
 
@@ -19,19 +17,19 @@ public class SpawnEnemyRunnable implements Runnable {
     private ArrayList<String> enemiesToSpawn;
     private int shortSpawnMs;
     private int longSpawnMs;
-    private Player p;
+    private Entity player;
 
     private EnemyFactory enemyFactory = EnemyFactory.getInstance();
     private Point2D leftSpawnPoint = new Point2D(0, 520);
     private Point2D rightSpawnPoint = new Point2D(1000, 520);
     private boolean isRunnableActive = true;
 
-    SpawnEnemyRunnable(ArrayList<Enemy> enemies, ArrayList<String> enemiesToSpawn, int shortSpawnMs, int longSpawnMs, Player p) {
+    SpawnEnemyRunnable(ArrayList<Enemy> enemies, ArrayList<String> enemiesToSpawn, int shortSpawnMs, int longSpawnMs, Entity player) {
         this.enemies = enemies;
         this.enemiesToSpawn = enemiesToSpawn;
         this.shortSpawnMs = shortSpawnMs;
         this.longSpawnMs = longSpawnMs;
-        this.p = p;
+        this.player = player;
     }
 
     private Point2D getRandomSpawnPoint() {
@@ -50,7 +48,7 @@ public class SpawnEnemyRunnable implements Runnable {
     @Override
     public void run() {
         int spawnIndex = random.nextInt(enemiesToSpawn.size()); // Select random enemy from list
-        enemies.add(enemyFactory.createEnemy(enemiesToSpawn.get(spawnIndex), getRandomSpawnPoint().getX(), getRandomSpawnPoint().getY(), p));   // Spawn an enemy randomly from list
+        enemies.add(enemyFactory.createEnemy(enemiesToSpawn.get(spawnIndex), getRandomSpawnPoint().getX(), getRandomSpawnPoint().getY(), player));   // Spawn an enemy randomly from list
         enemiesToSpawn.remove(spawnIndex);  // Enemy has been spawned so remove from enemiesToSpawn list
 
         if (enemiesToSpawn.size() > 0) {

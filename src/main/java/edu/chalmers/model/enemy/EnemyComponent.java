@@ -1,7 +1,7 @@
 package edu.chalmers.model.enemy;
 
+import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.component.Component;
-import edu.chalmers.model.Player;
 
 /**
  * EnemyComponent class. Contains very simple Enemy "AI".
@@ -12,11 +12,11 @@ public class EnemyComponent extends Component {
     // TODO - implement A* pathfinding
 
     private Enemy thisEnemy;
-    private Player player;
+    private Entity player;
 
     private double thisEnemyPreviousXPosition = Double.NaN;
 
-    public EnemyComponent(Enemy thisEnemy, Player player) {
+    public EnemyComponent(Enemy thisEnemy, Entity player) {
         this.player = player;
         this.thisEnemy = thisEnemy;
     }

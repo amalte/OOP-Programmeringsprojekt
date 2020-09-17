@@ -1,16 +1,13 @@
 package edu.chalmers.model.wave;
 
-import com.almasb.fxgl.core.concurrent.Executor;
-import com.almasb.fxgl.entity.SpawnData;
+import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.time.TimerAction;
 import edu.chalmers.model.enemy.Enemy;
-import edu.chalmers.model.Player;
 import javafx.util.Duration;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
 
 import java.util.*;
-import java.util.concurrent.Executors;
 
 /**
  * A class that handles waves in the game (it spawns in new enemies)
@@ -26,11 +23,11 @@ public class WaveManager {
     TimerAction spawnWave;   // Timer which will be used to spawn enemies
 
     SpawnEnemyRunnable spawnEnemyRunnable;  // Spawn enemies in a time interval
-    Player p;
+    Entity player;
 
-    public WaveManager(Player p) {
-        this.p = p;
-        spawnEnemyRunnable = new SpawnEnemyRunnable(enemies, enemiesToSpawn, shortSpawnMs, longSpawnMs, p);
+    public WaveManager(Entity player) {
+        this.player = player;
+        spawnEnemyRunnable = new SpawnEnemyRunnable(enemies, enemiesToSpawn, shortSpawnMs, longSpawnMs, player);
     }
 
     public int getAmountOfEnemies() { return enemies.size(); }

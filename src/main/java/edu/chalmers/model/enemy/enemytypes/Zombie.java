@@ -1,7 +1,7 @@
 package edu.chalmers.model.enemy.enemytypes;
 
+import com.almasb.fxgl.entity.Entity;
 import edu.chalmers.model.enemy.Enemy;
-import edu.chalmers.model.Player;
 import javafx.scene.paint.Color;
 
 /**
@@ -9,7 +9,7 @@ import javafx.scene.paint.Color;
  */
 public class Zombie extends Enemy {
 
-    public Zombie(double x, double y, Player target) {
+    public Zombie(double x, double y, Entity target) {
         super(Color.DARKGREEN, 100, 25, 80, 150, x, y, target);
     }
 }
