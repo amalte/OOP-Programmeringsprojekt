@@ -14,53 +14,56 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.getInput;
 
 public class Controller {
     private static boolean initialized = false;
+    private static Entity player = null;
 
-    public void initPlayerMovementInput(final Entity p){
-        UserAction walkRight = new UserAction("Walk right") {
-            @Override
-            protected void onAction() {
-                p.getComponent(PlayerComponent.class).moveRight();
-            }
 
-            @Override
-            protected void onActionEnd() {
-                p.getComponent(PlayerComponent.class).stop();
-            }
-        };
+    public void initPlayerMovementInput(final Entity p) {
+        player = p;
 
-        UserAction walkLeft = new UserAction("Walk left") {
-            @Override
-            protected void onAction() {
-                p.getComponent(PlayerComponent.class).moveLeft();
-            }
+        if (!initialized) {
+            UserAction walkRight = new UserAction("Walk right") {
+                @Override
+                protected void onAction() {
+                    player.getComponent(PlayerComponent.class).moveRight();
+                }
 
-            @Override
-            protected void onActionEnd() {
-                p.getComponent(PlayerComponent.class).stop();
-            }
-        };
+                @Override
+                protected void onActionEnd() {
+                    player.getComponent(PlayerComponent.class).stop();
+                }
+            };
 
-        UserAction jump = new UserAction("Jump") {
-            @Override
-            protected void onActionBegin() {
-                FXGL.getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityType.PLAYER, EntityType.PLATFORM) {
-                    @Override
-                    protected void onCollisionBegin(Entity a, Entity b) {
-                        p.getComponent(PlayerComponent.class).resetJumpAmounts();
-                    }
-                });
-                p.getComponent(PlayerComponent.class).jump();
-            }
-        };
-        UserAction shoot = new UserAction("Shoot") {
-            @Override
-            protected void onActionBegin() {
-                p.getComponent(PlayerComponent.class).shoot();
-            }
-        };
+            UserAction walkLeft = new UserAction("Walk left") {
+                @Override
+                protected void onAction() {
+                    player.getComponent(PlayerComponent.class).moveLeft();
+                }
 
-        if (!initialized)
-        {
+                @Override
+                protected void onActionEnd() {
+                    player.getComponent(PlayerComponent.class).stop();
+                }
+            };
+
+            UserAction jump = new UserAction("Jump") {
+                @Override
+                protected void onActionBegin() {
+                    FXGL.getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityType.PLAYER, EntityType.PLATFORM) {
+                        @Override
+                        protected void onCollisionBegin(Entity a, Entity b) {
+                            player.getComponent(PlayerComponent.class).resetJumpAmounts();
+                        }
+                    });
+                    player.getComponent(PlayerComponent.class).jump();
+                }
+            };
+            UserAction shoot = new UserAction("Shoot") {
+                @Override
+                protected void onActionBegin() {
+                    player.getComponent(PlayerComponent.class).shoot();
+                }
+            };
+
             Input input = getInput();
             input.addAction(walkRight, KeyCode.D);
             input.addAction(walkLeft, KeyCode.A);
@@ -69,6 +72,5 @@ public class Controller {
 
             initialized = true;
         }
-
     }
 }
