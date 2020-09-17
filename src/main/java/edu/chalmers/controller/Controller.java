@@ -14,53 +14,55 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.getInput;
 
 public class Controller {
     private static boolean initialized = false;
+    private static Player player = null;
 
-    public void initPlayerMovementInput(final Player p){
-        UserAction walkRight = new UserAction("Walk right") {
-            @Override
-            protected void onAction() {
-                p.moveRight();
-            }
+    public void initPlayerMovementInput(final Player p) {
+        player = p;
 
-            @Override
-            protected void onActionEnd() {
-                p.stop();
-            }
-        };
+        if (!initialized) {
+            UserAction walkRight = new UserAction("Walk right") {
+                @Override
+                protected void onAction() {
+                    player.moveRight();
+                }
 
-        UserAction walkLeft = new UserAction("Walk left") {
-            @Override
-            protected void onAction() {
-                p.moveLeft();
-            }
+                @Override
+                protected void onActionEnd() {
+                    player.stop();
+                }
+            };
 
-            @Override
-            protected void onActionEnd() {
-                p.stop();
-            }
-        };
+            UserAction walkLeft = new UserAction("Walk left") {
+                @Override
+                protected void onAction() {
+                    player.moveLeft();
+                }
 
-        UserAction jump = new UserAction("Jump") {
-            @Override
-            protected void onActionBegin() {
-                FXGL.getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityType.PLAYER, EntityType.PLATFORM) {
-                    @Override
-                    protected void onCollisionBegin(Entity a, Entity b) {
-                        p.resetJumpAmounts();
-                    }
-                });
-                p.jump();
-            }
-        };
-        UserAction shoot = new UserAction("Shoot") {
-            @Override
-            protected void onActionBegin() {
-                p.shoot();
-            }
-        };
+                @Override
+                protected void onActionEnd() {
+                    player.stop();
+                }
+            };
 
-        if (!initialized)
-        {
+            UserAction jump = new UserAction("Jump") {
+                @Override
+                protected void onActionBegin() {
+                    FXGL.getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityType.PLAYER, EntityType.PLATFORM) {
+                        @Override
+                        protected void onCollisionBegin(Entity a, Entity b) {
+                            player.resetJumpAmounts();
+                        }
+                    });
+                    player.jump();
+                }
+            };
+            UserAction shoot = new UserAction("Shoot") {
+                @Override
+                protected void onActionBegin() {
+                    player.shoot();
+                }
+            };
+
             Input input = getInput();
             input.addAction(walkRight, KeyCode.D);
             input.addAction(walkLeft, KeyCode.A);
@@ -69,6 +71,5 @@ public class Controller {
 
             initialized = true;
         }
-
     }
 }
