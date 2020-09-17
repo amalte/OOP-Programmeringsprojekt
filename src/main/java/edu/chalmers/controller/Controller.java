@@ -8,6 +8,7 @@ import com.almasb.fxgl.physics.CollisionHandler;
 import edu.chalmers.model.EntityType;
 import edu.chalmers.model.Player;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseButton;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getInput;
 
@@ -51,11 +52,18 @@ public class Controller {
                 p.jump();
             }
         };
+        UserAction shoot = new UserAction("Shoot") {
+            @Override
+            protected void onActionBegin() {
+                p.shoot();
+            }
+        };
 
         Input input = getInput();
         input.addAction(walkRight, KeyCode.D);
         input.addAction(walkLeft, KeyCode.A);
         input.addAction(jump, KeyCode.W);
+        input.addAction(shoot, MouseButton.PRIMARY);
 
     }
 }
