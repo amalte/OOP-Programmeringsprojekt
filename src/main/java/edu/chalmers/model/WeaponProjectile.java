@@ -37,22 +37,33 @@ public class WeaponProjectile {
                 .with(new ExpireCleanComponent(Duration.seconds(3)))
                 .buildAndAttach();
 
-        setAngularSpeed();
+        setAngularVelocity();
     }
-    private void setAngularSpeed() {
-
+    /**
+     * Sets the angular velocity of the projectile.
+     */
+    private void setAngularVelocity() {
         double shootingAngle = calculateAngle();
+        moveProjectileOutsidePlayerHitbox(shootingAngle);
+        physics.setVelocityX(projectileSpeed*Math.cos(shootingAngle));
+        physics.setVelocityY(projectileSpeed*Math.sin(shootingAngle));
+    }
 
+    /**
+     * Moves the projectile outside the player hitbox
+     * @param shootingAngle The angle between center of player and the mouse pointer
+     */
+    private void moveProjectileOutsidePlayerHitbox(double shootingAngle) {
         double spawnPointX = Math.cos(shootingAngle)*35+(x+shooterSizeOffsetToCenter);
         double spawnPointY = Math.sin(shootingAngle)*35+(y+shooterSizeOffsetToCenter);
         Point2D spawnPoint = new Point2D(spawnPointX,spawnPointY);
         physics.overwritePosition(spawnPoint);
-
-        physics.setVelocityX(projectileSpeed*Math.cos(shootingAngle));
-        physics.setVelocityY(projectileSpeed*Math.sin(shootingAngle));
-
     }
 
+    /**
+     * Calculates the angle between center of player and the mouse pointer
+     * @return Angle between center of player and the mouse pointer
+     */
     private double calculateAngle() {
 
         return FXGLMath.atan2(mousePoint.getY() - (y+shooterSizeOffsetToCenter),mousePoint.getX() - (x+shooterSizeOffsetToCenter));

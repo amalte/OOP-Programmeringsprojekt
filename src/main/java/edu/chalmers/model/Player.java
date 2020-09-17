@@ -10,12 +10,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 /**
- * Player class. Wraps a entity object as a Player.
+ * Player class. Wraps an entity object as a Player.
  */
 public class Player {
 
     private Entity entity;
     private PhysicsComponent physics = new PhysicsComponent();
+    Weapon weapon = new Weapon();
 
     //Stats
     private int health = 100;
@@ -61,6 +62,9 @@ public class Player {
             physics.setVelocityY(-jumpHeight);
             jumps--;
         }
+    }
+    public void shoot() {
+        weapon.shoot(getX(),getY());
     }
 
     /**
