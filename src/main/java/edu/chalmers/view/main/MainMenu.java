@@ -60,10 +60,15 @@ public class MainMenu extends FXGLMenu {
     private void createControls()
     {
         /**
+         * NOTE: Set all actions to () -> { } (empty codeblock) when controller is createdfor this class.
+         * And call this::fireNewGame, etc. over there instead.
+        */
+
+        /**
          * Play button.
          * Expected action: this::fireNewGame
          */
-        this.playButton = addNode(createMenuButton("Play", () -> { }),
+        this.playButton = addNode(createMenuButton("Play", this::fireNewGame),
                 (FXGL.getAppWidth() / 2) - (ActionButton.BUTTON_WIDTH / 2),
                 (FXGL.getAppHeight() / 2.5) - (ActionButton.BUTTON_HEIGHT / 2) + (0 * (ActionButton.BUTTON_WIDTH / 4)));
 
@@ -79,7 +84,7 @@ public class MainMenu extends FXGLMenu {
          * Exit button.
          * Expected action: this::fireExit
          */
-        this.exitButton = addNode(createMenuButton("Exit", () -> { }),
+        this.exitButton = addNode(createMenuButton("Exit", this::fireExit),
                 (FXGL.getAppWidth() / 2) - (ActionButton.BUTTON_WIDTH / 2),
                 (FXGL.getAppHeight() / 2.5) - (ActionButton.BUTTON_HEIGHT / 2) + (2 * (ActionButton.BUTTON_WIDTH / 4)));
     }
