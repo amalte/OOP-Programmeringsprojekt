@@ -29,6 +29,21 @@ public class MainMenu extends FXGLMenu {
     private static final double VERSION_FONT_SIZE = 12;
 
     /**
+     * The play button.
+     */
+    private Node playButton;
+
+    /**
+     * The settings button.
+     */
+    private Node settingsButton;
+
+    /**
+     * The exit button.
+     */
+    private Node exitButton;
+
+    /**
      * Default constructor.
      * Creates default controls.
      */
@@ -40,32 +55,43 @@ public class MainMenu extends FXGLMenu {
 
     /**
      * Creates the default buttons for the main menu.
+     * Actions have to be set up from the controller.
      */
     private void createControls()
     {
-        // Play button
-        addNode(createMenuButton("Play", this::fireNewGame),
+        /**
+         * Play button.
+         * Expected action: this::fireNewGame
+         */
+        this.playButton = addNode(createMenuButton("Play", () -> { }),
                 (FXGL.getAppWidth() / 2) - (ActionButton.BUTTON_WIDTH / 2),
                 (FXGL.getAppHeight() / 2.5) - (ActionButton.BUTTON_HEIGHT / 2) + (0 * (ActionButton.BUTTON_WIDTH / 4)));
 
-        // Settings button
-        addNode(createMenuButton("Settings", () -> openSettings()),
+        /**
+         * Settings button.
+         * Expected action: Open the Settings menu.
+         */
+        this.settingsButton = addNode(createMenuButton("Settings", () -> { }),
                 (FXGL.getAppWidth() / 2) - (ActionButton.BUTTON_WIDTH / 2),
                 (FXGL.getAppHeight() / 2.5) - (ActionButton.BUTTON_HEIGHT / 2) + (1 * (ActionButton.BUTTON_WIDTH / 4)));
 
-        // Exit button
-        addNode(createMenuButton("Exit", this::fireExit),
+        /**
+         * Exit button.
+         * Expected action: this::fireExit
+         */
+        this.exitButton = addNode(createMenuButton("Exit", () -> { }),
                 (FXGL.getAppWidth() / 2) - (ActionButton.BUTTON_WIDTH / 2),
                 (FXGL.getAppHeight() / 2.5) - (ActionButton.BUTTON_HEIGHT / 2) + (2 * (ActionButton.BUTTON_WIDTH / 4)));
     }
 
     /**
-     *
-     * @param node
-     * @param x
-     * @param y
+     * Perform validation on a Node and then add it to the content root of this menu.
+     * @param node Node to be added
+     * @param x X-coordinate of the Node
+     * @param y Y-coordinate of the Node
+     * @return The node that was added to the menu
      */
-    private void addNode(Node node, double x, double y)
+    private Node addNode(Node node, double x, double y)
     {
         if (node != null)
         {
@@ -78,76 +104,39 @@ public class MainMenu extends FXGLMenu {
                 node.setLayoutY(y);
 
                 getMenuContentRoot().getChildren().add(node);
+
+                return node;
             }
         }
+
+        return null;
     }
 
     /**
-     *
-     * @param name
-     * @param action
-     * @return
+     * Create a menu button for this menu, using the ActionButton class.
+     * @param text The text of the menu button
+     * @param action The action of the menu button
+     * @return The action button that was created
      */
-    private StackPane createMenuButton(String name, Runnable action)
+    private StackPane createMenuButton(String text, Runnable action)
     {
-        return new ActionButton(name, action);
+        return new ActionButton(text, action);
     }
 
     /**
-     * Open the settings menu.
-     */
-    private void openSettings()
-    {
-
-    }
-
-    /**
-     *
-     * @param name
-     * @param action
-     * @return
-     */
-    @NotNull
-    @Override
-    protected Button createActionButton(@NotNull StringBinding name, @NotNull Runnable action) {
-        return new Button(name.get());
-    }
-
-    /**
-     *
-     * @param name
-     * @param action
-     * @return
-     */
-    @NotNull
-    @Override
-    protected Button createActionButton(@NotNull String name, @NotNull Runnable action) {
-        return new Button(name);
-    }
-
-    /**
-     *
-     * @param width
-     * @param height
-     * @return
+     * Creates a background for the main menu.
+     * @param width Width of the background
+     * @param height Height of the background
+     * @return ImageView that contains the background of the main menu.
      */
     @NotNull
     @Override
     protected Node createBackground(double width, double height) {
-        return new ImageView("/assets/background.png");
-    }
+        ImageView imageView = new ImageView("/assets/background.png");
+        imageView.resize(width, height);
 
-    /**
-     *
-     * @param profileName
-     * @return
-     */
-    @NotNull
-    @Override
-    protected Node createProfileView(@NotNull String profileName) {
-        return new Text(profileName);
+        return imageView;
     }
-
 
     /**
      * Create the title text for the menu.
@@ -177,5 +166,40 @@ public class MainMenu extends FXGLMenu {
         text.setStyle("-fx-font-size: " + VERSION_FONT_SIZE + ";");
 
         return text;
+    }
+
+    /**
+     * N/A
+     * @param name N/A
+     * @param action N/A
+     * @return N/A
+     */
+    @NotNull
+    @Override
+    protected Button createActionButton(@NotNull StringBinding name, @NotNull Runnable action) {
+        return new Button(name.get());
+    }
+
+    /**
+     * N/A
+     * @param name N/A
+     * @param action N/A
+     * @return N/A
+     */
+    @NotNull
+    @Override
+    protected Button createActionButton(@NotNull String name, @NotNull Runnable action) {
+        return new Button(name);
+    }
+
+    /**
+     * N/A
+     * @param profileName N/A
+     * @return N/A
+     */
+    @NotNull
+    @Override
+    protected Node createProfileView(@NotNull String profileName) {
+        return new Text(profileName);
     }
 }
