@@ -14,9 +14,7 @@ import java.util.*;
  */
 public class WaveManager {
 
-    ArrayList<Enemy> enemies = new ArrayList<Enemy>();
     ArrayList<String> enemiesToSpawn = new ArrayList<String>();
-
     int currentWave = 1;
     int shortSpawnMs = 1500;    // Lowest time between enemies spawning
     int longSpawnMs = 2000;    // Longest time between enemies spawning
@@ -27,10 +25,8 @@ public class WaveManager {
 
     public WaveManager(Entity player) {
         this.player = player;
-        spawnEnemyRunnable = new SpawnEnemyRunnable(enemies, enemiesToSpawn, shortSpawnMs, longSpawnMs, player);
+        spawnEnemyRunnable = new SpawnEnemyRunnable(enemiesToSpawn, shortSpawnMs, longSpawnMs, player);
     }
-
-    public int getAmountOfEnemies() { return enemies.size(); }
 
     public void generateNewWave() {
         currentWave++;

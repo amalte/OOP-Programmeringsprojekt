@@ -16,15 +16,14 @@ public class WaveController {
         this.genericPlatformer = genericPlatformer;
     }
 
-    public void onEnemyHasDied() {      // should be called in Model whenever an enemy dies through observer pattern
-        if(genericPlatformer.getWaveManager().getAmountOfEnemies() == 0) {
-            if (waveTimerAction != null) waveTimerAction.expire();   // Stop and remove currentWaveTimer since a new wave has started
-            waveTimerAction = createWaveTimer();  // Create new timer, when timer reaches 0 generate a new wave
+    public void onNoEnemiesLeft() {      // should be called in Model when there are no enemies in wave left through observer pattern
 
-            genericPlatformer.getWaveManager().generateNewWave();
+        if (waveTimerAction != null) waveTimerAction.expire();   // Stop and remove currentWaveTimer since a new wave has started
+        waveTimerAction = createWaveTimer();  // Create new timer, when timer reaches 0 generate a new wave
 
-            //waveView.updateText(genericPlatformer.getWaveManager().getCurrentWave()); // Update current wave text
-        }
+        genericPlatformer.getWaveManager().generateNewWave();
+
+        //waveView.updateText(genericPlatformer.getWaveManager().getCurrentWave()); // Update current wave text
     }
 
     private TimerAction createWaveTimer() {

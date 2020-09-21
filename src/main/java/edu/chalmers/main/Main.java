@@ -43,6 +43,6 @@ public class Main extends GameApplication {
         game.initWaveManager();
 
         WaveController waveController = new WaveController(game);
-        waveController.onEnemyHasDied();    // Should be called whenever an enemy dies (using observer pattern)
+        waveController.onNoEnemiesLeft();    // Should be called whenever there are no enemies left (using observer pattern)
     }
 }
