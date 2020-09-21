@@ -15,36 +15,22 @@ import javafx.scene.text.Text;
 import org.jetbrains.annotations.NotNull;
 
 /**
- *
+ * Main menu for the game.
  */
 public class MainMenu extends FXGLMenu {
     /**
-     *
-     */
-    private static final double BUTTON_WIDTH = 240;
-
-    /**
-     *
-     */
-    private static final double BUTTON_HEIGHT = 48;
-
-    /**
-     *
-     */
-    private static final double BUTTON_FONT_SIZE = 20;
-
-    /**
-     *
+     * The font size of the title text.
      */
     private static final double TITLE_FONT_SIZE = 54;
 
     /**
-     *
+     * The font size of the version text.
      */
     private static final double VERSION_FONT_SIZE = 12;
 
     /**
-     *
+     * Default constructor.
+     * Creates default controls.
      */
     public MainMenu() {
         super(MenuType.MAIN_MENU);
@@ -53,27 +39,28 @@ public class MainMenu extends FXGLMenu {
     }
 
     /**
-     *
+     * Creates the default buttons for the main menu.
      */
     private void createControls()
     {
         // Play button
         addNode(createMenuButton("Play", this::fireNewGame),
-                (FXGL.getAppWidth() / 2) - (BUTTON_WIDTH / 2),
-                (FXGL.getAppHeight() / 2.5) - (BUTTON_HEIGHT / 2) + (0 * (BUTTON_WIDTH / 4)));
+                (FXGL.getAppWidth() / 2) - (ActionButton.BUTTON_WIDTH / 2),
+                (FXGL.getAppHeight() / 2.5) - (ActionButton.BUTTON_HEIGHT / 2) + (0 * (ActionButton.BUTTON_WIDTH / 4)));
 
         // Settings button
         addNode(createMenuButton("Settings", () -> openSettings()),
-                (FXGL.getAppWidth() / 2) - (BUTTON_WIDTH / 2),
-                (FXGL.getAppHeight() / 2.5) - (BUTTON_HEIGHT / 2) + (1 * (BUTTON_WIDTH / 4)));
+                (FXGL.getAppWidth() / 2) - (ActionButton.BUTTON_WIDTH / 2),
+                (FXGL.getAppHeight() / 2.5) - (ActionButton.BUTTON_HEIGHT / 2) + (1 * (ActionButton.BUTTON_WIDTH / 4)));
 
         // Exit button
         addNode(createMenuButton("Exit", this::fireExit),
-                (FXGL.getAppWidth() / 2) - (BUTTON_WIDTH / 2),
-                (FXGL.getAppHeight() / 2.5) - (BUTTON_HEIGHT / 2) + (2 * (BUTTON_WIDTH / 4)));
+                (FXGL.getAppWidth() / 2) - (ActionButton.BUTTON_WIDTH / 2),
+                (FXGL.getAppHeight() / 2.5) - (ActionButton.BUTTON_HEIGHT / 2) + (2 * (ActionButton.BUTTON_WIDTH / 4)));
     }
 
     /**
+     *
      * @param node
      * @param x
      * @param y
@@ -96,6 +83,7 @@ public class MainMenu extends FXGLMenu {
     }
 
     /**
+     *
      * @param name
      * @param action
      * @return
@@ -106,7 +94,7 @@ public class MainMenu extends FXGLMenu {
     }
 
     /**
-     * Not implemented.
+     * Open the settings menu.
      */
     private void openSettings()
     {
@@ -114,6 +102,7 @@ public class MainMenu extends FXGLMenu {
     }
 
     /**
+     *
      * @param name
      * @param action
      * @return
@@ -125,6 +114,7 @@ public class MainMenu extends FXGLMenu {
     }
 
     /**
+     *
      * @param name
      * @param action
      * @return
@@ -136,6 +126,7 @@ public class MainMenu extends FXGLMenu {
     }
 
     /**
+     *
      * @param width
      * @param height
      * @return
@@ -147,6 +138,7 @@ public class MainMenu extends FXGLMenu {
     }
 
     /**
+     *
      * @param profileName
      * @return
      */
@@ -158,8 +150,9 @@ public class MainMenu extends FXGLMenu {
 
 
     /**
-     * @param title
-     * @return
+     * Create the title text for the menu.
+     * @param title The title of the program
+     * @return The Text node that was created
      */
     @NotNull
     @Override
@@ -172,8 +165,9 @@ public class MainMenu extends FXGLMenu {
     }
 
     /**
-     * @param version
-     * @return
+     * Create the version text for the menu.
+     * @param version The version of the program
+     * @return The Text node that was created
      */
     @NotNull
     @Override
@@ -183,37 +177,5 @@ public class MainMenu extends FXGLMenu {
         text.setStyle("-fx-font-size: " + VERSION_FONT_SIZE + ";");
 
         return text;
-    }
-
-    /**
-     *
-     */
-    private static class ActionButton extends StackPane {
-        /**
-         * @param buttonText
-         * @param action
-         */
-        public ActionButton(String buttonText, Runnable action) {
-            this.createControls(buttonText);
-            this.setOnMouseClicked(mouseEvent -> action.run());
-            this.setPrefWidth(BUTTON_WIDTH);
-            this.setPrefHeight(BUTTON_HEIGHT);
-        }
-
-        /**
-         * @param buttonText
-         */
-        private void createControls(String buttonText)
-        {
-            Rectangle background = new Rectangle(BUTTON_WIDTH, BUTTON_HEIGHT);
-            background.setStroke(Color.GREEN);
-            background.fillProperty().bind(
-                    Bindings.when(hoverProperty()).then(Color.LIGHTGREEN).otherwise(Color.GREEN)
-            );
-            getChildren().add(background);
-
-            Text text = FXGL.getUIFactoryService().newText(buttonText, Color.BLACK, BUTTON_FONT_SIZE);
-            getChildren().add(text);
-        }
     }
 }
