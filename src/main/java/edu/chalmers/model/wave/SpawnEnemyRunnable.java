@@ -21,7 +21,7 @@ public class SpawnEnemyRunnable implements Runnable {
     private EnemyFactory enemyFactory = EnemyFactory.getInstance();
     private Point2D leftSpawnPoint = new Point2D(0, 520);
     private Point2D rightSpawnPoint = new Point2D(1000, 520);
-    private boolean isRunnableActive = true;
+    private boolean isRunnableActive = false;
 
     SpawnEnemyRunnable(ArrayList<String> enemiesToSpawn, int shortSpawnMs, int longSpawnMs, Entity player) {
         this.enemiesToSpawn = enemiesToSpawn;
@@ -43,6 +43,10 @@ public class SpawnEnemyRunnable implements Runnable {
         return isRunnableActive;
     }
 
+    public void setIsRunnableActive(boolean value) {
+         isRunnableActive = value;
+    }
+
     @Override
     public void run() {
         int spawnIndex = random.nextInt(enemiesToSpawn.size()); // Select random enemy from list
@@ -50,7 +54,6 @@ public class SpawnEnemyRunnable implements Runnable {
         enemiesToSpawn.remove(spawnIndex);  // Enemy has been spawned so remove from enemiesToSpawn list
 
         if (enemiesToSpawn.size() > 0) {
-            isRunnableActive = true;
             runOnce(this, Duration.millis(random.nextInt(longSpawnMs - shortSpawnMs) + shortSpawnMs));
         }
         else {  // No more enemies to spawn, runnable will no longer be active

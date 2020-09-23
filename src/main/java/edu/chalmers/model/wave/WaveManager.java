@@ -14,17 +14,15 @@ import java.util.*;
  */
 public class WaveManager {
 
-    ArrayList<String> enemiesToSpawn = new ArrayList<String>();
-    int currentWave = 1;
-    int shortSpawnMs = 1500;    // Lowest time between enemies spawning
-    int longSpawnMs = 2000;    // Longest time between enemies spawning
-    TimerAction spawnWave;   // Timer which will be used to spawn enemies
+    private ArrayList<String> enemiesToSpawn = new ArrayList<String>();
+    private int currentWave = 1;
+    private int shortSpawnMs = 1000;    // Lowest time between enemies spawning
+    private int longSpawnMs = 3000;    // Longest time between enemies spawning
+    private TimerAction spawnWave;   // Timer which will be used to spawn enemies
 
-    SpawnEnemyRunnable spawnEnemyRunnable;  // Spawn enemies in a time interval
-    Entity player;
+    private SpawnEnemyRunnable spawnEnemyRunnable;  // Spawn enemies in a time interval
 
     public WaveManager(Entity player) {
-        this.player = player;
         spawnEnemyRunnable = new SpawnEnemyRunnable(enemiesToSpawn, shortSpawnMs, longSpawnMs, player);
     }
 
@@ -32,8 +30,9 @@ public class WaveManager {
         currentWave++;
         calculateEnemiesToSpawn();
 
-        if(spawnWave == null || !spawnEnemyRunnable.getIsRunnableActive()) {   // Make sure only one spawn wave timer is active
+        if(!spawnEnemyRunnable.getIsRunnableActive()) {   // Make sure only one spawn wave timer is active
             spawnWave = runOnce(spawnEnemyRunnable, Duration.ZERO);  // Start spawn runnable, (first one will spawn with no delay)
+            spawnEnemyRunnable.setIsRunnableActive(true);
         }
     }
 
@@ -55,6 +54,18 @@ public class WaveManager {
         }
     }
 
+    public int getSpawnTimeSec() {
+        if(enemiesToSpawn.size() == 0) {
+            System.out.println("SpawnTime cant be calculated because enemiesToSpawn list is empty");
+            return 0;
+        }
+        return Math.round((enemiesToSpawn.size() * averageSpawnIntervalSec()) - averageSpawnIntervalSec());     // -averageSpawnTime since first enemy takes no time to spawn
+    }
+
+    private float averageSpawnIntervalSec() {
+        return (float)(longSpawnMs + shortSpawnMs) / (2 * 1000);    // Divided by 1000 to convert ms to sec
+    }
+
 
     /* OPTIONAL public class EnemyToSpawn {
         String name;
@@ -66,6 +77,14 @@ public class WaveManager {
         }
 
         public String getName() {
+            return name;
+        }
+
+        public string getEnemy() {
+            if(amount <= 0) {
+                return null;
+            }
+            amount--;
             return name;
         }
 
@@ -84,15 +103,6 @@ public class WaveManager {
         enemyToSpawnList.add(new EnemyToSpawn("Enemy2", (int)Math.round((double)currentWave/3)));
         if(currentWave % 5 == 0) {
             enemyToSpawnList.add(new EnemyToSpawn("Enemy3", currentWave/5));
-        }
-
-        for (int i = 0; i < Math.round((double)currentWave / 3); i++) {
-            //enemiesToSpawn.add("Enemy2");
-        }
-        if(currentWave % 5 == 0) {  // Spawn difficult enemy every 5 waves
-            for (int i = 0; i < currentWave / 5; i++) {
-                //enemiesToSpawn.add("Enemy3");
-            }
         }
     }
 

@@ -4,6 +4,7 @@ import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.SceneFactory;
+import com.almasb.fxgl.entity.GameWorld;
 import edu.chalmers.controller.Controller;
 import edu.chalmers.controller.WaveController;
 import edu.chalmers.model.GenericPlatformer;
@@ -18,6 +19,9 @@ public class Main extends GameApplication {
     }
 
     protected void initSettings(GameSettings gameSettings) {
+        gameSettings.setPreserveResizeRatio(true);
+        gameSettings.setManualResizeEnabled(true);
+        gameSettings.setFullScreenAllowed(true);
         gameSettings.setWidth(15 * 70);
         gameSettings.setHeight(10 * 70);
         gameSettings.setTitle("Generic Platformer");
@@ -42,7 +46,7 @@ public class Main extends GameApplication {
         controller.initPlayerMovementInput(game.getPlayer());
         game.initWaveManager();
 
-        WaveController waveController = new WaveController(game);
+        WaveController waveController = new WaveController(game.getWaveManager());
         waveController.onNoEnemiesLeft();    // Should be called whenever there are no enemies left (using observer pattern)
     }
 }
