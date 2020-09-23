@@ -95,4 +95,24 @@ public class EnemyComponent extends Component {
     private boolean isEnemyToLeftOfPlayer(double distance) {
         return player.getX() - thisEnemy.getRightX() > distance;
     }
+
+    /**
+     * Calls thisEnemy's getDamage method.
+     * @return The damage thisEnemy can inflict on an other Entity.
+     */
+    public int getDamage(){
+        return thisEnemy.getDamage();
+    }
+
+    /**
+     * Calls thisEnemy's inflictDamage method.
+     * @param damage The amount of damge about to be inflicted on an enemy.
+     */
+    public void inflictDamage(int damage){
+        thisEnemy.inflictDamage(damage);
+    }
+
+    public int getHealth(){
+        return thisEnemy.getHealth();
+    }
 }

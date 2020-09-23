@@ -6,6 +6,7 @@ import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.SceneFactory;
 import edu.chalmers.controller.Controller;
 import edu.chalmers.controller.WaveController;
+import edu.chalmers.model.CollisionDetection;
 import edu.chalmers.model.GenericPlatformer;
 import edu.chalmers.view.GamePlayView;
 import edu.chalmers.view.main.MainMenu;
@@ -40,6 +41,7 @@ public class Main extends GameApplication {
         gameView.initGameWorld();
         gameView.changeLevel("map.tmx");
         controller.initPlayerMovementInput(game.getPlayer());
+        game.initCollisionDetection();
         game.initWaveManager();
 
         WaveController waveController = new WaveController(game);
