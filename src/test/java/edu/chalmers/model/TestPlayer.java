@@ -7,9 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameWorld;
 
-import com.almasb.fxgl.entity.component.Component;
-import com.almasb.fxgl.physics.PhysicsComponent;
-import edu.chalmers.main.Main;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.*;
 import com.almasb.fxgl.test.RunWithFX;
@@ -39,6 +36,5 @@ public class TestPlayer{
         playerComponent.shoot();
         assertEquals(1, getGameWorld().getEntitiesByType(EntityType.PROJECTILE).size());
         //assertEquals(playerComponent.getEntity().getX(), getGameWorld().getEntitiesByType(EntityType.PROJECTILE).get(0).getX());      // check if projectile spawned at right position
-
     }
 }

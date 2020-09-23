@@ -13,6 +13,7 @@ public class Weapon {
     private int magazineAmmo = 10;
     private int reloadTimerMilliseconds = 3000;
     private boolean needReloading = false;
+    private int damage = 10;
 
 
     /**
@@ -20,7 +21,7 @@ public class Weapon {
      * @param x Players x-position
      * @param y Players y-position
      */
-    public void shoot(double x, double y) {
+    protected void shoot(double x, double y) {
         if (!needReloading && magazineAmmo > 0) {
             magazineAmmo--;
             new WeaponProjectile(x, y, mouseLocation());
@@ -38,10 +39,14 @@ public class Weapon {
 
     }
 
+    public int getDamage(){
+        return damage;
+    }
+
     /**
      * Resets the magazineAmmo counter after a delay specified by reloadTimerMilliseconds
      */
-    private void reload() {
+    protected void reload() {
         needReloading = true;
 
         final Timer timer = new Timer();

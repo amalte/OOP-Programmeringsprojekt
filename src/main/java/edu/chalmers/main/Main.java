@@ -38,12 +38,13 @@ public class Main extends GameApplication {
 
     @Override
     protected void initGame() {
-        Controller controller = new Controller();
         GenericPlatformer game = new GenericPlatformer();
-        GamePlayView gameView = new GamePlayView(controller, game);
+        Controller controller = new Controller(game);
+        GamePlayView gameView = new GamePlayView(game);
         gameView.initGameWorld();
         gameView.changeLevel("map.tmx");
-        controller.initPlayerMovementInput(game.getPlayer());
+        controller.initPlayerMovementInput();
+        game.initCollisionDetection();
         game.initWaveManager();
 
         WaveController waveController = new WaveController(game.getWaveManager());

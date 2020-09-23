@@ -2,6 +2,7 @@ package edu.chalmers.model.enemy;
 
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
+import com.almasb.fxgl.entity.components.CollidableComponent;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import edu.chalmers.model.EntityType;
@@ -15,14 +16,14 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameWorld;
  */
 public abstract class Enemy {
 
-    Entity entity;
+    private Entity entity;
     private PhysicsComponent physics = new PhysicsComponent();
 
     // STATS
-    protected int health;
-    protected int damage;
-    protected int moveSpeed;
-    protected int jumpHeight;
+    private int health;
+    private int damage;
+    private int moveSpeed;
+    private int jumpHeight;
 
     public Enemy(Color color, int health, int damage, int moveSpeed, int jumpHeight, double x, double y, Entity target) {
         this.health = health;
@@ -31,7 +32,7 @@ public abstract class Enemy {
         this.jumpHeight = jumpHeight;
 
         physics.setBodyType(BodyType.DYNAMIC);
-        entity = FXGL.entityBuilder().type(EntityType.ENEMY).at(x,y).viewWithBBox(new Rectangle(40, 40, color)).with(physics, new EnemyComponent(this, target)).buildAndAttach();
+        entity = FXGL.entityBuilder().type(EntityType.ENEMY).at(x,y).viewWithBBox(new Rectangle(40, 40, color)).with(new CollidableComponent(true)).with(physics, new EnemyComponent(this, target)).buildAndAttach();
     }
 
     /**
@@ -107,5 +108,29 @@ public abstract class Enemy {
      */
     public double getBottomY() {
         return entity.getBottomY();
+    }
+
+    /**
+     * Getter for variable damage.
+     * @return The amount of damage the enemy can inflict on an other Entity.
+     */
+    public int getDamage(){
+        return damage;
+    }
+
+    /**
+     * Lower Enemy's health with damage.
+     * @param damage The amount of incoming damage.
+     */
+    public void inflictDamage(int damage){
+        health -= damage;
+    }
+
+    /**
+     * Getter for variable health.
+     * @return The health of the Enemy.
+     */
+    public int getHealth(){
+        return health;
     }
 }

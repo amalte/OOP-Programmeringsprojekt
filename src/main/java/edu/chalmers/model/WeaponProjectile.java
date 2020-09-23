@@ -4,6 +4,7 @@ import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.components.ExpireCleanComponent;
 import com.almasb.fxgl.entity.Entity;
+import com.almasb.fxgl.entity.components.CollidableComponent;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import javafx.geometry.Point2D;
@@ -34,6 +35,7 @@ public class WeaponProjectile {
                 .at((this.x+shooterSizeOffsetToCenter),(this.y+shooterSizeOffsetToCenter))
                 .viewWithBBox(new Rectangle(5, 5, Color.BLACK))
                 .with(physics)
+                .with(new CollidableComponent(true))
                 .with(new ExpireCleanComponent(Duration.seconds(3)))
                 .buildAndAttach();
 
