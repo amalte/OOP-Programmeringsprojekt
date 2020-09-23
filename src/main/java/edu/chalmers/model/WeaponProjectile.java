@@ -34,7 +34,7 @@ public class WeaponProjectile {
                 .at((this.x+shooterSizeOffsetToCenter),(this.y+shooterSizeOffsetToCenter))
                 .viewWithBBox(new Rectangle(5, 5, Color.BLACK))
                 .with(physics)
-                .with(new ExpireCleanComponent(Duration.seconds(3)))
+                .with(new ExpireCleanComponent(Duration.seconds(5)))
                 .buildAndAttach();
 
         setAngularVelocity();

@@ -67,6 +67,13 @@ public class PlayerComponent extends Component {
     }
 
     /**
+     * Calls method reload from PlayerComponent's selected weapon.
+     */
+    public void reload() {
+        weapon.reload();
+    }
+
+    /**
      * Method stop players Entity in the x direction.
      */
     public void stop(){

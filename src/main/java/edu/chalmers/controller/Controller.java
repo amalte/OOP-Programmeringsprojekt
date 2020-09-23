@@ -68,6 +68,13 @@ public class Controller {
                 }
             }, MouseButton.PRIMARY);
 
+            input.addAction(new UserAction("Reload") {
+                @Override
+                protected void onActionBegin() {
+                    player.getComponent(PlayerComponent.class).reload();
+                }
+            }, KeyCode.R);
+
             initialized = true;
         }
     }
