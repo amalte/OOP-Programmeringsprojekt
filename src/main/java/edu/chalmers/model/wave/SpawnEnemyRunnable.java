@@ -1,19 +1,21 @@
 package edu.chalmers.model.wave;
 
 import com.almasb.fxgl.entity.Entity;
-import edu.chalmers.model.enemy.Enemy;
 import edu.chalmers.model.enemy.EnemyFactory;
 import javafx.geometry.Point2D;
 import javafx.util.Duration;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import static com.almasb.fxgl.dsl.FXGL.runOnce;
 
+/**
+ * A RunnableClass that spawns enemies.
+ */
 public class SpawnEnemyRunnable implements Runnable {
     private Random random = new Random();
-    private ArrayList<String> enemiesToSpawn;
+    private List<String> enemiesToSpawn;
     private int shortSpawnMs;
     private int longSpawnMs;
     private Entity player;
@@ -23,7 +25,7 @@ public class SpawnEnemyRunnable implements Runnable {
     private Point2D rightSpawnPoint = new Point2D(1000, 520);
     private boolean isRunnableActive = false;
 
-    SpawnEnemyRunnable(ArrayList<String> enemiesToSpawn, int shortSpawnMs, int longSpawnMs, Entity player) {
+    SpawnEnemyRunnable(List<String> enemiesToSpawn, int shortSpawnMs, int longSpawnMs, Entity player) {
         this.enemiesToSpawn = enemiesToSpawn;
         this.shortSpawnMs = shortSpawnMs;
         this.longSpawnMs = longSpawnMs;

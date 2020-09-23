@@ -6,7 +6,6 @@ import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.SceneFactory;
 import com.almasb.fxgl.entity.GameWorld;
 import edu.chalmers.controller.Controller;
-import edu.chalmers.controller.WaveController;
 import edu.chalmers.model.GenericPlatformer;
 import edu.chalmers.view.GamePlayView;
 import edu.chalmers.view.main.MainMenu;
@@ -47,7 +46,6 @@ public class Main extends GameApplication {
         game.initCollisionDetection();
         game.initWaveManager();
 
-        WaveController waveController = new WaveController(game.getWaveManager());
-        waveController.onNoEnemiesLeft();    // Should be called whenever there are no enemies left (using observer pattern)
+        game.getWaveManager().generateNewWave();
     }
 }
