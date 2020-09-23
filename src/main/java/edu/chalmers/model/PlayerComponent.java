@@ -35,6 +35,22 @@ public class PlayerComponent extends Component {
     }
 
     /**
+     * Getter for PlayerComponents health.
+     * @return Integer of PlayerComponents health.
+     */
+    public int getHealth(){
+        return health;
+    }
+
+    /**
+     *Getter for variable weapon.
+     * @return The weapon currently selected by the PlayerComponent.
+     */
+    public Weapon getWeapon(){
+        return weapon;
+    }
+
+    /**
      * Method moves players Entity left (negative x).
      */
     public void moveLeft(){
@@ -85,6 +101,14 @@ public class PlayerComponent extends Component {
      */
     public void resetJumpAmounts(){
         jumps = amountOfJumps;
+    }
+
+    /**
+     * Lower PlayerComponents health with damage.
+     * @param damage amount of health points to be inflicted to player.
+     */
+    public void inflictDamage(int damage){
+        health -= damage;
     }
 
 }

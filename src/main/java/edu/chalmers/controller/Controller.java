@@ -1,11 +1,9 @@
 package edu.chalmers.controller;
 
-import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.input.Input;
 import com.almasb.fxgl.input.UserAction;
-import com.almasb.fxgl.physics.CollisionHandler;
-import edu.chalmers.model.EntityType;
+import edu.chalmers.model.GenericPlatformer;
 import edu.chalmers.model.PlayerComponent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
@@ -15,10 +13,14 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.getInput;
 public class Controller {
     private static boolean initialized = false;
     private static Entity player = null;
+    private GenericPlatformer game;
 
+    public Controller(GenericPlatformer game) {
+        this.game = game;
+    }
 
-    public void initPlayerMovementInput(final Entity p) {
-        player = p;
+    public void initPlayerMovementInput() {
+        player = game.getPlayer();
 
         if (!initialized) {
 
@@ -51,12 +53,6 @@ public class Controller {
             input.addAction(new UserAction("Jump") {
                 @Override
                 protected void onActionBegin() {
-                    FXGL.getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityType.PLAYER, EntityType.PLATFORM) {
-                        @Override
-                        protected void onCollisionBegin(Entity a, Entity b) {
-                            player.getComponent(PlayerComponent.class).resetJumpAmounts();
-                        }
-                    });
                     player.getComponent(PlayerComponent.class).jump();
                 }
             }, KeyCode.W);

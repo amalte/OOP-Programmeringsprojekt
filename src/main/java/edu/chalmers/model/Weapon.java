@@ -13,6 +13,7 @@ public class Weapon {
     private int magazineAmmo = 10;
     private int reloadTimerMilliseconds = 3000;
     private boolean needReloading = false;
+    private int damage = 10;
 
 
     /**
@@ -36,6 +37,10 @@ public class Weapon {
     private Point2D mouseLocation() {
         return FXGL.getInput().getMousePositionWorld();
 
+    }
+
+    public int getDamage(){
+        return damage;
     }
 
     /**
