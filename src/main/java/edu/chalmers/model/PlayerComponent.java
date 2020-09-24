@@ -51,6 +51,14 @@ public class PlayerComponent extends Component {
     }
 
     /**
+     * Getter for variable moveSpeed (intended for testing)
+     * @return PlayerComponents unchangeable movementSpeed.
+     */
+    public int getMoveSpeed(){
+        return moveSpeed;
+    }
+
+    /**
      * Method moves players Entity left (negative x).
      */
     public void moveLeft(){

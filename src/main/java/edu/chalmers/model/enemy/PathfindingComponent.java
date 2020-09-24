@@ -34,7 +34,7 @@ public class PathfindingComponent extends Component {
 
         RaycastResult raycastResult = getPhysicsWorld().raycast(new Point2D(player.getX(), player.getY()), new Point2D(0, 1));
         //System.out.println(raycastResult.getPoint());
-        System.out.println(raycastResult.getEntity());
+        //System.out.println(raycastResult.getEntity());
 
 
 

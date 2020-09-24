@@ -4,8 +4,6 @@ import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.SpawnData;
 import edu.chalmers.model.wave.WaveManager;
 
-import java.awt.geom.Point2D;
-
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 
 /**
