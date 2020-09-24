@@ -7,6 +7,7 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.binding.StringBinding;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -137,10 +138,7 @@ public class MainMenu extends FXGLMenu {
     @NotNull
     @Override
     protected Node createBackground(double width, double height) {
-        ImageView imageView = new ImageView("/assets/background.png");
-        imageView.resize(width, height);
-
-        return imageView;
+        return new ImageView(new Image("/assets/background.png", width, height, false, false));
     }
 
     /**
