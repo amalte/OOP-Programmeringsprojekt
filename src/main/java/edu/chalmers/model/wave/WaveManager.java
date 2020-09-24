@@ -2,7 +2,7 @@ package edu.chalmers.model.wave;
 
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.time.TimerAction;
-import edu.chalmers.model.enemy.Enemy;
+import edu.chalmers.model.enemy.EnemyComponent;
 import javafx.util.Duration;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
@@ -14,7 +14,7 @@ import java.util.*;
  */
 public class WaveManager {
 
-    ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+    ArrayList<Entity> enemies = new ArrayList<Entity>();
     ArrayList<String> enemiesToSpawn = new ArrayList<String>();
 
     int currentWave = 1;
