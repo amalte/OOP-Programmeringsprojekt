@@ -114,4 +114,28 @@ public abstract class EnemyComponent extends Component {
     public Color getColor() {
         return color;
     }
+
+    /**
+     * Getter for variable damage.
+     * @return The amount of damage the enemy can inflict on an other Entity.
+     */
+    public int getDamage(){
+        return damage;
+    }
+
+    /**
+     * Lower Enemy's health with damage.
+     * @param damage The amount of incoming damage.
+     */
+    public void inflictDamage(int damage){
+        health -= damage;
+    }
+
+    /**
+     * Getter for variable health.
+     * @return The health of the Enemy.
+     */
+    public int getHealth(){
+        return health;
+    }
 }

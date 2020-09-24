@@ -8,11 +8,9 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameWorld;
 
 public class GamePlayView {
 
-    private Controller controller;
     private GenericPlatformer game;
 
-    public GamePlayView(Controller controller, GenericPlatformer game) {
-        this.controller = controller;
+    public GamePlayView(GenericPlatformer game) {
         this.game = game;
     }
 

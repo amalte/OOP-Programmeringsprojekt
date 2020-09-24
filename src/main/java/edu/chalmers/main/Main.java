@@ -4,8 +4,8 @@ import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.SceneFactory;
+import com.almasb.fxgl.entity.GameWorld;
 import edu.chalmers.controller.Controller;
-import edu.chalmers.controller.WaveController;
 import edu.chalmers.model.GenericPlatformer;
 import edu.chalmers.view.GamePlayView;
 import edu.chalmers.view.main.MainMenu;
@@ -18,6 +18,9 @@ public class Main extends GameApplication {
     }
 
     protected void initSettings(GameSettings gameSettings) {
+        gameSettings.setPreserveResizeRatio(true);
+        gameSettings.setManualResizeEnabled(true);
+        gameSettings.setFullScreenAllowed(true);
         gameSettings.setWidth(15 * 70);
         gameSettings.setHeight(10 * 70);
         gameSettings.setTitle("Generic Platformer");
@@ -34,15 +37,15 @@ public class Main extends GameApplication {
 
     @Override
     protected void initGame() {
-        Controller controller = new Controller();
         GenericPlatformer game = new GenericPlatformer();
-        GamePlayView gameView = new GamePlayView(controller, game);
+        Controller controller = new Controller(game);
+        GamePlayView gameView = new GamePlayView(game);
         gameView.initGameWorld();
         gameView.changeLevel("map.tmx");
-        controller.initPlayerMovementInput(game.getPlayer());
+        controller.initPlayerMovementInput();
+        game.initCollisionDetection();
         game.initWaveManager();
 
-        WaveController waveController = new WaveController(game);
-        waveController.onEnemyHasDied();    // Should be called whenever an enemy dies (using observer pattern)
+        game.getWaveManager().generateNewWave();
     }
 }
