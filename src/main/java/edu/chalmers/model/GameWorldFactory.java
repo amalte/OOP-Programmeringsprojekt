@@ -42,6 +42,8 @@ public class GameWorldFactory implements EntityFactory {
     @Spawns("player")
     public Entity newPLayer(SpawnData spawnData){
         PhysicsComponent physics = new PhysicsComponent();
-        return FXGL.entityBuilder().type(EntityType.PLAYER).at(spawnData.getX(),spawnData.getY()).viewWithBBox(new Rectangle(50, 50, Color.BLUE)).with(physics).with(new PlayerComponent(physics)).with(new CollidableComponent(true)).build();
+        return FXGL.entityBuilder().type(EntityType.PLAYER).at(spawnData.getX(),spawnData.getY())
+                .viewWithBBox(new Rectangle(50, 50, Color.BLUE)).with(physics)
+                .with(new PlayerComponent(physics)).with(new CollidableComponent(true)).build();
     }
 }
