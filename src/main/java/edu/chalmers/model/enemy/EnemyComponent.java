@@ -3,6 +3,7 @@ package edu.chalmers.model.enemy;
 import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
+import edu.chalmers.model.enemy.enemytypes.IEnemyType;
 import javafx.scene.paint.Color;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameWorld;
@@ -10,26 +11,29 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameWorld;
 /**
  * EnemyComponent class. When added to entity it becomes an Enemy.
  */
-public abstract class EnemyComponent extends Component {
+public class EnemyComponent extends Component {
 
-    protected PhysicsComponent physics;
-    protected Color color;
+    IEnemyType enemyType;
+    private PhysicsComponent physics;
 
     // STATS
-    protected int health;
-    protected int damage;
-    protected int moveSpeed;
-    protected int jumpHeight;
+    private Color color;
+    private int health;
+    private int damage;
+    private int moveSpeed;
+    private int jumpHeight;
 
-    public EnemyComponent(PhysicsComponent physics, Color color, int health, int damage, int moveSpeed, int jumpHeight) {
-        this.physics = physics;
+    public EnemyComponent(IEnemyType enemyType) {
+        this.enemyType = enemyType;
+
+        physics = new PhysicsComponent();
         physics.setBodyType(BodyType.DYNAMIC);
 
-        this.health = health;
-        this.damage = damage;
-        this.moveSpeed = moveSpeed;
-        this.jumpHeight = jumpHeight;
-        this.color = color;
+        this.color = enemyType.getColor();
+        this.health = enemyType.getHealth();
+        this.damage = enemyType.getDamage();
+        this.moveSpeed = enemyType.getMoveSpeed();
+        this.jumpHeight = enemyType.getJumpHeight();
     }
 
     /**
