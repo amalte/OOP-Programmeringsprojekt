@@ -1,13 +1,10 @@
 package edu.chalmers.main;
 
-import com.almasb.fxgl.app.FXGLApplication;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
-import com.almasb.fxgl.app.ReadOnlyGameSettings;
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.SceneFactory;
-import com.almasb.fxgl.dsl.FXGL;
-import com.almasb.fxgl.entity.GameWorld;
+import edu.chalmers.Utils.TileMap;
 import edu.chalmers.controller.Controller;
 import edu.chalmers.model.GenericPlatformer;
 import edu.chalmers.view.GamePlayView;
@@ -45,31 +42,13 @@ public class Main extends GameApplication {
         GamePlayView gameView = new GamePlayView(game);
         gameView.initGameWorld();
         gameView.changeLevel("map2.tmx");
+
+        //TileMap tileMap = new TileMap("map2.tmx");
+
         controller.initPlayerMovementInput();
         game.initCollisionDetection();
         game.initWaveManager();
 
         game.getWaveManager().generateNewWave();
-    }
-
-    private GameSettings createGameSettings() {
-        GameSettings gameSettings = new GameSettings();
-        gameSettings.setPreserveResizeRatio(true);
-        gameSettings.setManualResizeEnabled(true);
-        gameSettings.setFullScreenAllowed(true);
-        gameSettings.setWidth(15 * 70);
-        gameSettings.setHeight(10 * 70);
-        gameSettings.setTitle("Generic Platformer");
-        gameSettings.setVersion("1.0");
-
-        gameSettings.setMainMenuEnabled(true);
-        gameSettings.setSceneFactory(new SceneFactory() {
-            @Override
-            public FXGLMenu newMainMenu() {
-                return new MainMenu();
-            }
-        });
-
-        return gameSettings;
     }
 }

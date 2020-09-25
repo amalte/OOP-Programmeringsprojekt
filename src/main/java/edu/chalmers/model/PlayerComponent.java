@@ -4,6 +4,9 @@ import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
+import edu.chalmers.Utilities.EntityPos;
+import edu.chalmers.model.Building.Building;
+import javafx.geometry.Point2D;
 
 /**
  * Player class. Wraps an entity object as a Player.
@@ -11,6 +14,7 @@ import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
 public class PlayerComponent extends Component {
 
     private Weapon weapon = new Weapon();
+    private Building building = new Building();
 
     //Stats
     private int health = 100;
@@ -81,6 +85,8 @@ public class PlayerComponent extends Component {
     public void shoot() {
         weapon.shoot(entity.getX(), entity.getY());
     }
+
+    public void placeBlock(Point2D mousePos) { building.placeBlock(mousePos, EntityPos.getPosition(getEntity())); }
 
     /**
      * Calls method reload from PlayerComponent's selected weapon.
