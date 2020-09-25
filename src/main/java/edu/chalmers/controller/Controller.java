@@ -1,19 +1,26 @@
 package edu.chalmers.controller;
 
+import com.almasb.fxgl.app.FXGLApplication;
+import com.almasb.fxgl.app.GameSettings;
+import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.input.Input;
 import com.almasb.fxgl.input.UserAction;
+import edu.chalmers.GameSize;
 import edu.chalmers.model.GenericPlatformer;
 import edu.chalmers.model.PlayerComponent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameScene;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getInput;
 
 public class Controller {
     private static boolean initialized = false;
     private static Entity player = null;
     private GenericPlatformer game;
+
+    private GameSize gameSize = new GameSize();
 
     public Controller(GenericPlatformer game) {
         this.game = game;
@@ -30,6 +37,8 @@ public class Controller {
                 @Override
                 protected void onAction() {
                     player.getComponent(PlayerComponent.class).moveRight();
+                    System.out.println("Width: " + gameSize.getWidth());
+                    System.out.println("Height: " + gameSize.getHeight());
                 }
 
                 @Override

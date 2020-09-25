@@ -1,5 +1,6 @@
 package edu.chalmers.model;
 
+import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.SpawnData;
 import edu.chalmers.model.wave.WaveManager;

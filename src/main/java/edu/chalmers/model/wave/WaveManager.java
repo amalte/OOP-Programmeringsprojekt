@@ -1,5 +1,6 @@
 package edu.chalmers.model.wave;
 
+import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.time.TimerAction;
 import edu.chalmers.model.enemy.Enemy;
@@ -22,6 +23,7 @@ public class WaveManager {
 
     private TimerAction waveTimerAction;    // Timer for when a new wave should spawn
     private SpawnEnemyRunnable spawnEnemyRunnable;  // Spawn enemies in a time interval
+
 
     public WaveManager(Entity player) {
         spawnEnemyRunnable = new SpawnEnemyRunnable(enemiesToSpawn, shortSpawnMs, longSpawnMs, player);
