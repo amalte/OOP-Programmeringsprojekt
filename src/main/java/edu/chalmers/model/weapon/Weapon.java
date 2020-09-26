@@ -1,4 +1,4 @@
-package edu.chalmers.model;
+package edu.chalmers.model.weapon;
 
 
 import com.almasb.fxgl.dsl.FXGL;
@@ -8,21 +8,29 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 
-public class Weapon {
+public abstract class Weapon {
 
-    private int magazineAmmo = 10;
-    private int reloadTimerMilliseconds = 3000;
+    private int magazineSize;
+    private int magazineAmmo;
+    private int reloadTimerMilliseconds;
     private boolean needReloading = false;
-    private int damage = 10;
+    private int damage;
 
+
+    public Weapon(int magazineSize, int reloadTimerMilliseconds, int damage) {
+        this.magazineSize = magazineSize;
+        this.reloadTimerMilliseconds = reloadTimerMilliseconds;
+        this.damage = damage;
+        magazineAmmo = magazineSize;
+    }
 
     /**
      * Creates an instance of WeaponProjectile
      * @param x Players x-position
      * @param y Players y-position
      */
-    protected void shoot(double x, double y) {
-        if (!needReloading && magazineAmmo > 0) {
+    public void shoot(double x, double y) {
+        if (magazineAmmo > 0) {
             magazineAmmo--;
             new WeaponProjectile(x, y, mouseLocation());
         }else {
@@ -30,10 +38,7 @@ public class Weapon {
         }
     }
 
-    /**
-     * Gets the mouse pointer location in the game world
-     * @return mouse pointer location in the game world as a Point2D
-     */
+
     private Point2D mouseLocation() {
         return FXGL.getInput().getMousePositionWorld();
 
@@ -46,14 +51,15 @@ public class Weapon {
     /**
      * Resets the magazineAmmo counter after a delay specified by reloadTimerMilliseconds
      */
-    protected void reload() {
-        needReloading = true;
 
+    public void reload() {
+        needReloading = true;
+        
         final Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                magazineAmmo = 10;
+                magazineAmmo = magazineSize;
                 timer.cancel();
                 needReloading = false;
             }

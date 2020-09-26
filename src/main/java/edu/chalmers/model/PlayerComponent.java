@@ -4,13 +4,15 @@ import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
+import edu.chalmers.model.weapon.Crossbow;
+import edu.chalmers.model.weapon.Weapon;
 
 /**
  * Player class. Wraps an entity object as a Player.
  */
 public class PlayerComponent extends Component {
 
-    private Weapon weapon = new Weapon();
+    private Weapon weapon = new Crossbow();
 
     //Stats
     private int health = 100;
