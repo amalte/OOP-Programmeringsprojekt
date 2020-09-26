@@ -1,16 +1,34 @@
 package edu.chalmers.model.enemy.enemytypes;
 
-import com.almasb.fxgl.entity.Entity;
-import edu.chalmers.model.enemy.Enemy;
 import javafx.scene.paint.Color;
-
 
 /**
  * Rex class. A type of Enemy.
  */
-public class Rex extends Enemy {
+public class Rex implements IEnemyType {
 
-    public Rex(double x, double y, Entity target) {
-        super(Color.DARKRED, 200, 50, 60, 100, x, y, target);
+    @Override
+    public Color getColor() {
+        return Color.DARKRED;
+    }
+
+    @Override
+    public int getHealth() {
+        return 200;
+    }
+
+    @Override
+    public int getDamage() {
+        return 50;
+    }
+
+    @Override
+    public int getMoveSpeed() {
+        return 60;
+    }
+
+    @Override
+    public int getJumpHeight() {
+        return 100;
     }
 }

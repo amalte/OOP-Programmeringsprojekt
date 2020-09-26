@@ -26,22 +26,24 @@ public class GameWorldFactory implements EntityFactory {
 
     @Spawns("platformSide")
     public Entity newPlatformSide(SpawnData spawnData){
-        return FXGL.entityBuilder().type(EntityType.PLATFORMSIDE).from(spawnData).bbox(new HitBox(BoundingShape.box(spawnData.<Integer>get("width"), spawnData.<Integer>get("height")))).with(new PhysicsComponent()).build();
+        return FXGL.entityBuilder().type(EntityType.PLATFORMSIDE).bbox(new HitBox(BoundingShape.box(spawnData.<Integer>get("width"), spawnData.<Integer>get("height")))).with(new PhysicsComponent()).build();
     }
 
     @Spawns("platformBottom")
     public Entity newPlatformBottom(SpawnData spawnData){
-        return FXGL.entityBuilder().type(EntityType.PLATFORMBOTTOM).from(spawnData).bbox(new HitBox(BoundingShape.box(spawnData.<Integer>get("width"), spawnData.<Integer>get("height")))).with(new PhysicsComponent()).build();
+        return FXGL.entityBuilder().type(EntityType.PLATFORMBOTTOM).bbox(new HitBox(BoundingShape.box(spawnData.<Integer>get("width"), spawnData.<Integer>get("height")))).with(new PhysicsComponent()).build();
     }
 
     @Spawns("worldBorder")
     public Entity newWorldBorder(SpawnData spawnData){
-        return FXGL.entityBuilder().type(EntityType.WORLDBORDER).from(spawnData).bbox(new HitBox(BoundingShape.box(spawnData.<Integer>get("width"), spawnData.<Integer>get("height")))).with(new PhysicsComponent()).build();
+        return FXGL.entityBuilder().type(EntityType.WORLDBORDER).bbox(new HitBox(BoundingShape.box(spawnData.<Integer>get("width"), spawnData.<Integer>get("height")))).with(new PhysicsComponent()).build();
     }
 
     @Spawns("player")
     public Entity newPLayer(SpawnData spawnData){
         PhysicsComponent physics = new PhysicsComponent();
-        return FXGL.entityBuilder().type(EntityType.PLAYER).at(spawnData.getX(),spawnData.getY()).viewWithBBox(new Rectangle(50, 50, Color.BLUE)).with(physics).with(new PlayerComponent(physics)).with(new CollidableComponent(true)).build();
+        return FXGL.entityBuilder().type(EntityType.PLAYER).at(spawnData.getX(),spawnData.getY())
+                .viewWithBBox(new Rectangle(50, 50, Color.BLUE)).with(physics)
+                .with(new PlayerComponent(physics)).with(new CollidableComponent(true)).build();
     }
 }

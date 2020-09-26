@@ -2,7 +2,7 @@ package edu.chalmers.model.wave;
 
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.time.TimerAction;
-import edu.chalmers.model.enemy.Enemy;
+import edu.chalmers.model.enemy.EnemyComponent;
 import javafx.util.Duration;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
