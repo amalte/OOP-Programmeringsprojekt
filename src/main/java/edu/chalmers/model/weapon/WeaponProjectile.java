@@ -21,16 +21,17 @@ public class WeaponProjectile {
     private double x;
     private double y;
     private Point2D mousePoint;
-    private int projectileSpeed = 650;
+    private int projectileSpeed;
     private int shooterSizeOffsetToCenter = 22;
     private float projectileSizeW = 5;
     private float projectileSizeH = 5;
 
-    public WeaponProjectile(double x, double y, Point2D mousePoint) {
-        
+    public WeaponProjectile(double x, double y, Point2D mousePoint, int projectileSpeed) {
+
         this.mousePoint = mousePoint;
         this.x = x;
         this.y = y;
+        this.projectileSpeed = projectileSpeed;
 
         physics.setBodyType(BodyType.KINEMATIC);
         projectile = FXGL.entityBuilder()

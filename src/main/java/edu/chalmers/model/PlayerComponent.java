@@ -4,15 +4,15 @@ import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
-import edu.chalmers.model.weapon.Crossbow;
 import edu.chalmers.model.weapon.Weapon;
+import edu.chalmers.model.weapon.WeaponFactory;
 
 /**
  * Player class. Wraps an entity object as a Player.
  */
 public class PlayerComponent extends Component {
 
-    private Weapon weapon = new Crossbow();
+    Weapon weapon = WeaponFactory.getInstance().createWeapon("handgun");
 
     //Stats
     private int health = 100;
@@ -26,6 +26,7 @@ public class PlayerComponent extends Component {
         this.physics = physics;
         physics.setBodyType(BodyType.DYNAMIC);
         physics.setFixtureDef(new FixtureDef().friction(0.0f));
+
     }
 
     /**

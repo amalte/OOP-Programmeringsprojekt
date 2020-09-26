@@ -2,26 +2,32 @@ package edu.chalmers.model.weapon;
 
 
 import com.almasb.fxgl.dsl.FXGL;
+import edu.chalmers.model.weapon.weapontypes.IWeaponType;
 import javafx.geometry.Point2D;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
 
-public abstract class Weapon {
+public class Weapon {
+
+    IWeaponType weaponType;
 
     private int magazineSize;
-    private int magazineAmmo;
     private int reloadTimerMilliseconds;
-    private boolean needReloading = false;
     private int damage;
+    private int projectileSpeed;
+    private int magazineCounter;
+    private boolean needReloading = false;
 
+    public Weapon(IWeaponType weaponType) {
+        this.weaponType = weaponType;
 
-    public Weapon(int magazineSize, int reloadTimerMilliseconds, int damage) {
-        this.magazineSize = magazineSize;
-        this.reloadTimerMilliseconds = reloadTimerMilliseconds;
-        this.damage = damage;
-        magazineAmmo = magazineSize;
+        this.magazineSize = weaponType.getMagazineSize();
+        this.reloadTimerMilliseconds = weaponType.getReloadTimeMilliseconds();
+        this.damage = weaponType.getDamage();
+        this.projectileSpeed = weaponType.getProjectileSpeed();
+        magazineCounter = magazineSize;
     }
 
     /**
@@ -30,14 +36,30 @@ public abstract class Weapon {
      * @param y Players y-position
      */
     public void shoot(double x, double y) {
-        if (magazineAmmo > 0) {
-            magazineAmmo--;
-            new WeaponProjectile(x, y, mouseLocation());
+        if (magazineCounter > 0) {
+            magazineCounter--;
+            new WeaponProjectile(x, y, mouseLocation(), projectileSpeed);
         }else {
             needReloading = true;
         }
     }
 
+    /**
+     * Resets the magazineAmmo counter after a delay specified by reloadTimerMilliseconds
+     */
+    public void reload() {
+        needReloading = true;
+
+        final Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                magazineCounter = magazineSize;
+                timer.cancel();
+                needReloading = false;
+            }
+        }, reloadTimerMilliseconds);
+    }
 
     private Point2D mouseLocation() {
         return FXGL.getInput().getMousePositionWorld();
@@ -48,21 +70,5 @@ public abstract class Weapon {
         return damage;
     }
 
-    /**
-     * Resets the magazineAmmo counter after a delay specified by reloadTimerMilliseconds
-     */
 
-    public void reload() {
-        needReloading = true;
-        
-        final Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                magazineAmmo = magazineSize;
-                timer.cancel();
-                needReloading = false;
-            }
-        }, reloadTimerMilliseconds);
-    }
 }
