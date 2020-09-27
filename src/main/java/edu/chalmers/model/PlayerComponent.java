@@ -88,6 +88,8 @@ public class PlayerComponent extends Component {
 
     public void placeBlock(Point2D mousePos) { building.placeBlock(mousePos, EntityPos.getPosition(getEntity())); }
 
+    public Building getBuilding() { return building; }
+
     /**
      * Calls method reload from PlayerComponent's selected weapon.
      */

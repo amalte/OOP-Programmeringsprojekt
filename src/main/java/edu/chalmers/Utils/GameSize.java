@@ -1,9 +1,11 @@
-package edu.chalmers;
+package edu.chalmers.Utils;
+
+import edu.chalmers.Utilities.Constants;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameScene;
 
 public class GameSize {
-    double aspectRatio = 1.5;
+    double aspectRatio = Constants.ASPECT_RATIO;
 
     public int getWidth() {
         if(getGameScene().getWidth()/aspectRatio > getGameScene().getHeight()) {

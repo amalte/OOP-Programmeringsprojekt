@@ -35,7 +35,7 @@ public class WaveManager {
     public void generateNewWave() {
         currentWave++;
         calculateEnemiesToSpawn(enemiesToSpawn, currentWave);
-        //startNewWaveTimer();    // Will generateNewWave if timer reaches 0 (Warning infinite loop)
+        //startNewWaveTimer();    // Will generateNewWave if timer reaches 0 (Warning will be infinite loop unless timer is stopped somewhere)
         spawnEnemies(spawnEnemyRunnable);
     }
 

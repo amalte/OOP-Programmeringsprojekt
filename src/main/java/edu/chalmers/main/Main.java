@@ -4,9 +4,12 @@ import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.SceneFactory;
+import com.almasb.fxgl.dsl.FXGL;
+import com.almasb.fxgl.texture.Texture;
 import edu.chalmers.Utils.TileMap;
 import edu.chalmers.controller.Controller;
 import edu.chalmers.model.GenericPlatformer;
+import edu.chalmers.view.BuildView;
 import edu.chalmers.view.GamePlayView;
 import edu.chalmers.view.main.MainMenu;
 
@@ -42,8 +45,8 @@ public class Main extends GameApplication {
         GamePlayView gameView = new GamePlayView(game);
         gameView.initGameWorld();
         gameView.changeLevel("map2.tmx");
-
         //TileMap tileMap = new TileMap("map2.tmx");
+
 
         controller.initPlayerMovementInput();
         game.initCollisionDetection();
