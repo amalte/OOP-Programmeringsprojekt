@@ -3,7 +3,6 @@ package edu.chalmers.model.enemy;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.components.CollidableComponent;
-import com.almasb.fxgl.physics.PhysicsComponent;
 import edu.chalmers.model.EntityType;
 import edu.chalmers.model.enemy.enemytypes.Blob;
 import edu.chalmers.model.enemy.enemytypes.Rex;
@@ -20,7 +19,7 @@ public class EnemyFactory {
 
     private static EnemyFactory instance;
 
-    // Use 'getInstance' to get access to class
+    // Use 'getInstance' to get access
     private EnemyFactory(){}
 
     /**
@@ -48,19 +47,19 @@ public class EnemyFactory {
             return null;
         }
 
-        if(enemyName == "ZOMBIE") {
+        if(enemyName.equalsIgnoreCase("ZOMBIE")) {
             EnemyComponent zombieComponent = new EnemyComponent(new Zombie());
             Entity zombie = buildEnemy(zombieComponent, x, y, player);
             getGameWorld().addEntity(zombie);
             return zombie;
         }
-        else if(enemyName == "REX") {
+        else if(enemyName.equalsIgnoreCase("REX")) {
             EnemyComponent rexComponent = new EnemyComponent(new Rex());
             Entity rex = buildEnemy(rexComponent, x, y, player);
             getGameWorld().addEntity(rex);
             return rex;
         }
-        else if(enemyName == "BLOB") {
+        else if(enemyName.equalsIgnoreCase("BLOB")) {
             EnemyComponent blobComponent = new EnemyComponent(new Blob());
             Entity blob = buildEnemy(blobComponent, x, y, player);
             getGameWorld().addEntity(blob);
@@ -85,10 +84,10 @@ public class EnemyFactory {
         entity.addComponent(enemyComponent);                                        // Add EnemyComponent
         entity.addComponent(enemyComponent.getPhysics());                           // Add PhysicsComponent
         entity.addComponent(new CollidableComponent(true));                         // Add CollidableComponent
-        entity.addComponent(new PathfindingComponent(enemyComponent, player));      // Add PathfindingComponent
+        entity.addComponent(new EnemyAIComponent(enemyComponent, player));          // Add EnemyAIComponent
 
         return entity;
 
-        // TODO - Simplify code and initiate all components in EnemyComponent instead.
+        // TODO - Simplify code and try to initiate all components in EnemyComponent instead.
     }
 }

@@ -2,23 +2,19 @@ package edu.chalmers.model.enemy;
 
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.component.Component;
-import com.almasb.fxgl.entity.component.Required;
-import com.almasb.fxgl.pathfinding.Cell;
-import com.almasb.fxgl.pathfinding.CellMoveComponent;
-import com.almasb.fxgl.pathfinding.astar.AStarMoveComponent;
 import com.almasb.fxgl.physics.RaycastResult;
-import com.almasb.fxgl.physics.box2d.dynamics.Fixture;
 import javafx.geometry.Point2D;
 
 import java.util.Optional;
+import java.util.Timer;
+import java.util.TimerTask;
 
-import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameScene;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getPhysicsWorld;
 
 /**
- * PathfindingComponent class. Contains and gives basic pathfinding "AI" to an Entity.
+ * EnemyAIComponent class. Contains and gives basic Enemy AI to an Entity.
  */
-public class PathfindingComponent extends Component {
+public class EnemyAIComponent extends Component {
 
     enum Direction {LEFT, RIGHT}
 
@@ -26,11 +22,14 @@ public class PathfindingComponent extends Component {
     private Entity player;
     private Direction moveDirection;
     private RaycastResult horizontalRaycast;
+    private RaycastResult bottomRaycast;
+
     private int horizontalRaycastLength = 30;
+    private int bottomRaycastLength = 50;
+    private boolean canJump = true;
+    private boolean playerReached = false;
 
-    private double thisEnemyPreviousXPosition = Double.NaN;
-
-    public PathfindingComponent(EnemyComponent thisEnemy, Entity player) {
+    public EnemyAIComponent(EnemyComponent thisEnemy, Entity player) {
         this.player = player;
         this.thisEnemy = thisEnemy;
     }
@@ -39,21 +38,13 @@ public class PathfindingComponent extends Component {
     public void onUpdate(double tpf) {
         setMoveDirection();
         setHorizontalRaycastDirection();
+        setBottomRaycastPosition();
+        setPlayerReached();
 
         moveTowardsPlayer();
         doJump();
 
-        //System.out.println(getHorizontalRaycastHit());
-        //jump();
-
-        /*
-        Point2D thisPosition = new Point2D(thisEnemy.getX(), thisEnemy.getY());
-        RaycastResult raycastResult = getPhysicsWorld().raycast(thisPosition, new Point2D(thisPosition.getX(), thisPosition.getY() - 70));
-
-        if(!raycastResult.getEntity().equals(Optional.empty())) {
-            System.out.println(raycastResult.getEntity());
-        }
-        */
+        checkOtherEnemy();
 
         // TIMER TEST
         /*
@@ -63,119 +54,196 @@ public class PathfindingComponent extends Component {
          */
     }
 
+    /**
+     * Method sets moveDirection based on Player position.
+     */
     private void setMoveDirection() {
-        if(isPlayerToLeft(0)) {
+        if(isPlayerToLeft()) {
             moveDirection = Direction.LEFT;
         }
-        else if(isPlayerToRight(0)) {
+        else if(isPlayerToRight()) {
             moveDirection = Direction.RIGHT;
         }
     }
 
+    /**
+     * Method sets correct direction of horizontalRaycast based on moveDirection.
+     */
     private void setHorizontalRaycastDirection() {
-        Point2D thisEnemyPosition = new Point2D(thisEnemy.getX(), thisEnemy.getY());
-
         // Point raycast to the left
         if(moveDirection == Direction.LEFT) {
-            horizontalRaycast = getPhysicsWorld().raycast(thisEnemyPosition, new Point2D(thisEnemy.getX() - horizontalRaycastLength, thisEnemy.getY()));
+            Point2D raycastStart = new Point2D(thisEnemy.getX(), thisEnemy.getY());
+            Point2D raycastEnd = new Point2D(thisEnemy.getX() - horizontalRaycastLength, thisEnemy.getY());
+
+            horizontalRaycast = getPhysicsWorld().raycast(raycastStart, raycastEnd);
         }
 
         // Point raycast to the right
         else if(moveDirection == Direction.RIGHT) {
-            horizontalRaycast = getPhysicsWorld().raycast(thisEnemyPosition, new Point2D(thisEnemy.getRightX() + horizontalRaycastLength, thisEnemy.getY()));
+            Point2D raycastStart = new Point2D(thisEnemy.getRightX(), thisEnemy.getY());
+            Point2D raycastEnd = new Point2D(thisEnemy.getRightX() + horizontalRaycastLength, thisEnemy.getY());
+
+            horizontalRaycast = getPhysicsWorld().raycast(raycastStart, raycastEnd);
         }
     }
 
     /**
-     * Moves Enemy towards the player.
+     * Method sets correct position of bottomRaycast based on moveDirection.
+     */
+    private void setBottomRaycastPosition() {
+        // Point raycast to the bottom-left
+        if(moveDirection == Direction.LEFT) {
+            Point2D raycastStart = new Point2D(thisEnemy.getX(), thisEnemy.getBottomY());
+            Point2D raycastEnd = new Point2D(thisEnemy.getX(), thisEnemy.getBottomY() + bottomRaycastLength);
+
+            bottomRaycast = getPhysicsWorld().raycast(raycastStart, raycastEnd);
+        }
+
+        // Point raycast to the bottom-right
+        else if(moveDirection == Direction.RIGHT) {
+            Point2D raycastStart = new Point2D(thisEnemy.getRightX(), thisEnemy.getBottomY());
+            Point2D raycastEnd = new Point2D(thisEnemy.getRightX(), thisEnemy.getBottomY() + bottomRaycastLength);
+
+            bottomRaycast = getPhysicsWorld().raycast(raycastStart, raycastEnd);
+        }
+    }
+
+    /**
+     * Method sets playerReached variable based on horizontalRaycast.
+     */
+    private void setPlayerReached() {
+        if(horizontalRaycast == null) {
+            return;
+        }
+
+        if(horizontalRaycastHitPlayer()) {
+            playerReached = true;
+        } else {
+            playerReached = false;
+        }
+    }
+
+    /**
+     * Method moves Enemy towards the player.
      */
     private void moveTowardsPlayer() {
-
-        int stopFollowRange = 50;
-
-        // Is Enemy to the right of Player?
-        if(isPlayerToLeft(stopFollowRange)) {
+        // Is Enemy to the right of Player AND Player is not reached?
+        if(isPlayerToLeft() && !playerReached) {
             thisEnemy.moveLeft();
         }
-        // Is Enemy to the left of Player?
-        else if(isPlayerToRight(stopFollowRange)) {
+        // Is Enemy to the left of Player AND Player is not reached?
+        else if(isPlayerToRight() && !playerReached) {
             thisEnemy.moveRight();
         }
     }
 
+    /**
+     * Jump method. Makes Enemy jump when needed.
+     */
     private void doJump() {
         if(horizontalRaycast == null) {
             return;
         }
 
-        // if *not* nothing is hit
-        if(!horizontalRaycast.getEntity().equals(Optional.empty())) {
+        // if *not* nothing is hit OR
+        if(!horizontalRaycast.getEntity().equals(Optional.empty()) || bottomRaycast.getEntity().equals(Optional.empty())) {
 
-            if(horizontalRaycastHitPlatformSide()) {
+            // If ray hit side OR ray *not* hit ground
+            if((horizontalRaycastHitPlatformSide() && canJump) || (!bottomRaycastHitPlatform() && canJump)) {
                 thisEnemy.jump();
+                canJump = false;
+
+                // Reset canJump after 2 seconds
+                final Timer timer = new Timer();
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        canJump = true;
+                        timer.cancel();
+                    }
+                }, 2000);
             }
         }
     }
 
-    private boolean horizontalRaycastHitPlayer() {
-        String hitString = horizontalRaycast.getEntity().toString();
-        return hitString.contains("PLAYER");
-    }
-
-    private boolean horizontalRaycastHitPlatformSide() {
-        String hitString = horizontalRaycast.getEntity().toString();
-        return hitString.contains("PLATFORMSIDE");
-    }
-
-    private String getHorizontalRaycastHitString() {
-        return horizontalRaycast.getEntity().toString();
-    }
-
-    /**
-     * Method checks if the Enemy entity is to the right of the Player entity.
-     * @param distance Distance from player to exclude in the check. Ex: if distance = 50, the check will ignore the first 50 pixels to the right of player.
-     * @return True or false.
-     */
-    private boolean isPlayerToLeft(double distance) {
-        return player.getRightX() - thisEnemy.getX() < -distance;
-    }
-
-    /**
-     * Method checks if the Enemy entity is to the left of the Player entity.
-     * @param distance Distance from player to exclude in the check. Ex: if distance = 50, the check will ignore the first 50 pixels to the left of player.
-     * @return True or false.
-     */
-    private boolean isPlayerToRight(double distance) {
-        return player.getX() - thisEnemy.getRightX() > distance;
-    }
-
-
-
-    /**
-     * Temporary basic jump AI functionality.
-     * Method makes the Entity jump when stuck on obstacles.
-    */
-    @Deprecated
-    private void jump() {
-        // TODO - Improve AI
-
-        // Is 'thisEnemyPreviousXPosition' not set?  Give the variable its first value and return.
-        if(Double.isNaN(thisEnemyPreviousXPosition)) {
-            thisEnemyPreviousXPosition = thisEnemy.getX();
+    private void checkOtherEnemy() {
+        if(horizontalRaycast == null) {
             return;
         }
 
-        // Is Entity's current X same as its X in previous frame? If true: Entity is either stuck or standing next to Player.
-        float precisionRange = 0.01f; // Precision range value.
-        if(Math.abs(thisEnemy.getX() - thisEnemyPreviousXPosition) < precisionRange) {
-
-            // Is Entity not standing next to the Player? Then probably stuck. Jump.
-            if(isPlayerToLeft(100) || isPlayerToRight(100)) {
-                thisEnemy.jump();
-            }
+        if(horizontalRaycastHitEnemy()) {
+            // Get Enemy entity
+            Optional<Entity> optionalEntity = horizontalRaycast.getEntity();
+            Entity entity = optionalEntity.get();
+            boolean otherEnemyReachedPlayer = entity.getComponent(EnemyAIComponent.class).isPlayerReached();
+            System.out.println(otherEnemyReachedPlayer);
         }
+    }
 
-        // Set value for next method call.
-        thisEnemyPreviousXPosition = thisEnemy.getX();
+    /**
+     * Method checks if the Player is to the left of the Enemy entity.
+     * @return True or false.
+     */
+    private boolean isPlayerToLeft() {
+        return player.getRightX() - thisEnemy.getX() < 0;
+    }
+
+    /**
+     * Method checks if the Player is to the right of the Enemy entity.
+     * @return True or false.
+     */
+    private boolean isPlayerToRight() {
+        return player.getX() - thisEnemy.getRightX() > 0;
+    }
+
+    /**
+     * Method checks if horizontalRaycast hit the Player.
+     * @return True or false.
+     */
+    private boolean horizontalRaycastHitPlayer() {
+        return checkRaycastHit(horizontalRaycast, "PLAYER");
+    }
+
+    /**
+     * Method checks if horizontalRaycast hit an Enemy.
+     * @return True or false.
+     */
+    private boolean horizontalRaycastHitEnemy() {
+        return checkRaycastHit(horizontalRaycast, "ENEMY");
+    }
+
+    /**
+     * Method checks if horizontalRaycast hit a Platform side.
+     * @return True or false.
+     */
+    private boolean horizontalRaycastHitPlatformSide() {
+        return checkRaycastHit(horizontalRaycast, "PLATFORMSIDE");
+    }
+
+    /**
+     * Method checks if bottomRaycast hit a Platform.
+     * @return True or false.
+     */
+    private boolean bottomRaycastHitPlatform() {
+        return checkRaycastHit(bottomRaycast, "PLATFORM");
+    }
+
+    /**
+     * Method checks if a raycast hit something.
+     * @param raycast Raycast to check.
+     * @param hit The object to check if hit.
+     * @return True or false.
+     */
+    private boolean checkRaycastHit(RaycastResult raycast, String hit) {
+        String raycastHitString = raycast.getEntity().toString();
+        return raycastHitString.contains(hit);
+    }
+
+    /**
+     * Getter for playerReached variable.
+     * @return playerReached variable.
+     */
+    public boolean isPlayerReached() {
+        return playerReached;
     }
 }

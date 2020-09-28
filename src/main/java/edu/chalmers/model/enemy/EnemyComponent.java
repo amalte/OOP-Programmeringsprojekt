@@ -72,7 +72,7 @@ public class EnemyComponent extends Component {
     }
 
     /**
-     * Gets the enemy entity's X-position from its PhysicsComponent.
+     * Gets the enemy entity's X-position.
      * @return Enemy X-position.
     */
     public double getX() {
@@ -80,15 +80,23 @@ public class EnemyComponent extends Component {
     }
 
     /**
+     * Gets the enemy entity's mid X-position.
+     * @return Enemy middle X-position.
+     */
+    public double getMiddleX() {
+        return entity.getX() + (entity.getWidth() / 2);
+    }
+
+    /**
      * Gets the enemy entity's right side X-position.
-     * @return Enemy X-position.
+     * @return Enemy right X-position.
     */
     public double getRightX() {
         return entity.getRightX();
     }
 
     /**
-     * Gets the enemy entity's Y-position from its PhysicsComponent.
+     * Gets the enemy entity's Y-position.
      * @return Enemy Y-position.
     */
     public double getY() {
@@ -96,8 +104,16 @@ public class EnemyComponent extends Component {
     }
 
     /**
+     * Gets the enemy entity's mid Y-position.
+     * @return Enemy middle Y-position.
+     */
+    public double getMiddleY() {
+        return entity.getY() + (entity.getHeight() / 2);
+    }
+
+    /**
      * Gets the enemy entity's bottom side Y-position.
-     * @return Enemy Y-position.
+     * @return Enemy bottom Y-position.
     */
     public double getBottomY() {
         return entity.getBottomY();
@@ -112,7 +128,7 @@ public class EnemyComponent extends Component {
     }
 
     /**
-     * Gets the Color of the Enemy entity.
+     * Getter for the variable color.
      * @return The Color of entity.
      */
     public Color getColor() {
