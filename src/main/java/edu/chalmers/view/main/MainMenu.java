@@ -113,7 +113,7 @@ public class MainMenu extends FXGLMenu {
      * Create a menu button for this menu, using the ActionButton class.
      * @param text The text of the menu button
      * @param action The action of the menu button
-     * @return The action button that was created
+     * @return The menu button that was created
      */
     private StackPane createMenuButton(String text, Runnable action)
     {
