@@ -15,6 +15,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import org.jetbrains.annotations.NotNull;
 
+import static edu.chalmers.view.main.MainViewUtil.*;
+
 /**
  * Main menu for the game.
  */
@@ -45,13 +47,30 @@ public class MainMenu extends FXGLMenu {
     private Node exitButton;
 
     /**
+     * "Last" instance of this class
+     */
+    private static MainMenu instance;
+
+    /**
      * Default constructor.
      * Creates default controls.
      */
-    public MainMenu() {
+    MainMenu() {
         super(MenuType.MAIN_MENU);
 
         this.createControls();
+    }
+
+    /**
+     * Get the last instance of this class.
+     * @return Instance of this class
+     */
+    public static MainMenu getInstance()
+    {
+        if (instance == null)
+            instance = new MainMenu();
+
+        return instance;
     }
 
     /**
@@ -69,7 +88,7 @@ public class MainMenu extends FXGLMenu {
          * Play button.
          * Expected action: this::fireNewGame
          */
-        this.playButton = addNode(createMenuButton("Play", this::fireNewGame),
+        this.playButton = addNode(this, createMenuButton("Play", this::fireNewGame),
                 (FXGL.getAppWidth() / 2) - (ActionButton.BUTTON_WIDTH / 2),
                 (FXGL.getAppHeight() / 2.5) - (ActionButton.BUTTON_HEIGHT / 2) + (0 * (ActionButton.BUTTON_WIDTH / 4)));
 
@@ -77,7 +96,7 @@ public class MainMenu extends FXGLMenu {
          * Settings button.
          * Expected action: Open the Settings menu.
          */
-        this.settingsButton = addNode(createMenuButton("Settings", () -> { }),
+        this.settingsButton = addNode(this, createMenuButton("Settings", () -> { }),
                 (FXGL.getAppWidth() / 2) - (ActionButton.BUTTON_WIDTH / 2),
                 (FXGL.getAppHeight() / 2.5) - (ActionButton.BUTTON_HEIGHT / 2) + (1 * (ActionButton.BUTTON_WIDTH / 4)));
 
@@ -85,37 +104,9 @@ public class MainMenu extends FXGLMenu {
          * Exit button.
          * Expected action: this::fireExit
          */
-        this.exitButton = addNode(createMenuButton("Exit", this::fireExit),
+        this.exitButton = addNode(this, createMenuButton("Exit", this::fireExit),
                 (FXGL.getAppWidth() / 2) - (ActionButton.BUTTON_WIDTH / 2),
                 (FXGL.getAppHeight() / 2.5) - (ActionButton.BUTTON_HEIGHT / 2) + (2 * (ActionButton.BUTTON_WIDTH / 4)));
-    }
-
-    /**
-     * Perform validation on a Node and then add it to the content root of this menu.
-     * @param node Node to be added
-     * @param x X-coordinate of the Node
-     * @param y Y-coordinate of the Node
-     * @return The node that was added to the menu
-     */
-    private Node addNode(Node node, double x, double y)
-    {
-        if (node != null)
-        {
-            double width = node.getLayoutBounds().getWidth();
-            double height = node.getLayoutBounds().getHeight();
-
-            if (!(x > FXGL.getAppWidth() - (width / 2) || y > FXGL.getAppHeight() - (height / 2)))
-            {
-                node.setLayoutX(x);
-                node.setLayoutY(y);
-
-                getMenuContentRoot().getChildren().add(node);
-
-                return node;
-            }
-        }
-
-        return null;
     }
 
     /**
