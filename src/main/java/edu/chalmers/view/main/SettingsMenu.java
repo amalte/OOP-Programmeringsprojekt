@@ -4,11 +4,15 @@ import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.MenuType;
 import com.almasb.fxgl.dsl.FXGL;
 import javafx.beans.binding.StringBinding;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
+import javafx.scene.control.Slider;
+import javafx.scene.layout.StackPane;
 import org.jetbrains.annotations.NotNull;
+
+import static edu.chalmers.view.main.MainViewUtil.*;
 
 /**
  * Settings menu for the game.
@@ -20,18 +24,26 @@ public class SettingsMenu extends FXGLMenu {
     private static final double SETTING_FONT_SIZE = 16;
 
     /**
-     * Parent main menu of this menu.
+     * The main volume slider.
      */
-    private static MainMenu parentMainMenu;
+    private Slider mainVolumeSlider;
+
+    /**
+     * The music volume slider.
+     */
+    private Slider musicVolumeSlider;
+
+    /**
+     * The sound effects volume slider.
+     */
+    private Slider sfxVolumeSlider;
 
     /**
      * Default constructor.
-     * @param parentMainMenu The parent, main menu of this menu.
      */
-    public SettingsMenu(MainMenu parentMainMenu) {
+    public SettingsMenu() {
         super(MenuType.MAIN_MENU);
 
-        this.parentMainMenu = parentMainMenu;
         this.createControls();
     }
 
@@ -40,7 +52,62 @@ public class SettingsMenu extends FXGLMenu {
      */
     private void createControls()
     {
-        // Create controls for each setting.
+        /**
+         * NOTE: The methods createSettingSlider & modifySetting should be moved as soon as possible to an appropriate controller.
+         */
+
+        /**
+         * The main volume slider.
+         * Expected action: Increase/decrease the main volume.
+         */
+        this.mainVolumeSlider = addNode(this, createSettingSlider(0, 100, 100, "mainVolume"),
+                (FXGL.getAppWidth() / 2) - (ActionButton.BUTTON_WIDTH / 2),
+                (FXGL.getAppHeight() / 2.5) - (ActionButton.BUTTON_HEIGHT / 2) + (0 * (ActionButton.BUTTON_WIDTH / 4)));
+    }
+
+    /**
+     * Create a slider and associate its value with a setting (by its name).
+     * @param min The minimum value of this slider
+     * @param max The maximum value of this slider
+     * @param startValue The start value of this slider
+     * @param settingName The setting name
+     * @return The slider that was created
+     */
+    private Slider createSettingSlider(int min, int max, int startValue, String settingName)
+    {
+        Slider slider = new Slider(min, max, startValue);
+        slider.setShowTickLabels(true);
+        slider.setShowTickMarks(true);
+        slider.setMajorTickUnit(50);
+        slider.setMinorTickCount(25);
+
+        slider.valueProperty().addListener((observableValue, oldValue, newValue) -> {
+            if (!oldValue.equals(newValue))
+                modifySetting(settingName, newValue);
+        });
+
+        return slider;
+    }
+
+    /**
+     * Modify the value of a setting.
+     * @param settingName The name of the setting
+     * @param newValue The new value of the setting
+     */
+    private void modifySetting(String settingName, Object newValue)
+    {
+
+    }
+
+    /**
+     * Create a menu button for this menu, using the ActionButton class.
+     * @param text The text of the menu button
+     * @param action The action of the menu button
+     * @return The action button that was created
+     */
+    private StackPane createMenuButton(String text, Runnable action)
+    {
+        return new ActionButton(text, action);
     }
 
     /**
@@ -52,10 +119,7 @@ public class SettingsMenu extends FXGLMenu {
     @NotNull
     @Override
     protected Button createActionButton(@NotNull StringBinding name, @NotNull Runnable action) {
-        if (parentMainMenu != null)
-            return parentMainMenu.createActionButton(name, action);
-        else
-            return null;
+        return MainMenu.getInstance().createActionButton(name, action);
     }
 
     /**
@@ -67,10 +131,7 @@ public class SettingsMenu extends FXGLMenu {
     @NotNull
     @Override
     protected Button createActionButton(@NotNull String name, @NotNull Runnable action) {
-        if (parentMainMenu != null)
-            return parentMainMenu.createActionButton(name, action);
-        else
-            return null;
+        return MainMenu.getInstance().createActionButton(name, action);
     }
 
     /**
@@ -82,10 +143,7 @@ public class SettingsMenu extends FXGLMenu {
     @NotNull
     @Override
     protected Node createBackground(double width, double height) {
-        if (parentMainMenu != null)
-            return parentMainMenu.createBackground(width, height);
-        else
-            return null;
+        return MainMenu.getInstance().createBackground(width, height);
     }
 
     /**
@@ -96,10 +154,7 @@ public class SettingsMenu extends FXGLMenu {
     @NotNull
     @Override
     protected Node createProfileView(@NotNull String profileName) {
-        if (parentMainMenu != null)
-            return parentMainMenu.createProfileView(profileName);
-        else
-            return null;
+        return MainMenu.getInstance().createProfileView(profileName);
     }
 
     /**
@@ -110,10 +165,7 @@ public class SettingsMenu extends FXGLMenu {
     @NotNull
     @Override
     protected Node createTitleView(@NotNull String title) {
-        if (parentMainMenu != null)
-            return parentMainMenu.createTitleView(title);
-        else
-            return null;
+        return MainMenu.getInstance().createTitleView(title);
     }
 
     /**
@@ -124,9 +176,6 @@ public class SettingsMenu extends FXGLMenu {
     @NotNull
     @Override
     protected Node createVersionView(@NotNull String version) {
-        if (parentMainMenu != null)
-            return parentMainMenu.createVersionView(version);
-        else
-            return null;
+        return MainMenu.getInstance().createVersionView(version);
     }
 }
