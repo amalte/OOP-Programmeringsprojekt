@@ -29,7 +29,7 @@ public class Main extends GameApplication {
         gameSettings.setSceneFactory(new SceneFactory() {
             @Override
             public FXGLMenu newMainMenu() {
-                return new MainMenu();
+                return MainMenu.getInstance();
             }
         });
     }
