@@ -71,6 +71,27 @@ public class Controller {
                 }
             }, KeyCode.R);
 
+            input.addAction(new UserAction("SwitchWeapon0") {
+                @Override
+                protected void onActionBegin() {
+                    player.getComponent(PlayerComponent.class).setActiveWeapon(0);
+                }
+            }, KeyCode.DIGIT1);
+
+            input.addAction(new UserAction("SwitchWeapon1") {
+                @Override
+                protected void onActionBegin() {
+                    player.getComponent(PlayerComponent.class).setActiveWeapon(1);
+                }
+            }, KeyCode.DIGIT2);
+
+            input.addAction(new UserAction("SwitchWeapon2") {
+                @Override
+                protected void onActionBegin() {
+                    player.getComponent(PlayerComponent.class).setActiveWeapon(2);
+                }
+            }, KeyCode.DIGIT3);
+
             initialized = true;
         }
     }
