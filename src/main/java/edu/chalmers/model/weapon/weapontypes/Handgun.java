@@ -1,5 +1,8 @@
 package edu.chalmers.model.weapon.weapontypes;
 
+/**
+ * Handgun class. A type of weapon.
+ */
 public class Handgun implements IWeaponType{
 
     @Override

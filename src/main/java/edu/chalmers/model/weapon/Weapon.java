@@ -8,7 +8,9 @@ import javafx.geometry.Point2D;
 import java.util.Timer;
 import java.util.TimerTask;
 
-
+/**
+ * Weapon class. Hold the functionality of weapons.
+ */
 public class Weapon {
 
     IWeaponType weaponType;
@@ -66,6 +68,10 @@ public class Weapon {
 
     }
 
+    /**
+     * Gets the weapons damage
+     * @return The damage variable
+     */
     public int getDamage(){
         return damage;
     }

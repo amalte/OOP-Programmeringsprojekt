@@ -13,30 +13,33 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
+/**
+ * WeaponProjectile class. Spawns a projectile that moves from the spawn point towards the given target.
+ */
 public class WeaponProjectile {
 
     Entity projectile;
     private PhysicsComponent physics = new PhysicsComponent();
 
-    private double x;
-    private double y;
+    private double playerX;
+    private double playerY;
     private Point2D mousePoint;
     private int projectileSpeed;
     private int shooterSizeOffsetToCenter = 22;
     private float projectileSizeW = 5;
     private float projectileSizeH = 5;
 
-    public WeaponProjectile(double x, double y, Point2D mousePoint, int projectileSpeed) {
+    public WeaponProjectile(double playerX, double playerY, Point2D mousePoint, int projectileSpeed) {
 
         this.mousePoint = mousePoint;
-        this.x = x;
-        this.y = y;
+        this.playerX = playerX;
+        this.playerY = playerY;
         this.projectileSpeed = projectileSpeed;
 
         physics.setBodyType(BodyType.KINEMATIC);
         projectile = FXGL.entityBuilder()
                 .type(EntityType.PROJECTILE)
-                .at((this.x+shooterSizeOffsetToCenter),(this.y+shooterSizeOffsetToCenter))
+                .at((this.playerX+shooterSizeOffsetToCenter),(this.playerY+shooterSizeOffsetToCenter))
                 .viewWithBBox(new Rectangle(projectileSizeW, projectileSizeH, Color.BLACK))
                 .with(physics)
                 .with(new CollidableComponent(true))
@@ -60,8 +63,8 @@ public class WeaponProjectile {
      * @param shootingAngle The angle between center of player and the mouse pointer
      */
     private void moveProjectileOutsidePlayerHitbox(double shootingAngle) {
-        double spawnPointX = Math.cos(shootingAngle)*35+(x+shooterSizeOffsetToCenter)-(projectileSizeW/2);
-        double spawnPointY = Math.sin(shootingAngle)*35+(y+shooterSizeOffsetToCenter)-(projectileSizeH/2);
+        double spawnPointX = Math.cos(shootingAngle)*35+(playerX+shooterSizeOffsetToCenter)-(projectileSizeW/2);
+        double spawnPointY = Math.sin(shootingAngle)*35+(playerY+shooterSizeOffsetToCenter)-(projectileSizeH/2);
         Point2D spawnPoint = new Point2D(spawnPointX,spawnPointY);
         physics.overwritePosition(spawnPoint);
     }
@@ -72,7 +75,7 @@ public class WeaponProjectile {
      */
     private double calculateAngle() {
 
-        return FXGLMath.atan2(mousePoint.getY() - (y+shooterSizeOffsetToCenter),mousePoint.getX() - (x+shooterSizeOffsetToCenter));
+        return FXGLMath.atan2(mousePoint.getY() - (playerY+shooterSizeOffsetToCenter),mousePoint.getX() - (playerX+shooterSizeOffsetToCenter));
 
     }
 }

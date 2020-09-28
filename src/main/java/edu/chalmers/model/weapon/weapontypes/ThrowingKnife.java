@@ -1,5 +1,8 @@
 package edu.chalmers.model.weapon.weapontypes;
 
+/**
+ * ThrowingKnife class. A type of weapon.
+ */
 public class ThrowingKnife implements IWeaponType{
 
     @Override

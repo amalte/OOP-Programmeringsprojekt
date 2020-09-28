@@ -1,5 +1,8 @@
 package edu.chalmers.model.weapon.weapontypes;
 
+/**
+ * Crossbow class. A type of weapon.
+ */
 public class Crossbow implements IWeaponType {
 
     @Override
