@@ -4,13 +4,15 @@ import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
+import edu.chalmers.model.weapon.Weapon;
+import edu.chalmers.model.weapon.WeaponFactory;
 
 /**
  * Player class. Wraps an entity object as a Player.
  */
 public class PlayerComponent extends Component {
 
-    private Weapon weapon = new Weapon();
+    Weapon weapon = WeaponFactory.getInstance().createWeapon("handgun");
 
     //Stats
     private int health = 100;
@@ -24,6 +26,7 @@ public class PlayerComponent extends Component {
         this.physics = physics;
         physics.setBodyType(BodyType.DYNAMIC);
         physics.setFixtureDef(new FixtureDef().friction(0.0f));
+
     }
 
     /**
@@ -32,6 +35,30 @@ public class PlayerComponent extends Component {
      */
     public int getJumps() {
         return jumps;
+    }
+
+    /**
+     * Getter for PlayerComponents health.
+     * @return Integer of PlayerComponents health.
+     */
+    public int getHealth(){
+        return health;
+    }
+
+    /**
+     *Getter for variable weapon.
+     * @return The weapon currently selected by the PlayerComponent.
+     */
+    public Weapon getWeapon(){
+        return weapon;
+    }
+
+    /**
+     * Getter for variable moveSpeed (intended for testing)
+     * @return PlayerComponents unchangeable movementSpeed.
+     */
+    public int getMoveSpeed(){
+        return moveSpeed;
     }
 
     /**
@@ -67,6 +94,13 @@ public class PlayerComponent extends Component {
     }
 
     /**
+     * Calls method reload from PlayerComponent's selected weapon.
+     */
+    public void reload() {
+        weapon.reload();
+    }
+
+    /**
      * Method stop players Entity in the x direction.
      */
     public void stop(){
@@ -78,6 +112,14 @@ public class PlayerComponent extends Component {
      */
     public void resetJumpAmounts(){
         jumps = amountOfJumps;
+    }
+
+    /**
+     * Lower PlayerComponents health with damage.
+     * @param damage amount of health points to be inflicted to player.
+     */
+    public void inflictDamage(int damage){
+        health -= damage;
     }
 
 }

@@ -1,9 +1,16 @@
 package edu.chalmers.model.enemy;
 
+import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
+import com.almasb.fxgl.entity.components.CollidableComponent;
+import com.almasb.fxgl.physics.PhysicsComponent;
+import edu.chalmers.model.EntityType;
 import edu.chalmers.model.enemy.enemytypes.Blob;
 import edu.chalmers.model.enemy.enemytypes.Rex;
 import edu.chalmers.model.enemy.enemytypes.Zombie;
+import javafx.scene.shape.Rectangle;
+
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameWorld;
 
 /**
  * A factory used to create different types of Enemy entities.
@@ -30,28 +37,58 @@ public class EnemyFactory {
 
     /**
      * Method creates a Enemy entity.
-     * @param enemyName Name of the entity.
-     * @param xPosition X-Position where entity should be created.
-     * @param yPosition Y-Position where entity should be created.
+     * @param enemyName Name of the entity which should be created.
+     * @param x X-Position where entity should be created.
+     * @param y Y-Position where entity should be created.
      * @param player A reference to the Player entity.
      * @return Returns a Enemy entity.
      */
-    public Enemy createEnemy(String enemyName, double xPosition, double yPosition, Entity player) {
+    public Entity createEnemy(String enemyName, double x, double y, Entity player) {
         if(enemyName == null) {
             return null;
         }
 
         if(enemyName == "ZOMBIE") {
-            return new Zombie(xPosition, yPosition, player);
+            EnemyComponent zombieComponent = new EnemyComponent(new Zombie());
+            Entity zombie = buildEnemy(zombieComponent, x, y, player);
+            getGameWorld().addEntity(zombie);
+            return zombie;
         }
         else if(enemyName == "REX") {
-            return new Rex(xPosition, yPosition, player);
+            EnemyComponent rexComponent = new EnemyComponent(new Rex());
+            Entity rex = buildEnemy(rexComponent, x, y, player);
+            getGameWorld().addEntity(rex);
+            return rex;
         }
         else if(enemyName == "BLOB") {
-            return new Blob(xPosition, yPosition, player);
+            EnemyComponent blobComponent = new EnemyComponent(new Blob());
+            Entity blob = buildEnemy(blobComponent, x, y, player);
+            getGameWorld().addEntity(blob);
+            return blob;
         }
 
         // Return null if String "enemyName" doesn't match any known type of Enemy.
         return null;
+    }
+
+    /**
+     * Method builds an enemy entity with the given arguments.
+     * @param enemyComponent The type of enemy entity which should be built.
+     * @param x X-Position where entity should be built.
+     * @param y Y-Position where entity should be built.
+     * @param player Reference to the player. Used for the PathfindingComponent.
+     * @return Returns the enemy entity.
+     */
+    private Entity buildEnemy(EnemyComponent enemyComponent, double x, double y, Entity player) {
+        Entity entity = FXGL.entityBuilder().type(EntityType.ENEMY).at(x,y).viewWithBBox(new Rectangle(40, 40, enemyComponent.getColor())).build();
+
+        entity.addComponent(enemyComponent);                                        // Add EnemyComponent
+        entity.addComponent(enemyComponent.getPhysics());                           // Add PhysicsComponent
+        entity.addComponent(new CollidableComponent(true));                         // Add CollidableComponent
+        entity.addComponent(new PathfindingComponent(enemyComponent, player));      // Add PathfindingComponent
+
+        return entity;
+
+        // TODO - Simplify code and initiate all components in EnemyComponent instead.
     }
 }

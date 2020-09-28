@@ -2,7 +2,7 @@ package edu.chalmers.model.wave;
 
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.time.TimerAction;
-import edu.chalmers.model.enemy.Enemy;
+import edu.chalmers.model.enemy.EnemyComponent;
 import javafx.util.Duration;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
@@ -10,121 +10,105 @@ import static com.almasb.fxgl.dsl.FXGL.*;
 import java.util.*;
 
 /**
- * A class that handles waves in the game (it spawns in new enemies)
+ * Class that handles waves in the game. Uses SpawnEnemyRunnable to spawn in enemies.
  */
 public class WaveManager {
 
-    ArrayList<String> enemiesToSpawn = new ArrayList<String>();
-    int currentWave = 1;
-    int shortSpawnMs = 1500;    // Lowest time between enemies spawning
-    int longSpawnMs = 2000;    // Longest time between enemies spawning
-    TimerAction spawnWave;   // Timer which will be used to spawn enemies
+    private List<String> enemiesToSpawn = new ArrayList<>();
+    private int currentWave = 1;
+    private int baseWaveTimeSec = 5;  // Shortest time a wave lasts before the next one starts
+    private int shortSpawnMs = 1000;    // Lowest time between enemies spawning
+    private int longSpawnMs = 3000;    // Longest time between enemies spawning
 
-    SpawnEnemyRunnable spawnEnemyRunnable;  // Spawn enemies in a time interval
-    Entity player;
+    private TimerAction waveTimerAction;    // Timer for when a new wave should spawn
+    private SpawnEnemyRunnable spawnEnemyRunnable;  // Spawn enemies in a time interval
 
     public WaveManager(Entity player) {
-        this.player = player;
         spawnEnemyRunnable = new SpawnEnemyRunnable(enemiesToSpawn, shortSpawnMs, longSpawnMs, player);
     }
 
+    /**
+     * Method will spawn a wave of enemies with a time interval
+     */
     public void generateNewWave() {
         currentWave++;
-        calculateEnemiesToSpawn();
+        calculateEnemiesToSpawn(enemiesToSpawn, currentWave);
+        //startNewWaveTimer();    // Will generateNewWave if timer reaches 0 (Warning infinite loop)
+        spawnEnemies(spawnEnemyRunnable);
+    }
 
-        if(spawnWave == null || !spawnEnemyRunnable.getIsRunnableActive()) {   // Make sure only one spawn wave timer is active
-            spawnWave = runOnce(spawnEnemyRunnable, Duration.ZERO);  // Start spawn runnable, (first one will spawn with no delay)
+    /**
+     * Method will add enemies that should spawn to the param list, which and how many enemies that are added depends on which wave it is
+     * @param spawnList which list the enemies should be added to
+     * @param wave which wave the method should be calculated for
+     */
+    private void calculateEnemiesToSpawn(List<String> spawnList, int wave) {
+        for (int i = 0; i < wave; i++) {
+            spawnList.add("ZOMBIE");
+        }
+        for (int i = 0; i < Math.round((double)wave / 3); i++) {
+            //spawnList.add("Enemy2");
+        }
+        if(wave % 5 == 0) {  // Spawn difficult enemy every 5 waves
+            for (int i = 0; i < wave / 5; i++) {
+                //spawnList.add("Enemy3");
+            }
         }
     }
 
+    /**
+     * Method will spawn enemies from enemiesToSpawnList with an interval of shortSpawnMs to longSpawnMs milliseconds
+     * @param spawnEnemyRunnable runnable class that spawns enemies
+     */
+    private void spawnEnemies(SpawnEnemyRunnable spawnEnemyRunnable) {
+        if(!spawnEnemyRunnable.getIsRunnableActive()) {   // Make sure only one spawn wave timer is active
+            runOnce(spawnEnemyRunnable, Duration.ZERO);  // Start spawn runnable, (first one will spawn with no delay)
+            spawnEnemyRunnable.setIsRunnableActive(true);
+        }
+    }
+
+    /**
+     * Creates a timer which will call generateNewWave() method after baseWaveTimeSec + getSpawnTimeSec() seconds
+     */
+    public void startNewWaveTimer() {    // Begin wave timer
+        stopWaveTimer();   // Stop and remove currentWaveTimer since a new one should start
+        waveTimerAction = createWaveTimer();  // Create new timer, when timer reaches 0 it will generate wave
+    }
+
+    /**
+     * Method will stop the current waveTimer if it exists
+     */
+    public void stopWaveTimer() { if(waveTimerAction != null) waveTimerAction.expire(); }
+
+    private TimerAction createWaveTimer() {
+        return runOnce(() -> generateNewWave(), Duration.seconds(baseWaveTimeSec + getSpawnTimeSec()));
+    }
+
+    /**
+     * Returns the amount of seconds it will take to spawn the current wave
+     * @return integer seconds it takes to spawn wave
+     */
+    public int getSpawnTimeSec() {
+        if(enemiesToSpawn.size() == 0) {
+            System.out.println("SpawnTime cant be calculated because enemiesToSpawn list is empty");
+            return 0;
+        }
+        return Math.round((enemiesToSpawn.size() * averageSpawnIntervalSec()) - averageSpawnIntervalSec());     // -averageSpawnTime since first enemy takes no time to spawn
+    }
+
+    /**
+     * Method calculates on average how long it should take to spawn one enemy
+     * @return float average seconds it takes to spawn an enemy
+     */
+    private float averageSpawnIntervalSec() {
+        return (float)(longSpawnMs + shortSpawnMs) / (2 * 1000);    // Divided by 1000 to convert ms to sec
+    }
+
+    /**
+     * Getter for currentWave variable
+     * @return integer currentWave
+     */
     public int getCurrentWave() {
         return currentWave;
     }
-
-    private void calculateEnemiesToSpawn() {
-        for (int i = 0; i < currentWave; i++) {
-            enemiesToSpawn.add("ZOMBIE");
-        }
-        for (int i = 0; i < Math.round((double)currentWave / 3); i++) {
-            //enemiesToSpawn.add("Enemy2");
-        }
-        if(currentWave % 5 == 0) {  // Spawn difficult enemy every 5 waves
-            for (int i = 0; i < currentWave / 5; i++) {
-                //enemiesToSpawn.add("Enemy3");
-            }
-        }
-    }
-
-
-    /* OPTIONAL public class EnemyToSpawn {
-        String name;
-        int amount;
-
-        public EnemyToSpawn(String name, int amount) {
-            this.name = name;
-            this.amount = amount;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void removeAmount(int amountToRemove) {
-            amount -= amountToRemove;
-        }
-
-        public void removeAmount() {
-            amount -= 1;
-        }
-    }
-
-       public void calculateEnemiesToSpawnTEST() {
-
-        enemyToSpawnList.add(new EnemyToSpawn("Enemy1", currentWave));
-        enemyToSpawnList.add(new EnemyToSpawn("Enemy2", (int)Math.round((double)currentWave/3)));
-        if(currentWave % 5 == 0) {
-            enemyToSpawnList.add(new EnemyToSpawn("Enemy3", currentWave/5));
-        }
-
-        for (int i = 0; i < Math.round((double)currentWave / 3); i++) {
-            //enemiesToSpawn.add("Enemy2");
-        }
-        if(currentWave % 5 == 0) {  // Spawn difficult enemy every 5 waves
-            for (int i = 0; i < currentWave / 5; i++) {
-                //enemiesToSpawn.add("Enemy3");
-            }
-        }
-    }
-
-      private class SpawnEnemyTask extends TimerTask {
-        private Timer timer;
-        private Random random;
-        private GameWorld gameWorld;
-
-        SpawnEnemyTask(Timer timer, Random random, GameWorld gameWorld) {
-            this.timer = timer;
-            this.random = random;
-            this.gameWorld = gameWorld;
-        }
-
-        @Override
-        public void run() {
-            int spawnIndex = random.nextInt(enemyToSpawnList.size());
-            gameWorld.spawn(enemyToSpawnList.get(spawnIndex).getName(), getRandomSpawnPoint()); // Spawns in random enemy from enemiesToSpawn list
-            enemyToSpawnList.get(spawnIndex).removeAmount();
-            if(enemyToSpawnList.get(spawnIndex).amount <= 0) {
-                enemyToSpawnList.remove(spawnIndex);
-            }
-
-            if(enemiesToSpawn.size() == 0) {    // Stop spawning enemies when list is empty
-                timer.cancel();
-            }
-            else {
-                timer.schedule(new SpawnEnemyTask(timer, random, gameWorld), random.nextInt(longSpawnMs - shortSpawnMs) + shortSpawnMs);
-            }
-        }
-    }*/
 }
-
-
-

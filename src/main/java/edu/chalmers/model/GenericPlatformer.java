@@ -1,9 +1,9 @@
 package edu.chalmers.model;
 
 import com.almasb.fxgl.entity.Entity;
+import com.almasb.fxgl.entity.SpawnData;
 import edu.chalmers.model.wave.WaveManager;
 
-import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 
 /**
  * Aggregate root class for the game.
@@ -13,9 +13,11 @@ public class GenericPlatformer {
     private Entity player;
     private GameWorldFactory gameWorldFactory;
     private WaveManager waveManager;
+    private CollisionDetection collisionDetection;
 
     public GenericPlatformer() {
         this.gameWorldFactory = new GameWorldFactory();
+        this.collisionDetection = new CollisionDetection();
     }
 
     /**
@@ -48,7 +50,7 @@ public class GenericPlatformer {
      * Creates a player at position 0,0.
      */
     private void createPlayer(){
-        player = spawn("player");
+        player = gameWorldFactory.newPLayer(new SpawnData(0,0));
     }
 
     /**
@@ -57,5 +59,12 @@ public class GenericPlatformer {
      */
     public WaveManager getWaveManager(){
         return waveManager;
+    }
+
+    /**
+     * Initiates collision detections for the game worlds entities.
+     */
+    public void initCollisionDetection(){
+        collisionDetection.initCollisionHandler(getPlayer().getComponent(PlayerComponent.class));
     }
 }
