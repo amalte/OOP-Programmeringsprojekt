@@ -61,8 +61,8 @@ public class MainMenu extends FXGLMenu {
     private void createControls()
     {
         /**
-         * NOTE: Set all actions to () -> { } (empty codeblock) when controller is createdfor this class.
-         * And call this::fireNewGame, etc. over there instead.
+         * NOTE: Set all actions to () -> { } (empty code-block) when controller is created for this class.
+         * And bind this::fireNewGame, etc. over there instead.
         */
 
         /**
