@@ -119,6 +119,33 @@ public class MainMenu extends FXGLMenu {
     }
 
     /**
+     * Get the play button
+     * @return The play button
+     */
+    public Node getPlayButton()
+    {
+        return this.playButton;
+    }
+
+    /**
+     * Get the settings button
+     * @return The settings button
+     */
+    public Node getSettingsButton()
+    {
+        return this.settingsButton;
+    }
+
+    /**
+     * Get the exit button
+     * @return The exit button
+     */
+    public Node getExitButton()
+    {
+        return this.exitButton;
+    }
+
+    /**
      * Create a menu button for this menu, using the ActionButton class.
      * @param text The text of the menu button
      * @param action The action of the menu button
