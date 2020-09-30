@@ -125,6 +125,8 @@ public class Controller {
                     //buildView.followMouse(TileCalculations.posToTilePos(input.getMousePositionWorld(), Constants.TILE_SIZE), player.getComponent(PlayerComponent.class).getBuilding().possibleToPlaceBlockOnPos(input.getMousePositionWorld(), EntityPos.getPosition(player)));
                 }
             });
+
+
             input.addAction(new UserAction("SwitchWeapon0") {
                 @Override
                 protected void onActionBegin() {

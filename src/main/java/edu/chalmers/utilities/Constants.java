@@ -7,5 +7,5 @@ public class Constants {
     public static final int GAME_HEIGHT = 1080; // startHeight for the game, FXGL.getSettings().getHeight();
     public static final int TILEMAP_WIDTH = GAME_WIDTH/TILE_SIZE;
     public static final int TILEMAP_HEIGHT = GAME_HEIGHT/TILE_SIZE;
-    public static final double ASPECT_RATIO = GAME_WIDTH/GAME_HEIGHT;
+    public static final double ASPECT_RATIO = (double)GAME_WIDTH/GAME_HEIGHT;
 }
