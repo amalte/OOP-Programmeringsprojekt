@@ -1,6 +1,6 @@
 package edu.chalmers.model.building;
 
-import edu.chalmers.utils.Coords;
+import edu.chalmers.services.Coords;
 
 import java.util.*;
 

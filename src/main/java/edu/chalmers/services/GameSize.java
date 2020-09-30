@@ -1,4 +1,4 @@
-package edu.chalmers.utils;
+package edu.chalmers.services;
 
 import edu.chalmers.utilities.Constants;
 

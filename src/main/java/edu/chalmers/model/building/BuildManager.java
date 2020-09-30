@@ -2,8 +2,8 @@ package edu.chalmers.model.building;
 
 import edu.chalmers.utilities.Constants;
 import edu.chalmers.utilities.CoordsCalculations;
-import edu.chalmers.utils.Coords;
-import edu.chalmers.utils.TileMap;
+import edu.chalmers.services.Coords;
+import edu.chalmers.services.TileMap;
 import edu.chalmers.model.building.blocks.Block;
 import javafx.geometry.Point2D;
 

@@ -3,6 +3,7 @@ package edu.chalmers.model.enemy;
 import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
+import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
 import edu.chalmers.model.enemy.enemytypes.IEnemyType;
 import javafx.scene.paint.Color;
 
@@ -16,7 +17,7 @@ public class EnemyComponent extends Component {
     IEnemyType enemyType;
     private PhysicsComponent physics;
     private final int amountOfJumps = 1;
-    private int jumps = amountOfJumps;
+    private int jumps = 0;
 
     // STATS
     private Color color;
@@ -30,12 +31,18 @@ public class EnemyComponent extends Component {
 
         physics = new PhysicsComponent();
         physics.setBodyType(BodyType.DYNAMIC);
+        physics.setFixtureDef(new FixtureDef().friction(0.0f));
 
         this.color = enemyType.getColor();
         this.health = enemyType.getHealth();
         this.damage = enemyType.getDamage();
         this.moveSpeed = enemyType.getMoveSpeed();
         this.jumpHeight = enemyType.getJumpHeight();
+    }
+
+    @Override
+    public void onUpdate(double tpf) {
+        checkHealth();
     }
 
     /**
@@ -60,7 +67,6 @@ public class EnemyComponent extends Component {
             physics.setVelocityY(-jumpHeight);
             jumps--;
         }
-
     }
 
     /**
@@ -82,6 +88,23 @@ public class EnemyComponent extends Component {
      */
     public void resetJumpAmounts(){
         jumps = amountOfJumps;
+    }
+
+    /**
+     * Lower Enemy's health with damage.
+     * @param damage The amount of incoming damage.
+     */
+    public void inflictDamage(int damage){
+        health -= damage;
+    }
+
+    /**
+     * Kills Enemy if its health becomes 0 or lower.
+     */
+    private void checkHealth() {
+        if(health <= 0) {
+            die();
+        }
     }
 
     /**
@@ -154,14 +177,6 @@ public class EnemyComponent extends Component {
      */
     public int getDamage(){
         return damage;
-    }
-
-    /**
-     * Lower Enemy's health with damage.
-     * @param damage The amount of incoming damage.
-     */
-    public void inflictDamage(int damage){
-        health -= damage;
     }
 
     /**

@@ -26,7 +26,7 @@ public class PlayerComponent extends Component {
     //Stats
     private int health = 100;
     private int moveSpeed = 150;
-    private int jumpHeight = 350;
+    private int jumpHeight = 375;
     private final int amountOfJumps = 1;
     private int jumps = amountOfJumps;
     private int buildRangeTiles = 3;

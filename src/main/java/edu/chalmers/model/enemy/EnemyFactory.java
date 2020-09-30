@@ -4,6 +4,7 @@ import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.components.CollidableComponent;
 import edu.chalmers.model.EntityType;
+import edu.chalmers.model.enemy.ai.EnemyAIComponent;
 import edu.chalmers.model.enemy.enemytypes.Blob;
 import edu.chalmers.model.enemy.enemytypes.Rex;
 import edu.chalmers.model.enemy.enemytypes.Zombie;
