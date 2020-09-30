@@ -45,8 +45,6 @@ public class Main extends GameApplication {
         GamePlayView gameView = new GamePlayView(game);
         gameView.initGameWorld();
         gameView.changeLevel("map2.tmx");
-        //TileMap tileMap = new TileMap("map2.tmx");
-
 
         controller.initPlayerMovementInput();
         game.initCollisionDetection();
