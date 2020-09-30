@@ -4,6 +4,8 @@ import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
+import edu.chalmers.model.building.blocks.Block;
+import javafx.geometry.Point2D;
 import edu.chalmers.model.weapon.Weapon;
 import edu.chalmers.model.weapon.WeaponFactory;
 
@@ -23,6 +25,7 @@ public class PlayerComponent extends Component {
     private int jumpHeight = 350;
     private final int amountOfJumps = 1;
     private int jumps = amountOfJumps;
+    private int buildRangeTiles = 3;
     private PhysicsComponent physics;
     private int activeWeapon = 0;
 
@@ -43,6 +46,8 @@ public class PlayerComponent extends Component {
     public int getJumps() {
         return jumps;
     }
+
+    public int getBuildRangeTiles() { return buildRangeTiles; }
 
     /**
      * Getter for PlayerComponents health.
@@ -109,6 +114,8 @@ public class PlayerComponent extends Component {
         weaponArrayList.get(activeWeapon).shoot(entity.getX(), entity.getY());
     }
 
+    public void placeBlock(Point2D mousePos) { new Block(mousePos); }
+
     /**
      * Calls method reload from PlayerComponent's selected weapon.
      */
@@ -137,5 +144,4 @@ public class PlayerComponent extends Component {
     public void inflictDamage(int damage){
         health -= damage;
     }
-
 }

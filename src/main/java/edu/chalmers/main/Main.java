@@ -20,8 +20,8 @@ public class Main extends GameApplication {
         gameSettings.setPreserveResizeRatio(true);
         gameSettings.setManualResizeEnabled(true);
         gameSettings.setFullScreenAllowed(true);
-        gameSettings.setWidth(15 * 70);
-        gameSettings.setHeight(10 * 70);
+        gameSettings.setWidth(32 * 60);
+        gameSettings.setHeight(18 * 60);
         gameSettings.setTitle("Generic Platformer");
         gameSettings.setVersion("1.0");
 
@@ -40,7 +40,8 @@ public class Main extends GameApplication {
         Controller controller = new Controller(game);
         GamePlayView gameView = new GamePlayView(game);
         gameView.initGameWorld();
-        gameView.changeLevel("map.tmx");
+        gameView.changeLevel("map2.tmx");
+
         controller.initPlayerMovementInput();
         game.initCollisionDetection();
         game.initWaveManager();
