@@ -52,9 +52,7 @@ public class Weapon {
      * Resets the magazineAmmo counter after a delay specified by reloadTimerMilliseconds
      */
     public void reload() {
-        if(timerAction == null) {
-            timerAction = createReloadTimer();
-        }else if (timerAction.isExpired()) {
+        if (timerAction.isExpired()) {
             timerAction = createReloadTimer();
         }
     }
