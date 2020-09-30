@@ -26,7 +26,6 @@ public class EnemyAIComponent extends Component {
 
     private int horizontalRaycastLength = 30;
     private int bottomRaycastLength = 50;
-    private boolean canJump = true;
     private boolean playerReached = false;
 
     public EnemyAIComponent(EnemyComponent thisEnemy, Entity player) {
@@ -39,19 +38,14 @@ public class EnemyAIComponent extends Component {
         setMoveDirection();
         setHorizontalRaycastDirection();
         setBottomRaycastPosition();
-        setPlayerReached();
 
         moveTowardsPlayer();
         doJump();
 
+        setPlayerReached(); // Must be after movement code
+
         checkOtherEnemy();
 
-        // TIMER TEST
-        /*
-        getGameTimer().runOnceAfter(() -> {
-            // ...
-        }, Duration.seconds(2));
-         */
     }
 
     /**
@@ -145,23 +139,12 @@ public class EnemyAIComponent extends Component {
             return;
         }
 
-        // if *not* nothing is hit OR
-        if(!horizontalRaycast.getEntity().equals(Optional.empty()) || bottomRaycast.getEntity().equals(Optional.empty())) {
+        // If horizontalRaycast hit platform side OR bottomRaycast did not hit platform (Enemy walking of a platform)
+        if(horizontalRaycastHitPlatformSide() || !bottomRaycastHitPlatform()) {
 
-            // If ray hit side OR ray *not* hit ground
-            if((horizontalRaycastHitPlatformSide() && canJump) || (!bottomRaycastHitPlatform() && canJump)) {
+            // If Player is above Enemy; jump.
+            if(isPlayerAbove()) {
                 thisEnemy.jump();
-                canJump = false;
-
-                // Reset canJump after 2 seconds
-                final Timer timer = new Timer();
-                timer.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        canJump = true;
-                        timer.cancel();
-                    }
-                }, 2000);
             }
         }
     }
@@ -176,8 +159,14 @@ public class EnemyAIComponent extends Component {
             Optional<Entity> optionalEntity = horizontalRaycast.getEntity();
             Entity entity = optionalEntity.get();
             boolean otherEnemyReachedPlayer = entity.getComponent(EnemyAIComponent.class).isPlayerReached();
-            System.out.println(otherEnemyReachedPlayer);
+            System.out.println(entity.getX());
+
+            // TODO - not working?
         }
+    }
+
+    private boolean isPlayerAbove() {
+        return player.getY() - thisEnemy.getY() < 0;
     }
 
     /**

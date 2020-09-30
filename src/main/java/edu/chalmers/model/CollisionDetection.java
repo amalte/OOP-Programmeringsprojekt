@@ -3,6 +3,7 @@ package edu.chalmers.model;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.physics.CollisionHandler;
+import edu.chalmers.model.enemy.EnemyAIComponent;
 import edu.chalmers.model.enemy.EnemyComponent;
 
 public class CollisionDetection {
@@ -22,6 +23,13 @@ public class CollisionDetection {
             @Override
             protected void onCollision(Entity a, Entity b) {
                 a.getComponent(PlayerComponent.class).inflictDamage(b.getComponent(EnemyComponent.class).getDamage());
+            }
+        });
+
+        FXGL.getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityType.ENEMY, EntityType.PLATFORM) {
+            @Override
+            protected void onCollisionBegin(Entity a, Entity b) {
+                a.getComponent(EnemyComponent.class).resetJumpAmounts();
             }
         });
 

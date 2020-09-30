@@ -15,6 +15,8 @@ public class EnemyComponent extends Component {
 
     IEnemyType enemyType;
     private PhysicsComponent physics;
+    private final int amountOfJumps = 1;
+    private int jumps = amountOfJumps;
 
     // STATS
     private Color color;
@@ -54,7 +56,11 @@ public class EnemyComponent extends Component {
      * Method moves enemy Entity up (negative y).
      */
     public void jump(){
-        physics.setVelocityY(-jumpHeight);
+        if(jumps != 0) {
+            physics.setVelocityY(-jumpHeight);
+            jumps--;
+        }
+
     }
 
     /**
@@ -69,6 +75,13 @@ public class EnemyComponent extends Component {
      */
     public void die() {
         getGameWorld().removeEntity(entity);
+    }
+
+    /**
+     * Resets enemy's jumps to be equal to amountOfJumps variable.
+     */
+    public void resetJumpAmounts(){
+        jumps = amountOfJumps;
     }
 
     /**
