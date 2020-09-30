@@ -1,10 +1,10 @@
-package edu.chalmers.Utils;
+package edu.chalmers.utils;
 
 import com.almasb.fxgl.entity.level.tiled.TMXLevelLoader;
 import com.almasb.fxgl.entity.level.tiled.TiledMap;
-import edu.chalmers.Utilities.Constants;
-import edu.chalmers.model.Building.Blocks.PermanentBlock;
-import edu.chalmers.model.Building.IBlock;
+import edu.chalmers.utilities.Constants;
+import edu.chalmers.model.building.blocks.PermanentBlock;
+import edu.chalmers.model.building.IBlock;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

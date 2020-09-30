@@ -31,15 +31,12 @@ public class PathfindingComponent extends Component {
 
     @Override
     public void onUpdate(double tpf) {
+        followPlayer();
+        jump();
 
-        RaycastResult raycastResult = getPhysicsWorld().raycast(new Point2D(player.getX(), player.getY()), new Point2D(0, 1));
+        //RaycastResult raycastResult = getPhysicsWorld().raycast(new Point2D(player.getX(), player.getY()), new Point2D(0, 1));
         //System.out.println(raycastResult.getPoint());
         //System.out.println(raycastResult.getEntity());
-
-
-
-        //followPlayer();
-        //jump();
 
         // TIMER TEST
         /*
@@ -110,5 +107,4 @@ public class PathfindingComponent extends Component {
     private boolean isEnemyToLeftOfPlayer(double distance) {
         return player.getX() - thisEnemy.getRightX() > distance;
     }
-
 }

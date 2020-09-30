@@ -1,13 +1,13 @@
-package edu.chalmers.model.Building.Blocks;
+package edu.chalmers.model.building.blocks;
 
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.components.CollidableComponent;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
-import edu.chalmers.Utilities.Constants;
-import edu.chalmers.Utilities.CoordsCalculations;
-import edu.chalmers.model.Building.IBlock;
+import edu.chalmers.utilities.Constants;
+import edu.chalmers.utilities.CoordsCalculations;
+import edu.chalmers.model.building.IBlock;
 import edu.chalmers.model.EntityType;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;

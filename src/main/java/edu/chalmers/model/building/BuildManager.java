@@ -1,10 +1,10 @@
-package edu.chalmers.model.Building;
+package edu.chalmers.model.building;
 
-import edu.chalmers.Utilities.Constants;
-import edu.chalmers.Utilities.CoordsCalculations;
-import edu.chalmers.Utils.Coords;
-import edu.chalmers.Utils.TileMap;
-import edu.chalmers.model.Building.Blocks.Block;
+import edu.chalmers.utilities.Constants;
+import edu.chalmers.utilities.CoordsCalculations;
+import edu.chalmers.utils.Coords;
+import edu.chalmers.utils.TileMap;
+import edu.chalmers.model.building.blocks.Block;
 import javafx.geometry.Point2D;
 
 import java.util.ArrayList;

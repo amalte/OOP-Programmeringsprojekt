@@ -1,4 +1,4 @@
-package edu.chalmers.Utils;
+package edu.chalmers.utils;
 
 import java.util.Objects;
 

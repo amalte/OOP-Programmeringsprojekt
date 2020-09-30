@@ -4,11 +4,9 @@ import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.input.Input;
 import com.almasb.fxgl.input.UserAction;
-import edu.chalmers.Utilities.EntityPos;
-import edu.chalmers.Utilities.CoordsCalculations;
-import edu.chalmers.Utils.Coords;
-import edu.chalmers.model.Building.IBlock;
-import edu.chalmers.model.EntityType;
+import edu.chalmers.utilities.EntityPos;
+import edu.chalmers.utilities.CoordsCalculations;
+import edu.chalmers.utils.Coords;
 import edu.chalmers.model.GenericPlatformer;
 import edu.chalmers.model.PlayerComponent;
 import edu.chalmers.view.BuildView;
@@ -108,7 +106,6 @@ public class Controller {
                 }
             }, KeyCode.R);
 
-
             BuildView buildView = new BuildView();
             buildView.buildStateSelected();
             buildView.setUpTransparentTiles();
@@ -128,6 +125,26 @@ public class Controller {
                     //buildView.followMouse(TileCalculations.posToTilePos(input.getMousePositionWorld(), Constants.TILE_SIZE), player.getComponent(PlayerComponent.class).getBuilding().possibleToPlaceBlockOnPos(input.getMousePositionWorld(), EntityPos.getPosition(player)));
                 }
             });
+            input.addAction(new UserAction("SwitchWeapon0") {
+                @Override
+                protected void onActionBegin() {
+                    player.getComponent(PlayerComponent.class).setActiveWeapon(0);
+                }
+            }, KeyCode.DIGIT1);
+
+            input.addAction(new UserAction("SwitchWeapon1") {
+                @Override
+                protected void onActionBegin() {
+                    player.getComponent(PlayerComponent.class).setActiveWeapon(1);
+                }
+            }, KeyCode.DIGIT2);
+
+            input.addAction(new UserAction("SwitchWeapon2") {
+                @Override
+                protected void onActionBegin() {
+                    player.getComponent(PlayerComponent.class).setActiveWeapon(2);
+                }
+            }, KeyCode.DIGIT3);
 
             initialized = true;
         }

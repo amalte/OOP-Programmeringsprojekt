@@ -1,6 +1,6 @@
-package edu.chalmers.Utilities;
+package edu.chalmers.utilities;
 
-import edu.chalmers.Utils.Coords;
+import edu.chalmers.utils.Coords;
 import javafx.geometry.Point2D;
 
 public class CoordsCalculations {

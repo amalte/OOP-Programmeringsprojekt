@@ -1,4 +1,4 @@
-package edu.chalmers.Utilities;
+package edu.chalmers.utilities;
 
 import com.almasb.fxgl.core.math.FXGLMath;
 import javafx.geometry.Point2D;

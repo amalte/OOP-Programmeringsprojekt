@@ -1,7 +1,6 @@
-package edu.chalmers.model.Building.Blocks;
+package edu.chalmers.model.building.blocks;
 
-import com.almasb.fxgl.dsl.FXGL;
-import edu.chalmers.model.Building.IBlock;
+import edu.chalmers.model.building.IBlock;
 
 public class PermanentBlock implements IBlock {
     @Override

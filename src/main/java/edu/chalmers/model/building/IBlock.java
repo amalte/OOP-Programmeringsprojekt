@@ -1,4 +1,4 @@
-package edu.chalmers.model.Building;
+package edu.chalmers.model.building;
 
 public interface IBlock {
     boolean canBeDestroyed();

@@ -5,13 +5,12 @@ import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.components.CollidableComponent;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import edu.chalmers.model.EntityType;
-import edu.chalmers.model.enemy.enemytypes.BlobComponent;
-import edu.chalmers.model.enemy.enemytypes.RexComponent;
-import edu.chalmers.model.enemy.enemytypes.ZombieComponent;
+import edu.chalmers.model.enemy.enemytypes.Blob;
+import edu.chalmers.model.enemy.enemytypes.Rex;
+import edu.chalmers.model.enemy.enemytypes.Zombie;
 import javafx.scene.shape.Rectangle;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameWorld;
-
 
 /**
  * A factory used to create different types of Enemy entities.
@@ -50,19 +49,19 @@ public class EnemyFactory {
         }
 
         if(enemyName == "ZOMBIE") {
-            ZombieComponent zombieComponent = new ZombieComponent(new PhysicsComponent());
+            EnemyComponent zombieComponent = new EnemyComponent(new Zombie());
             Entity zombie = buildEnemy(zombieComponent, x, y, player);
             getGameWorld().addEntity(zombie);
             return zombie;
         }
         else if(enemyName == "REX") {
-            RexComponent rexComponent = new RexComponent(new PhysicsComponent());
+            EnemyComponent rexComponent = new EnemyComponent(new Rex());
             Entity rex = buildEnemy(rexComponent, x, y, player);
             getGameWorld().addEntity(rex);
             return rex;
         }
         else if(enemyName == "BLOB") {
-            BlobComponent blobComponent = new BlobComponent(new PhysicsComponent());
+            EnemyComponent blobComponent = new EnemyComponent(new Blob());
             Entity blob = buildEnemy(blobComponent, x, y, player);
             getGameWorld().addEntity(blob);
             return blob;

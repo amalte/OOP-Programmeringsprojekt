@@ -1,6 +1,6 @@
-package edu.chalmers.Utils;
+package edu.chalmers.utils;
 
-import edu.chalmers.Utilities.Constants;
+import edu.chalmers.utilities.Constants;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameScene;
 

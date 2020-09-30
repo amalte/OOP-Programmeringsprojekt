@@ -1,12 +1,10 @@
 package edu.chalmers.model;
 
-import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.SpawnData;
-import edu.chalmers.model.Building.BuildManager;
+import edu.chalmers.model.building.BuildManager;
 import edu.chalmers.model.wave.WaveManager;
 
-import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 
 /**
  * Aggregate root class for the game.
@@ -72,8 +70,7 @@ public class GenericPlatformer {
      * Creates a player at position 0,0.
      */
     private void createPlayer(){
-        player = spawn("player");
-        gameWorldFactory.newPLayer(new SpawnData(0,0));
+        player = gameWorldFactory.newPLayer(new SpawnData(0,0));
     }
 
     /**

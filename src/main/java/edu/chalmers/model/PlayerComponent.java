@@ -4,15 +4,20 @@ import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
-import edu.chalmers.model.Building.Blocks.Block;
+import edu.chalmers.model.building.blocks.Block;
 import javafx.geometry.Point2D;
+import edu.chalmers.model.weapon.Weapon;
+import edu.chalmers.model.weapon.WeaponFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Player class. Wraps an entity object as a Player.
  */
 public class PlayerComponent extends Component {
 
-    private Weapon weapon = new Weapon();
+    List<Weapon> weaponArrayList = new ArrayList<>();
 
     //Stats
     private int health = 100;
@@ -22,11 +27,16 @@ public class PlayerComponent extends Component {
     private int jumps = amountOfJumps;
     private int buildRangeTiles = 3;
     private PhysicsComponent physics;
+    private int activeWeapon = 0;
 
     public PlayerComponent(PhysicsComponent physics) {
         this.physics = physics;
         physics.setBodyType(BodyType.DYNAMIC);
         physics.setFixtureDef(new FixtureDef().friction(0.0f));
+
+        weaponArrayList.add(0, WeaponFactory.getInstance().createWeapon("Handgun"));
+        weaponArrayList.add(1, WeaponFactory.getInstance().createWeapon("Crossbow"));
+        weaponArrayList.add(2, WeaponFactory.getInstance().createWeapon("ThrowingKnife"));
     }
 
     /**
@@ -52,7 +62,16 @@ public class PlayerComponent extends Component {
      * @return The weapon currently selected by the PlayerComponent.
      */
     public Weapon getWeapon(){
-        return weapon;
+        return weaponArrayList.get(activeWeapon);
+    }
+
+    /**
+     * Sets the active weapon.
+     * @param activeWeapon Integer to replace the current activeWeapon.
+     */
+    public void setActiveWeapon(int activeWeapon) {
+
+        this.activeWeapon = activeWeapon;
     }
 
     /**
@@ -92,7 +111,7 @@ public class PlayerComponent extends Component {
      * Calls method shoot from PlayerComponent's selected weapon.
      */
     public void shoot() {
-        weapon.shoot(entity.getX(), entity.getY());
+        weaponArrayList.get(activeWeapon).shoot(entity.getX(), entity.getY());
     }
 
     public void placeBlock(Point2D mousePos) { new Block(mousePos); }
@@ -101,7 +120,7 @@ public class PlayerComponent extends Component {
      * Calls method reload from PlayerComponent's selected weapon.
      */
     public void reload() {
-        weapon.reload();
+        weaponArrayList.get(activeWeapon).reload();
     }
 
     /**

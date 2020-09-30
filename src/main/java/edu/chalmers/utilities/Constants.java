@@ -1,4 +1,4 @@
-package edu.chalmers.Utilities;
+package edu.chalmers.utilities;
 
 public class Constants {
 
