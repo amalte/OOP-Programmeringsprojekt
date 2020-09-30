@@ -19,16 +19,22 @@ public class EnemyAIComponent extends Component {
     private EnemyComponent thisEnemy;
     private Entity player;
     private Direction moveDirection;
-    private RaycastResult aboveHorizontalRaycast;
-    private RaycastResult horizontalRaycast;
-    private RaycastResult downwardRaycast;
-    private RaycastResult playerReachedRaycast;
 
-    private int aboveHorizontalRaycastLength = 40;
+    private RaycastResult higherHorizontalRaycast;
+    private RaycastResult horizontalRaycast;
+    private RaycastResult leftDownwardRaycast;
+    private RaycastResult rightDownwardRaycast;
+    private RaycastResult activeDownwardRaycast;
+    private RaycastResult entityRaycast;
+    private int higherHorizontalRaycastDeltaHeight = 20;    // Delta with entity's top Y-coordinate (how many pixels above entity the raycast should be placed).
+    private int higherHorizontalRaycastLength = 40;
     private int horizontalRaycastLength = 30;
     private int downwardRaycastLength = 50;
-    private int playerReachedRaycastLength = 3;
+    private int entityRaycastLength = 3;
+
     private boolean playerReached = false;
+    private boolean nearbyEnemyPlayerReached = false;
+    private boolean pathfindingOverride = false;
 
     public EnemyAIComponent(EnemyComponent thisEnemy, Entity player) {
         this.player = player;
@@ -40,13 +46,13 @@ public class EnemyAIComponent extends Component {
         setMoveDirection();
         setRaycastsDirection();
 
-        moveTowardsPlayer();
+        // Move towards Player if pathfinding haven't been overridden.
+        if(!pathfindingOverride) {
+            moveTowardsPlayer();
+        }
         doJump();
-        setPlayerReached(); // Must be after movement code
-
-        // TESTING
-        System.out.println(isPlayerAbove());
-        checkOtherEnemy();
+        setPlayerReached(); // Must be after movement code.
+        standingOnEnemyCheck();
     }
 
     /**
@@ -65,19 +71,24 @@ public class EnemyAIComponent extends Component {
      * Method sets correct direction of raycast variables based on moveDirection.
      */
     private void setRaycastsDirection() {
+        // +1 and -1 is used to indent the raycast position into the entity a bit, making it more accurate and able to catch entities with the same size.
+        // Same goes for +3 and -3.
+
+        leftDownwardRaycast = RaycastCalculations.setVerticalRaycast(downwardRaycastLength, thisEnemy.getX() + 1, thisEnemy.getBottomY());
+        rightDownwardRaycast = RaycastCalculations.setVerticalRaycast(downwardRaycastLength, thisEnemy.getRightX() - 1, thisEnemy.getBottomY());
 
         if(moveDirection == Direction.LEFT) {
-            aboveHorizontalRaycast = RaycastCalculations.setHorizontalRaycast(-aboveHorizontalRaycastLength, thisEnemy.getX(), thisEnemy.getY() - 20);
-            horizontalRaycast = RaycastCalculations.setHorizontalRaycast(-horizontalRaycastLength, thisEnemy.getX(), thisEnemy.getY());
-            downwardRaycast = RaycastCalculations.setVerticalRaycast(downwardRaycastLength, thisEnemy.getX(), thisEnemy.getBottomY());
-            playerReachedRaycast = RaycastCalculations.setHorizontalRaycast(-playerReachedRaycastLength, thisEnemy.getX(), thisEnemy.getY());
+            higherHorizontalRaycast = RaycastCalculations.setHorizontalRaycast(-higherHorizontalRaycastLength, thisEnemy.getX(), thisEnemy.getY() - higherHorizontalRaycastDeltaHeight);
+            horizontalRaycast = RaycastCalculations.setHorizontalRaycast(-horizontalRaycastLength, thisEnemy.getX(), thisEnemy.getY() + 3);
+            entityRaycast = RaycastCalculations.setHorizontalRaycast(-entityRaycastLength, thisEnemy.getX(), thisEnemy.getY() + 3);
+            activeDownwardRaycast = leftDownwardRaycast;
         }
 
         else if(moveDirection == Direction.RIGHT) {
-            aboveHorizontalRaycast = RaycastCalculations.setHorizontalRaycast(aboveHorizontalRaycastLength, thisEnemy.getRightX(), thisEnemy.getY() - 20);
-            horizontalRaycast = RaycastCalculations.setHorizontalRaycast(horizontalRaycastLength, thisEnemy.getRightX(), thisEnemy.getY());
-            downwardRaycast = RaycastCalculations.setVerticalRaycast(downwardRaycastLength, thisEnemy.getRightX(), thisEnemy.getBottomY());
-            playerReachedRaycast = RaycastCalculations.setHorizontalRaycast(playerReachedRaycastLength, thisEnemy.getRightX(), thisEnemy.getY());
+            higherHorizontalRaycast = RaycastCalculations.setHorizontalRaycast(higherHorizontalRaycastLength, thisEnemy.getRightX(), thisEnemy.getY() - higherHorizontalRaycastDeltaHeight);
+            horizontalRaycast = RaycastCalculations.setHorizontalRaycast(horizontalRaycastLength, thisEnemy.getRightX(), thisEnemy.getY() + 3);
+            entityRaycast = RaycastCalculations.setHorizontalRaycast(entityRaycastLength, thisEnemy.getRightX(), thisEnemy.getY() + 3);
+            activeDownwardRaycast = rightDownwardRaycast;
         }
     }
 
@@ -85,14 +96,22 @@ public class EnemyAIComponent extends Component {
      * Method sets playerReached variable based on horizontalRaycast.
      */
     private void setPlayerReached() {
-        if(horizontalRaycast == null) {
+        if(entityRaycast == null) {
             return;
         }
 
-        if(RaycastCalculations.checkRaycastHit(playerReachedRaycast, EntityType.PLAYER)) {
+        // Sets playerReached if the Player is hit by raycast.
+        if(RaycastCalculations.checkRaycastHit(entityRaycast, EntityType.PLAYER)) {
             playerReached = true;
         } else {
             playerReached = false;
+        }
+
+        // Sets nearbyEnemyPlayerReached if another enemy is horizontally nearby
+        if(RaycastCalculations.checkRaycastHit(entityRaycast, EntityType.ENEMY)) {
+            nearbyEnemyPlayerReached = getNearbyEnemy().getComponent(EnemyAIComponent.class).isPlayerReached();
+        } else {
+            nearbyEnemyPlayerReached = false;
         }
     }
 
@@ -100,12 +119,12 @@ public class EnemyAIComponent extends Component {
      * Method moves Enemy towards the player.
      */
     private void moveTowardsPlayer() {
-        // Is Enemy to the right of Player AND Player is not reached?
-        if(isPlayerToLeft() && !playerReached) {
+        // Is Enemy to the right of Player AND Player is not reached by Enemy or nearby Enemy?
+        if(isPlayerToLeft() && !playerReached && !nearbyEnemyPlayerReached) {
             thisEnemy.moveLeft();
         }
-        // Is Enemy to the left of Player AND Player is not reached?
-        else if(isPlayerToRight() && !playerReached) {
+        // Is Enemy to the left of Player AND Player is not reached by Enemy or nearby Enemy?
+        else if(isPlayerToRight() && !playerReached && !nearbyEnemyPlayerReached) {
             thisEnemy.moveRight();
         }
         // Player has been reached; stop moving.
@@ -118,20 +137,20 @@ public class EnemyAIComponent extends Component {
      * Jump method. Makes Enemy jump when needed.
      */
     private void doJump() {
-        if(horizontalRaycast == null) {
+        if(higherHorizontalRaycast == null || horizontalRaycast == null || activeDownwardRaycast == null) {
             return;
         }
 
-        // TODO - aboveHorizontalRaycast; check for hit with platform side.
+        // TODO - higherHorizontalRaycast; check for hit with platform side.
         // IF:
-        // aboveHorizontalRaycast hit a platform (TODO - temporary)
+        // higherHorizontalRaycast hit a platform (TODO - temporary)
         // horizontalRaycast hit a platform side *OR*
         // horizontalRaycast hit a Block *OR*
-        // downwardRaycast did *not* hit a platform (Enemy is walking of a platform).
-        if(RaycastCalculations.checkRaycastHit(aboveHorizontalRaycast, EntityType.PLATFORM) ||
+        // activeDownwardRaycast did *not* hit a platform (Enemy is walking of a platform).
+        if(RaycastCalculations.checkRaycastHit(higherHorizontalRaycast, EntityType.PLATFORM) ||
                 RaycastCalculations.checkRaycastHit(horizontalRaycast, EntityType.PLATFORMSIDE) ||
                 RaycastCalculations.checkRaycastHit(horizontalRaycast, EntityType.BLOCK) ||
-                !RaycastCalculations.checkRaycastHit(downwardRaycast, EntityType.PLATFORM)) {
+                !RaycastCalculations.checkRaycastHit(activeDownwardRaycast, EntityType.PLATFORM)) {
 
             // If Player is above Enemy; jump.
             if(isPlayerAbove()) {
@@ -140,20 +159,50 @@ public class EnemyAIComponent extends Component {
         }
     }
 
-    private void checkOtherEnemy() {
-        if(horizontalRaycast == null) {
+    /**
+     * Method checks if the Enemy is standing on top of another Enemy and corrects it (moves him) if true.
+     */
+    private void standingOnEnemyCheck() {
+        if(leftDownwardRaycast == null || rightDownwardRaycast == null) {
             return;
         }
 
-        if(RaycastCalculations.checkRaycastHit(horizontalRaycast, EntityType.ENEMY)) {
-            // Get Enemy entity
-            Optional<Entity> optionalEntity = horizontalRaycast.getEntity();
-            Entity entity = optionalEntity.get();
-            boolean otherEnemyReachedPlayer = entity.getComponent(EnemyAIComponent.class).isPlayerReached();
-            //System.out.println(entity.getX());
+        // Is Enemy standing on top of another Enemy?
+        if(RaycastCalculations.checkRaycastHit(leftDownwardRaycast, EntityType.ENEMY) || RaycastCalculations.checkRaycastHit(rightDownwardRaycast, EntityType.ENEMY)) {
 
-            // TODO - not working?
+           // Activate pathfindingOverride if pathfinding is still running. Set variable to true.
+           if(pathfindingOverride = false) {
+               pathfindingOverride = true;
+                return;
+            }
+
+            // Move right if Player is to the left (to counter below enemy's movement).
+            if(isPlayerToLeft()) {
+                thisEnemy.moveRight();
+            }
+            // Move left if Player is to the right (to counter below enemy's movement).
+            else if(isPlayerToRight()) {
+                thisEnemy.moveLeft();
+            }
         }
+        // If Enemy is not standing on top of another enemy:
+        else {
+            pathfindingOverride = false;
+        }
+    }
+
+    /**
+     * Method checks if another Enemy is horizontally nearby.
+     * @return Returns nearby enemy if it exists.
+     */
+    private Entity getNearbyEnemy() {
+        if(entityRaycast == null) {
+            return null;
+        }
+
+        // Get Enemy entity
+        Optional<Entity> optionalEntity = entityRaycast.getEntity();
+        return optionalEntity.get();
     }
 
     /**
