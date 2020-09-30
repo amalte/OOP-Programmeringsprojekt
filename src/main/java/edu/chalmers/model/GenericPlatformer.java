@@ -1,7 +1,9 @@
 package edu.chalmers.model;
 
+import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.SpawnData;
+import edu.chalmers.model.Building.BuildManager;
 import edu.chalmers.model.wave.WaveManager;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
@@ -14,11 +16,14 @@ public class GenericPlatformer {
     private Entity player;
     private GameWorldFactory gameWorldFactory;
     private WaveManager waveManager;
+    private BuildManager buildManager;
     private CollisionDetection collisionDetection;
 
     public GenericPlatformer() {
         this.gameWorldFactory = new GameWorldFactory();
         this.collisionDetection = new CollisionDetection();
+
+        initBuildManager();
     }
 
     /**
@@ -30,6 +35,22 @@ public class GenericPlatformer {
             createPlayer();
         }
         return player;
+    }
+
+    /**
+     * Initiates buildManager.
+     */
+    public void initBuildManager(){
+        //this.buildManager = new BuildManager(getPlayer().getComponent(PlayerComponent.class).getBuildRangeTiles());
+        this.buildManager = new BuildManager(3);
+    }
+
+    /**
+     * Get method for buildManager.
+     * @return buildManager.
+     */
+    public BuildManager getBuildManager(){
+        return buildManager;
     }
 
     /**

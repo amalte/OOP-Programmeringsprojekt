@@ -67,7 +67,6 @@ public class WeaponProjectile {
      * @return Angle between center of player and the mouse pointer
      */
     private double calculateAngle() {
-
         return FXGLMath.atan2(mousePoint.getY() - (y+shooterSizeOffsetToCenter),mousePoint.getX() - (x+shooterSizeOffsetToCenter));
 
     }

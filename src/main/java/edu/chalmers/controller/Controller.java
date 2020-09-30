@@ -1,12 +1,23 @@
 package edu.chalmers.controller;
 
+import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.input.Input;
 import com.almasb.fxgl.input.UserAction;
+import edu.chalmers.Utilities.EntityPos;
+import edu.chalmers.Utilities.CoordsCalculations;
+import edu.chalmers.Utils.Coords;
+import edu.chalmers.model.Building.IBlock;
+import edu.chalmers.model.EntityType;
 import edu.chalmers.model.GenericPlatformer;
 import edu.chalmers.model.PlayerComponent;
+import edu.chalmers.view.BuildView;
+import javafx.event.EventHandler;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseDragEvent;
+import javafx.scene.input.MouseEvent;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getInput;
 
@@ -64,12 +75,59 @@ public class Controller {
                 }
             }, MouseButton.PRIMARY);
 
+            input.addAction(new UserAction("PlaceBlock") {
+                @Override
+                protected void onActionBegin() {
+                    //if(game.getBuildManager().possibleToPlaceBlockOnPos(input.getMousePositionWorld(), EntityPos.getPosition(player))) {
+                        game.getBuildManager().placeBlock(input.getMousePositionWorld());
+                        //player.getComponent(PlayerComponent.class).placeBlock(input.getMousePositionWorld());
+                    //}
+                }
+
+            }, MouseButton.SECONDARY);
+
+            input.addAction(new UserAction("RemoveBlock") {     // TEST METHOD (SHOULD BE REMOVED IN THE FUTURE)
+                @Override
+                protected void onActionBegin() {
+                    if(!game.getBuildManager().getMapManager().isTileEmpty(CoordsCalculations.posToTile(input.getMousePositionWorld()))) {
+                        FXGL.getGameWorld().removeEntity(FXGL.getGameWorld().getEntitiesInRange(new Rectangle2D(input.getMousePositionWorld().getX(), input.getMousePositionWorld().getY(), 5, 5)).get(0));
+
+                        game.getBuildManager().getMapManager().removeBlockFromMap(CoordsCalculations.posToTile(input.getMousePositionWorld()));
+                        Coords mouseTile = CoordsCalculations.posToTile(input.getMousePositionWorld());
+                        //Coords tileToCheck = new Coords(mouseTile.x(), mouseTile.y()-1);
+                        game.getBuildManager().getMapManager().removeLevitatingNeighbours(mouseTile);
+                    }
+                }
+
+            }, KeyCode.F);
+
             input.addAction(new UserAction("Reload") {
                 @Override
                 protected void onActionBegin() {
                     player.getComponent(PlayerComponent.class).reload();
                 }
             }, KeyCode.R);
+
+
+            BuildView buildView = new BuildView();
+            buildView.buildStateSelected();
+            buildView.setUpTransparentTiles();
+
+            input.addEventHandler(MouseDragEvent.MOUSE_MOVED, new EventHandler<MouseEvent>() {   // For Building UI
+                @Override
+                public void handle(MouseEvent event) {
+                    // Should only be called if entered new tile
+                    if(game.getBuildManager().isInBuildRange(CoordsCalculations.posToTile(input.getMousePositionWorld()), CoordsCalculations.posToTile(EntityPos.getPosition(player)))) {
+                        buildView.followMouse(input.getMousePositionWorld(), game.getBuildManager().possibleToPlaceBlockOnPos(input.getMousePositionWorld(), EntityPos.getPosition(player)));
+                    }
+                    else {
+                        buildView.stopFollowMouse();
+                    }
+                    buildView.reachableTiles(game.getBuildManager().getEmptyReachableTiles(CoordsCalculations.posToTile(EntityPos.getPosition(player))));
+
+                    //buildView.followMouse(TileCalculations.posToTilePos(input.getMousePositionWorld(), Constants.TILE_SIZE), player.getComponent(PlayerComponent.class).getBuilding().possibleToPlaceBlockOnPos(input.getMousePositionWorld(), EntityPos.getPosition(player)));
+                }
+            });
 
             initialized = true;
         }
