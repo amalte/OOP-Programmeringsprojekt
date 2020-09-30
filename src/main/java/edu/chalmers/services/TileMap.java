@@ -15,6 +15,11 @@ public class TileMap {
     private String dataLayer = "Tile Layer 1";
     private int emptyTile = 0;
 
+    /**
+     * Method converts an int array from a certain level to a hash map containing blocks and coordinates of the blocks
+     * @param levelName name of the level
+     * @return hash map containing coordinates of the map and the corresponding block present on coordinate
+     */
     public HashMap<Coords, IBlock> getBlockMapFromLevel(String levelName) {
         HashMap<Coords, IBlock> blockMap = new HashMap<>();
         List<Integer> dataList = getDataFromLevel(levelName);
@@ -28,6 +33,7 @@ public class TileMap {
         return blockMap;
     }
 
+    // Method gets an int array of all blocks on the level
     private List<Integer> getDataFromLevel(String levelName) {
         TiledMap tileMap = getTileMap(levelName);
 

@@ -6,6 +6,7 @@ import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.SceneFactory;
 import edu.chalmers.controller.Controller;
 import edu.chalmers.model.GenericPlatformer;
+import edu.chalmers.utilities.Constants;
 import edu.chalmers.view.GamePlayView;
 import edu.chalmers.view.main.MainMenu;
 
@@ -20,8 +21,9 @@ public class Main extends GameApplication {
         gameSettings.setPreserveResizeRatio(true);
         gameSettings.setManualResizeEnabled(true);
         gameSettings.setFullScreenAllowed(true);
-        gameSettings.setWidth(32 * 60);
-        gameSettings.setHeight(18 * 60);
+        //gameSettings.setFullScreenFromStart(true);    // Start game in fullscreen
+        gameSettings.setWidth(Constants.GAME_WIDTH);
+        gameSettings.setHeight(Constants.GAME_HEIGHT);
         gameSettings.setTitle("Generic Platformer");
         gameSettings.setVersion("1.0");
 

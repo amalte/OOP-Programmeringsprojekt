@@ -41,14 +41,25 @@ public class SpawnEnemyRunnable implements Runnable {
         }
     }
 
+    /**
+     * Getter for if the runnable is active
+     * @return boolean isRunnableActive
+     */
     public boolean getIsRunnableActive() {
         return isRunnableActive;
     }
 
+    /**
+     * Set isRunnableActive variable
+     * @param value the boolean value to set
+     */
     public void setIsRunnableActive(boolean value) {
          isRunnableActive = value;
     }
 
+    /**
+     * Method spawns all enemies in a time interval on a random spawn position
+     */
     @Override
     public void run() {
         int spawnIndex = random.nextInt(enemiesToSpawn.size()); // Select random enemy from list

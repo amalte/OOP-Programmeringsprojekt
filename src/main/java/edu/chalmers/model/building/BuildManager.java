@@ -21,12 +21,22 @@ public class BuildManager {
         mapManager = new MapManager(new TileMap().getBlockMapFromLevel("map2.tmx"));
     }
 
+    /**
+     * Places a new block in the game and adds it to the blockMap
+     * @param mousePos position of where block should be placed
+     */
     public void placeBlock(Point2D mousePos) {
         mapManager.addBlockToMap(CoordsCalculations.posToTile(mousePos), new Block(mousePos));
     }
 
     public MapManager getMapManager() { return mapManager; }
 
+    /**
+     * Method checks if it's possible to place block on position
+     * @param mousePos position to check if possible to place block on
+     * @param playerPos players position to see if in range of placing block
+     * @return boolean
+     */
     public boolean possibleToPlaceBlockOnPos(Point2D mousePos, Point2D playerPos) {
         Coords buildTile = CoordsCalculations.posToTile(mousePos);
         Coords playerTile = CoordsCalculations.posToTile(playerPos);
@@ -47,6 +57,11 @@ public class BuildManager {
         return true;
     }
 
+    /**
+     * Method gets the tiles player can reach (depending on buildrange of player)
+     * @param playerTile position of player
+     * @return list of reachable tiles
+     */
     public List<Coords> getReachableTiles(Coords playerTile) {
         Coords startTile = new Coords(playerTile.x()-buildRangeTiles, playerTile.y()-buildRangeTiles);
 
@@ -67,6 +82,11 @@ public class BuildManager {
         return reachableTiles;
     }
 
+    /**
+     * Method checks gets the unpopulated tiles the player can reach
+     * @param playerTile position of player
+     * @return list of unpopulated reachable tiles
+     */
     public List<Coords> getEmptyReachableTiles(Coords playerTile) {
         List<Coords> emptyReachableTiles = new ArrayList<>();
         List<Coords> reachableTiles = getReachableTiles(playerTile);
@@ -79,6 +99,12 @@ public class BuildManager {
         return emptyReachableTiles;
     }
 
+    /**
+     * Method checks if a certain tile is in range of the player's buildrange
+     * @param buildTile tile to check if it is in the build range of player
+     * @param playerTile position of player
+     * @return boolean
+     */
     public boolean isInBuildRange(Coords buildTile, Coords playerTile) {
         if(Math.abs(buildTile.x() - playerTile.x()) > buildRangeTiles) return false;
         if(Math.abs(buildTile.y() - playerTile.y()) > buildRangeTiles) return false;
@@ -89,8 +115,6 @@ public class BuildManager {
     private boolean tileIsInsideMap(Coords tile) {
         return 0 <= tile.x() && tile.y() < Constants.TILEMAP_WIDTH && 0 <= tile.y() && tile.y() < Constants.TILEMAP_HEIGHT;
     }
-
-    public int getBuildRangeTiles() { return buildRangeTiles; }
 
     /*private boolean collidesWithSomething(Point2D tilePos) {
         Rectangle2D range = new Rectangle2D(tilePos.getX()+1, tilePos.getY()+1, tileSize-4, tileSize-4);    // Make rectangle a pixel smaller on each side

@@ -11,7 +11,15 @@ public class Coords {
         this.y = y;
     }
 
+    /**
+     * Get method for the x value
+     * @return int x value
+     */
     public int x() { return x; }
+    /**
+     * Get method for the y value
+     * @return int y value
+     */
     public int y() { return y; }
 
     @Override

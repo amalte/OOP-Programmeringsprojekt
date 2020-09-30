@@ -101,10 +101,19 @@ public class MapManager {
      */
     public HashMap<Coords, IBlock> getBlockMap() { return blockMap; }
 
+    /**
+     * Adds a block to the blockMap
+     * @param tile the position of the block
+     * @param block instance of the block to add to blockMap
+     */
     public void addBlockToMap(Coords tile, IBlock block) {
         blockMap.putIfAbsent(tile, block);
     }
 
+    /**
+     * Removes a block from the blockMap
+     * @param tile the position of the block to remove
+     */
     public void removeBlockFromMap(Coords tile) {
         blockMap.remove(tile);
     }

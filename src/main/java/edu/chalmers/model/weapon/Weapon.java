@@ -21,7 +21,6 @@ public class Weapon {
     private int damage;
     private int projectileSpeed;
     private int magazineCounter;
-    private boolean needReloading = false;
 
     private TimerAction timerAction;
 
