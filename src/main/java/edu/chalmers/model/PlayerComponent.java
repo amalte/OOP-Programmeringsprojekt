@@ -4,11 +4,15 @@ import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
+import com.almasb.fxgl.time.TimerAction;
 import edu.chalmers.model.weapon.Weapon;
 import edu.chalmers.model.weapon.WeaponFactory;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.almasb.fxgl.dsl.FXGL.runOnce;
 
 /**
  * Player class. Wraps an entity object as a Player.
@@ -25,11 +29,13 @@ public class PlayerComponent extends Component {
     private int jumps = amountOfJumps;
     private PhysicsComponent physics;
     private int activeWeapon = 0;
+    private TimerAction timer;
 
     public PlayerComponent(PhysicsComponent physics) {
         this.physics = physics;
         physics.setBodyType(BodyType.DYNAMIC);
         physics.setFixtureDef(new FixtureDef().friction(0.0f));
+        initTimer();
 
         weaponArrayList.add(0, WeaponFactory.getInstance().createWeapon("Handgun"));
         weaponArrayList.add(1, WeaponFactory.getInstance().createWeapon("Crossbow"));
@@ -131,11 +137,16 @@ public class PlayerComponent extends Component {
     }
 
     /**
-     * Lower PlayerComponents health with damage.
+     * Lower PlayerComponents health with damage if player have not taken damage within 1 second.
      * @param damage amount of health points to be inflicted to player.
      */
     public void inflictDamage(int damage){
-        health -= damage;
+        if(timer.isExpired()){
+            timer = runOnce(() -> health -= damage, Duration.seconds(1));
+        }
     }
 
+    private void initTimer(){
+        timer = runOnce(() -> {}, Duration.seconds(0));
+    }
 }
