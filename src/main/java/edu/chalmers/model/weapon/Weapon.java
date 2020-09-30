@@ -2,11 +2,12 @@ package edu.chalmers.model.weapon;
 
 
 import com.almasb.fxgl.dsl.FXGL;
+import com.almasb.fxgl.time.TimerAction;
 import edu.chalmers.model.weapon.weapontypes.IWeaponType;
 import javafx.geometry.Point2D;
+import javafx.util.Duration;
 
-import java.util.Timer;
-import java.util.TimerTask;
+import static com.almasb.fxgl.dsl.FXGL.runOnce;
 
 /**
  * Weapon class. Hold the functionality of weapons.
@@ -22,6 +23,8 @@ public class Weapon {
     private int magazineCounter;
     private boolean needReloading = false;
 
+    private TimerAction timerAction;
+
     public Weapon(IWeaponType weaponType) {
         this.weaponType = weaponType;
 
@@ -30,6 +33,7 @@ public class Weapon {
         this.damage = weaponType.getDamage();
         this.projectileSpeed = weaponType.getProjectileSpeed();
         magazineCounter = magazineSize;
+        initTimer();
     }
 
     /**
@@ -41,8 +45,6 @@ public class Weapon {
         if (magazineCounter > 0) {
             magazineCounter--;
             new WeaponProjectile(x, y, mouseLocation(), projectileSpeed);
-        }else {
-            needReloading = true;
         }
     }
 
@@ -50,17 +52,19 @@ public class Weapon {
      * Resets the magazineAmmo counter after a delay specified by reloadTimerMilliseconds
      */
     public void reload() {
-        needReloading = true;
+        if(timerAction == null) {
+            timerAction = createReloadTimer();
+        }else if (timerAction.isExpired()) {
+            timerAction = createReloadTimer();
+        }
+    }
 
-        final Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                magazineCounter = magazineSize;
-                timer.cancel();
-                needReloading = false;
-            }
-        }, reloadTimerMilliseconds);
+    private TimerAction createReloadTimer() {
+        return runOnce(() -> magazineCounter = magazineSize, Duration.millis(reloadTimerMilliseconds));
+    }
+
+    private void initTimer() {
+        timerAction = runOnce(() -> {}, Duration.millis(0));
     }
 
     private Point2D mouseLocation() {
