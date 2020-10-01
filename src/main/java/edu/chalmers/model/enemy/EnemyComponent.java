@@ -14,9 +14,9 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameWorld;
  */
 public class EnemyComponent extends Component {
 
-    IEnemyType enemyType;
+    private IEnemyType enemyType;
     private PhysicsComponent physics;
-    private final int amountOfJumps = 1;
+    private final int AMOUNT_OF_JUMPS = 1;
     private int jumps = 0;
 
     // STATS
@@ -87,7 +87,7 @@ public class EnemyComponent extends Component {
      * Resets enemy's jumps to be equal to amountOfJumps variable.
      */
     public void resetJumpAmounts(){
-        jumps = amountOfJumps;
+        jumps = AMOUNT_OF_JUMPS;
     }
 
     /**
