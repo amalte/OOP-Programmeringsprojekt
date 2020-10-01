@@ -141,21 +141,23 @@ public class EnemyAIComponent extends Component {
             return;
         }
 
-        // TODO - higherHorizontalRaycast; check for hit with platform side.
         // IF:
-        // higherHorizontalRaycast hit a platform (TODO - temporary)
-        // horizontalRaycast hit a platform side *OR*
-        // horizontalRaycast hit a Block *OR*
+        // higherHorizontalRaycast hit a platform *OR*
+        // horizontalRaycast hit a platform *OR*
         // activeDownwardRaycast did *not* hit a platform (Enemy is walking of a platform).
         if(RaycastCalculations.checkRaycastHit(higherHorizontalRaycast, EntityType.PLATFORM) ||
-                //RaycastCalculations.checkRaycastHit(horizontalRaycast, EntityType.PLATFORMSIDE) ||
-                RaycastCalculations.checkRaycastHit(horizontalRaycast, EntityType.BLOCK) ||
+                RaycastCalculations.checkRaycastHit(horizontalRaycast, EntityType.PLATFORM) ||
                 !RaycastCalculations.checkRaycastHit(activeDownwardRaycast, EntityType.PLATFORM)) {
 
             // If Player is above Enemy; jump.
             if(isPlayerAbove()) {
                 thisEnemy.jump();
             }
+        }
+
+        // If horizontalRaycast hit a Block.
+        if(RaycastCalculations.checkRaycastHit(horizontalRaycast, EntityType.BLOCK)) {
+            thisEnemy.jump();
         }
     }
 
@@ -228,6 +230,14 @@ public class EnemyAIComponent extends Component {
      */
     private boolean isPlayerAbove() {
         return (player.getY() + (player.getHeight() / 2)) - thisEnemy.getY() < 0;
+    }
+
+    /**
+     * Method checks if the Player is above the Enemy entity.
+     * @return True or false.
+     */
+    private boolean isPlayerSameYPos() {
+        return Math.abs(player.getBottomY() - thisEnemy.getBottomY()) < 5;
     }
 
     /**
