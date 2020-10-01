@@ -42,7 +42,7 @@ public class Main extends GameApplication {
         Controller controller = new Controller(game);
         GamePlayView gameView = new GamePlayView(game);
         gameView.initGameWorld();
-        gameView.changeLevel("map2.tmx");
+        gameView.changeLevel("level1.tmx");
 
         controller.initPlayerMovementInput();
         game.initCollisionDetection();

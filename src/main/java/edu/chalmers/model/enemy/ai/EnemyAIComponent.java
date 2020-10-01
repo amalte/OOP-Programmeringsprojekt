@@ -148,7 +148,7 @@ public class EnemyAIComponent extends Component {
         // horizontalRaycast hit a Block *OR*
         // activeDownwardRaycast did *not* hit a platform (Enemy is walking of a platform).
         if(RaycastCalculations.checkRaycastHit(higherHorizontalRaycast, EntityType.PLATFORM) ||
-                RaycastCalculations.checkRaycastHit(horizontalRaycast, EntityType.PLATFORMSIDE) ||
+                //RaycastCalculations.checkRaycastHit(horizontalRaycast, EntityType.PLATFORMSIDE) ||
                 RaycastCalculations.checkRaycastHit(horizontalRaycast, EntityType.BLOCK) ||
                 !RaycastCalculations.checkRaycastHit(activeDownwardRaycast, EntityType.PLATFORM)) {
 

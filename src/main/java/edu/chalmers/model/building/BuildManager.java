@@ -18,7 +18,7 @@ public class BuildManager {
     public BuildManager(int buildRangeTiles) {
         //this.mapManager = mapManager;
         this.buildRangeTiles = buildRangeTiles;
-        mapManager = new MapManager(new TileMap().getBlockMapFromLevel("map2.tmx"));
+        mapManager = new MapManager(new TileMap().getBlockMapFromLevel("level1.tmx"));
     }
 
     /**
