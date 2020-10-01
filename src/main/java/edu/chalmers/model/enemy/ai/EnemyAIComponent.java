@@ -162,6 +162,7 @@ public class EnemyAIComponent extends Component {
     /**
      * Method checks if the Enemy is standing on top of another Enemy and corrects it (moves him) if true.
      */
+    // TODO - will not work when a bigger Enemy stands on top of a smaller.
     private void standingOnEnemyCheck() {
         if(leftDownwardRaycast == null || rightDownwardRaycast == null) {
             return;
