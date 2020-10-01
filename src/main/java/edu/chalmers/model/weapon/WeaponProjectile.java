@@ -3,7 +3,6 @@ package edu.chalmers.model.weapon;
 import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.components.ExpireCleanComponent;
-import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.components.CollidableComponent;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
@@ -18,7 +17,6 @@ import javafx.util.Duration;
  */
 public class WeaponProjectile {
 
-    Entity projectile;
     private PhysicsComponent physics = new PhysicsComponent();
 
     private double playerX;
@@ -26,8 +24,8 @@ public class WeaponProjectile {
     private Point2D mousePoint;
     private int projectileSpeed;
     private int shooterSizeOffsetToCenter = 22;
-    private float projectileSizeW = 5;
-    private float projectileSizeH = 5;
+    private int projectileSizeW = 5;
+    private int projectileSizeH = 5;
 
     public WeaponProjectile(double playerX, double playerY, Point2D mousePoint, int projectileSpeed) {
 
@@ -37,7 +35,7 @@ public class WeaponProjectile {
         this.projectileSpeed = projectileSpeed;
 
         physics.setBodyType(BodyType.KINEMATIC);
-        projectile = FXGL.entityBuilder()
+        FXGL.entityBuilder()
                 .type(EntityType.PROJECTILE)
                 .at((this.playerX+shooterSizeOffsetToCenter),(this.playerY+shooterSizeOffsetToCenter))
                 .viewWithBBox(new Rectangle(projectileSizeW, projectileSizeH, Color.BLACK))

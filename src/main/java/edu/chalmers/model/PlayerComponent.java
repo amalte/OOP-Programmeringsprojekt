@@ -21,14 +21,14 @@ import static com.almasb.fxgl.dsl.FXGL.runOnce;
  */
 public class PlayerComponent extends Component {
 
-    List<Weapon> weaponArrayList = new ArrayList<>();
+    private List<Weapon> weapons = new ArrayList<>();
 
     //Stats
     private int health = 100;
     private int moveSpeed = 150;
     private int jumpHeight = 375;
-    private final int amountOfJumps = 1;
-    private int jumps = amountOfJumps;
+    private final int AMOUNT_OF_JUMPS = 1;
+    private int jumps = AMOUNT_OF_JUMPS;
     private int buildRangeTiles = 3;
     private PhysicsComponent physics;
     private int activeWeapon = 0;
@@ -40,9 +40,9 @@ public class PlayerComponent extends Component {
         physics.setFixtureDef(new FixtureDef().friction(0.0f));
         initTimer();
 
-        weaponArrayList.add(0, WeaponFactory.getInstance().createWeapon("Handgun"));
-        weaponArrayList.add(1, WeaponFactory.getInstance().createWeapon("Crossbow"));
-        weaponArrayList.add(2, WeaponFactory.getInstance().createWeapon("ThrowingKnife"));
+        weapons.add(0, WeaponFactory.getInstance().createWeapon("Handgun"));
+        weapons.add(1, WeaponFactory.getInstance().createWeapon("Crossbow"));
+        weapons.add(2, WeaponFactory.getInstance().createWeapon("ThrowingKnife"));
     }
 
     /**
@@ -67,8 +67,8 @@ public class PlayerComponent extends Component {
      *Getter for variable weapon.
      * @return The weapon currently selected by the PlayerComponent.
      */
-    public Weapon getWeapon(){
-        return weaponArrayList.get(activeWeapon);
+    public Weapon getActiveWeapon(){
+        return weapons.get(activeWeapon);
     }
 
     /**
@@ -117,7 +117,7 @@ public class PlayerComponent extends Component {
      * Calls method shoot from PlayerComponent's selected weapon.
      */
     public void shoot() {
-        weaponArrayList.get(activeWeapon).shoot(entity.getX(), entity.getY());
+        weapons.get(activeWeapon).shoot(entity.getX(), entity.getY());
     }
 
     public void placeBlock(Point2D mousePos) { new Block(mousePos); }
@@ -126,7 +126,7 @@ public class PlayerComponent extends Component {
      * Calls method reload from PlayerComponent's selected weapon.
      */
     public void reload() {
-        weaponArrayList.get(activeWeapon).reload();
+        weapons.get(activeWeapon).reload();
     }
 
     /**
@@ -140,7 +140,7 @@ public class PlayerComponent extends Component {
      * Resets players jumps to be equal to amountOfJumps variable.
      */
     public void resetJumpAmounts(){
-        jumps = amountOfJumps;
+        jumps = AMOUNT_OF_JUMPS;
     }
 
     /**

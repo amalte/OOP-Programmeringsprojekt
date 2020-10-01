@@ -52,7 +52,7 @@ public class CollisionDetection {
             @Override
             protected void onCollisionBegin(Entity a, Entity b) {
                 //ToDo implement direct contact with projectile to receive proper damage and not from player.
-                a.getComponent(EnemyComponent.class).inflictDamage(player.getWeapon().getDamage());
+                a.getComponent(EnemyComponent.class).inflictDamage(player.getActiveWeapon().getDamage());
                 b.removeFromWorld();
             }
         });
