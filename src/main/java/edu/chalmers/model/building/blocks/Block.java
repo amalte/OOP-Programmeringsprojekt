@@ -21,19 +21,17 @@ public class Block implements IBlock {
     public Block(Point2D mousePos) {
         Point2D blockPosition = CoordsCalculations.posToTilePos(mousePos);
 
+        //System.out.println("X: " + blockPosition.getX() + " Y: " + blockPosition.getY());
+
         physics.setBodyType(BodyType.STATIC);
         currentBlock = FXGL.entityBuilder()
                 .type(EntityType.BLOCK)
-                .at((blockPosition.getX()),(blockPosition.getY()))
+                .at(((int)blockPosition.getX()),((int)blockPosition.getY()))
                 .viewWithBBox(new Rectangle(tileSize, tileSize, Color.DARKGREY))
                 .with(physics)
                 .with(new CollidableComponent(true))
                 .buildAndAttach();
     }
-
-    /*public void removeBlock() {
-        currentBlock.removeFromWorld();
-    }*/
 
     @Override
     public boolean canBeDestroyed() {
