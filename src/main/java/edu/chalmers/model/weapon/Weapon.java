@@ -53,7 +53,7 @@ public class Weapon {
     public void reload() {
         reloading = true;
         if (timerAction.isExpired()) {
-            runOnce(() -> resetMagazine(), Duration.millis(reloadTimerMilliseconds));
+            timerAction = runOnce(() -> resetMagazine(), Duration.millis(reloadTimerMilliseconds));
         }
     }
 
