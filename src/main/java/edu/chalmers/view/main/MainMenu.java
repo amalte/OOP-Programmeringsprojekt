@@ -18,7 +18,7 @@ import org.jetbrains.annotations.NotNull;
 import static edu.chalmers.view.main.MainViewUtil.*;
 
 /**
- * Main menu for the game.
+ * The main menu for the game.
  */
 public class MainMenu extends FXGLMenu {
     /**
@@ -53,14 +53,14 @@ public class MainMenu extends FXGLMenu {
     public MainMenu() {
         super(MenuType.MAIN_MENU);
 
-        this.createControls();
+        this.createNodes();
     }
 
     /**
      * Creates the default buttons for the main menu.
      * Actions have to be set up from the controller.
      */
-    private void createControls()
+    private void createNodes()
     {
         this.playButton = addNode(this, createMenuButton("Play", () -> { }),
                 (FXGL.getAppWidth() / 2) - (ActionButton.BUTTON_WIDTH / 2),
