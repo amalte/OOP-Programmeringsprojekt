@@ -4,15 +4,15 @@ import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.MenuType;
 import com.almasb.fxgl.dsl.FXGL;
 import javafx.beans.binding.StringBinding;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
 import org.jetbrains.annotations.NotNull;
 
-import static edu.chalmers.view.main.MainViewUtil.*;
+import static edu.chalmers.view.main.MainViewUtil.addNode;
 
 /**
  * Settings menu for the game.
@@ -52,14 +52,6 @@ public class SettingsMenu extends FXGLMenu {
      */
     private void createControls()
     {
-        /**
-         * NOTE: The methods createSettingSlider & modifySetting should be moved as soon as possible to an appropriate controller.
-         */
-
-        /**
-         * The main volume slider.
-         * Expected action: Increase/decrease the main volume.
-         */
         this.mainVolumeSlider = addNode(this, createSettingSlider(0, 100, 100, "mainVolume"),
                 (FXGL.getAppWidth() / 2) - (ActionButton.BUTTON_WIDTH / 2),
                 (FXGL.getAppHeight() / 2.5) - (ActionButton.BUTTON_HEIGHT / 2) + (0 * (ActionButton.BUTTON_WIDTH / 4)));
@@ -81,22 +73,7 @@ public class SettingsMenu extends FXGLMenu {
         slider.setMajorTickUnit(50);
         slider.setMinorTickCount(25);
 
-        slider.valueProperty().addListener((observableValue, oldValue, newValue) -> {
-            if (!oldValue.equals(newValue))
-                modifySetting(settingName, newValue);
-        });
-
         return slider;
-    }
-
-    /**
-     * Modify the value of a setting.
-     * @param settingName The name of the setting
-     * @param newValue The new value of the setting
-     */
-    private void modifySetting(String settingName, Object newValue)
-    {
-
     }
 
     /**
@@ -111,7 +88,7 @@ public class SettingsMenu extends FXGLMenu {
     }
 
     /**
-     * N/A. Uses delegation to pass calls to this method to the equivalent method in the MainMenu class instead.
+     * N/A.
      * @param name N/A
      * @param action N/A
      * @return N/A
@@ -119,11 +96,11 @@ public class SettingsMenu extends FXGLMenu {
     @NotNull
     @Override
     protected Button createActionButton(@NotNull StringBinding name, @NotNull Runnable action) {
-        return MainMenu.getInstance().createActionButton(name, action);
+        return new Button(name.get());
     }
 
     /**
-     * N/A. Uses delegation to pass calls to this method to the equivalent method in the MainMenu class instead.
+     * N/A.
      * @param name N/A
      * @param action N/A
      * @return N/A
@@ -131,11 +108,11 @@ public class SettingsMenu extends FXGLMenu {
     @NotNull
     @Override
     protected Button createActionButton(@NotNull String name, @NotNull Runnable action) {
-        return MainMenu.getInstance().createActionButton(name, action);
+        return new Button(name);
     }
 
     /**
-     * N/A. Uses delegation to pass calls to this method to the equivalent method in the MainMenu class instead.
+     * N/A.
      * @param width N/A
      * @param height N/A
      * @return N/A
@@ -143,39 +120,39 @@ public class SettingsMenu extends FXGLMenu {
     @NotNull
     @Override
     protected Node createBackground(double width, double height) {
-        return MainMenu.getInstance().createBackground(width, height);
+        return new ImageView();
     }
 
     /**
-     * N/A. Uses delegation to pass calls to this method to the equivalent method in the MainMenu class instead.
+     * N/A.
      * @param profileName N/A
      * @return N/A
      */
     @NotNull
     @Override
     protected Node createProfileView(@NotNull String profileName) {
-        return MainMenu.getInstance().createProfileView(profileName);
+        return new Text(profileName);
     }
 
     /**
-     * N/A. Uses delegation to pass calls to this method to the equivalent method in the MainMenu class instead.
+     * N/A.
      * @param title N/A
      * @return N/A
      */
     @NotNull
     @Override
     protected Node createTitleView(@NotNull String title) {
-        return MainMenu.getInstance().createTitleView(title);
+        return new Text(title);
     }
 
     /**
-     * N/A. Uses delegation to pass calls to this method to the equivalent method in the MainMenu class instead.
+     * N/A.
      * @param version N/A
      * @return N/A
      */
     @NotNull
     @Override
     protected Node createVersionView(@NotNull String version) {
-        return MainMenu.getInstance().createVersionView(version);
+        return new Text(version);
     }
 }
