@@ -1,7 +1,6 @@
 package edu.chalmers.view;
 
 import com.almasb.fxgl.dsl.FXGL;
-import edu.chalmers.controller.Controller;
 import edu.chalmers.model.GenericPlatformer;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameWorld;

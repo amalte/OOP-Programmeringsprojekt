@@ -19,12 +19,12 @@ import javafx.scene.input.MouseEvent;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getInput;
 
-public class Controller {
+public class InputController {
     private static boolean initialized = false;
     private static Entity player = null;
     private GenericPlatformer game;
 
-    public Controller(GenericPlatformer game) {
+    public InputController(GenericPlatformer game) {
         this.game = game;
     }
 
