@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import static edu.chalmers.view.main.MainViewUtil.addNode;
 
 /**
- * Settings menu for the game.
+ * The settings menu for the game.
  */
 public class SettingsMenu extends FXGLMenu {
     /**
@@ -44,28 +44,35 @@ public class SettingsMenu extends FXGLMenu {
     public SettingsMenu() {
         super(MenuType.MAIN_MENU);
 
-        this.createControls();
+        this.createNodes();
     }
 
     /**
      * Creates the default controls for the settings menu.
      */
-    private void createControls()
+    private void createNodes()
     {
-        this.mainVolumeSlider = addNode(this, createSettingSlider(0, 100, 100, "mainVolume"),
+        this.mainVolumeSlider = addNode(this, createSlider(0, 100, 100),
                 (FXGL.getAppWidth() / 2) - (ActionButton.BUTTON_WIDTH / 2),
                 (FXGL.getAppHeight() / 2.5) - (ActionButton.BUTTON_HEIGHT / 2) + (0 * (ActionButton.BUTTON_WIDTH / 4)));
+
+        this.musicVolumeSlider = addNode(this, createSlider(0, 100, 100),
+                (FXGL.getAppWidth() / 2) - (ActionButton.BUTTON_WIDTH / 2),
+                (FXGL.getAppHeight() / 2.5) - (ActionButton.BUTTON_HEIGHT / 2) + (0.5 * (ActionButton.BUTTON_WIDTH / 4)));
+
+        this.sfxVolumeSlider = addNode(this, createSlider(0, 100, 100),
+                (FXGL.getAppWidth() / 2) - (ActionButton.BUTTON_WIDTH / 2),
+                (FXGL.getAppHeight() / 2.5) - (ActionButton.BUTTON_HEIGHT / 2) + (1 * (ActionButton.BUTTON_WIDTH / 4)));
     }
 
     /**
-     * Create a slider and associate its value with a setting (by its name).
+     * Create a slider with some preset values.
      * @param min The minimum value of this slider
      * @param max The maximum value of this slider
      * @param startValue The start value of this slider
-     * @param settingName The setting name
      * @return The slider that was created
      */
-    private Slider createSettingSlider(int min, int max, int startValue, String settingName)
+    private Slider createSlider(int min, int max, int startValue)
     {
         Slider slider = new Slider(min, max, startValue);
         slider.setShowTickLabels(true);
@@ -74,6 +81,33 @@ public class SettingsMenu extends FXGLMenu {
         slider.setMinorTickCount(25);
 
         return slider;
+    }
+
+    /**
+     * Get the main volume slider.
+     * @return The main volume slider
+     */
+    public Slider getMainVolumeSlider()
+    {
+        return this.mainVolumeSlider;
+    }
+
+    /**
+     * Get the music volume slider.
+     * @return The music volume slider
+     */
+    public Slider getMusicVolumeSlider()
+    {
+        return this.musicVolumeSlider;
+    }
+
+    /**
+     * Get the SFX volume slider.
+     * @return The SFX volume slider
+     */
+    public Slider getSfxVolumeSlider()
+    {
+        return this.sfxVolumeSlider;
     }
 
     /**
