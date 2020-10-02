@@ -29,6 +29,6 @@ public class Zombie implements IEnemyType {
 
     @Override
     public int getJumpHeight() {
-        return 150;
+        return 375;
     }
 }

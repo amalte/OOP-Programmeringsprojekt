@@ -1,4 +1,4 @@
-package edu.chalmers.utils;
+package edu.chalmers.services;
 
 import com.almasb.fxgl.entity.level.tiled.TMXLevelLoader;
 import com.almasb.fxgl.entity.level.tiled.TiledMap;

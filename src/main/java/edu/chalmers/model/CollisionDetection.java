@@ -18,6 +18,13 @@ public class CollisionDetection {
             }
         });
 
+        FXGL.getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityType.PLAYER, EntityType.BLOCK) {
+            @Override
+            protected void onCollisionBegin(Entity a, Entity b) {
+                a.getComponent(PlayerComponent.class).resetJumpAmounts();
+            }
+        });
+
         FXGL.getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityType.PLAYER, EntityType.ENEMY) {
             @Override
             protected void onCollision(Entity a, Entity b) {
@@ -25,11 +32,28 @@ public class CollisionDetection {
             }
         });
 
+        // ------ENEMY------ //
+
+        FXGL.getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityType.ENEMY, EntityType.PLATFORM) {
+            @Override
+            protected void onCollisionBegin(Entity a, Entity b) {
+                a.getComponent(EnemyComponent.class).resetJumpAmounts();
+            }
+        });
+
+        FXGL.getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityType.ENEMY, EntityType.BLOCK) {
+            @Override
+            protected void onCollisionBegin(Entity a, Entity b) {
+                //b.getComponent(BlockComponent.class).inflictDamage(a.getComponent(EnemyComponent.class).inflictDamage(););
+                a.getComponent(EnemyComponent.class).resetJumpAmounts();
+            }
+        });
+
         FXGL.getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityType.ENEMY, EntityType.PROJECTILE) {
             @Override
             protected void onCollisionBegin(Entity a, Entity b) {
                 //ToDo implement direct contact with projectile to receive proper damage and not from player.
-                a.getComponent(EnemyComponent.class).inflictDamage(player.getWeapon().getDamage());
+                a.getComponent(EnemyComponent.class).inflictDamage(player.getActiveWeapon().getDamage());
                 b.removeFromWorld();
             }
         });

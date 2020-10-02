@@ -14,8 +14,7 @@ import static com.almasb.fxgl.dsl.FXGL.runOnce;
  */
 public class Weapon {
 
-    IWeaponType weaponType;
-
+    private IWeaponType weaponType;
     private int magazineSize;
     private int reloadTimerMilliseconds;
     private int damage;

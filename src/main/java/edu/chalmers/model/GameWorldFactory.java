@@ -20,23 +20,18 @@ public class GameWorldFactory implements EntityFactory {
      * @return An Entity object with physics and hit box with Enum type PLATFORM.
      */
     @Spawns("platform")
-    public Entity newPlatform(SpawnData spawnData){
+    public Entity newPlatform(SpawnData spawnData) {
         return FXGL.entityBuilder().type(EntityType.PLATFORM).bbox(new HitBox(BoundingShape.box(spawnData.<Integer>get("width"), spawnData.<Integer>get("height")))).with(new CollidableComponent(true)).with(new PhysicsComponent()).build();
-    }
-
-    @Spawns("platformSide")
-    public Entity newPlatformSide(SpawnData spawnData){
-        return FXGL.entityBuilder().type(EntityType.PLATFORMSIDE).bbox(new HitBox(BoundingShape.box(spawnData.<Integer>get("width"), spawnData.<Integer>get("height")))).with(new PhysicsComponent()).build();
-    }
-
-    @Spawns("platformBottom")
-    public Entity newPlatformBottom(SpawnData spawnData){
-        return FXGL.entityBuilder().type(EntityType.PLATFORMBOTTOM).bbox(new HitBox(BoundingShape.box(spawnData.<Integer>get("width"), spawnData.<Integer>get("height")))).with(new PhysicsComponent()).build();
     }
 
     @Spawns("worldBorder")
     public Entity newWorldBorder(SpawnData spawnData){
         return FXGL.entityBuilder().type(EntityType.WORLDBORDER).bbox(new HitBox(BoundingShape.box(spawnData.<Integer>get("width"), spawnData.<Integer>get("height")))).with(new PhysicsComponent()).build();
+    }
+
+    @Spawns("unJumpablePlatform")
+    public Entity newUnJumpablePlatform(SpawnData spawnData) {
+        return FXGL.entityBuilder().type(EntityType.UNJUMPABLEPLATFORM).bbox(new HitBox(BoundingShape.box(spawnData.<Integer>get("width"), spawnData.<Integer>get("height")))).with(new CollidableComponent(true)).with(new PhysicsComponent()).build();
     }
 
     @Spawns("player")
@@ -45,5 +40,10 @@ public class GameWorldFactory implements EntityFactory {
         return FXGL.entityBuilder().type(EntityType.PLAYER).at(spawnData.getX(),spawnData.getY())
                 .viewWithBBox(new Rectangle(50, 50, Color.BLUE)).with(physics)
                 .with(new PlayerComponent(physics)).with(new CollidableComponent(true)).buildAndAttach();
+    }
+
+    @Spawns("enemySpawnPoint")
+    public Entity newEnemySpawnPoint(SpawnData spawnData){
+        return FXGL.entityBuilder().type(EntityType.ENEMYSPAWNPOINT).build();
     }
 }

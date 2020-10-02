@@ -6,7 +6,7 @@ import com.almasb.fxgl.input.Input;
 import com.almasb.fxgl.input.UserAction;
 import edu.chalmers.utilities.EntityPos;
 import edu.chalmers.utilities.CoordsCalculations;
-import edu.chalmers.utils.Coords;
+import edu.chalmers.services.Coords;
 import edu.chalmers.model.GenericPlatformer;
 import edu.chalmers.model.PlayerComponent;
 import edu.chalmers.view.BuildView;
@@ -76,28 +76,13 @@ public class Controller {
             input.addAction(new UserAction("PlaceBlock") {
                 @Override
                 protected void onActionBegin() {
-                    //if(game.getBuildManager().possibleToPlaceBlockOnPos(input.getMousePositionWorld(), EntityPos.getPosition(player))) {
+                    if(game.getBuildManager().possibleToPlaceBlockOnPos(input.getMousePositionWorld(), EntityPos.getPosition(player))) {
                         game.getBuildManager().placeBlock(input.getMousePositionWorld());
                         //player.getComponent(PlayerComponent.class).placeBlock(input.getMousePositionWorld());
-                    //}
-                }
-
-            }, MouseButton.SECONDARY);
-
-            input.addAction(new UserAction("RemoveBlock") {     // TEST METHOD (SHOULD BE REMOVED IN THE FUTURE)
-                @Override
-                protected void onActionBegin() {
-                    if(!game.getBuildManager().getMapManager().isTileEmpty(CoordsCalculations.posToTile(input.getMousePositionWorld()))) {
-                        FXGL.getGameWorld().removeEntity(FXGL.getGameWorld().getEntitiesInRange(new Rectangle2D(input.getMousePositionWorld().getX(), input.getMousePositionWorld().getY(), 5, 5)).get(0));
-
-                        game.getBuildManager().getMapManager().removeBlockFromMap(CoordsCalculations.posToTile(input.getMousePositionWorld()));
-                        Coords mouseTile = CoordsCalculations.posToTile(input.getMousePositionWorld());
-                        //Coords tileToCheck = new Coords(mouseTile.x(), mouseTile.y()-1);
-                        game.getBuildManager().getMapManager().removeLevitatingNeighbours(mouseTile);
                     }
                 }
 
-            }, KeyCode.F);
+            }, MouseButton.SECONDARY);
 
             input.addAction(new UserAction("Reload") {
                 @Override

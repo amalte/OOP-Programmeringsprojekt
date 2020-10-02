@@ -3,6 +3,7 @@ package edu.chalmers.model.enemy;
 import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
+import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
 import edu.chalmers.model.enemy.enemytypes.IEnemyType;
 import javafx.scene.paint.Color;
 
@@ -13,8 +14,10 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameWorld;
  */
 public class EnemyComponent extends Component {
 
-    IEnemyType enemyType;
+    private IEnemyType enemyType;
     private PhysicsComponent physics;
+    private final int AMOUNT_OF_JUMPS = 1;
+    private int jumps = 0;
 
     // STATS
     private Color color;
@@ -28,12 +31,18 @@ public class EnemyComponent extends Component {
 
         physics = new PhysicsComponent();
         physics.setBodyType(BodyType.DYNAMIC);
+        physics.setFixtureDef(new FixtureDef().friction(0.0f));
 
         this.color = enemyType.getColor();
         this.health = enemyType.getHealth();
         this.damage = enemyType.getDamage();
         this.moveSpeed = enemyType.getMoveSpeed();
         this.jumpHeight = enemyType.getJumpHeight();
+    }
+
+    @Override
+    public void onUpdate(double tpf) {
+        checkHealth();
     }
 
     /**
@@ -54,7 +63,10 @@ public class EnemyComponent extends Component {
      * Method moves enemy Entity up (negative y).
      */
     public void jump(){
-        physics.setVelocityY(-jumpHeight);
+        if(jumps != 0) {
+            physics.setVelocityY(-jumpHeight);
+            jumps--;
+        }
     }
 
     /**
@@ -72,7 +84,31 @@ public class EnemyComponent extends Component {
     }
 
     /**
-     * Gets the enemy entity's X-position from its PhysicsComponent.
+     * Resets enemy's jumps to be equal to amountOfJumps variable.
+     */
+    public void resetJumpAmounts(){
+        jumps = AMOUNT_OF_JUMPS;
+    }
+
+    /**
+     * Lower Enemy's health with damage.
+     * @param damage The amount of incoming damage.
+     */
+    public void inflictDamage(int damage){
+        health -= damage;
+    }
+
+    /**
+     * Kills Enemy if its health becomes 0 or lower.
+     */
+    private void checkHealth() {
+        if(health <= 0) {
+            die();
+        }
+    }
+
+    /**
+     * Gets the enemy entity's X-position.
      * @return Enemy X-position.
     */
     public double getX() {
@@ -80,15 +116,23 @@ public class EnemyComponent extends Component {
     }
 
     /**
+     * Gets the enemy entity's mid X-position.
+     * @return Enemy middle X-position.
+     */
+    public double getMiddleX() {
+        return entity.getX() + (entity.getWidth() / 2);
+    }
+
+    /**
      * Gets the enemy entity's right side X-position.
-     * @return Enemy X-position.
+     * @return Enemy right X-position.
     */
     public double getRightX() {
         return entity.getRightX();
     }
 
     /**
-     * Gets the enemy entity's Y-position from its PhysicsComponent.
+     * Gets the enemy entity's Y-position.
      * @return Enemy Y-position.
     */
     public double getY() {
@@ -96,8 +140,16 @@ public class EnemyComponent extends Component {
     }
 
     /**
+     * Gets the enemy entity's mid Y-position.
+     * @return Enemy middle Y-position.
+     */
+    public double getMiddleY() {
+        return entity.getY() + (entity.getHeight() / 2);
+    }
+
+    /**
      * Gets the enemy entity's bottom side Y-position.
-     * @return Enemy Y-position.
+     * @return Enemy bottom Y-position.
     */
     public double getBottomY() {
         return entity.getBottomY();
@@ -112,7 +164,7 @@ public class EnemyComponent extends Component {
     }
 
     /**
-     * Gets the Color of the Enemy entity.
+     * Getter for the variable color.
      * @return The Color of entity.
      */
     public Color getColor() {
@@ -125,14 +177,6 @@ public class EnemyComponent extends Component {
      */
     public int getDamage(){
         return damage;
-    }
-
-    /**
-     * Lower Enemy's health with damage.
-     * @param damage The amount of incoming damage.
-     */
-    public void inflictDamage(int damage){
-        health -= damage;
     }
 
     /**

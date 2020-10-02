@@ -5,6 +5,7 @@ import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.components.CollidableComponent;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
+import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
 import edu.chalmers.utilities.Constants;
 import edu.chalmers.utilities.CoordsCalculations;
 import edu.chalmers.model.building.IBlock;
@@ -21,9 +22,8 @@ public class Block implements IBlock {
     public Block(Point2D mousePos) {
         Point2D blockPosition = CoordsCalculations.posToTilePos(mousePos);
 
-        //System.out.println("X: " + blockPosition.getX() + " Y: " + blockPosition.getY());
-
         physics.setBodyType(BodyType.STATIC);
+        physics.setFixtureDef(new FixtureDef().friction(0.0f));
         currentBlock = FXGL.entityBuilder()
                 .type(EntityType.BLOCK)
                 .at(((int)blockPosition.getX()),((int)blockPosition.getY()))
