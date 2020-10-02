@@ -41,4 +41,9 @@ public class GameWorldFactory implements EntityFactory {
                 .viewWithBBox(new Rectangle(50, 50, Color.BLUE)).with(physics)
                 .with(new PlayerComponent(physics)).with(new CollidableComponent(true)).buildAndAttach();
     }
+
+    @Spawns("enemySpawnPoint")
+    public Entity newEnemySpawnPoint(SpawnData spawnData){
+        return FXGL.entityBuilder().type(EntityType.ENEMYSPAWNPOINT).build();
+    }
 }

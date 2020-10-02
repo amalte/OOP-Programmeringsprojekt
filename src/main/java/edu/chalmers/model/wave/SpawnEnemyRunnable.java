@@ -1,6 +1,7 @@
 package edu.chalmers.model.wave;
 
 import com.almasb.fxgl.entity.Entity;
+import edu.chalmers.model.EntityType;
 import edu.chalmers.model.enemy.EnemyFactory;
 import javafx.geometry.Point2D;
 import javafx.util.Duration;
@@ -8,6 +9,7 @@ import javafx.util.Duration;
 import java.util.List;
 import java.util.Random;
 
+import static com.almasb.fxgl.dsl.FXGL.getGameWorld;
 import static com.almasb.fxgl.dsl.FXGL.runOnce;
 
 /**
@@ -63,7 +65,8 @@ public class SpawnEnemyRunnable implements Runnable {
     @Override
     public void run() {
         int spawnIndex = random.nextInt(enemiesToSpawn.size()); // Select random enemy from list
-        enemyFactory.createEnemy(enemiesToSpawn.get(spawnIndex), getRandomSpawnPoint().getX(), getRandomSpawnPoint().getY(), player);   // Spawn an enemy randomly from list
+        Point2D spawnPoint = getGameWorld().getEntitiesByType(EntityType.ENEMYSPAWNPOINT).get(random.nextInt(2)).getPosition();
+        enemyFactory.createEnemy(enemiesToSpawn.get(spawnIndex), spawnPoint.getX(), spawnPoint.getY(), player);   // Spawn an enemy randomly from list
         enemiesToSpawn.remove(spawnIndex);  // Enemy has been spawned so remove from enemiesToSpawn list
 
         if (enemiesToSpawn.size() > 0) {
