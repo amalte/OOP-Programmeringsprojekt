@@ -4,6 +4,9 @@ import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.dsl.FXGL;
 import javafx.scene.Node;
 
+/**
+ * Utils for usage in the main views.
+ */
 public class MainViewUtil {
     /**
      * Perform validation on a Node and then add it to the content root of this menu.
