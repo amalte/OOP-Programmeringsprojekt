@@ -4,8 +4,6 @@ import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
-import edu.chalmers.model.building.blocks.Block;
-import javafx.geometry.Point2D;
 import com.almasb.fxgl.time.TimerAction;
 import edu.chalmers.model.weapon.Weapon;
 import edu.chalmers.model.weapon.WeaponFactory;
@@ -119,8 +117,6 @@ public class PlayerComponent extends Component {
     public void shoot() {
         weapons.get(activeWeapon).shoot(entity.getX(), entity.getY());
     }
-
-    public void placeBlock(Point2D mousePos) { new Block(mousePos); }
 
     /**
      * Calls method reload from PlayerComponent's selected weapon.

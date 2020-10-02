@@ -1,0 +1,25 @@
+How to Play:
+
+Jump: W
+Move left: A
+Move right: D
+Shoot: Mouse1
+Aim: Mouse
+Build: Mouse2
+Reload: R
+Switch between weapons: 1,2,3
+
+O.B.S
+You can only build within the building range displayed on the screen.
+You can only build a block if it is next to a already existing block, a platform or the ground.
+
+Main known bugs:
+If you restart the game the building range won't be displayed but you can still build in the same way.
+
+
+Others:
+Enemies AI not completed.
+Settings button do not work.
+UI not completed.
+Enemies will be able to break blocks.
+Reload wont be displayed but trust us...it works ;P

@@ -6,6 +6,7 @@ import edu.chalmers.model.enemy.EnemyFactory;
 import javafx.geometry.Point2D;
 import javafx.util.Duration;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -17,30 +18,16 @@ import static com.almasb.fxgl.dsl.FXGL.runOnce;
  */
 public class SpawnEnemyRunnable implements Runnable {
     private Random random = new Random();
-    private List<String> enemiesToSpawn;
-    private int shortSpawnMs;
-    private int longSpawnMs;
+    private List<String> enemiesToSpawn = new ArrayList<>();
+    private int shortSpawnMs = 1000;    // Lowest time between enemies spawning
+    private int longSpawnMs = 3000;    // Longest time between enemies spawning
     private Entity player;
 
     private EnemyFactory enemyFactory = EnemyFactory.getInstance();
-    private Point2D leftSpawnPoint = new Point2D(0, 520);
-    private Point2D rightSpawnPoint = new Point2D(1000, 520);
     private boolean isRunnableActive = false;
 
-    SpawnEnemyRunnable(List<String> enemiesToSpawn, int shortSpawnMs, int longSpawnMs, Entity player) {
-        this.enemiesToSpawn = enemiesToSpawn;
-        this.shortSpawnMs = shortSpawnMs;
-        this.longSpawnMs = longSpawnMs;
+    SpawnEnemyRunnable(Entity player) {
         this.player = player;
-    }
-
-    private Point2D getRandomSpawnPoint() {
-        if(random.nextInt(2) == 0) {    // Left side if random = 0
-            return leftSpawnPoint;
-        }
-        else {  // Right side
-            return rightSpawnPoint;
-        }
     }
 
     /**
@@ -58,6 +45,34 @@ public class SpawnEnemyRunnable implements Runnable {
     public void setIsRunnableActive(boolean value) {
          isRunnableActive = value;
     }
+
+    /**
+     * Getter for enemies to spawn list
+     * @return list enemies to spawn
+     */
+    public List<String> getEnemiesToSpawn() {
+        return new ArrayList<>(enemiesToSpawn);
+    }
+
+    /**
+     * Setter for enemies to spawn list
+     * @param enemiesToSpawn enemies to spawn from wave
+     */
+    public void setEnemiesToSpawn(List<String> enemiesToSpawn) {
+        this.enemiesToSpawn = enemiesToSpawn;
+    }
+
+    /**
+     * Getter for longest time between enemies spawning
+     * @return int long spawn ms
+     */
+    public int getLongSpawnMs() { return longSpawnMs; }
+
+    /**
+     * Getter for lowest time between enemies spawning
+     * @return int short spawn ms
+     */
+    public int getShortSpawnMs() { return shortSpawnMs; }
 
     /**
      * Method spawns all enemies in a time interval on a random spawn position

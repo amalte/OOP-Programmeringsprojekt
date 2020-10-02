@@ -3,6 +3,7 @@ package edu.chalmers.model;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.SpawnData;
 import edu.chalmers.model.building.BuildManager;
+import edu.chalmers.model.building.MapManager;
 import edu.chalmers.model.wave.WaveManager;
 
 
@@ -14,6 +15,7 @@ public class GenericPlatformer {
     private Entity player;
     private GameWorldFactory gameWorldFactory;
     private WaveManager waveManager;
+    private MapManager mapManager;
     private BuildManager buildManager;
     private CollisionDetection collisionDetection;
 
@@ -24,6 +26,8 @@ public class GenericPlatformer {
         initBuildManager();
     }
 
+
+
     /**
      * Get method that creates a new player if no player is already created.
      * @return A player object.
@@ -33,6 +37,13 @@ public class GenericPlatformer {
             createPlayer();
         }
         return player;
+    }
+
+    /**
+     * Initiates mapManager.
+     */
+    public void initMapManager(){
+        this.buildManager = new BuildManager(3);
     }
 
     /**

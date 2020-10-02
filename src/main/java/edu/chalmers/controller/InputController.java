@@ -84,21 +84,6 @@ public class InputController {
 
             }, MouseButton.SECONDARY);
 
-            input.addAction(new UserAction("RemoveBlock") {     // TEST METHOD (SHOULD BE REMOVED IN THE FUTURE)
-                @Override
-                protected void onActionBegin() {
-                    if(!game.getBuildManager().getMapManager().isTileEmpty(CoordsCalculations.posToTile(input.getMousePositionWorld()))) {
-                        FXGL.getGameWorld().removeEntity(FXGL.getGameWorld().getEntitiesInRange(new Rectangle2D(input.getMousePositionWorld().getX(), input.getMousePositionWorld().getY(), 5, 5)).get(0));
-
-                        game.getBuildManager().getMapManager().removeBlockFromMap(CoordsCalculations.posToTile(input.getMousePositionWorld()));
-                        Coords mouseTile = CoordsCalculations.posToTile(input.getMousePositionWorld());
-                        //Coords tileToCheck = new Coords(mouseTile.x(), mouseTile.y()-1);
-                        game.getBuildManager().getMapManager().removeLevitatingNeighbours(mouseTile);
-                    }
-                }
-
-            }, KeyCode.F);
-
             input.addAction(new UserAction("Reload") {
                 @Override
                 protected void onActionBegin() {

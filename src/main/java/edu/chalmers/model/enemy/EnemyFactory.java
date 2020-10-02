@@ -8,6 +8,7 @@ import edu.chalmers.model.enemy.ai.EnemyAIComponent;
 import edu.chalmers.model.enemy.enemytypes.Blob;
 import edu.chalmers.model.enemy.enemytypes.Rex;
 import edu.chalmers.model.enemy.enemytypes.Zombie;
+import edu.chalmers.model.wave.WaveManager;
 import javafx.scene.shape.Rectangle;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameWorld;
