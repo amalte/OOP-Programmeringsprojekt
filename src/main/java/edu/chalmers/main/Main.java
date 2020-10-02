@@ -4,13 +4,15 @@ import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.SceneFactory;
-import edu.chalmers.controller.Controller;
+import edu.chalmers.controller.InputController;
+import edu.chalmers.controller.main.MainMenuController;
 import edu.chalmers.model.GenericPlatformer;
 import edu.chalmers.utilities.Constants;
 import edu.chalmers.view.GamePlayView;
 import edu.chalmers.view.main.MainMenu;
 
 public class Main extends GameApplication {
+    private MainMenuController mainMenuController;
 
     public static void main(String[] args) {
         System.setProperty("quantum.multithreaded", "false"); // DO NOT REMOVE. Caps FPS at 60 across all computers
@@ -31,7 +33,10 @@ public class Main extends GameApplication {
         gameSettings.setSceneFactory(new SceneFactory() {
             @Override
             public FXGLMenu newMainMenu() {
-                return MainMenu.getInstance();
+                if (mainMenuController == null)
+                    mainMenuController = new MainMenuController(new MainMenu());
+
+                return mainMenuController.getViewInstance();
             }
         });
     }
@@ -39,12 +44,12 @@ public class Main extends GameApplication {
     @Override
     protected void initGame() {
         GenericPlatformer game = new GenericPlatformer();
-        Controller controller = new Controller(game);
+        InputController inputController = new InputController(game);
         GamePlayView gameView = new GamePlayView(game);
         gameView.initGameWorld();
         gameView.changeLevel("level1.tmx");
 
-        controller.initPlayerMovementInput();
+        inputController.initPlayerMovementInput();
         game.initCollisionDetection();
         game.initWaveManager();
 
