@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="32" height="18" tilewidth="60" tileheight="60" infinite="0" nextlayerid="9" nextobjectid="79">
+<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="32" height="18" tilewidth="60" tileheight="60" infinite="0" nextlayerid="9" nextobjectid="84">
  <tileset firstgid="1" name="TextureSheet60px" tilewidth="60" tileheight="60" tilecount="16" columns="4">
   <image source="TextureSheet60px.png" width="240" height="240"/>
  </tileset>
@@ -9,13 +9,15 @@
   <object id="57" type="worldBorder" x="0" y="-120" width="1920" height="120"/>
   <object id="60" type="worldBorder" x="1920" y="0" width="120" height="1080"/>
   <object id="67" type="platform" x="361" y="659" width="298" height="1" rotation="360"/>
-  <object id="69" type="unJumpablePlatform" x="360" y="660" width="300" height="59" visible="0"/>
+  <object id="69" type="unJumpablePlatform" x="360" y="660" width="300" height="59"/>
   <object id="71" type="platform" x="1261" y="660" width="298" height="1" rotation="360"/>
-  <object id="72" type="unJumpablePlatform" x="1260" y="661" width="300" height="59" visible="0"/>
+  <object id="72" type="unJumpablePlatform" x="1260" y="661" width="300" height="59"/>
   <object id="73" type="platform" x="841" y="780" width="238" height="1" rotation="360"/>
-  <object id="74" type="unJumpablePlatform" x="840" y="781" width="240" height="59" visible="0"/>
+  <object id="74" type="unJumpablePlatform" x="840" y="781" width="240" height="59"/>
   <object id="77" type="platform" x="841" y="540" width="238" height="1" rotation="360"/>
-  <object id="78" type="unJumpablePlatform" x="840" y="541" width="240" height="59" visible="0"/>
+  <object id="78" type="unJumpablePlatform" x="840" y="541" width="240" height="59"/>
+  <object id="82" type="enemySpawnPoint" x="30" y="810"/>
+  <object id="83" type="enemySpawnPoint" x="1890" y="810"/>
  </objectgroup>
  <layer id="1" name="Tile Layer 1" width="32" height="18">
   <data encoding="csv">
