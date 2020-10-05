@@ -43,25 +43,25 @@ public class EnemyFactory {
      * @param player A reference to the Player entity.
      * @return Returns a Enemy entity.
      */
-    public Entity createEnemy(String enemyName, double x, double y, Entity player) {
+    public Entity createEnemy(String enemyName, double x, double y, Entity player, StatMultiplier statMultiplier) {
         if(enemyName == null) {
             return null;
         }
 
         if(enemyName.equalsIgnoreCase("ZOMBIE")) {
-            EnemyComponent zombieComponent = new EnemyComponent(new Zombie());
+            EnemyComponent zombieComponent = new EnemyComponent(new Zombie(), statMultiplier);
             Entity zombie = buildEnemy(zombieComponent, x, y, player);
             getGameWorld().addEntity(zombie);
             return zombie;
         }
         else if(enemyName.equalsIgnoreCase("REX")) {
-            EnemyComponent rexComponent = new EnemyComponent(new Rex());
+            EnemyComponent rexComponent = new EnemyComponent(new Rex(), statMultiplier);
             Entity rex = buildEnemy(rexComponent, x, y, player);
             getGameWorld().addEntity(rex);
             return rex;
         }
         else if(enemyName.equalsIgnoreCase("BLOB")) {
-            EnemyComponent blobComponent = new EnemyComponent(new Blob());
+            EnemyComponent blobComponent = new EnemyComponent(new Blob(), statMultiplier);
             Entity blob = buildEnemy(blobComponent, x, y, player);
             getGameWorld().addEntity(blob);
             return blob;

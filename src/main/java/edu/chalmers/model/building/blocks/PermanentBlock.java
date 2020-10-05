@@ -14,4 +14,9 @@ public class PermanentBlock implements IBlock {
             //FXGL.getGameWorld().removeEntity(currentBlock);
         }
     }
+
+    @Override
+    public void inflictDamage(int damage) {
+        // No damage for permanent blocks
+    }
 }
