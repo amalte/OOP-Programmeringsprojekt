@@ -56,10 +56,12 @@ public class EnemyAIComponent extends Component {
         movementAI.enemyStuckUnderPlatformFix();
         standingOnEnemyCheck();
         movementAI.reachPlayer();
+        //movementAI.followPlayerDown();
 
-        // Reset stat multiplier if Enemy is touching solid ground.
+        // Reset move speed and jump height if Enemy is touching solid ground.
         if(!thisEnemy.isAirborne()) {
-            thisEnemy.resetStatMultiplier();
+            thisEnemy.setMoveSpeedMultiplier(1);
+            thisEnemy.setJumpHeightMultiplier(1);
         }
     }
 
@@ -176,6 +178,14 @@ public class EnemyAIComponent extends Component {
     }
 
     /**
+     * Getter for player's PlayerComponent class.
+     * @return player.
+     */
+    public PlayerComponent getPlayerComponent() {
+        return player.getComponent(PlayerComponent.class);
+    }
+
+    /**
      * Getter for pathfindingOverride variable.
      * @return pathfindingOverride.
      */
@@ -235,12 +245,19 @@ public class EnemyAIComponent extends Component {
     }
 
     /**
-     * Method checks if given entity is above the Enemy.
+     * Method checks if given entity's top Y-position is above the Enemy.
      * @return True or false.
      */
-    public boolean isEntityAbove(Entity entity) {
-        //return (entity.getY() + (entity.getHeight() / 2)) - thisEnemy.getY() < 0;
+    public boolean isEntityTopYAbove(Entity entity) {
         return (entity.getY() - thisEnemy.getY()) < 0;
+    }
+
+    /**
+     * Method checks if given entity's middle Y-position is above the Enemy.
+     * @return True or false.
+     */
+    public boolean isEntityMiddleYAbove(Entity entity) {
+        return (entity.getY() + (entity.getHeight() / 2)) - thisEnemy.getY() < 0;
     }
 
     /**

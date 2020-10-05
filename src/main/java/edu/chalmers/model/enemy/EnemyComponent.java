@@ -105,10 +105,6 @@ public class EnemyComponent extends Component {
         }
     }
 
-    public void resetStatMultiplier() {
-        setStatMultiplier(new StatMultiplier());
-    }
-
     // ---------- GETTERS ---------- //
 
     /**
@@ -210,13 +206,18 @@ public class EnemyComponent extends Component {
     }
 
     /**
-     * Sets the multiplier for Enemy's stats (health, damage, and move speed).
-     * @param statMultiplier Multipliers.
+     * Sets the multiplier for Enemy's move speed.
+     * @param moveSpeedMultiplier Move speed multiplier.
      */
-    public void setStatMultiplier(StatMultiplier statMultiplier) {
-        health = (int) Math.round(enemyType.getHealth() * statMultiplier.getHealthMultiplier());
-        damage = (int) Math.round(enemyType.getDamage() * statMultiplier.getDmgMultiplier());
-        moveSpeed = (int) Math.round(enemyType.getMoveSpeed() * statMultiplier.getSpeedMultiplier());
-        jumpHeight = (int) Math.round(enemyType.getJumpHeight() * statMultiplier.getJmpHeightMultiplier());
+    public void setMoveSpeedMultiplier(double moveSpeedMultiplier) {
+        moveSpeed = (int) Math.round(enemyType.getMoveSpeed() * moveSpeedMultiplier);
+    }
+
+    /**
+     * Sets the multiplier for Enemy's jump height.
+     * @param jumpHeightMultiplier Jump height multiplier.
+     */
+    public void setJumpHeightMultiplier(double jumpHeightMultiplier) {
+        jumpHeight = (int) Math.round(enemyType.getJumpHeight() * jumpHeightMultiplier);
     }
 }

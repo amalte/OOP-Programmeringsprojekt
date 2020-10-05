@@ -23,8 +23,10 @@ class MovementAI {
 
     private TimerAction underPlatformTimer;
     private TimerAction moveToNextPlatformTimer;
+    private TimerAction blockJumpTimer;
     boolean underPlatform = false;
     boolean moveToNextPlatform = true;
+    boolean blockJump = true;
 
     public MovementAI(EnemyAIComponent enemyAIComponent) {
         this.AI = enemyAIComponent;
@@ -88,8 +90,8 @@ class MovementAI {
             return;
         }
 
-        // If Player is above Enemy; check if jump is needed.
-        if(AI.isEntityAbove(AI.getPlayer())) {
+        // If Player is above Enemy and Player most recently did not touch the world ground; check if jump is needed.
+        if(AI.isEntityMiddleYAbove(AI.getPlayer()) && !AI.getPlayerComponent().isOnGround()) {
 
             // IF:
             // higherHorizontalRaycast hit a platform *OR*
@@ -101,7 +103,8 @@ class MovementAI {
 
                 // Increase moveSpeed and jumpHeight if Enemy is falling of platform and is going to jump.
                 if(!RaycastCalculations.checkRaycastHit(AI.getRaycastAI().getActiveDownwardRaycast(), EntityType.PLATFORM)) {
-                    AI.getThisEnemy().setStatMultiplier(new StatMultiplier(1, 1, 1.5, 1.2));
+                    AI.getThisEnemy().setMoveSpeedMultiplier(1.5);
+                    AI.getThisEnemy().setJumpHeightMultiplier(1.2);
                 }
 
                 // Jump
@@ -109,11 +112,15 @@ class MovementAI {
             }
         }
 
-
-
         // If horizontalRaycast hit a Block.
         if (RaycastCalculations.checkRaycastHit(AI.getRaycastAI().getHorizontalRaycast(), EntityType.BLOCK)) {
-            AI.getThisEnemy().jump();
+
+            // If Enemy is allowed to jump up a block
+            if(blockJump) {
+                AI.getThisEnemy().jump();
+                blockJump = false;
+                blockJumpTimerDelay();      // Delay setting blockJump to true again after a jump
+            }
         }
     }
 
@@ -126,9 +133,9 @@ class MovementAI {
         // the Player is *not* on the ground *AND*
         // Enemy is *not* under a platform *AND*
         // Player is above Enemy *AND*
-        if(!AI.getPlayer().getComponent(PlayerComponent.class).isOnGround() &&
+        if(!AI.getPlayerComponent().isOnGround() &&
                 !underPlatform &&
-                AI.isEntityAbove(AI.getPlayer())) {
+                AI.isEntityTopYAbove(AI.getPlayer())) {
 
             // If Enemy should move to next platform
             if(moveToNextPlatform) {
@@ -175,13 +182,15 @@ class MovementAI {
         // leftUpwardRaycast or rightUpwardRaycast hits a platform *AND*
         // Enemy is not airborne *AND*
         // Enemy most recently touched the world ground *AND*
-        // Enemy is not already under a platform
-        if(AI.isEntityAbove(AI.getPlayer()) &&
+        // Enemy is not already under a platform *AND*
+        // Player most recently touched a platform
+        if(AI.isEntityMiddleYAbove(AI.getPlayer()) &&
                 (RaycastCalculations.checkRaycastHit(AI.getRaycastAI().getLeftUpwardRaycast(), EntityType.PLATFORM) ||
                         RaycastCalculations.checkRaycastHit(AI.getRaycastAI().getRightUpwardRaycast(), EntityType.PLATFORM)) &&
                 !AI.getThisEnemy().isAirborne() &&
                 AI.getThisEnemy().isOnGround() &&
-                !underPlatform) {
+                !underPlatform &&
+                !AI.getPlayerComponent().isOnGround()) {
 
             // Then Enemy is under a platform.
             underPlatform = true;
@@ -234,6 +243,17 @@ class MovementAI {
         }
     }
 
+    // ---------- TIMERS ---------- //
+
+    /**
+     * Initiate damage delay timer.
+     */
+    private void initTimer(){
+        underPlatformTimer = runOnce(() -> {}, Duration.seconds(0));
+        moveToNextPlatformTimer = runOnce(() -> {}, Duration.seconds(0));
+        blockJumpTimer = runOnce(() -> {}, Duration.seconds(0));
+    }
+
     /**
      * Method sets underPlatform variable to false after a short delay.
      */
@@ -253,11 +273,12 @@ class MovementAI {
     }
 
     /**
-     * Initiate damage delay timer.
+     * Method sets blockJump variable to true after a short delay.
      */
-    private void initTimer(){
-        underPlatformTimer = runOnce(() -> {}, Duration.seconds(0));
-        moveToNextPlatformTimer = runOnce(() -> {}, Duration.seconds(0));
+    private void blockJumpTimerDelay(){
+        if(blockJumpTimer.isExpired()){
+            blockJumpTimer = runOnce(() -> blockJump = true, Duration.millis(1500));
+        }
     }
 
     // ------- GETTERS ------- //
