@@ -18,7 +18,7 @@ import org.jetbrains.annotations.NotNull;
 import static edu.chalmers.view.main.MainViewUtil.*;
 
 /**
- * Main menu for the game.
+ * The main menu for the game.
  */
 public class MainMenu extends FXGLMenu {
     /**
@@ -47,64 +47,28 @@ public class MainMenu extends FXGLMenu {
     private Node exitButton;
 
     /**
-     * "Last" instance of this class
-     */
-    private static MainMenu instance;
-
-    /**
      * Default constructor.
      * Creates default controls.
      */
-    MainMenu() {
+    public MainMenu() {
         super(MenuType.MAIN_MENU);
 
-        this.createControls();
-    }
-
-    /**
-     * Get the last instance of this class.
-     * @return Instance of this class
-     */
-    public static MainMenu getInstance()
-    {
-        if (instance == null)
-            instance = new MainMenu();
-
-        return instance;
+        this.createNodes();
     }
 
     /**
      * Creates the default buttons for the main menu.
      * Actions have to be set up from the controller.
      */
-    private void createControls()
+    private void createNodes()
     {
-        /**
-         * NOTE: Set all actions to () -> { } (empty code-block) when controller is created for this class.
-         * And bind this::fireNewGame, etc. over there instead.
-        */
-
-        /**
-         * Play button.
-         * Expected action: this::fireNewGame
-         */
-        this.playButton = addNode(this, createMenuButton("Play", this::fireNewGame),
+        this.playButton = addNode(this, createMenuButton("Play", () -> { }),
                 (FXGL.getAppWidth() / 2) - (ActionButton.BUTTON_WIDTH / 2),
                 (FXGL.getAppHeight() / 2.5) - (ActionButton.BUTTON_HEIGHT / 2) + (0 * (ActionButton.BUTTON_WIDTH / 4)));
-
-        /**
-         * Settings button.
-         * Expected action: Open the Settings menu.
-         */
         this.settingsButton = addNode(this, createMenuButton("Settings", () -> { }),
                 (FXGL.getAppWidth() / 2) - (ActionButton.BUTTON_WIDTH / 2),
                 (FXGL.getAppHeight() / 2.5) - (ActionButton.BUTTON_HEIGHT / 2) + (1 * (ActionButton.BUTTON_WIDTH / 4)));
-
-        /**
-         * Exit button.
-         * Expected action: this::fireExit
-         */
-        this.exitButton = addNode(this, createMenuButton("Exit", this::fireExit),
+        this.exitButton = addNode(this, createMenuButton("Exit", () -> { }),
                 (FXGL.getAppWidth() / 2) - (ActionButton.BUTTON_WIDTH / 2),
                 (FXGL.getAppHeight() / 2.5) - (ActionButton.BUTTON_HEIGHT / 2) + (2 * (ActionButton.BUTTON_WIDTH / 4)));
     }

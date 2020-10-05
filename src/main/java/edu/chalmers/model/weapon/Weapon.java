@@ -20,6 +20,7 @@ public class Weapon {
     private int damage;
     private int projectileSpeed;
     private int magazineCounter;
+    private boolean reloading = false;
 
     private TimerAction timerAction;
 
@@ -40,7 +41,7 @@ public class Weapon {
      * @param y Players y-position
      */
     public void shoot(double x, double y) {
-        if (magazineCounter > 0) {
+        if (magazineCounter > 0 && !reloading) {
             magazineCounter--;
             new WeaponProjectile(x, y, mouseLocation(), projectileSpeed);
         }
@@ -50,13 +51,15 @@ public class Weapon {
      * Resets the magazineAmmo counter after a delay specified by reloadTimerMilliseconds
      */
     public void reload() {
+        reloading = true;
         if (timerAction.isExpired()) {
-            timerAction = createReloadTimer();
+            timerAction = runOnce(() -> resetMagazine(), Duration.millis(reloadTimerMilliseconds));
         }
     }
 
-    private TimerAction createReloadTimer() {
-        return runOnce(() -> magazineCounter = magazineSize, Duration.millis(reloadTimerMilliseconds));
+    private void resetMagazine() {
+        magazineCounter = magazineSize;
+        reloading = false;
     }
 
     private void initTimer() {

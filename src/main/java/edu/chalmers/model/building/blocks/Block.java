@@ -30,11 +30,11 @@ public class Block implements IBlock {
     public Block(Point2D mousePos) {
         Point2D blockPosition = CoordsCalculations.posToTilePos(mousePos);
 
-        physics.setBodyType(BodyType.KINEMATIC);
+        physics.setBodyType(BodyType.STATIC);
         physics.setFixtureDef(new FixtureDef().friction(0.0f));
         currentBlock = FXGL.entityBuilder()
                 .type(EntityType.BLOCK)
-                .at((blockPosition.getX()),(blockPosition.getY()))
+                .at(((int)blockPosition.getX()),((int)blockPosition.getY()))
                 .viewWithBBox(new Rectangle(tileSize, tileSize, Color.DARKGREY))
                 .with(physics)
                 .with(new CollidableComponent(true))
@@ -43,10 +43,6 @@ public class Block implements IBlock {
 
         initDamageDelayTimer();
     }
-
-    /*public void removeBlock() {
-        currentBlock.removeFromWorld();
-    }*/
 
     @Override
     public boolean canBeDestroyed() {
