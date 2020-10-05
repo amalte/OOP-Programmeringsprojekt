@@ -132,10 +132,14 @@ class MovementAI {
         // IF:
         // the Player is *not* on the ground *AND*
         // Enemy is *not* under a platform *AND*
-        // Player is above Enemy *AND*
+        // Player is above Enemy
+        // Player and Enemy *don't* have the same Y-position
         if(!AI.getPlayerComponent().isOnGround() &&
                 !underPlatform &&
-                AI.isEntityTopYAbove(AI.getPlayer())) {
+                AI.isEntityBottomYAbove(AI.getPlayer()) &&
+                !AI.isEntitySameY(AI.getPlayer())) {
+
+            System.out.println(closestPlatform);
 
             // If Enemy should move to next platform
             if(moveToNextPlatform) {
@@ -150,8 +154,8 @@ class MovementAI {
                     }
                 }
 
-                // Set closestPlatform if Enemy is not airborne.
-                if(!AI.getThisEnemy().isAirborne()) {
+                // Set closestPlatform if Enemy or Player is not airborne.
+                if(!AI.getThisEnemy().isAirborne() && !AI.getPlayerComponent().isAirborne()) {
                     closestPlatform = AI.getPlatformAI().getClosestPlatform();
                 }
 

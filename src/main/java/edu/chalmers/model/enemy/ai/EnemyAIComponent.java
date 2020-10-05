@@ -261,10 +261,26 @@ public class EnemyAIComponent extends Component {
     }
 
     /**
+     * Method checks if given entity's bottom Y-position is above the Enemy.
+     * @return True or false.
+     */
+    public boolean isEntityBottomYAbove(Entity entity) {
+        return (entity.getBottomY() - thisEnemy.getY()) < 0;
+    }
+
+    /**
      * Method checks if the given entity is below the Enemy.
      * @return True or false.
      */
     public boolean isEntityBelow(Entity entity) {
         return (entity.getY() + (entity.getHeight() / 2)) - thisEnemy.getY() > 0;
+    }
+
+    /**
+     * Method checks if the given entity is below the Enemy.
+     * @return True or false.
+     */
+    public boolean isEntitySameY(Entity entity) {
+        return Math.abs(entity.getBottomY() - thisEnemy.getBottomY()) < 5;
     }
 }
