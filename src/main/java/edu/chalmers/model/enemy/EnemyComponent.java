@@ -150,6 +150,14 @@ public class EnemyComponent extends Component {
     }
 
     /**
+     * Getter for the variable enemyType.
+     * @return The type of Enemy.
+     */
+    public IEnemyType getEnemyType() {
+        return enemyType;
+    }
+
+    /**
      * Getter for the variable color.
      * @return The Color of entity.
      */
@@ -213,6 +221,22 @@ public class EnemyComponent extends Component {
      */
     public void setAirborne(boolean airborne) {
         isAirborne = airborne;
+    }
+
+    /**
+     * Sets the multiplier for Enemy's health.
+     * @param healthMultiplier Health multiplier.
+     */
+    public void setHealthMultiplier(double healthMultiplier) {
+        health = (int) Math.round(enemyType.getHealth() * healthMultiplier);
+    }
+
+    /**
+     * Sets the multiplier for Enemy's damage.
+     * @param damageMultiplier Damage multiplier.
+     */
+    public void setDamageMultiplier(double damageMultiplier) {
+        damage = (int) Math.round(enemyType.getDamage() * damageMultiplier);
     }
 
     /**

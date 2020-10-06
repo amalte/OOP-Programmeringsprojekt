@@ -3,6 +3,9 @@ package edu.chalmers.model.enemy.ai;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.time.TimerAction;
 import edu.chalmers.model.EntityType;
+import edu.chalmers.model.enemy.enemytypes.Blob;
+import edu.chalmers.model.enemy.enemytypes.Rex;
+import edu.chalmers.model.enemy.enemytypes.Zombie;
 import edu.chalmers.utilities.RaycastCalculations;
 import javafx.util.Duration;
 
@@ -99,10 +102,9 @@ class MovementAI {
                     RaycastCalculations.checkRaycastHit(AI.getRaycastAI().getHorizontalRaycast(), EntityType.PLATFORM) ||
                     !RaycastCalculations.checkRaycastHit(AI.getRaycastAI().getActiveDownwardRaycast(), EntityType.PLATFORM)) {
 
-                // Increase moveSpeed and jumpHeight if Enemy is falling of platform and is going to jump.
+                // Increase moveSpeed and jumpHeight if Enemy is falling off platform and is going to jump.
                 if(!RaycastCalculations.checkRaycastHit(AI.getRaycastAI().getActiveDownwardRaycast(), EntityType.PLATFORM)) {
-                    AI.getThisEnemy().setMoveSpeedMultiplier(1.5);
-                    AI.getThisEnemy().setJumpHeightMultiplier(1.2);
+                    improveEnemyStatsForJump();
                 }
 
                 // Jump
@@ -250,6 +252,32 @@ class MovementAI {
         }
         else {
             AI.setPathfindingOverride(false);
+        }
+    }
+
+    /**
+     * Method improves Enemy stats depending on the Enemy type.
+     */
+    private void improveEnemyStatsForJump() {
+
+        System.out.println(AI.getThisEnemy().getEnemyType().getClass());
+
+        // If Enemy is a Zombie:
+        if(AI.getThisEnemy().getEnemyType().getClass().equals(Zombie.class)) {
+            AI.getThisEnemy().setMoveSpeedMultiplier(1.5);
+            AI.getThisEnemy().setJumpHeightMultiplier(1.2);
+        }
+
+        // If Enemy is a Rex:
+        else if(AI.getThisEnemy().getEnemyType().getClass().equals(Rex.class)) {
+            AI.getThisEnemy().setMoveSpeedMultiplier(1.9);
+            AI.getThisEnemy().setJumpHeightMultiplier(1.2);
+        }
+
+        // If Enemy is a Blob
+        else if(AI.getThisEnemy().getEnemyType().getClass().equals(Blob.class)) {
+            AI.getThisEnemy().setMoveSpeedMultiplier(1.4);
+            AI.getThisEnemy().setJumpHeightMultiplier(1.1);
         }
     }
 
