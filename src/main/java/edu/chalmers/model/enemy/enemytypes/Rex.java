@@ -19,16 +19,21 @@ public class Rex implements IEnemyType {
 
     @Override
     public int getDamage() {
+        return 30;
+    }
+
+    @Override
+    public int getBlockDamage() {
         return 50;
     }
 
     @Override
     public int getMoveSpeed() {
-        return 60;
+        return 70;
     }
 
     @Override
     public int getJumpHeight() {
-        return 100;
+        return 400;
     }
 }

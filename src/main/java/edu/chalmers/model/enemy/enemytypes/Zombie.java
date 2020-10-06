@@ -14,11 +14,16 @@ public class Zombie implements IEnemyType {
 
     @Override
     public int getHealth() {
-        return 150;
+        return 125;
     }
 
     @Override
     public int getDamage() {
+        return 20;
+    }
+
+    @Override
+    public int getBlockDamage() {
         return 35;
     }
 

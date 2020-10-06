@@ -25,6 +25,7 @@ public class EnemyComponent extends Component {
     private Color color;
     private int health;
     private int damage;
+    private int blockDamage;
     private int moveSpeed;
     private int jumpHeight;
 
@@ -38,6 +39,7 @@ public class EnemyComponent extends Component {
         this.color = enemyType.getColor();
         this.health = (int) Math.round(enemyType.getHealth() * statMultiplier.getHealthMultiplier());
         this.damage = (int) Math.round(enemyType.getDamage() * statMultiplier.getDmgMultiplier());
+        this.blockDamage = enemyType.getBlockDamage();
         this.moveSpeed = (int) Math.round(enemyType.getMoveSpeed() * statMultiplier.getSpeedMultiplier());
         this.jumpHeight = (int) Math.round(enemyType.getJumpHeight() * statMultiplier.getJmpHeightMultiplier());
     }
@@ -161,6 +163,14 @@ public class EnemyComponent extends Component {
      */
     public int getDamage(){
         return damage;
+    }
+
+    /**
+     * Getter for variable blockDamage.
+     * @return The amount of damage the enemy can inflict on Block.
+     */
+    public int getBlockDamage() {
+        return blockDamage;
     }
 
     /**

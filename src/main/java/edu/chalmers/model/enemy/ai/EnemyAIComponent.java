@@ -251,14 +251,6 @@ public class EnemyAIComponent extends Component {
     }
 
     /**
-     * Method checks if given entity's top Y-position is above the Enemy.
-     * @return True or false.
-     */
-    public boolean isEntityTopYAbove(Entity entity) {
-        return (entity.getY() - thisEnemy.getY()) < 0;
-    }
-
-    /**
      * Method checks if given entity's middle Y-position is above the Enemy.
      * @return True or false.
      */
