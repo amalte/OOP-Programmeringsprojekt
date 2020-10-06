@@ -1,5 +1,6 @@
 package edu.chalmers.model.building;
 
+import com.almasb.fxgl.dsl.FXGL;
 import edu.chalmers.services.Coords;
 
 import java.util.*;
@@ -11,7 +12,6 @@ public class MapManager {
         this.blockMap = blockMap;
     }
 
-
     private HashSet<Coords> getAllLevitatingTilesOnMap() {
         HashSet<Coords> levitatingTiles = new HashSet<>();
 
@@ -19,10 +19,6 @@ public class MapManager {
             if(!levitatingTiles.contains(tile) && isTileLevitatingDFS(tile)) {
                 levitatingTiles.addAll(getConnectedTiles(tile));
             }
-        }
-
-        for (Coords coords: levitatingTiles) {
-            System.out.println("Ye boi LMAO " + coords.x());
         }
 
         return levitatingTiles;
@@ -47,7 +43,6 @@ public class MapManager {
 
         for (Coords levitatingTile : levitatingTiles) {    // Removes all levitating blocks
             blockMap.get(levitatingTile).remove();
-            removeBlockFromMap(levitatingTile);
         }
     }
 

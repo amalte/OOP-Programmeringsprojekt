@@ -26,7 +26,7 @@ public class BuildManager {
      * @param mousePos position of where block should be placed
      */
     public void placeBlock(Point2D mousePos) {
-        mapManager.addBlockToMap(CoordsCalculations.posToTile(mousePos), new Block(mousePos));
+        mapManager.addBlockToMap(CoordsCalculations.posToTile(mousePos), new Block(mousePos, mapManager));
     }
 
     public MapManager getMapManager() { return mapManager; }
