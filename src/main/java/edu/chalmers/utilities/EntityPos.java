@@ -22,8 +22,7 @@ public class EntityPos {
      * @return Middle X-Position of the entity.
      */
     public static double getMiddleX(Entity entity) {
-        double x = entity.getX() + (entity.getWidth() / 2);
-        return x;
+        return entity.getX() + (entity.getWidth() / 2);
     }
 
     /**
@@ -32,7 +31,42 @@ public class EntityPos {
      * @return Middle Y-Position of the entity.
      */
     public static double getMiddleY(Entity entity) {
-        double y = entity.getY() + (entity.getHeight() / 2);
-        return y;
+        return entity.getY() + (entity.getHeight() / 2);
+    }
+
+    /**
+     * Method gets the right side X-Position of an entity.
+     * @param entity The entity to get position from.
+     * @return Right side X-Position of the entity.
+     */
+    public static double getRightSideX(Entity entity) {
+        return entity.getX() + entity.getWidth();
+    }
+
+    /**
+     * Method gets the left side X-Position of an entity.
+     * @param entity The entity to get position from.
+     * @return Left side X-Position of the entity.
+     */
+    public static double getLeftSideX(Entity entity) {
+        return entity.getX();
+    }
+
+    /**
+     * Method gets the top side Y-Position of an entity.
+     * @param entity The entity to get position from.
+     * @return Top side Y-Position of the entity.
+     */
+    public static double getTopY(Entity entity) {
+        return entity.getY();
+    }
+
+    /**
+     * Method gets the bottom side Y-Position of an entity.
+     * @param entity The entity to get position from.
+     * @return Bottom side Y-Position of the entity.
+     */
+    public static double getBottomY(Entity entity) {
+        return entity.getY() + entity.getHeight();
     }
 }

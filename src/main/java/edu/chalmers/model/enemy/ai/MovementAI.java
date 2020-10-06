@@ -136,7 +136,7 @@ class MovementAI {
                 !underPlatform &&
                 AI.isEntityBottomYAbove(AI.getPlayer()) &&
                 !AI.isEntitySameY(AI.getPlayer())) {
-
+            
             // If Enemy should move to next platform
             if(moveToNextPlatform) {
 

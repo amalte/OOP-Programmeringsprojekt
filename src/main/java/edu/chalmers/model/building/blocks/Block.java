@@ -7,10 +7,12 @@ import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
 import com.almasb.fxgl.time.TimerAction;
+import edu.chalmers.model.building.MapManager;
 import edu.chalmers.utilities.Constants;
 import edu.chalmers.utilities.CoordsCalculations;
 import edu.chalmers.model.building.IBlock;
 import edu.chalmers.model.EntityType;
+import edu.chalmers.utilities.EntityPos;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -19,15 +21,17 @@ import javafx.util.Duration;
 import static com.almasb.fxgl.dsl.FXGL.runOnce;
 
 public class Block implements IBlock {
-    Entity currentBlock;
+    private Entity currentBlock;
     private PhysicsComponent physics = new PhysicsComponent();
     private int tileSize = Constants.TILE_SIZE;
 
     private int health = 100;
     private TimerAction damageDelayTimer;
-    int damageDelayMilliseconds = 500;
+    private int damageDelayMilliseconds = 500;
+    private MapManager mapManager;
 
-    public Block(Point2D mousePos) {
+    public Block(Point2D mousePos, MapManager mapManager) {
+        this.mapManager = mapManager;
         Point2D blockPosition = CoordsCalculations.posToTilePos(mousePos);
 
         physics.setBodyType(BodyType.STATIC);
@@ -53,7 +57,13 @@ public class Block implements IBlock {
     public void remove() {
         if(canBeDestroyed()) {
             FXGL.getGameWorld().removeEntity(currentBlock);
+            mapManager.removeBlockFromMap(CoordsCalculations.posToTile(EntityPos.getPosition(currentBlock)));
         }
+    }
+
+    private void die() {
+        remove();
+        mapManager.removeLevitatingNeighbours(CoordsCalculations.posToTile(EntityPos.getPosition(currentBlock)));
     }
 
     /**
@@ -68,7 +78,7 @@ public class Block implements IBlock {
 
         // Remove block if its health becomes 0 or lower
         if(health <= 0) {
-            remove();
+            die();
         }
     }
 

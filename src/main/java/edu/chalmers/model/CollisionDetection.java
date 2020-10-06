@@ -6,8 +6,10 @@ import com.almasb.fxgl.physics.CollisionHandler;
 import edu.chalmers.model.building.blocks.Block;
 import edu.chalmers.model.enemy.EnemyComponent;
 import edu.chalmers.model.enemy.ai.EnemyAIComponent;
+import edu.chalmers.utilities.EntityPos;
 
 public class CollisionDetection {
+    private int marginPx = 10;
 
     /**
      * Handle all entity Collision that has a direct effect on either one or both of the Entities.
@@ -38,7 +40,9 @@ public class CollisionDetection {
         FXGL.getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityType.PLAYER, EntityType.BLOCK) {
             @Override
             protected void onCollisionBegin(Entity a, Entity b) {
-                a.getComponent(PlayerComponent.class).resetJumpAmounts();
+                if(aboveCollision(a, b) && !sideCollision(a, b)) {  // Can only jump if standing above and on block
+                    a.getComponent(PlayerComponent.class).resetJumpAmounts();
+                }
                 a.getComponent(PlayerComponent.class).setAirborne(false);
             }
 
@@ -83,7 +87,9 @@ public class CollisionDetection {
         FXGL.getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityType.ENEMY, EntityType.BLOCK) {
             @Override
             protected void onCollisionBegin(Entity a, Entity b) {
-                a.getComponent(EnemyComponent.class).resetJumpAmounts();
+                if(aboveCollision(a, b) && !sideCollision(a, b)) {  // Can only jump if standing above and on block
+                    a.getComponent(EnemyComponent.class).resetJumpAmounts();
+                }
                 a.getComponent(EnemyComponent.class).setAirborne(false);
             }
 
@@ -107,5 +113,13 @@ public class CollisionDetection {
                 b.removeFromWorld();
             }
         });
+    }
+
+    private boolean sideCollision(Entity a, Entity b) {
+        return !(EntityPos.getRightSideX(a) > EntityPos.getLeftSideX(b) && EntityPos.getLeftSideX(a) < EntityPos.getRightSideX(b));
+    }
+
+    private boolean aboveCollision(Entity a, Entity b) {
+        return EntityPos.getBottomY(a)+marginPx > EntityPos.getTopY(b);
     }
 }
