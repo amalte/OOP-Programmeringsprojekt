@@ -3,8 +3,6 @@ package edu.chalmers.model.enemy.ai;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.time.TimerAction;
 import edu.chalmers.model.EntityType;
-import edu.chalmers.model.PlayerComponent;
-import edu.chalmers.model.enemy.StatMultiplier;
 import edu.chalmers.utilities.RaycastCalculations;
 import javafx.util.Duration;
 
@@ -139,8 +137,6 @@ class MovementAI {
                 AI.isEntityBottomYAbove(AI.getPlayer()) &&
                 !AI.isEntitySameY(AI.getPlayer())) {
 
-            System.out.println(closestPlatform);
-
             // If Enemy should move to next platform
             if(moveToNextPlatform) {
 
@@ -148,27 +144,37 @@ class MovementAI {
                 if(closestPlatform != null) {
 
                     // Checks if platform below Enemy is closestPlatform. If so: delay move to next platform.
-                    if(AI.getPlatformAI().checkPlatformBelow(closestPlatform)) {
+                    if(AI.getPlatformAI().checkPlatformBelowEnemy(closestPlatform)) {
                         moveToNextPlatform = false;
                         moveToNextPlatformDelay();      // Sets moveToNextPlatform to true after a short delay (to give Enemy time to reach platform).
                     }
                 }
 
                 // Set closestPlatform if Enemy or Player is not airborne.
-                if(!AI.getThisEnemy().isAirborne() && !AI.getPlayerComponent().isAirborne()) {
+                if(!AI.getThisEnemy().isAirborne() &&
+                        !AI.getPlayerComponent().isAirborne()) {
                     closestPlatform = AI.getPlatformAI().getClosestPlatform();
                 }
 
                 // Set target to closestPlatform if it isn't equal to null.
-                if(closestPlatform != null) {
+                if(closestPlatform != null &&
+                        AI.getPlatformAI().getPlayerRecentPlatformContact() != null) {
+
                     AI.setTarget(closestPlatform);
+
+                    // If the most recent platform the player was in contact with is the same platform below Enemy: set target to player.
+                    if(AI.getPlatformAI().getPlayerRecentPlatformContact().equals(AI.getPlatformAI().getPlatformBelowEnemy())) {
+                        AI.setTarget(AI.getPlayer());
+                    }
                 }
             }
         }
 
-        // Else: Set target to Player and follow.
+        // Else: Set target to Player if Enemy is not airborne.
         else {
-            AI.setTarget(AI.getPlayer());
+            if(!AI.getThisEnemy().isAirborne()) {
+                AI.setTarget(AI.getPlayer());
+            }
         }
     }
 

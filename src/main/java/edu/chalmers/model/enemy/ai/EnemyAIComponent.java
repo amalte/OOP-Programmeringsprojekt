@@ -5,7 +5,6 @@ import com.almasb.fxgl.entity.component.Component;
 import edu.chalmers.model.EntityType;
 import edu.chalmers.model.PlayerComponent;
 import edu.chalmers.model.enemy.EnemyComponent;
-import edu.chalmers.model.enemy.StatMultiplier;
 import edu.chalmers.utilities.EntityPos;
 import edu.chalmers.utilities.RaycastCalculations;
 
@@ -26,6 +25,7 @@ public class EnemyAIComponent extends Component {
     private boolean playerReached = false;
     private Entity target;
 
+
     public EnemyAIComponent(EnemyComponent thisEnemy, Entity player) {
         this.player = player;
         this.thisEnemy = thisEnemy;
@@ -45,6 +45,12 @@ public class EnemyAIComponent extends Component {
     public void onUpdate(double tpf) {
         movementAI.setMoveDirection();
         raycastAI.setRaycastsDirection();
+
+        // Check most recent platform the player was in contact with
+        if(!getPlayerComponent().isAirborne()) {
+            getPlatformAI().playerRecentPlatformContactCheck();
+            //System.out.println(getPlatformAI().getPlayerRecentPlatformContact());
+        }
 
         // Move towards Player if pathfinding haven't been overridden.
         if (!pathfindingOverride) {
