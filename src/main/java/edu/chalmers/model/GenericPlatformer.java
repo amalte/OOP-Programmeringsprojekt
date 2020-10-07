@@ -8,6 +8,7 @@ import edu.chalmers.model.wave.WaveManager;
 import javafx.geometry.Point2D;
 
 import static com.almasb.fxgl.dsl.FXGL.getGameWorld;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 
 
 /**
@@ -85,7 +86,7 @@ public class GenericPlatformer {
      */
     private void createPlayer(){
         Point2D spawnPoint = getGameWorld().getEntitiesByType(EntityType.PLAYERSPAWNPOINT).get(0).getPosition();
-        player = gameWorldFactory.newPLayer(new SpawnData(spawnPoint.getX(), spawnPoint.getY()));
+        player = spawn("player", spawnPoint.getX(), spawnPoint.getY());
     }
 
     /**

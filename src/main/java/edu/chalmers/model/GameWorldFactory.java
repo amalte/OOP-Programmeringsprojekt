@@ -44,7 +44,7 @@ public class GameWorldFactory implements EntityFactory {
                 .with(physics)
                 .with(new PlayerComponent(physics))
                 .with(new CollidableComponent(true))
-                .buildAndAttach();
+                .build();
     }
 
     @Spawns("enemySpawnPoint")
