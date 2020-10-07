@@ -4,8 +4,6 @@ import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.SceneFactory;
-import com.almasb.fxgl.dsl.FXGL;
-import edu.chalmers.model.EntityType;
 import edu.chalmers.controller.InputController;
 import edu.chalmers.controller.main.MainMenuController;
 import edu.chalmers.model.GenericPlatformer;
@@ -31,6 +29,8 @@ public class Main extends GameApplication {
         gameSettings.setTitle("Generic Platformer");
         gameSettings.setVersion("1.0");
 
+        gameSettings.setDeveloperMenuEnabled(true);
+
         gameSettings.setMainMenuEnabled(true);
         gameSettings.setSceneFactory(new SceneFactory() {
             @Override
@@ -41,6 +41,8 @@ public class Main extends GameApplication {
                 return mainMenuController.getViewInstance();
             }
         });
+
+        //gameSettings.setDeveloperMenuEnabled(true);
     }
 
     @Override
@@ -55,6 +57,6 @@ public class Main extends GameApplication {
         game.initCollisionDetection();
         game.initWaveManager();
 
-        game.getWaveManager().generateNewWave();
+        //game.getWaveManager().generateNewWave();
     }
 }

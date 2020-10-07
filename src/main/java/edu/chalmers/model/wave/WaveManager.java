@@ -22,7 +22,7 @@ public class WaveManager {
 
     public WaveManager(Entity player) {
         spawnEnemyRunnable = new SpawnEnemyRunnable(player);
-        startTimerAllEnemiesDead();  // Timer that generates wave if all enemies on screen are dead
+        //startTimerAllEnemiesDead();  // Timer that generates wave if all enemies on screen are dead
     }
 
     /**
@@ -43,11 +43,11 @@ public class WaveManager {
             enemiesToSpawn.add("ZOMBIE");
         }
         for (int i = 0; i < Math.round((double)wave / 3); i++) {
-            //enemiesToSpawn.add("Enemy2");
+            enemiesToSpawn.add("BLOB");
         }
         if(wave % 5 == 0) {  // Spawn difficult enemy every 5 waves
             for (int i = 0; i < wave / 5; i++) {
-                //enemiesToSpawn.add("Enemy3");
+                enemiesToSpawn.add("REX");
             }
         }
 

@@ -23,21 +23,21 @@ public class TestPlayerComponent {
 
     @Test
     public void testMoveLeft() {
-        player = spawn("player").getComponent(PlayerComponent.class);
+        player = spawn("player",0,0).getComponent(PlayerComponent.class);
         player.moveLeft();
         assertEquals(- player.getMoveSpeed(), (int) player.getEntity().getComponent(PhysicsComponent.class).getVelocityX());
     }
 
     @Test
     public void testMoveRight() {
-        player = spawn("player").getComponent(PlayerComponent.class);
+        player = spawn("player",0,0).getComponent(PlayerComponent.class);
         player.moveRight();
         assertEquals(player.getMoveSpeed(), (int) player.getEntity().getComponent(PhysicsComponent.class).getVelocityX());
     }
 
     @Test
     public void testJump(){
-        PlayerComponent playerComponent = spawn("player").getComponent(PlayerComponent.class);
+        PlayerComponent playerComponent = spawn("player",0,0).getComponent(PlayerComponent.class);
         playerComponent.jump();
         assertEquals(0, playerComponent.getJumps());
 

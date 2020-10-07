@@ -1,17 +1,14 @@
 package edu.chalmers.controller;
 
-import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.input.Input;
 import com.almasb.fxgl.input.UserAction;
 import edu.chalmers.utilities.EntityPos;
 import edu.chalmers.utilities.CoordsCalculations;
-import edu.chalmers.services.Coords;
 import edu.chalmers.model.GenericPlatformer;
 import edu.chalmers.model.PlayerComponent;
 import edu.chalmers.view.BuildView;
 import javafx.event.EventHandler;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseDragEvent;

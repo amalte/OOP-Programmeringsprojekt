@@ -1,18 +1,18 @@
 package edu.chalmers.model.building;
 
+import edu.chalmers.model.building.blocks.Block;
 import edu.chalmers.services.Coords;
 
 import java.util.*;
 
-public class MapManager {
+public class MapManager implements Observer {
     private HashMap<Coords, IBlock> blockMap;
 
     public MapManager(HashMap<Coords, IBlock> blockMap) {
         this.blockMap = blockMap;
     }
 
-
-    private HashSet<Coords> getAllLevitatingTilesOnMap() {
+    private void removeAllLevitatingTiles() {
         HashSet<Coords> levitatingTiles = new HashSet<>();
 
         for (Coords tile : blockMap.keySet()) {
@@ -21,11 +21,10 @@ public class MapManager {
             }
         }
 
-        for (Coords coords: levitatingTiles) {
-            System.out.println("Ye boi LMAO " + coords.x());
+        for (Coords levitatingTile : levitatingTiles) {    // Removes all levitating blocks
+            blockMap.get(levitatingTile).remove();
+            removeBlockFromMap(levitatingTile);
         }
-
-        return levitatingTiles;
     }
 
     /**
@@ -47,7 +46,6 @@ public class MapManager {
 
         for (Coords levitatingTile : levitatingTiles) {    // Removes all levitating blocks
             blockMap.get(levitatingTile).remove();
-            removeBlockFromMap(levitatingTile);
         }
     }
 
@@ -152,4 +150,10 @@ public class MapManager {
     private Coords getTileRight(Coords tile) { return new Coords(tile.x()+1, tile.y()); }
     private Coords getTileBelow(Coords tile) { return new Coords(tile.x(), tile.y()+1); }
     private Coords getTileLeft(Coords tile) { return new Coords(tile.x()-1, tile.y()); }
+
+    @Override
+    public void update(Coords tileRemoved) {    // block has died
+        removeBlockFromMap(tileRemoved);
+        removeAllLevitatingTiles();
+    }
 }

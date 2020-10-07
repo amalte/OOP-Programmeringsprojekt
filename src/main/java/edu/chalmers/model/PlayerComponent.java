@@ -31,6 +31,8 @@ public class PlayerComponent extends Component {
     private PhysicsComponent physics;
     private int activeWeapon = 0;
     private TimerAction timer;
+    private boolean onGround;
+    private boolean isAirborne;
 
     public PlayerComponent(PhysicsComponent physics) {
         this.physics = physics;
@@ -89,9 +91,7 @@ public class PlayerComponent extends Component {
     /**
      * Method moves players Entity left (negative x).
      */
-    public void moveLeft(){
-        physics.setVelocityX(-moveSpeed);
-    }
+    public void moveLeft(){ physics.setVelocityX(-moveSpeed); }
 
     /**
      * Method moves players Entity right (positive x).
@@ -148,10 +148,47 @@ public class PlayerComponent extends Component {
             timer = runOnce(() -> health -= damage, Duration.seconds(1));
         }
     }
+
     /**
      * Initiate damage delay timer.
      */
     private void initTimer(){
         timer = runOnce(() -> {}, Duration.seconds(0));
+    }
+
+    // -------- GETTERS -------- //
+
+    /**
+     * Getter for onGround variable.
+     * @return True (Player is on the ground *or* has most recently not touched a platform) or False (Enemy has not touched the ground since touching a platform).
+     */
+    public boolean isOnGround() {
+        return onGround;
+    }
+
+    /**
+     * Getter for isAirborne variable.
+     * @return True (Player is in the air) or False (Player is on platform or ground).
+     */
+    public boolean isAirborne() {
+        return isAirborne;
+    }
+
+    // -------- SETTERS -------- //
+
+    /**
+     * Setter for onGround variable.
+     * @param onGround True or False.
+     */
+    public void setOnGround(boolean onGround) {
+        this.onGround = onGround;
+    }
+
+    /**
+     * Setter for isAirborne variable.
+     * @param airborne True or False.
+     */
+    public void setAirborne(boolean airborne) {
+        isAirborne = airborne;
     }
 }

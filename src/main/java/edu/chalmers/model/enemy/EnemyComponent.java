@@ -18,15 +18,18 @@ public class EnemyComponent extends Component {
     private PhysicsComponent physics;
     private final int AMOUNT_OF_JUMPS = 1;
     private int jumps = 0;
+    private boolean onGround = false;
+    private boolean isAirborne = false;
 
     // STATS
     private Color color;
     private int health;
     private int damage;
+    private int blockDamage;
     private int moveSpeed;
     private int jumpHeight;
 
-    public EnemyComponent(IEnemyType enemyType) {
+    public EnemyComponent(IEnemyType enemyType, StatMultiplier statMultiplier) {
         this.enemyType = enemyType;
 
         physics = new PhysicsComponent();
@@ -34,15 +37,11 @@ public class EnemyComponent extends Component {
         physics.setFixtureDef(new FixtureDef().friction(0.0f));
 
         this.color = enemyType.getColor();
-        this.health = enemyType.getHealth();
-        this.damage = enemyType.getDamage();
-        this.moveSpeed = enemyType.getMoveSpeed();
-        this.jumpHeight = enemyType.getJumpHeight();
-    }
-
-    @Override
-    public void onUpdate(double tpf) {
-        checkHealth();
+        this.health = (int) Math.round(enemyType.getHealth() * statMultiplier.getHealthMultiplier());
+        this.damage = (int) Math.round(enemyType.getDamage() * statMultiplier.getDmgMultiplier());
+        this.blockDamage = enemyType.getBlockDamage();
+        this.moveSpeed = (int) Math.round(enemyType.getMoveSpeed() * statMultiplier.getSpeedMultiplier());
+        this.jumpHeight = (int) Math.round(enemyType.getJumpHeight() * statMultiplier.getJmpHeightMultiplier());
     }
 
     /**
@@ -96,6 +95,7 @@ public class EnemyComponent extends Component {
      */
     public void inflictDamage(int damage){
         health -= damage;
+        checkHealth();
     }
 
     /**
@@ -107,20 +107,14 @@ public class EnemyComponent extends Component {
         }
     }
 
+    // ---------- GETTERS ---------- //
+
     /**
      * Gets the enemy entity's X-position.
      * @return Enemy X-position.
     */
     public double getX() {
         return entity.getX();
-    }
-
-    /**
-     * Gets the enemy entity's mid X-position.
-     * @return Enemy middle X-position.
-     */
-    public double getMiddleX() {
-        return entity.getX() + (entity.getWidth() / 2);
     }
 
     /**
@@ -140,14 +134,6 @@ public class EnemyComponent extends Component {
     }
 
     /**
-     * Gets the enemy entity's mid Y-position.
-     * @return Enemy middle Y-position.
-     */
-    public double getMiddleY() {
-        return entity.getY() + (entity.getHeight() / 2);
-    }
-
-    /**
      * Gets the enemy entity's bottom side Y-position.
      * @return Enemy bottom Y-position.
     */
@@ -161,6 +147,14 @@ public class EnemyComponent extends Component {
      */
     public PhysicsComponent getPhysics() {
         return physics;
+    }
+
+    /**
+     * Getter for the variable enemyType.
+     * @return The type of Enemy.
+     */
+    public IEnemyType getEnemyType() {
+        return enemyType;
     }
 
     /**
@@ -180,10 +174,84 @@ public class EnemyComponent extends Component {
     }
 
     /**
+     * Getter for variable blockDamage.
+     * @return The amount of damage the enemy can inflict on Block.
+     */
+    public int getBlockDamage() {
+        return blockDamage;
+    }
+
+    /**
      * Getter for variable health.
      * @return The health of the Enemy.
      */
     public int getHealth(){
         return health;
+    }
+
+    /**
+     * Getter for onGround variable.
+     * @return True (Enemy is on the ground *or* has most recently not touched a platform) or False (Enemy has not touched the ground since touching a platform).
+     */
+    public boolean isOnGround() {
+        return onGround;
+    }
+
+    /**
+     * Getter for isAirborne variable.
+     * @return True (Enemy is in the air) or False (Enemy is on platform or ground).
+     */
+    public boolean isAirborne() {
+        return isAirborne;
+    }
+
+    // -------- SETTERS -------- //
+
+    /**
+     * Setter for onGround variable.
+     * @param onGround True or False.
+     */
+    public void setOnGround(boolean onGround) {
+        this.onGround = onGround;
+    }
+
+    /**
+     * Setter for isAirborne variable.
+     * @param airborne True or False.
+     */
+    public void setAirborne(boolean airborne) {
+        isAirborne = airborne;
+    }
+
+    /**
+     * Sets the multiplier for Enemy's health.
+     * @param healthMultiplier Health multiplier.
+     */
+    public void setHealthMultiplier(double healthMultiplier) {
+        health = (int) Math.round(enemyType.getHealth() * healthMultiplier);
+    }
+
+    /**
+     * Sets the multiplier for Enemy's damage.
+     * @param damageMultiplier Damage multiplier.
+     */
+    public void setDamageMultiplier(double damageMultiplier) {
+        damage = (int) Math.round(enemyType.getDamage() * damageMultiplier);
+    }
+
+    /**
+     * Sets the multiplier for Enemy's move speed.
+     * @param moveSpeedMultiplier Move speed multiplier.
+     */
+    public void setMoveSpeedMultiplier(double moveSpeedMultiplier) {
+        moveSpeed = (int) Math.round(enemyType.getMoveSpeed() * moveSpeedMultiplier);
+    }
+
+    /**
+     * Sets the multiplier for Enemy's jump height.
+     * @param jumpHeightMultiplier Jump height multiplier.
+     */
+    public void setJumpHeightMultiplier(double jumpHeightMultiplier) {
+        jumpHeight = (int) Math.round(enemyType.getJumpHeight() * jumpHeightMultiplier);
     }
 }
