@@ -25,6 +25,7 @@ public class EnemyComponent extends Component {
     private Color color;
     private int health;
     private int damage;
+    private int blockDamage;
     private int moveSpeed;
     private int jumpHeight;
 
@@ -38,6 +39,7 @@ public class EnemyComponent extends Component {
         this.color = enemyType.getColor();
         this.health = (int) Math.round(enemyType.getHealth() * statMultiplier.getHealthMultiplier());
         this.damage = (int) Math.round(enemyType.getDamage() * statMultiplier.getDmgMultiplier());
+        this.blockDamage = enemyType.getBlockDamage();
         this.moveSpeed = (int) Math.round(enemyType.getMoveSpeed() * statMultiplier.getSpeedMultiplier());
         this.jumpHeight = (int) Math.round(enemyType.getJumpHeight() * statMultiplier.getJmpHeightMultiplier());
     }
@@ -148,6 +150,14 @@ public class EnemyComponent extends Component {
     }
 
     /**
+     * Getter for the variable enemyType.
+     * @return The type of Enemy.
+     */
+    public IEnemyType getEnemyType() {
+        return enemyType;
+    }
+
+    /**
      * Getter for the variable color.
      * @return The Color of entity.
      */
@@ -161,6 +171,14 @@ public class EnemyComponent extends Component {
      */
     public int getDamage(){
         return damage;
+    }
+
+    /**
+     * Getter for variable blockDamage.
+     * @return The amount of damage the enemy can inflict on Block.
+     */
+    public int getBlockDamage() {
+        return blockDamage;
     }
 
     /**
@@ -203,6 +221,22 @@ public class EnemyComponent extends Component {
      */
     public void setAirborne(boolean airborne) {
         isAirborne = airborne;
+    }
+
+    /**
+     * Sets the multiplier for Enemy's health.
+     * @param healthMultiplier Health multiplier.
+     */
+    public void setHealthMultiplier(double healthMultiplier) {
+        health = (int) Math.round(enemyType.getHealth() * healthMultiplier);
+    }
+
+    /**
+     * Sets the multiplier for Enemy's damage.
+     * @param damageMultiplier Damage multiplier.
+     */
+    public void setDamageMultiplier(double damageMultiplier) {
+        damage = (int) Math.round(enemyType.getDamage() * damageMultiplier);
     }
 
     /**

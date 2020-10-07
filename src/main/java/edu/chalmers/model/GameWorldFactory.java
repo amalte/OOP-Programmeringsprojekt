@@ -37,13 +37,27 @@ public class GameWorldFactory implements EntityFactory {
     @Spawns("player")
     public Entity newPLayer(SpawnData spawnData){
         PhysicsComponent physics = new PhysicsComponent();
-        return FXGL.entityBuilder().type(EntityType.PLAYER).at(spawnData.getX(),spawnData.getY())
-                .viewWithBBox(new Rectangle(50, 50, Color.BLUE)).with(physics)
-                .with(new PlayerComponent(physics)).with(new CollidableComponent(true)).buildAndAttach();
+        return FXGL.entityBuilder()
+                .type(EntityType.PLAYER)
+                .at(spawnData.getX(),spawnData.getY())
+                .viewWithBBox(new Rectangle(50, 50, Color.BLUE))
+                .with(physics)
+                .with(new PlayerComponent(physics))
+                .with(new CollidableComponent(true))
+                .build();
     }
 
     @Spawns("enemySpawnPoint")
     public Entity newEnemySpawnPoint(SpawnData spawnData){
-        return FXGL.entityBuilder().type(EntityType.ENEMYSPAWNPOINT).build();
+        return FXGL.entityBuilder()
+                .type(EntityType.ENEMYSPAWNPOINT)
+                .build();
+    }
+
+    @Spawns("playerSpawnPoint")
+    public Entity newPlayerSpawnPoint(SpawnData spawnData){
+        return FXGL.entityBuilder()
+                .type(EntityType.PLAYERSPAWNPOINT)
+                .build();
     }
 }

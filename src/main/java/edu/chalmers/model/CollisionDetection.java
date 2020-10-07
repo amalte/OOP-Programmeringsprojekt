@@ -100,7 +100,7 @@ public class CollisionDetection {
             @Override
             protected void onCollision(Entity a, Entity b) {
                 Block block = b.getObject("this");
-                block.inflictDamage(a.getComponent(EnemyComponent.class).getDamage());
+                block.inflictDamage(a.getComponent(EnemyComponent.class).getBlockDamage());
             }
 
             @Override

@@ -17,6 +17,9 @@ class PlatformAI {
     List<Double> platformYDeltaList = new ArrayList<>();                // List with all Y-pos delta between thisEnemy and platforms.
     HashMap<Double, Entity> platformAndYDeltaMap = new HashMap<>();     // HashMap with Y-Pos deltas and their corresponding platform.
 
+    // The most recent platform the Player has been in contact with. Is the same across all Enemy entities.
+    private static Entity playerRecentPlatformContact = null;
+
     public PlatformAI(EnemyAIComponent enemyAIComponent) {
         this.AI = enemyAIComponent;
     }
@@ -54,8 +57,8 @@ class PlatformAI {
         for (Entity p : platforms) {
 
             // Skip platform if Enemy is standing on it
-            if(getPlatformBelowEntity() != null) {
-                if(getPlatformBelowEntity().equals(p)) {
+            if(getPlatformBelowEnemy() != null) {
+                if(getPlatformBelowEnemy().equals(p)) {
                     continue;
                 }
             }
@@ -124,7 +127,7 @@ class PlatformAI {
      * Method returns the Platform the Enemy is standing on.
      * @return Platform or null (if not standing on platform).
      */
-    public Entity getPlatformBelowEntity() {
+    public Entity getPlatformBelowEnemy() {
         if(AI.getRaycastAI().getLeftDownwardRaycast() == null ||
                 AI.getRaycastAI().getRightDownwardRaycast() == null) {
             return null;
@@ -165,19 +168,55 @@ class PlatformAI {
      * @param targetPlatform targetEntity.
      * @return True or False.
      */
-    public boolean checkPlatformBelow(Entity targetPlatform) {
+    public boolean checkPlatformBelowEnemy(Entity targetPlatform) {
         // If raycasts are null or no platform below Enemy.
         if (AI.getRaycastAI().getLeftDownwardRaycast() == null ||
                 AI.getRaycastAI().getRightDownwardRaycast() == null ||
-                getPlatformBelowEntity() == null) {
+                getPlatformBelowEnemy() == null) {
             return false;
         }
 
         // Checks if the platform below Enemy is the given targetEntity.
-        if(getPlatformBelowEntity().equals(targetPlatform)) {
+        if(getPlatformBelowEnemy().equals(targetPlatform)) {
             return true;
         } else {
             return false;
         }
+    }
+
+    /**
+     * Method checks the most recent platform the Player was in contact with. Updates playerRecentPlatformContact variable.
+     */
+    public void playerRecentPlatformContactCheck() {
+        if(RaycastCalculations.getRaycastHit(AI.getRaycastAI().getLeftPlayerPlatformRaycast()) == null ||
+            RaycastCalculations.getRaycastHit(AI.getRaycastAI().getRightPlayerPlatformRaycast()) == null) {
+            return;
+        }
+
+        // For each platform in the world...
+        for (Entity p : platforms) {
+
+            // Check if leftPlayerPlatformRaycast hit the current platform
+            if(RaycastCalculations.getRaycastHit(AI.getRaycastAI().getLeftPlayerPlatformRaycast()).equals(p)) {
+                playerRecentPlatformContact = p;
+                break;
+            }
+
+            // Check if rightPlayerPlatformRaycast hit the current platform
+            else if(RaycastCalculations.getRaycastHit(AI.getRaycastAI().getRightPlayerPlatformRaycast()).equals(p)) {
+                playerRecentPlatformContact = p;
+                break;
+            }
+        }
+    }
+
+    // ---------- GETTERS ---------- //
+
+    /**
+     * Getter for playerRecentPlatformContact variable.
+     * @return playerRecentPlatformContact.
+     */
+    public Entity getPlayerRecentPlatformContact() {
+        return playerRecentPlatformContact;
     }
 }

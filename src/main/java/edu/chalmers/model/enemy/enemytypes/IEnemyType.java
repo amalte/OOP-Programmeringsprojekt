@@ -6,6 +6,7 @@ public interface IEnemyType {
     Color getColor();
     int getHealth();
     int getDamage();
+    int getBlockDamage();
     int getMoveSpeed();
     int getJumpHeight();
 }
