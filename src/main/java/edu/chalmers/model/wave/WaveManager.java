@@ -22,7 +22,7 @@ public class WaveManager {
 
     public WaveManager(Entity player) {
         spawnEnemyRunnable = new SpawnEnemyRunnable(player);
-        startTimerAllEnemiesDead();  // Timer that generates wave if all enemies on screen are dead
+        //startTimerAllEnemiesDead();  // Timer that generates wave if all enemies on screen are dead
     }
 
     /**
