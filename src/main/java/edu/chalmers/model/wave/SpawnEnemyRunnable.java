@@ -27,7 +27,7 @@ public class SpawnEnemyRunnable implements Runnable {
     private EnemyFactory enemyFactory = EnemyFactory.getInstance();
     private boolean isRunnableActive = false;
 
-    SpawnEnemyRunnable(Entity player) {
+    public SpawnEnemyRunnable(Entity player) {
         this.player = player;
     }
 
