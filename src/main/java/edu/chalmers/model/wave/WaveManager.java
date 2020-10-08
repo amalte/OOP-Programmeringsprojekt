@@ -22,7 +22,7 @@ public class WaveManager {
 
     public WaveManager(Entity player) {
         spawnEnemyRunnable = new SpawnEnemyRunnable(player);
-        //startTimerAllEnemiesDead();  // Timer that generates wave if all enemies on screen are dead
+        startTimerAllEnemiesDead();  // Timer that generates wave if all enemies on screen are dead
     }
 
     /**
@@ -86,7 +86,6 @@ public class WaveManager {
         }
         return Math.round((spawnEnemyRunnable.getEnemiesToSpawn().size() * averageSpawnIntervalSec()) - averageSpawnIntervalSec());     // -averageSpawnTime since first enemy takes no time to spawn
     }
-
 
     //Method calculates on average how long it should take to spawn one enemy
     private float averageSpawnIntervalSec() {

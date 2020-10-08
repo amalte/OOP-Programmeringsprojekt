@@ -12,15 +12,39 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(RunWithFX.class)
 public class TestWaveManager {
+
+    private WaveManager waveManager;
+    private Entity player;
+
     @BeforeAll
     public static void initApp() throws InterruptedException {
         SetupWorld.initApp();
     }
 
+    private void resetTest() {
+        player = spawn("player");
+        waveManager = new WaveManager(player);
+    }
+
     @Test
     public void testGenerateWave(){
-        Entity player = spawn("player");
-        WaveManager waveManager = new WaveManager(player);
+        resetTest();
+        waveManager.generateNewWave();
+        assertEquals(2, waveManager.getCurrentWave());
+    }
+
+    @Test
+    public void testGetSpawnTimeSec() {
+        resetTest();
+        assertEquals(0, waveManager.getSpawnTimeSec());
+        waveManager.generateNewWave();
+        assertEquals(4, waveManager.getSpawnTimeSec());
+    }
+
+    @Test
+    public void testGetCurrentWave(){
+        resetTest();
+        assertEquals(1, waveManager.getCurrentWave());
         waveManager.generateNewWave();
         assertEquals(2, waveManager.getCurrentWave());
     }

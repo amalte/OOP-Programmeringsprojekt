@@ -5,6 +5,7 @@ import com.almasb.fxgl.entity.SpawnData;
 import edu.chalmers.model.building.BuildManager;
 import edu.chalmers.model.building.MapManager;
 import edu.chalmers.model.wave.WaveManager;
+import edu.chalmers.services.TileMap;
 import javafx.geometry.Point2D;
 
 import static com.almasb.fxgl.dsl.FXGL.getGameWorld;
@@ -26,17 +27,13 @@ public class GenericPlatformer {
     public GenericPlatformer() {
         this.gameWorldFactory = new GameWorldFactory();
         this.collisionDetection = new CollisionDetection();
-
-        initBuildManager();
     }
-
-
 
     /**
      * Get method that creates a new player if no player is already created.
      * @return A player object.
      */
-    public Entity getPlayer(){
+    public Entity getPlayer() {
         if(player == null){
             createPlayer();
         }
@@ -46,16 +43,16 @@ public class GenericPlatformer {
     /**
      * Initiates mapManager.
      */
-    public void initMapManager(){
-        this.buildManager = new BuildManager(3);
+    public void initMapManager() {
+        mapManager = new MapManager(new TileMap().getBlockMapFromLevel("level1.tmx"));
     }
 
     /**
      * Initiates buildManager.
      */
-    public void initBuildManager(){
+    public void initBuildManager() {
         //this.buildManager = new BuildManager(getPlayer().getComponent(PlayerComponent.class).getBuildRangeTiles());
-        this.buildManager = new BuildManager(3);
+        this.buildManager = new BuildManager(getPlayer().getComponent(PlayerComponent.class).getBuildRangeTiles(), mapManager);
     }
 
     /**
@@ -84,7 +81,7 @@ public class GenericPlatformer {
     /**
      * Creates a player at position 0,0.
      */
-    private void createPlayer(){
+    private void createPlayer() {
         Point2D spawnPoint = getGameWorld().getEntitiesByType(EntityType.PLAYERSPAWNPOINT).get(0).getPosition();
         player = spawn("player", spawnPoint.getX(), spawnPoint.getY());
     }

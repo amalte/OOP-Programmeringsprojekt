@@ -12,13 +12,11 @@ import java.util.List;
 
 public class BuildManager {
     private MapManager mapManager;
-    private int tileSize = Constants.TILE_SIZE;
     private int buildRangeTiles;
 
-    public BuildManager(int buildRangeTiles) {
-        //this.mapManager = mapManager;
+    public BuildManager(int buildRangeTiles, MapManager mapManager) {
         this.buildRangeTiles = buildRangeTiles;
-        mapManager = new MapManager(new TileMap().getBlockMapFromLevel("level1.tmx"));
+        this.mapManager = mapManager;
     }
 
     /**
@@ -30,8 +28,6 @@ public class BuildManager {
         mapManager.addBlockToMap(CoordsCalculations.posToTile(mousePos), block);
         block.addObserver(mapManager);
     }
-
-    public MapManager getMapManager() { return mapManager; }
 
     /**
      * Method checks if it's possible to place block on position

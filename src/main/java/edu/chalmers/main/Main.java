@@ -29,7 +29,7 @@ public class Main extends GameApplication {
         gameSettings.setTitle("Generic Platformer");
         gameSettings.setVersion("1.0");
 
-        gameSettings.setDeveloperMenuEnabled(true);
+        //gameSettings.setDeveloperMenuEnabled(true);   // Possible to check hitboxes
 
         gameSettings.setMainMenuEnabled(true);
         gameSettings.setSceneFactory(new SceneFactory() {
@@ -56,6 +56,8 @@ public class Main extends GameApplication {
         inputController.initPlayerMovementInput();
         game.initCollisionDetection();
         game.initWaveManager();
+        game.initMapManager();
+        game.initBuildManager();
 
         game.getWaveManager().generateNewWave();
     }
