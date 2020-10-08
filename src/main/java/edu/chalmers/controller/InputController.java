@@ -3,10 +3,10 @@ package edu.chalmers.controller;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.input.Input;
 import com.almasb.fxgl.input.UserAction;
-import edu.chalmers.utilities.EntityPos;
-import edu.chalmers.utilities.CoordsCalculations;
 import edu.chalmers.model.GenericPlatformer;
 import edu.chalmers.model.PlayerComponent;
+import edu.chalmers.utilities.CoordsCalculations;
+import edu.chalmers.utilities.EntityPos;
 import edu.chalmers.view.BuildView;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
@@ -109,21 +109,21 @@ public class InputController {
             });
 
 
-            input.addAction(new UserAction("SwitchWeapon0") {
+            input.addAction(new UserAction("SwitchToFirstWeapon") {
                 @Override
                 protected void onActionBegin() {
                     player.getComponent(PlayerComponent.class).setActiveWeapon(0);
                 }
             }, KeyCode.DIGIT1);
 
-            input.addAction(new UserAction("SwitchWeapon1") {
+            input.addAction(new UserAction("SwitchToSecondWeapon") {
                 @Override
                 protected void onActionBegin() {
                     player.getComponent(PlayerComponent.class).setActiveWeapon(1);
                 }
             }, KeyCode.DIGIT2);
 
-            input.addAction(new UserAction("SwitchWeapon2") {
+            input.addAction(new UserAction("SwitchToThirdWeapon") {
                 @Override
                 protected void onActionBegin() {
                     player.getComponent(PlayerComponent.class).setActiveWeapon(2);
