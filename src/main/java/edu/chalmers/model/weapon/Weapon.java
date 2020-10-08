@@ -21,6 +21,7 @@ public class Weapon {
     private int projectileSpeed;
     private int magazineCounter;
     private boolean reloading = false;
+    private boolean testing = false;
 
     private TimerAction timerAction;
 
@@ -43,7 +44,7 @@ public class Weapon {
     public void shoot(double x, double y) {
         if (magazineCounter > 0 && !reloading) {
             magazineCounter--;
-            new WeaponProjectile(x, y, mouseLocation(), projectileSpeed);
+            new WeaponProjectile(new Point2D(x,y), mouseLocation(), projectileSpeed);
         }
     }
 
@@ -52,8 +53,12 @@ public class Weapon {
      */
     public void reload() {
         reloading = true;
-        if (timerAction.isExpired()) {
+        if(!testing) {
+            if (timerAction.isExpired()) {
             timerAction = runOnce(() -> resetMagazine(), Duration.millis(reloadTimerMilliseconds));
+            }
+        }else {
+            resetMagazine();
         }
     }
 
@@ -79,5 +84,9 @@ public class Weapon {
         return damage;
     }
 
+    public int getMagazineCounter() {return magazineCounter;}
 
+    public IWeaponType getWeaponType() {
+        return weaponType;
+    }
 }
