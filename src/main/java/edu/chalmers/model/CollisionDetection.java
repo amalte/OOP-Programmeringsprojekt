@@ -14,7 +14,7 @@ public class CollisionDetection {
     /**
      * Handle all entity Collision that has a direct effect on either one or both of the Entities.
      */
-    public void initCollisionHandler(PlayerComponent player){
+    public CollisionDetection(PlayerComponent player){
         FXGL.getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityType.PLAYER, EntityType.PLATFORM) {
             @Override
             protected void onCollisionBegin(Entity a, Entity b) {

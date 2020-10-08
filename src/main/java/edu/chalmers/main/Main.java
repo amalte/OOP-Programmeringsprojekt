@@ -52,13 +52,8 @@ public class Main extends GameApplication {
         GamePlayView gameView = new GamePlayView(game);
         gameView.initGameWorld();
         gameView.changeLevel("level1.tmx");
+        game.initializeGame();
 
         inputController.initPlayerMovementInput();
-        game.initCollisionDetection();
-        game.initWaveManager();
-        game.initMapManager();
-        game.initBuildManager();
-
-        game.getWaveManager().generateNewWave();
     }
 }

@@ -16,7 +16,7 @@ public class GamePlayView {
     /**
      * Initiate a game world builder.
      */
-    public void initGameWorld(){ getGameWorld().addEntityFactory(game.getGameWorldFactory()); }
+    public void initGameWorld(){ FXGL.getGameWorld().addEntityFactory(game.getGameWorldFactory()); }
 
     /**
      * Change current level to new level map.

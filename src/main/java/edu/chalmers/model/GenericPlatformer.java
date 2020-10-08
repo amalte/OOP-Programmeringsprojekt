@@ -2,6 +2,7 @@ package edu.chalmers.model;
 
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.SpawnData;
+import com.almasb.fxgl.entity.component.Component;
 import edu.chalmers.model.building.BuildManager;
 import edu.chalmers.model.building.MapManager;
 import edu.chalmers.model.wave.WaveManager;
@@ -26,7 +27,14 @@ public class GenericPlatformer {
 
     public GenericPlatformer() {
         this.gameWorldFactory = new GameWorldFactory();
-        this.collisionDetection = new CollisionDetection();
+    }
+
+    public void initializeGame() {
+        this.collisionDetection = new CollisionDetection(getPlayerComponent());
+        this.mapManager = new MapManager(new TileMap().getBlockMapFromLevel("level1.tmx"));
+        this.buildManager = new BuildManager(getPlayerComponent().getBuildRangeTiles(), mapManager);
+        this.waveManager = new WaveManager(getPlayer());
+        waveManager.generateNewWave();
     }
 
     /**
@@ -41,18 +49,11 @@ public class GenericPlatformer {
     }
 
     /**
-     * Initiates mapManager.
+     * Get method that gets the playerComponent of player
+     * @return A player component.
      */
-    public void initMapManager() {
-        mapManager = new MapManager(new TileMap().getBlockMapFromLevel("level1.tmx"));
-    }
-
-    /**
-     * Initiates buildManager.
-     */
-    public void initBuildManager() {
-        //this.buildManager = new BuildManager(getPlayer().getComponent(PlayerComponent.class).getBuildRangeTiles());
-        this.buildManager = new BuildManager(getPlayer().getComponent(PlayerComponent.class).getBuildRangeTiles(), mapManager);
+    public PlayerComponent getPlayerComponent() {
+        return getPlayer().getComponent(PlayerComponent.class);
     }
 
     /**
@@ -61,13 +62,6 @@ public class GenericPlatformer {
      */
     public BuildManager getBuildManager(){
         return buildManager;
-    }
-
-    /**
-     * Initiates waveManger.
-     */
-    public void initWaveManager(){
-        this.waveManager = new WaveManager(getPlayer());
     }
 
     /**
@@ -92,12 +86,5 @@ public class GenericPlatformer {
      */
     public WaveManager getWaveManager(){
         return waveManager;
-    }
-
-    /**
-     * Initiates collision detections for the game worlds entities.
-     */
-    public void initCollisionDetection(){
-        collisionDetection.initCollisionHandler(getPlayer().getComponent(PlayerComponent.class));
     }
 }
