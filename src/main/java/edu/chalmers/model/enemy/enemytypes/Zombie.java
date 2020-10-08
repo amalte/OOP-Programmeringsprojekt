@@ -19,7 +19,7 @@ public class Zombie implements IEnemyType {
 
     @Override
     public int getDamage() {
-        return 20;
+        return 10;
     }
 
     @Override
@@ -34,6 +34,6 @@ public class Zombie implements IEnemyType {
 
     @Override
     public int getJumpHeight() {
-        return 400;
+        return 260;
     }
 }

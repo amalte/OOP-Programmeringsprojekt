@@ -19,7 +19,7 @@ public class Blob implements IEnemyType {
 
     @Override
     public int getDamage() {
-        return 20;
+        return 15;
     }
 
     @Override
@@ -29,11 +29,11 @@ public class Blob implements IEnemyType {
 
     @Override
     public int getMoveSpeed() {
-        return 100;
+        return 80;
     }
 
     @Override
     public int getJumpHeight() {
-        return 450;
+        return 275;
     }
 }

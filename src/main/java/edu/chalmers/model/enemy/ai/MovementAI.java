@@ -3,9 +3,7 @@ package edu.chalmers.model.enemy.ai;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.time.TimerAction;
 import edu.chalmers.model.EntityType;
-import edu.chalmers.model.enemy.enemytypes.Blob;
-import edu.chalmers.model.enemy.enemytypes.Rex;
-import edu.chalmers.model.enemy.enemytypes.Zombie;
+import edu.chalmers.model.enemy.EnemyTypes;
 import edu.chalmers.utilities.RaycastCalculations;
 import javafx.util.Duration;
 
@@ -27,7 +25,7 @@ class MovementAI {
     private TimerAction blockJumpTimer;
     boolean underPlatform = false;
     boolean moveToNextPlatform = true;
-    boolean blockJump = true;
+    boolean jumpAllowed = true;
 
     public MovementAI(EnemyAIComponent enemyAIComponent) {
         this.AI = enemyAIComponent;
@@ -91,43 +89,46 @@ class MovementAI {
             return;
         }
 
-        // If Player is above Enemy and Player most recently did not touch the world ground; check if jump is needed.
-        if(AI.isEntityMiddleYAbove(AI.getPlayer()) && !AI.getPlayerComponent().isOnGround()) {
-
-            // IF:
-            // higherHorizontalRaycast hit a platform *OR*
-            // horizontalRaycast hit a platform *OR*
-            // activeDownwardRaycast did *not* hit a platform (Enemy is walking of a platform).
-            if (RaycastCalculations.checkRaycastHit(AI.getRaycastAI().getHigherHorizontalRaycast(), EntityType.PLATFORM) ||
-                    RaycastCalculations.checkRaycastHit(AI.getRaycastAI().getHorizontalRaycast(), EntityType.PLATFORM) ||
-                    !RaycastCalculations.checkRaycastHit(AI.getRaycastAI().getActiveDownwardRaycast(), EntityType.PLATFORM)) {
-
-                // Increase moveSpeed and jumpHeight if Enemy is falling off platform and is going to jump.
-                if(!RaycastCalculations.checkRaycastHit(AI.getRaycastAI().getActiveDownwardRaycast(), EntityType.PLATFORM)) {
-                    improveEnemyStatsForJump();
-                }
-
-                // Jump
-                AI.getThisEnemy().jump();
-            }
+        // Jump isn't allowed: return.
+        if(!jumpAllowed) {
+            return;
         }
 
-        // If horizontalRaycast hit a Block.
-        if (RaycastCalculations.checkRaycastHit(AI.getRaycastAI().getHorizontalRaycast(), EntityType.BLOCK)) {
+        // If horizontalRaycast hit a Block or a platform:
+        if (RaycastCalculations.checkRaycastHit(AI.getRaycastAI().getHorizontalRaycast(), EntityType.BLOCK) ||
+                RaycastCalculations.checkRaycastHit(AI.getRaycastAI().getHorizontalRaycast(), EntityType.PLATFORM)) {
 
-            // If Enemy is allowed to jump up a block
-            if(blockJump) {
-                AI.getThisEnemy().jump();
-                blockJump = false;
-                blockJumpTimerDelay();      // Delay setting blockJump to true again after a jump
-            }
+            AI.getThisEnemy().jump();
+            return;
+        }
+
+        // IF:
+        // Players middle Y-pos is above Enemy *AND*
+        // Player most recently did not touch the world ground *AND*
+        // getHigherHorizontalRaycast hit a platform:
+        if(AI.isEntityMiddleYAbove(AI.getPlayer()) &&
+                !AI.getPlayerComponent().isOnGround() &&
+                RaycastCalculations.checkRaycastHit(AI.getRaycastAI().getHigherHorizontalRaycast(), EntityType.PLATFORM)) {
+
+            // Jump
+            improveEnemyStatsForJump();
+            AI.getThisEnemy().jump();
+            return;
+
+        }
+
+        // activeDownwardRaycast did *not* hit a platform (Enemy is walking of a platform):
+        if(!RaycastCalculations.checkRaycastHit(AI.getRaycastAI().getActiveDownwardRaycast(), EntityType.PLATFORM)) {
+            improveEnemyStatsForJump();     // Increase moveSpeed and jumpHeight if Enemy is falling off platform and is going to jump.
+            AI.getThisEnemy().jump();
+            return;
         }
     }
 
     /**
-     * Method makes Enemy try to reach the Player when the path is more complicated (involving climbing up platforms).
+     * Method makes Enemy try to reach the Player when the path is more complicated (involving climbing up floating platforms).
     */
-    public void reachPlayer() {
+    public void floatingPlatformMovement() {
 
         // IF:
         // the Player is *not* on the ground *AND*
@@ -153,8 +154,8 @@ class MovementAI {
                 }
 
                 // Set closestPlatform if Enemy or Player is not airborne.
-                if(!AI.getThisEnemy().isAirborne() &&
-                        !AI.getPlayerComponent().isAirborne()) {
+                if(!AI.getThisEnemy().isAirborne() /*&&
+                        !AI.getPlayerComponent().isAirborne()*/) {
                     closestPlatform = AI.getPlatformAI().getClosestPlatform();
                 }
 
@@ -190,7 +191,7 @@ class MovementAI {
         }
 
         // IF:
-        // Player is above Enemy *AND*
+        // Players middle Y-pos is above Enemy *AND*
         // leftUpwardRaycast or rightUpwardRaycast hits a platform *AND*
         // Enemy is not airborne *AND*
         // Enemy most recently touched the world ground *AND*
@@ -201,11 +202,11 @@ class MovementAI {
                         RaycastCalculations.checkRaycastHit(AI.getRaycastAI().getRightUpwardRaycast(), EntityType.PLATFORM)) &&
                 !AI.getThisEnemy().isAirborne() &&
                 AI.getThisEnemy().isOnGround() &&
-                !underPlatform &&
                 !AI.getPlayerComponent().isOnGround()) {
 
             // Then Enemy is under a platform.
             underPlatform = true;
+            jumpAllowed = false;
         }
 
         // Else: Enemy is not under a platform. Delay setting underPlatform to false with a short delay (to give Enemy time to get away from under the platform).
@@ -260,24 +261,22 @@ class MovementAI {
      */
     private void improveEnemyStatsForJump() {
 
-        System.out.println(AI.getThisEnemy().getEnemyType().getClass());
-
         // If Enemy is a Zombie:
-        if(AI.getThisEnemy().getEnemyType().getClass().equals(Zombie.class)) {
+        if(AI.getThisEnemy().getEnemyType().getClass().equals(EnemyTypes.getZombieClass())) {
             AI.getThisEnemy().setMoveSpeedMultiplier(1.5);
-            AI.getThisEnemy().setJumpHeightMultiplier(1.2);
+            AI.getThisEnemy().setJumpHeightMultiplier(1.8);
         }
 
         // If Enemy is a Rex:
-        else if(AI.getThisEnemy().getEnemyType().getClass().equals(Rex.class)) {
+        else if(AI.getThisEnemy().getEnemyType().getClass().equals(EnemyTypes.getRexClass())) {
             AI.getThisEnemy().setMoveSpeedMultiplier(1.9);
-            AI.getThisEnemy().setJumpHeightMultiplier(1.2);
+            AI.getThisEnemy().setJumpHeightMultiplier(1.8);
         }
 
         // If Enemy is a Blob
-        else if(AI.getThisEnemy().getEnemyType().getClass().equals(Blob.class)) {
-            AI.getThisEnemy().setMoveSpeedMultiplier(1.4);
-            AI.getThisEnemy().setJumpHeightMultiplier(1.1);
+        else if(AI.getThisEnemy().getEnemyType().getClass().equals(EnemyTypes.getBlobClass())) {
+            AI.getThisEnemy().setMoveSpeedMultiplier(1.5);
+            AI.getThisEnemy().setJumpHeightMultiplier(1.8);
         }
     }
 
@@ -289,7 +288,6 @@ class MovementAI {
     private void initTimer(){
         underPlatformTimer = runOnce(() -> {}, Duration.seconds(0));
         moveToNextPlatformTimer = runOnce(() -> {}, Duration.seconds(0));
-        blockJumpTimer = runOnce(() -> {}, Duration.seconds(0));
     }
 
     /**
@@ -297,7 +295,10 @@ class MovementAI {
      */
     private void noLongerUnderPlatformDelay(){
         if(underPlatformTimer.isExpired()){
-            underPlatformTimer = runOnce(() -> underPlatform = false, Duration.seconds(1));
+            underPlatformTimer = runOnce(() -> {
+                        underPlatform = false;
+                        jumpAllowed = true;
+                    }, Duration.seconds(1));
         }
     }
 
@@ -307,15 +308,6 @@ class MovementAI {
     private void moveToNextPlatformDelay(){
         if(moveToNextPlatformTimer.isExpired()){
             moveToNextPlatformTimer = runOnce(() -> moveToNextPlatform = true, Duration.seconds(1));
-        }
-    }
-
-    /**
-     * Method sets blockJump variable to true after a short delay.
-     */
-    private void blockJumpTimerDelay(){
-        if(blockJumpTimer.isExpired()){
-            blockJumpTimer = runOnce(() -> blockJump = true, Duration.millis(1500));
         }
     }
 

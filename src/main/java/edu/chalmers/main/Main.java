@@ -57,6 +57,6 @@ public class Main extends GameApplication {
         game.initCollisionDetection();
         game.initWaveManager();
 
-        //game.getWaveManager().generateNewWave();
+        game.getWaveManager().generateNewWave();
     }
 }
