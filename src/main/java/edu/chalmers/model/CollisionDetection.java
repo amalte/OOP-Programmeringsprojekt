@@ -62,6 +62,13 @@ public class CollisionDetection {
 
         // ------ENEMY------ //
 
+        FXGL.getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityType.ENEMY, EntityType.ENEMY) {
+            @Override
+            protected void onCollisionBegin(Entity a, Entity b) {
+                a.getComponent(EnemyComponent.class).resetJumpAmounts();
+            }
+        });
+
         FXGL.getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityType.ENEMY, EntityType.PLATFORM) {
             @Override
             protected void onCollisionBegin(Entity a, Entity b) {

@@ -69,7 +69,6 @@ class PlatformAI {
             platformAndYDeltaMap.put(yDelta, p);
         }
 
-        //Collections.sort(platformYDeltaList);       // Sorts list from smallest to largest.
         double smallestYDelta = Collections.min(platformYDeltaList);
         Entity closestPlatform = platformAndYDeltaMap.get(smallestYDelta);
 
@@ -218,5 +217,13 @@ class PlatformAI {
      */
     public Entity getPlayerRecentPlatformContact() {
         return playerRecentPlatformContact;
+    }
+
+    /**
+     * Getter for platforms List (all platforms on the level).
+     * @return platforms List.
+     */
+    public List<Entity> getPlatforms() {
+        return platforms;
     }
 }

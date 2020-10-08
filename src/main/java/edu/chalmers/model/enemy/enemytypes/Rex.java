@@ -19,7 +19,7 @@ public class Rex implements IEnemyType {
 
     @Override
     public int getDamage() {
-        return 30;
+        return 20;
     }
 
     @Override
@@ -34,6 +34,6 @@ public class Rex implements IEnemyType {
 
     @Override
     public int getJumpHeight() {
-        return 400;
+        return 255;
     }
 }
