@@ -29,6 +29,8 @@ public class Main extends GameApplication {
         gameSettings.setTitle("Generic Platformer");
         gameSettings.setVersion("1.0");
 
+        gameSettings.setDeveloperMenuEnabled(true);
+
         gameSettings.setMainMenuEnabled(true);
         gameSettings.setSceneFactory(new SceneFactory() {
             @Override
@@ -55,6 +57,6 @@ public class Main extends GameApplication {
         game.initCollisionDetection();
         game.initWaveManager();
 
-        game.getWaveManager().generateNewWave();
+        //game.getWaveManager().generateNewWave();
     }
 }

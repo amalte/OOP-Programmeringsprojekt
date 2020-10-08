@@ -40,7 +40,11 @@ public class CollisionDetection {
         FXGL.getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityType.PLAYER, EntityType.BLOCK) {
             @Override
             protected void onCollisionBegin(Entity a, Entity b) {
+
                 if(aboveCollision(a, b) && !sideCollision(a, b)) {  // Can only jump if standing above and on block
+                    //a.setY(EntityPos.getTopY(b) - a.getHeight());
+                    //a.translateY(50);
+
                     a.getComponent(PlayerComponent.class).resetJumpAmounts();
                 }
                 a.getComponent(PlayerComponent.class).setAirborne(false);

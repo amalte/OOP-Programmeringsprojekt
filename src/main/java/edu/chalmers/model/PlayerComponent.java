@@ -91,9 +91,7 @@ public class PlayerComponent extends Component {
     /**
      * Method moves players Entity left (negative x).
      */
-    public void moveLeft(){
-        physics.setVelocityX(-moveSpeed);
-    }
+    public void moveLeft(){ physics.setVelocityX(-moveSpeed); }
 
     /**
      * Method moves players Entity right (positive x).
