@@ -304,7 +304,7 @@ public class TestEnemyComponent {
         assertEquals();
     }
     */
-    
+
     @Test
     public void testSetMoveSpeedMultiplier() {
         init();
