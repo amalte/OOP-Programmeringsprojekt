@@ -28,8 +28,8 @@ public class Main extends GameApplication {
         gameSettings.setHeight(Constants.GAME_HEIGHT);
         gameSettings.setTitle("Generic Platformer");
         gameSettings.setVersion("1.0");
-
         //gameSettings.setDeveloperMenuEnabled(true);   // Possible to check hitboxes
+
 
         gameSettings.setMainMenuEnabled(true);
         gameSettings.setSceneFactory(new SceneFactory() {
