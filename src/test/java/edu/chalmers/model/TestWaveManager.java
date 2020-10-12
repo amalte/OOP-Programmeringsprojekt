@@ -22,6 +22,7 @@ public class TestWaveManager {
     }
 
     private void resetTest() {
+        SetupWorld.clearEntities();
         player = spawn("player");
         waveManager = new WaveManager(player);
     }
