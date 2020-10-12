@@ -43,6 +43,12 @@ public class EnemyAIComponent extends Component {
 
     @Override
     public void onUpdate(double tpf) {
+        // Reset move speed and jump height if Enemy is touching solid ground.
+        if(!thisEnemy.isAirborne()) {
+            thisEnemy.setMoveSpeedMultiplier(1);
+            thisEnemy.setJumpHeightMultiplier(1);
+        }
+
         movementAI.setMoveDirection();
         raycastAI.setRaycastsDirection();
 
@@ -56,7 +62,7 @@ public class EnemyAIComponent extends Component {
             movementAI.moveTowardsTarget();
         }
 
-        enemyAboveOrBelowFix();        // Must be before doJump() and multiplier reset.
+        enemyAboveOrBelowFix();        // Must be before doJump() (and multiplier reset?).
         movementAI.doJump();
         setPlayerReached();             // Must be after movement code.
         movementAI.enemyStuckUnderPlatformFix();
@@ -67,12 +73,6 @@ public class EnemyAIComponent extends Component {
         }
 
         //movementAI.followPlayerDown();
-
-        // Reset move speed and jump height if Enemy is touching solid ground.
-        if(!thisEnemy.isAirborne()) {
-            thisEnemy.setMoveSpeedMultiplier(1);
-            thisEnemy.setJumpHeightMultiplier(1);
-        }
     }
 
     /**

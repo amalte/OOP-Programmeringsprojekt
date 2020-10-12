@@ -19,7 +19,7 @@ class RaycastAI {
 
     // ---- RAYCAST LENGTHS ---- //
     private int higherHorizontalRaycastDeltaHeight = 20;    // Delta with entity's top Y-coordinate (how many pixels above entity the raycast should be placed).
-    private int higherHorizontalRaycastLength = 40;
+    private int higherHorizontalRaycastLength = 60;
     private int horizontalRaycastLength = 30;
     private int downwardRaycastLength = 75;
     private int upwardRaycastLength = 20;

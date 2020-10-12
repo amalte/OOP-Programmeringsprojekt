@@ -14,12 +14,12 @@ public class Rex implements IEnemyType {
 
     @Override
     public int getHealth() {
-        return 200;
+        return 350;
     }
 
     @Override
     public int getDamage() {
-        return 20;
+        return 25;
     }
 
     @Override

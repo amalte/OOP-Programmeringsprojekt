@@ -81,7 +81,7 @@ public class EnemyFactory {
      * @return Returns the enemy entity.
      */
     private Entity buildEnemy(EnemyComponent enemyComponent, double x, double y, Entity player) {
-        Entity entity = FXGL.entityBuilder().type(EntityType.ENEMY).at(x,y).viewWithBBox(new Rectangle(40, 40, enemyComponent.getColor())).build();
+        Entity entity = FXGL.entityBuilder().type(EntityType.ENEMY).at(x,y).viewWithBBox(new Rectangle(50, 50, enemyComponent.getColor())).build();
 
         entity.addComponent(enemyComponent);                                        // Add EnemyComponent
         entity.addComponent(enemyComponent.getPhysics());                           // Add PhysicsComponent

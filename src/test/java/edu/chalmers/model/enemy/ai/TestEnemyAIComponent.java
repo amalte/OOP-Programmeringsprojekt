@@ -39,8 +39,6 @@ public class TestEnemyAIComponent {
 
         // +1 so raycast works. Level enemy with platform.
         enemy.setY(-(enemy.getHeight() + 1));
-
-        enemyAIComponent.onUpdate(1);
     }
 
     @Test

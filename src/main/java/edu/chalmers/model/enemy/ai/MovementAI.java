@@ -22,7 +22,6 @@ class MovementAI {
 
     private TimerAction underPlatformTimer;
     private TimerAction moveToNextPlatformTimer;
-    private TimerAction blockJumpTimer;
     boolean underPlatform = false;
     boolean moveToNextPlatform = true;
     boolean jumpAllowed = true;
@@ -103,6 +102,19 @@ class MovementAI {
         }
 
         // IF:
+        // activeDownwardRaycast did *not* hit a platform (Enemy is usually walking off a platform) *AND*
+        // activeDownwardRaycast did *not* hit a block *AND*
+        // Enemy is not airborne:
+        if(!RaycastCalculations.checkRaycastHit(AI.getRaycastAI().getActiveDownwardRaycast(), EntityType.PLATFORM) &&
+                !RaycastCalculations.checkRaycastHit(AI.getRaycastAI().getActiveDownwardRaycast(), EntityType.BLOCK) &&
+                !AI.getThisEnemy().isAirborne()) {
+
+            platformToPlatformStatImprovement();     // Increase moveSpeed and jumpHeight if Enemy is falling off platform and is going to jump.
+            AI.getThisEnemy().jump();
+            return;
+        }
+
+        // IF:
         // Players middle Y-pos is above Enemy *AND*
         // Player most recently did not touch the world ground *AND*
         // getHigherHorizontalRaycast hit a platform:
@@ -110,18 +122,10 @@ class MovementAI {
                 !AI.getPlayerComponent().isOnGround() &&
                 RaycastCalculations.checkRaycastHit(AI.getRaycastAI().getHigherHorizontalRaycast(), EntityType.PLATFORM)) {
 
-            // Jump
-            improveEnemyStatsForJump();
+            groundToPlatformStatImprovement();     // Increase moveSpeed and jumpHeight.
             AI.getThisEnemy().jump();
             return;
 
-        }
-
-        // activeDownwardRaycast did *not* hit a platform (Enemy is walking of a platform):
-        if(!RaycastCalculations.checkRaycastHit(AI.getRaycastAI().getActiveDownwardRaycast(), EntityType.PLATFORM)) {
-            improveEnemyStatsForJump();     // Increase moveSpeed and jumpHeight if Enemy is falling off platform and is going to jump.
-            AI.getThisEnemy().jump();
-            return;
         }
     }
 
@@ -259,26 +263,48 @@ class MovementAI {
     /**
      * Method improves Enemy stats depending on the Enemy type.
      */
-    private void improveEnemyStatsForJump() {
+    private void groundToPlatformStatImprovement() {
 
         // If Enemy is a Zombie:
         if(AI.getThisEnemy().getEnemyType().getClass().equals(EnemyTypes.getZombieClass())) {
-            AI.getThisEnemy().setMoveSpeedMultiplier(1.5);
-            AI.getThisEnemy().setJumpHeightMultiplier(1.8);
+            AI.getThisEnemy().setJumpHeightMultiplier(1.6);
         }
 
         // If Enemy is a Rex:
         else if(AI.getThisEnemy().getEnemyType().getClass().equals(EnemyTypes.getRexClass())) {
-            AI.getThisEnemy().setMoveSpeedMultiplier(1.9);
-            AI.getThisEnemy().setJumpHeightMultiplier(1.8);
+            AI.getThisEnemy().setJumpHeightMultiplier(1.6);
         }
 
         // If Enemy is a Blob
         else if(AI.getThisEnemy().getEnemyType().getClass().equals(EnemyTypes.getBlobClass())) {
-            AI.getThisEnemy().setMoveSpeedMultiplier(1.5);
-            AI.getThisEnemy().setJumpHeightMultiplier(1.8);
+            AI.getThisEnemy().setJumpHeightMultiplier(1.7);
         }
     }
+
+    /**
+     * Method improves Enemy stats depending on the Enemy type.
+     */
+    private void platformToPlatformStatImprovement() {
+
+        // If Enemy is a Zombie:
+        if(AI.getThisEnemy().getEnemyType().getClass().equals(EnemyTypes.getZombieClass())) {
+            AI.getThisEnemy().setMoveSpeedMultiplier(1.6);
+            AI.getThisEnemy().setJumpHeightMultiplier(1.7);
+        }
+
+        // If Enemy is a Rex:
+        else if(AI.getThisEnemy().getEnemyType().getClass().equals(EnemyTypes.getRexClass())) {
+            AI.getThisEnemy().setMoveSpeedMultiplier(2.1);
+            AI.getThisEnemy().setJumpHeightMultiplier(1.7);
+        }
+
+        // If Enemy is a Blob
+        else if(AI.getThisEnemy().getEnemyType().getClass().equals(EnemyTypes.getBlobClass())) {
+            AI.getThisEnemy().setMoveSpeedMultiplier(1.9);
+            AI.getThisEnemy().setJumpHeightMultiplier(1.6);
+        }
+    }
+
 
     // ---------- TIMERS ---------- //
 
