@@ -72,4 +72,31 @@ public class MainMenu extends SubScene {
                 (FXGL.getAppWidth() / 2) - (ActionButton.BUTTON_WIDTH / 2),
                 (FXGL.getAppHeight() / 2.5) - (ActionButton.BUTTON_HEIGHT / 2) + (2 * (ActionButton.BUTTON_WIDTH / 4)));
     }
+
+    /**
+     * Get the play button
+     * @return The play button
+     */
+    public Node getPlayButton()
+    {
+        return this.playButton;
+    }
+
+    /**
+     * Get the settings button
+     * @return The settings button
+     */
+    public Node getSettingsButton()
+    {
+        return this.settingsButton;
+    }
+
+    /**
+     * Get the exit button
+     * @return The exit button
+     */
+    public Node getExitButton()
+    {
+        return this.exitButton;
+    }
 }
