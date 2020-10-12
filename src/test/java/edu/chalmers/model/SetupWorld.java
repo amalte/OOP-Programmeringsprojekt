@@ -23,7 +23,7 @@ public class SetupWorld {       // Initialize world to get access to library met
             hasLaunched = true;
 
             t.start();
-            Thread.sleep(1000);
+            Thread.sleep(2500);
             System.out.println("App thread started");
 
             // Initialize before tests \\
