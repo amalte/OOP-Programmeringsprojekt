@@ -4,6 +4,7 @@ import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.scene.SubScene;
 import javafx.scene.Node;
+import javafx.scene.control.Slider;
 import javafx.scene.layout.StackPane;
 
 /**
@@ -47,5 +48,24 @@ public class MainViewUtil {
     public static StackPane createMenuButton(String text, Runnable action)
     {
         return new ActionButton(text, action);
+    }
+
+
+    /**
+     * Create a slider with some preset values.
+     * @param min The minimum value of this slider
+     * @param max The maximum value of this slider
+     * @param startValue The start value of this slider
+     * @return The slider that was created
+     */
+    public static Slider createSlider(int min, int max, int startValue)
+    {
+        Slider slider = new Slider(min, max, startValue);
+        slider.setShowTickLabels(true);
+        slider.setShowTickMarks(true);
+        slider.setMajorTickUnit(50);
+        slider.setMinorTickCount(25);
+
+        return slider;
     }
 }
