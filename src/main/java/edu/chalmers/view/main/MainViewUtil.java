@@ -2,6 +2,7 @@ package edu.chalmers.view.main;
 
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.dsl.FXGL;
+import com.almasb.fxgl.scene.SubScene;
 import javafx.scene.Node;
 import javafx.scene.layout.StackPane;
 
@@ -16,7 +17,7 @@ public class MainViewUtil {
      * @param y Y-coordinate of the Node
      * @return The node that was added to the menu
      */
-    public static <T extends Node> T addNode(FXGLMenu menu, T node, double x, double y)
+    public static <T extends Node> T addNode(SubScene subScene, T node, double x, double y)
     {
         if (node != null)
         {
@@ -28,7 +29,7 @@ public class MainViewUtil {
                 node.setLayoutX(x);
                 node.setLayoutY(y);
 
-                menu.getContentRoot().getChildren().add(node);
+                subScene.getContentRoot().getChildren().add(node);
 
                 return node;
             }
@@ -43,7 +44,7 @@ public class MainViewUtil {
      * @param action The action of the menu button
      * @return The menu button that was created
      */
-    private static StackPane createMenuButton(String text, Runnable action)
+    public static StackPane createMenuButton(String text, Runnable action)
     {
         return new ActionButton(text, action);
     }
