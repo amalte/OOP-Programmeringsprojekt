@@ -31,16 +31,7 @@ public class Main extends GameApplication {
 
         //gameSettings.setDeveloperMenuEnabled(true);   // Possible to check hitboxes
 
-        gameSettings.setMainMenuEnabled(true);
-        gameSettings.setSceneFactory(new SceneFactory() {
-            @Override
-            public FXGLMenu newMainMenu() {
-                if (mainMenuController == null)
-                    mainMenuController = new MainMenuController(new MainMenu());
-
-                return mainMenuController.getViewInstance();
-            }
-        });
+        this.mainMenuController = new MainMenuController(new MainMenu());
 
         //gameSettings.setDeveloperMenuEnabled(true);
     }
