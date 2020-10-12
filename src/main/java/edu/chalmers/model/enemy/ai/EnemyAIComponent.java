@@ -95,7 +95,7 @@ public class EnemyAIComponent extends Component {
      * Method reduces mobility issues with enemies when another Enemy is on top of them.
      */
     private void enemyAboveOrBelowFix() {
-        if(enemyAbove() || enemyBelow()) {
+        if(enemyDirectlyAbove() || enemyDirectlyBelow()) {
             thisEnemy.setJumpHeightMultiplier(2);
         }
     }
@@ -111,8 +111,13 @@ public class EnemyAIComponent extends Component {
 
         // If entityRaycast hit an Enemy (Enemy is nearby).
         if(RaycastCalculations.checkRaycastHit(raycastAI.getEntityRaycast(), EntityType.ENEMY)) {
-            Optional<Entity> optionalEntity = raycastAI.getEntityRaycast().getEntity(); // Get Enemy entity
-            return optionalEntity.get().getComponent(EnemyAIComponent.class);
+
+            // If the Enemy hit is not thisEnemy:
+            if(!RaycastCalculations.getRaycastHit(raycastAI.getEntityRaycast()).equals(thisEnemy.getEntity())) {
+                Optional<Entity> optionalEntity = raycastAI.getEntityRaycast().getEntity(); // Get Enemy entity
+                return optionalEntity.get().getComponent(EnemyAIComponent.class);
+            }
+
         }
 
         // If no Enemy is nearby.
@@ -245,11 +250,11 @@ public class EnemyAIComponent extends Component {
     }
 
     /**
-     * Method checks if the given entity is below the Enemy.
+     * Method checks if given entity's middle Y-position is below the Enemy.
      * @return True or false.
      */
-    public boolean isEntityBelow(Entity entity) {
-        return (entity.getY() + (entity.getHeight() / 2)) - thisEnemy.getY() > 0;
+    public boolean isEntityMiddleYBelow(Entity entity) {
+        return (entity.getY() + (entity.getHeight() / 2)) - thisEnemy.getBottomY() > 0;
     }
 
     /**
@@ -261,20 +266,48 @@ public class EnemyAIComponent extends Component {
     }
 
     /**
-     * Method checks if there is an Enemy above this entity.
+     * Method checks if there is an Enemy directly above this entity.
      * @return True or False.
      */
-    public boolean enemyAbove() {
-        return RaycastCalculations.checkRaycastHit(raycastAI.getLeftUpwardRaycast(), EntityType.ENEMY) ||
-                RaycastCalculations.checkRaycastHit(raycastAI.getRightUpwardRaycast(), EntityType.ENEMY);
+    public boolean enemyDirectlyAbove() {
+        if (RaycastCalculations.checkRaycastHit(raycastAI.getLeftUpwardRaycast(), EntityType.ENEMY)) {
+
+            // Is the Enemy hit not thisEnemy?
+            if (!RaycastCalculations.getRaycastHit(raycastAI.getLeftUpwardRaycast()).equals(thisEnemy.getEntity())) {
+                return true;
+            }
+        }
+
+        if(RaycastCalculations.checkRaycastHit(raycastAI.getRightUpwardRaycast(), EntityType.ENEMY)) {
+
+            // Is the Enemy hit not thisEnemy?
+            if (!RaycastCalculations.getRaycastHit(raycastAI.getRightUpwardRaycast()).equals(thisEnemy.getEntity())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
-     * Method checks if there is an Enemy on below this entity.
+     * Method checks if there is an Enemy directly below this entity.
      * @return True or False.
      */
-    public boolean enemyBelow() {
-       return RaycastCalculations.checkRaycastHit(raycastAI.getLeftDownwardRaycast(), EntityType.ENEMY) ||
-                RaycastCalculations.checkRaycastHit(raycastAI.getRightDownwardRaycast(), EntityType.ENEMY);
+    public boolean enemyDirectlyBelow() {
+        if (RaycastCalculations.checkRaycastHit(raycastAI.getLeftDownwardRaycast(), EntityType.ENEMY)) {
+
+            // Is the Enemy hit not thisEnemy?
+            if (!RaycastCalculations.getRaycastHit(raycastAI.getLeftDownwardRaycast()).equals(thisEnemy.getEntity())) {
+                return true;
+            }
+        }
+
+        if(RaycastCalculations.checkRaycastHit(raycastAI.getRightDownwardRaycast(), EntityType.ENEMY)) {
+
+            // Is the Enemy hit not thisEnemy?
+            if (!RaycastCalculations.getRaycastHit(raycastAI.getRightDownwardRaycast()).equals(thisEnemy.getEntity())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

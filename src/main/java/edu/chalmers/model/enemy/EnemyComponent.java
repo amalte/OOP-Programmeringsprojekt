@@ -190,6 +190,30 @@ public class EnemyComponent extends Component {
     }
 
     /**
+     * Getter for variable moveSpeed.
+     * @return The move speed of the Enemy.
+     */
+    public int getMoveSpeed() {
+        return moveSpeed;
+    }
+
+    /**
+     * Getter for variable jumpHeight.
+     * @return The jump height of the Enemy.
+     */
+    public int getJumpHeight() {
+        return jumpHeight;
+    }
+
+    /**
+     * Getter for variable jumps.
+     * @return The amount og jumps left.
+     */
+    public int getJumps() {
+        return jumps;
+    }
+
+    /**
      * Getter for onGround variable.
      * @return True (Enemy is on the ground *or* has most recently not touched a platform) or False (Enemy has not touched the ground since touching a platform).
      */
