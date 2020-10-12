@@ -46,16 +46,18 @@ public class GenericPlatformer {
     /**
      * Initiates mapManager.
      */
+    //ToDo Malte fix
     public void initMapManager(){
-        this.buildManager = new BuildManager(3);
+        this.buildManager = new BuildManager(player.getComponent(PlayerComponent.class).getBuildRangeTiles());
     }
 
     /**
      * Initiates buildManager.
      */
+    //ToDo Malte fix
     public void initBuildManager(){
         //this.buildManager = new BuildManager(getPlayer().getComponent(PlayerComponent.class).getBuildRangeTiles());
-        this.buildManager = new BuildManager(3);
+        this.buildManager = new BuildManager(player.getComponent(PlayerComponent.class).getBuildRangeTiles());
     }
 
     /**

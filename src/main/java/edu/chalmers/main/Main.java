@@ -29,7 +29,7 @@ public class Main extends GameApplication {
         gameSettings.setTitle("Generic Platformer");
         gameSettings.setVersion("1.0");
 
-        gameSettings.setDeveloperMenuEnabled(true);
+        gameSettings.setDeveloperMenuEnabled(false);
 
         gameSettings.setMainMenuEnabled(true);
         gameSettings.setSceneFactory(new SceneFactory() {
