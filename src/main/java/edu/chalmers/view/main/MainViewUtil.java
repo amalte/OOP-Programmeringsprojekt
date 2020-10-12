@@ -3,6 +3,7 @@ package edu.chalmers.view.main;
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.dsl.FXGL;
 import javafx.scene.Node;
+import javafx.scene.layout.StackPane;
 
 /**
  * Utils for usage in the main views.
@@ -34,5 +35,16 @@ public class MainViewUtil {
         }
 
         return null;
+    }
+
+    /**
+     * Create a menu button for this menu, using the ActionButton class.
+     * @param text The text of the menu button
+     * @param action The action of the menu button
+     * @return The menu button that was created
+     */
+    private static StackPane createMenuButton(String text, Runnable action)
+    {
+        return new ActionButton(text, action);
     }
 }
