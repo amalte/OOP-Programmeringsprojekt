@@ -45,6 +45,7 @@ public class Weapon {
         if (magazineCounter > 0 && !reloading) {
             magazineCounter--;
             new WeaponProjectile(new Point2D(x,y), mouseLocation(), projectileSpeed);
+
         }
     }
 

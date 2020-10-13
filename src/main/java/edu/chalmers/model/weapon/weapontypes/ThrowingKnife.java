@@ -24,4 +24,9 @@ public class ThrowingKnife implements IWeaponType{
     public int getProjectileSpeed() {
         return 450;
     }
+
+    @Override
+    public String getName() {
+        return "Throwing Knife";
+    }
 }

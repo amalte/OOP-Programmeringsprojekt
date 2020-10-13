@@ -3,7 +3,6 @@ package edu.chalmers.model.building;
 import edu.chalmers.utilities.Constants;
 import edu.chalmers.utilities.CoordsCalculations;
 import edu.chalmers.services.Coords;
-import edu.chalmers.services.TileMap;
 import edu.chalmers.model.building.blocks.Block;
 import javafx.geometry.Point2D;
 
@@ -39,20 +38,12 @@ public class BuildManager {
         Coords buildTile = CoordsCalculations.posToTile(mousePos);
         Coords playerTile = CoordsCalculations.posToTile(playerPos);
 
-        if(!isInBuildRange(playerTile, buildTile)) {    // Has to be in range to place block
-            return false;
-        }
-        else if(playerTile.equals(buildTile)) {  // Can't place block on player
-            return false;
-        }
-        else if(!mapManager.isTileEmpty(buildTile)) {   // Can't build if tile is occupied
-            return false;
-        }
-        else if(!mapManager.isTileConnected(buildTile)) {   // Can't build if tile isn't connected to another tile
+        if(!isInBuildRange(playerTile, buildTile) || playerTile.equals(buildTile)) {    // Can't build if not in range or if trying to place block on player
             return false;
         }
 
-        return true;
+        // Possible to build if tile is empty and tile is connected to another tile
+        return mapManager.isTileEmpty(buildTile) && mapManager.isTileConnected(buildTile);
     }
 
     /**
@@ -65,7 +56,7 @@ public class BuildManager {
 
         List<Coords> reachableTiles = new ArrayList<>();
 
-        int tileInRangeSize = buildRangeTiles*2+1;      // Width/Height of total tiles in range
+        int tileInRangeSize = buildRangeTiles*2+1;      // The width/height of total tiles in range
         int tilesInRange = tileInRangeSize*tileInRangeSize;   // Width * Height (width = height)
 
         for(int i = 0; i < tilesInRange; i++) {

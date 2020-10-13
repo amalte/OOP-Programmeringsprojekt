@@ -5,5 +5,6 @@ public interface IWeaponType {
     int getDamage();
     int getReloadTimeMilliseconds();
     int getProjectileSpeed();
+    String getName();
 
 }

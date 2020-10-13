@@ -24,4 +24,9 @@ public class Crossbow implements IWeaponType {
     public int getProjectileSpeed() {
         return 700;
     }
+
+    @Override
+    public String getName() {
+        return "Crossbow";
+    }
 }

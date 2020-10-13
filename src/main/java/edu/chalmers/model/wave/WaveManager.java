@@ -4,6 +4,7 @@ import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.time.TimerAction;
 import edu.chalmers.model.EntityType;
+import edu.chalmers.model.enemy.StatMultiplier;
 import javafx.util.Duration;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
@@ -30,28 +31,33 @@ public class WaveManager {
      */
     public void generateNewWave() {
         currentWave++;
-        calculateEnemiesToSpawn(currentWave);
+        calculateEnemiesToSpawn();
+        updateEnemyStats();
         startNewWaveTimer();    // Will generateNewWave if timer reaches 0 (Warning will be infinite loop unless timer is stopped somewhere)
         spawnEnemies(spawnEnemyRunnable);
     }
 
     //Method will add enemies that should spawn to the param list, which and how many enemies that are added depends on which wave it is
-    private void calculateEnemiesToSpawn(int wave) {
+    private void calculateEnemiesToSpawn() {
         List<String> enemiesToSpawn = spawnEnemyRunnable.getEnemiesToSpawn();
 
-        for (int i = 0; i < wave; i++) {
+        for (int i = 0; i < currentWave; i++) {
             enemiesToSpawn.add("ZOMBIE");
         }
-        for (int i = 0; i < Math.round((double)wave / 3); i++) {
+        for (int i = 0; i < Math.round((double)currentWave / 3); i++) {
             enemiesToSpawn.add("BLOB");
         }
-        if(wave % 5 == 0) {  // Spawn difficult enemy every 5 waves
-            for (int i = 0; i < wave / 5; i++) {
+        if(currentWave % 5 == 0) {  // Spawn difficult enemy every 5 waves
+            for (int i = 0; i < currentWave / 5; i++) {
                 enemiesToSpawn.add("REX");
             }
         }
 
         spawnEnemyRunnable.setEnemiesToSpawn(enemiesToSpawn);
+    }
+
+    private void updateEnemyStats() {
+        spawnEnemyRunnable.setStatMultiplier(new StatMultiplier(1 + currentWave*0.1, 1 + currentWave*0.1));
     }
 
     //Method will spawn enemies from enemiesToSpawnList with an interval of shortSpawnMs to longSpawnMs milliseconds
