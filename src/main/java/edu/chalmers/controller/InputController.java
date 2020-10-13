@@ -8,6 +8,7 @@ import edu.chalmers.model.PlayerComponent;
 import edu.chalmers.utilities.CoordsCalculations;
 import edu.chalmers.utilities.EntityPos;
 import edu.chalmers.view.BuildView;
+import edu.chalmers.view.GameUI;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
@@ -31,6 +32,9 @@ public class InputController {
         if (!initialized) {
 
             Input input = getInput();
+
+            GameUI gameUI = new GameUI(game);
+            gameUI.setNodes();
 
             input.addAction(new UserAction("Walk right") {
                 @Override
