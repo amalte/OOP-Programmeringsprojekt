@@ -23,7 +23,8 @@ public class PlayerComponent extends Component {
     private boolean testing = false; //Boolean used for testing
 
     //Stats
-    private int health = 100;
+    private int maxHealth = 100;
+    private int health = maxHealth;
     private int moveSpeed = 150;
     private int jumpHeight = 375;
     private final int AMOUNT_OF_JUMPS = 1;
@@ -34,6 +35,7 @@ public class PlayerComponent extends Component {
     private TimerAction timer;
     private boolean onGround;
     private boolean isAirborne;
+
 
     public PlayerComponent(PhysicsComponent physics) {
         this.physics = physics;
@@ -106,7 +108,8 @@ public class PlayerComponent extends Component {
     public void inflictDamage(int damage){
         if(!testing) {
             if (timer.isExpired()) {
-                timer = runOnce(() -> health -= damage, Duration.seconds(1));
+                health -= damage;
+                timer = runOnce(() -> {}, Duration.seconds(1));
             }
         } else{
             health -= damage;
@@ -190,6 +193,14 @@ public class PlayerComponent extends Component {
      */
     public int getMoveSpeed(){
         return moveSpeed;
+    }
+
+    /**
+     * Getter for variable maxHealth.
+     * @return Integer max health for PlayerComponent.
+     */
+    public int getMaxHealth() {
+        return maxHealth;
     }
 
     // -------- SETTERS -------- //
