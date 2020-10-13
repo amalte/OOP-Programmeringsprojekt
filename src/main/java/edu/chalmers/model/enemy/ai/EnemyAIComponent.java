@@ -222,7 +222,10 @@ public class EnemyAIComponent extends Component {
      * @return True or false.
      */
     public boolean isEntityToLeft(Entity entity) {
-        return EntityPos.getMiddleX(entity) - EntityPos.getMiddleX(thisEnemy.getEntity()) < 0;
+        //System.out.println("1.  TO LEFT");
+        //return Math.round(EntityPos.getMiddleX(entity) - EntityPos.getMiddleX(thisEnemy.getEntity())) < 0;
+        return Math.round(EntityPos.getMiddleX(entity) - thisEnemy.getX()) < 0;
+
     }
 
     /**
@@ -230,7 +233,9 @@ public class EnemyAIComponent extends Component {
      * @return True or false.
      */
     public boolean isEntityToRight(Entity entity) {
-        return EntityPos.getMiddleX(entity) - EntityPos.getMiddleX(thisEnemy.getEntity()) > 0;
+        //System.out.println("2.  TO     RIGHT");
+        //return Math.round(EntityPos.getMiddleX(entity) - EntityPos.getMiddleX(thisEnemy.getEntity())) > 0;
+        return Math.round(EntityPos.getMiddleX(entity) - thisEnemy.getRightX()) > 0;
     }
 
     /**

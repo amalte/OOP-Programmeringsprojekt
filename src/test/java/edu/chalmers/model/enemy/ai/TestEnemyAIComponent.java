@@ -105,8 +105,8 @@ public class TestEnemyAIComponent {
 
         assertEquals(false, enemyAIComponent.isEntityToLeft(player));
 
-        // Set player position to the left.
-        player.setX(-10);
+        // Set player middle X-position to be slightly to the left of Enemy.
+        player.setX(-(player.getWidth() / 2 + 1));
 
         assertEquals(true, enemyAIComponent.isEntityToLeft(player));
     }
@@ -123,8 +123,8 @@ public class TestEnemyAIComponent {
 
         assertEquals(false, enemyAIComponent.isEntityToRight(player));
 
-        // Set player position to the right.
-        player.setX(10);
+        // Set player middle X-position to be exactly to the right of Enemy.
+        player.setX(enemy.getRightX() + player.getWidth() / 2);
 
         assertEquals(true, enemyAIComponent.isEntityToRight(player));
     }
