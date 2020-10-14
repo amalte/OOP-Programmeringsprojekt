@@ -16,12 +16,7 @@ public class TestControllerMiscUtilities {
 
     @Before
     public void setUp() {
-        this.mainInstance = new Main();
 
-        new Thread(() ->
-        {
-            GameApplication.launch(Main.class, new String[0]);
-        }).start();
     }
 
     @Test
@@ -32,6 +27,6 @@ public class TestControllerMiscUtilities {
     @After
     public void tearDown()
     {
-        FXGL.getGameController().exit();
+
     }
 }
