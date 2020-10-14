@@ -52,7 +52,6 @@ public class WaveManager {
                 enemiesToSpawn.add("REX");
             }
         }
-
         spawnEnemyRunnable.setEnemiesToSpawn(enemiesToSpawn);
     }
 
