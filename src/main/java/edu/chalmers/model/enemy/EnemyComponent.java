@@ -244,22 +244,6 @@ public class EnemyComponent extends Component {
     }
 
     /**
-     * Sets the multiplier for Enemy's health.
-     * @param healthMultiplier Health multiplier.
-     */
-    public void setHealthMultiplier(double healthMultiplier) {
-        health = (int) Math.round(enemyType.getHealth() * healthMultiplier);
-    }
-
-    /**
-     * Sets the multiplier for Enemy's damage.
-     * @param damageMultiplier Damage multiplier.
-     */
-    public void setDamageMultiplier(double damageMultiplier) {
-        damage = (int) Math.round(enemyType.getDamage() * damageMultiplier);
-    }
-
-    /**
      * Sets the multiplier for Enemy's move speed.
      * @param moveSpeedMultiplier Move speed multiplier.
      */

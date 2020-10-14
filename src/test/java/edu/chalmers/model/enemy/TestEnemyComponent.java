@@ -247,23 +247,6 @@ public class TestEnemyComponent {
 
     // -------- SETTERS -------- //
 
-    // Methods not used.
-    /*
-    @Test
-    public void testSetHealthMultiplier() {
-        init();
-
-        assertEquals();
-    }
-
-    @Test
-    public void testSetDamageMultiplier() {
-        init();
-
-        assertEquals();
-    }
-    */
-
     @Test
     public void testSetMoveSpeedMultiplier() {
         init();
