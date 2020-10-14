@@ -43,6 +43,9 @@ public class EnemyAIComponent extends Component {
 
     @Override
     public void onUpdate(double tpf) {
+        if (getPlayerComponent() == null)
+            return;
+
         movementAI.setMoveDirection();
         raycastAI.setRaycastsDirection();
 
@@ -171,7 +174,10 @@ public class EnemyAIComponent extends Component {
      * @return player.
      */
     public PlayerComponent getPlayerComponent() {
-        return player.getComponent(PlayerComponent.class);
+        if (getPlayer().hasComponent(PlayerComponent.class))
+            return player.getComponent(PlayerComponent.class);
+
+        return null;
     }
 
     /**
