@@ -1,36 +1,23 @@
 package edu.chalmers.view.main;
 
-import com.almasb.fxgl.app.scene.FXGLMenu;
-import com.almasb.fxgl.app.scene.MenuType;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.scene.SubScene;
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.StringBinding;
+import edu.chalmers.view.IMenu;
+import edu.chalmers.view.nodes.ActionButton;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-import org.jetbrains.annotations.NotNull;
 
-import static edu.chalmers.view.main.MainViewUtil.*;
+import static edu.chalmers.view.util.ViewUtil.*;
 
 /**
  * The main menu for the game.
  */
-public class MainMenu extends SubScene {
+public class MainMenu extends SubScene implements IMenu {
     /**
-     * The font size of the title text.
+     * The label containing the title for this menu.
      */
-    private static final double TITLE_FONT_SIZE = 54;
-
-    /**
-     * The font size of the version text.
-     */
-    private static final double VERSION_FONT_SIZE = 12;
+    private Text titleText;
 
     /**
      * The play button.
@@ -48,29 +35,37 @@ public class MainMenu extends SubScene {
     private Node exitButton;
 
     /**
-     * Default constructor.
-     * Creates default controls.
+     * Create the nodes for this menu.
      */
-    public MainMenu() {
-        this.createNodes();
+    @Override
+    public void createNodes()
+    {
+        // Background
+        addNode(this, getBackgroundNode(), 0, 0);
+
+        // Title
+        this.titleText = new Text(getTitle());
+        this.titleText.setFill(Color.RED);
+        this.titleText.setStyle("-fx-font-size: 64; -fx-font-weight: bold;");
+        addNode(this, this.titleText,
+                (FXGL.getAppWidth() / 2.0) - (getTitle().length() * 32) / 2.0,
+                FXGL.getAppHeight() / 5.0);
+
+        // Main buttons
+        this.playButton = addNode(this, createActionButton("Play", () -> { }),
+                (FXGL.getAppWidth() / 2.0) - (ActionButton.BUTTON_WIDTH / 2.0),
+                (FXGL.getAppHeight() / 2.5) - (ActionButton.BUTTON_HEIGHT / 2.0) + (0.0 * (ActionButton.BUTTON_HEIGHT / 4.0)));
+        this.settingsButton = addNode(this, createActionButton("Settings", () -> { }),
+                (FXGL.getAppWidth() / 2.0) - (ActionButton.BUTTON_WIDTH / 2.0),
+                (FXGL.getAppHeight() / 2.5) - (ActionButton.BUTTON_HEIGHT / 2.0) + (5.0 * (ActionButton.BUTTON_HEIGHT / 4.0)));
+        this.exitButton = addNode(this, createActionButton("Exit", () -> { }),
+                (FXGL.getAppWidth() / 2.0) - (ActionButton.BUTTON_WIDTH / 2.0),
+                (FXGL.getAppHeight() / 2.5) - (ActionButton.BUTTON_HEIGHT / 2.0) + (10.0 * (ActionButton.BUTTON_HEIGHT / 4.0)));
     }
 
-    /**
-     * Creates the default buttons for the main menu.
-     * Actions have to be set up from the controller.
-     */
-    private void createNodes()
-    {
-        // Main buttons
-        this.playButton = addNode(this, createMenuButton("Play", () -> { }),
-                (FXGL.getAppWidth() / 2) - (ActionButton.BUTTON_WIDTH / 2),
-                (FXGL.getAppHeight() / 2.5) - (ActionButton.BUTTON_HEIGHT / 2) + (0 * (ActionButton.BUTTON_WIDTH / 4)));
-        this.settingsButton = addNode(this, createMenuButton("Settings", () -> { }),
-                (FXGL.getAppWidth() / 2) - (ActionButton.BUTTON_WIDTH / 2),
-                (FXGL.getAppHeight() / 2.5) - (ActionButton.BUTTON_HEIGHT / 2) + (1 * (ActionButton.BUTTON_WIDTH / 4)));
-        this.exitButton = addNode(this, createMenuButton("Exit", () -> { }),
-                (FXGL.getAppWidth() / 2) - (ActionButton.BUTTON_WIDTH / 2),
-                (FXGL.getAppHeight() / 2.5) - (ActionButton.BUTTON_HEIGHT / 2) + (2 * (ActionButton.BUTTON_WIDTH / 4)));
+    @Override
+    public String getTitle() {
+        return "Generic Platformer";
     }
 
     /**
