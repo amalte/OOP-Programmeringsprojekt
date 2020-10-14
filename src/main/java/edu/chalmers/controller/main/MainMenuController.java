@@ -1,6 +1,8 @@
 package edu.chalmers.controller.main;
 
+import edu.chalmers.controller.GameMenuType;
 import edu.chalmers.controller.MenuController;
+import edu.chalmers.main.Main;
 import edu.chalmers.view.main.MainMenu;
 import static com.almasb.fxgl.dsl.FXGL.*;
 
@@ -8,27 +10,34 @@ import static com.almasb.fxgl.dsl.FXGL.*;
  * The controller for the main menu view.
  */
 public class MainMenuController extends MenuController<MainMenu> {
+
     /**
      * Default constructor for MainMenuController.
-     * @param mainMenu Instance of the MainMenu class to associate this controller with
+     *
+     * @param viewInstance Instance of a view to associate the controller with. Class has to implement IMenu.
+     * @param mainInstance
      */
-    public MainMenuController(MainMenu mainMenu)
+    public MainMenuController(MainMenu viewInstance, Main mainInstance)
     {
-        super(mainMenu);
+        super(viewInstance, mainInstance, GameMenuType.Main);
     }
 
     /**
-     * Initialize the nodes (binds actions to them, etc.)
+     * Initialize the nodes (make view create them, binds actions to them, etc.)
      */
     @Override
     protected void initializeNodes()
     {
+        super.initializeNodes();
+
         viewInstance.getPlayButton().setOnMousePressed(mouseEvent -> {
-            getGameController().startNewGame();
+            this.hide();
+            this.mainInstance.getController(GameMenuType.Play).show();
         });
 
         viewInstance.getSettingsButton().setOnMousePressed(mouseEvent -> {
-            // TODO: Make tihs open the settings menu
+            this.hide();
+            this.mainInstance.getController(GameMenuType.Settings).show();
         });
 
         viewInstance.getExitButton().setOnMousePressed(mouseEvent -> {
