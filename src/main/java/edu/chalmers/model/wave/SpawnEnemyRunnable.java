@@ -20,6 +20,7 @@ import static com.almasb.fxgl.dsl.FXGL.runOnce;
 public class SpawnEnemyRunnable implements Runnable {
     private Random random = new Random();
     private List<String> enemiesToSpawn = new ArrayList<>();
+    private StatMultiplier statMultiplier = new StatMultiplier();
     private int shortSpawnMs = 1000;    // Lowest time between enemies spawning
     private int longSpawnMs = 3000;    // Longest time between enemies spawning
     private Entity player;
@@ -76,14 +77,21 @@ public class SpawnEnemyRunnable implements Runnable {
     public int getShortSpawnMs() { return shortSpawnMs; }
 
     /**
+     * Setter for statMultiplier
+     * @param statMultiplier enemy stats
+     */
+    public void setStatMultiplier(StatMultiplier statMultiplier) {
+        this.statMultiplier = statMultiplier;
+    }
+
+    /**
      * Method spawns all enemies in a time interval on a random spawn position
      */
     @Override
     public void run() {
         int spawnIndex = random.nextInt(enemiesToSpawn.size()); // Select random enemy from list
 
-        StatMultiplier statMultiplier = new StatMultiplier();
-        Point2D spawnPoint = getGameWorld().getEntitiesByType(EntityType.ENEMYSPAWNPOINT).get(random.nextInt(2)).getPosition();
+        Point2D spawnPoint = getGameWorld().getEntitiesByType(EntityType.ENEMYSPAWNPOINT).get(random.nextInt(2)).getPosition();   // Get a random spawn point for enemies
         enemyFactory.createEnemy(enemiesToSpawn.get(spawnIndex), spawnPoint.getX(), spawnPoint.getY(), player, statMultiplier);   // Spawn an enemy randomly from list
 
         enemiesToSpawn.remove(spawnIndex);  // Enemy has been spawned so remove from enemiesToSpawn list

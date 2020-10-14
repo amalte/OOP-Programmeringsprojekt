@@ -241,7 +241,7 @@ class MovementAI {
      */
     // TODO - not done (not working as intended)
     public void followPlayerDown() {
-        if(AI.isEntityBelow(AI.getPlayer()) && !AI.getThisEnemy().isAirborne()) {
+        if(AI.isEntityMiddleYBelow(AI.getPlayer()) && !AI.getThisEnemy().isAirborne()) {
             AI.setPathfindingOverride(true);
 
             if(randInt == 0) {
@@ -319,5 +319,15 @@ class MovementAI {
      */
     public Direction getMoveDirection() {
         return moveDirection;
+    }
+
+    // ------- SETTERS ------- //
+
+    /**
+     * Setter for jumpAllowed variable
+     * @param jumpAllowed True or False.
+     */
+    public void setJumpAllowed(boolean jumpAllowed) {
+        this.jumpAllowed = jumpAllowed;
     }
 }

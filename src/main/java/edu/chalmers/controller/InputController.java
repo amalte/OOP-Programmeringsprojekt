@@ -8,6 +8,7 @@ import edu.chalmers.main.Main;
 import edu.chalmers.model.GenericPlatformer;
 import edu.chalmers.model.PlayerComponent;
 import edu.chalmers.utilities.EntityPos;
+import edu.chalmers.view.GameUI;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 
@@ -32,6 +33,9 @@ public class InputController {
 
         if (!initialized) {
             InputInstance = getInput();
+
+            GameUI gameUI = new GameUI(game);
+            gameUI.setNodes();
 
             InputInstance.addAction(new UserAction("Exit menu") {
                 @Override

@@ -20,9 +20,11 @@ import static com.almasb.fxgl.dsl.FXGL.runOnce;
 public class PlayerComponent extends Component {
 
     private List<Weapon> weapons = new ArrayList<>();
+    private boolean testing = false; //Boolean used for testing
 
     //Stats
-    private int health = 100;
+    private int maxHealth = 100;
+    private int health = maxHealth;
     private int moveSpeed = 150;
     private int jumpHeight = 375;
     private final int AMOUNT_OF_JUMPS = 1;
@@ -33,6 +35,7 @@ public class PlayerComponent extends Component {
     private TimerAction timer;
     private boolean onGround;
     private boolean isAirborne;
+
 
     public PlayerComponent(PhysicsComponent physics) {
         this.physics = physics;
@@ -46,52 +49,11 @@ public class PlayerComponent extends Component {
     }
 
     /**
-     * Get method used fot testing purposes.
-     * @return integer jumps.
-     */
-    public int getJumps() {
-        return jumps;
-    }
-
-    public int getBuildRangeTiles() { return buildRangeTiles; }
-
-    /**
-     * Getter for PlayerComponents health.
-     * @return Integer of PlayerComponents health.
-     */
-    public int getHealth(){
-        return health;
-    }
-
-    /**
-     *Getter for variable weapon.
-     * @return The weapon currently selected by the PlayerComponent.
-     */
-    public Weapon getActiveWeapon(){
-        return weapons.get(activeWeapon);
-    }
-
-    /**
-     * Sets the active weapon.
-     * @param activeWeapon Integer to replace the current activeWeapon.
-     */
-    public void setActiveWeapon(int activeWeapon) {
-
-        this.activeWeapon = activeWeapon;
-    }
-
-    /**
-     * Getter for variable moveSpeed (intended for testing)
-     * @return PlayerComponents unchangeable movementSpeed.
-     */
-    public int getMoveSpeed(){
-        return moveSpeed;
-    }
-
-    /**
      * Method moves players Entity left (negative x).
      */
-    public void moveLeft(){ physics.setVelocityX(-moveSpeed); }
+    public void moveLeft(){
+        physics.setVelocityX(-moveSpeed);
+    }
 
     /**
      * Method moves players Entity right (positive x).
@@ -144,8 +106,13 @@ public class PlayerComponent extends Component {
      * @param damage amount of health points to be inflicted to player.
      */
     public void inflictDamage(int damage){
-        if(timer.isExpired()){
-            timer = runOnce(() -> health -= damage, Duration.seconds(1));
+        if(!testing) {
+            if (timer.isExpired()) {
+                health -= damage;
+                timer = runOnce(() -> {}, Duration.seconds(1));
+            }
+        } else{
+            health -= damage;
         }
     }
 
@@ -174,6 +141,68 @@ public class PlayerComponent extends Component {
         return isAirborne;
     }
 
+    /**
+     * Getter for the list weapons used for testing purposes.
+     * @return List of Weapon "weapons".
+     */
+    public List<Weapon> getWeapons() {
+        return weapons;
+    }
+
+    /**
+     * Getter for variable jumpHeight (intended for testing)
+     * @return PlayerComponents unchangeable jumpHeight.
+     */
+    public int getJumpHeight() {
+        return jumpHeight;
+    }
+
+    /**
+     * Get method used fot testing purposes.
+     * @return integer jumps.
+     */
+    public int getJumps() {
+        return jumps;
+    }
+
+    /**
+     * Getter for variable buildRangeTiles.
+     * @return Integer for the max range of block the player can build.
+     */
+    public int getBuildRangeTiles() { return buildRangeTiles; }
+
+    /**
+     * Getter for PlayerComponents health.
+     * @return Integer of PlayerComponents health.
+     */
+    public int getHealth(){
+        return health;
+    }
+
+    /**
+     *Getter for variable weapon.
+     * @return The weapon currently selected by the PlayerComponent.
+     */
+    public Weapon getActiveWeapon(){
+        return weapons.get(activeWeapon);
+    }
+
+    /**
+     * Getter for variable moveSpeed (intended for testing)
+     * @return PlayerComponents unchangeable movementSpeed.
+     */
+    public int getMoveSpeed(){
+        return moveSpeed;
+    }
+
+    /**
+     * Getter for variable maxHealth.
+     * @return Integer max health for PlayerComponent.
+     */
+    public int getMaxHealth() {
+        return maxHealth;
+    }
+
     // -------- SETTERS -------- //
 
     /**
@@ -190,5 +219,22 @@ public class PlayerComponent extends Component {
      */
     public void setAirborne(boolean airborne) {
         isAirborne = airborne;
+    }
+
+    /**
+     * Sets the active weapon.
+     * @param activeWeapon Integer to replace the current activeWeapon.
+     */
+    public void setActiveWeapon(int activeWeapon) {
+
+        this.activeWeapon = activeWeapon;
+    }
+
+    /**
+     * Setter for testing variable used to test time based methods.
+     * @param state True or False.
+     */
+    public void setTesting(boolean state){
+        testing = state;
     }
 }

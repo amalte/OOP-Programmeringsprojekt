@@ -1,9 +1,9 @@
 package edu.chalmers.model.enemy;
 
 import com.almasb.fxgl.entity.Entity;
-import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.test.RunWithFX;
+import edu.chalmers.TestingUtilities;
 import edu.chalmers.model.EntityType;
 import edu.chalmers.model.PlayerComponent;
 import edu.chalmers.model.SetupWorld;
@@ -11,9 +11,6 @@ import edu.chalmers.model.enemy.enemytypes.Zombie;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameWorld;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
@@ -36,18 +33,6 @@ public class TestEnemyComponent {
         player = spawn("player",0,0).getComponent(PlayerComponent.class);
         enemy = EnemyFactory.getInstance().createEnemy("ZOMBIE", 0, 0, player.getEntity(), new StatMultiplier());
         enemyComponent = enemy.getComponent(EnemyComponent.class);
-    }
-
-    // Removes all entities in the world
-    private void clearAllEntities() {
-        // A separate list for entities was used to avoid ConcurrentModification exception.
-        List entities = new ArrayList<Entity>();        // List with all entities.
-
-        // Add each and every entity from the game world to the list.
-        for(Entity e : getGameWorld().getEntities()) {
-            entities.add(e);
-        }
-        getGameWorld().removeEntities(entities);     // Remove all existing entities from the world.
     }
 
     @Test
@@ -109,7 +94,7 @@ public class TestEnemyComponent {
 
     @Test
     public void testCheckHealth(){
-        clearAllEntities();
+        TestingUtilities.clearAllEntities();
         init();
 
         enemyComponent.inflictDamage(enemyComponent.getHealth());        // Inflict the players health as damage (health then = 0).
@@ -287,6 +272,8 @@ public class TestEnemyComponent {
         assertEquals();
     }
     */
+    //
+
 
     // Methods not used.
     /*
