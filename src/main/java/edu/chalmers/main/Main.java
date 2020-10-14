@@ -150,6 +150,7 @@ public class Main extends GameApplication {
     {
         if (this.isGameRunning())
         {
+            this.showBackground();
             getController(GameMenuType.Exit).hide();
             getController(GameMenuType.Main).show();
             this.gameRunning = false;
