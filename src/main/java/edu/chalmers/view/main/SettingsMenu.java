@@ -83,13 +83,13 @@ public class SettingsMenu extends SubScene implements IMenu {
                 (FXGL.getAppWidth() / 2.0) - (ActionButton.BUTTON_WIDTH / 2.0)  - (2.5 * (ActionButton.BUTTON_WIDTH / 4.0)),
                 (FXGL.getAppHeight() / 3.0) - (ActionButton.BUTTON_HEIGHT / 2.0) + (15.0 * (ActionButton.BUTTON_HEIGHT / 4.0)));
 
-        this.controlFirstWeaponButton = addNode(this, createControlButton("First weapon"),
+        this.controlFirstWeaponButton = addNode(this, createControlButton("Weapon 1"),
                 (FXGL.getAppWidth() / 2.0) - (ActionButton.BUTTON_WIDTH / 2.0)  + (2.5 * (ActionButton.BUTTON_WIDTH / 4.0)),
                 (FXGL.getAppHeight() / 3.0) - (ActionButton.BUTTON_HEIGHT / 2.0) + (0.0 * (ActionButton.BUTTON_HEIGHT / 4.0)));
-        this.controlSecondWeaponButton = addNode(this, createControlButton("Second weapon"),
+        this.controlSecondWeaponButton = addNode(this, createControlButton("Weapon 2"),
                 (FXGL.getAppWidth() / 2.0) - (ActionButton.BUTTON_WIDTH / 2.0)  + (2.5 * (ActionButton.BUTTON_WIDTH / 4.0)),
                 (FXGL.getAppHeight() / 3.0) - (ActionButton.BUTTON_HEIGHT / 2.0) + (5.0 * (ActionButton.BUTTON_HEIGHT / 4.0)));
-        this.controlThirdWeaponButton = addNode(this, createControlButton("Third weapon"),
+        this.controlThirdWeaponButton = addNode(this, createControlButton("Weapon 3"),
                 (FXGL.getAppWidth() / 2.0) - (ActionButton.BUTTON_WIDTH / 2.0)  + (2.5 * (ActionButton.BUTTON_WIDTH / 4.0)),
                 (FXGL.getAppHeight() / 3.0) - (ActionButton.BUTTON_HEIGHT / 2.0) + (10.0 * (ActionButton.BUTTON_HEIGHT / 4.0)));
 
@@ -118,11 +118,11 @@ public class SettingsMenu extends SubScene implements IMenu {
     {
         switch (keyDescription)
         {
-            case "First weapon":
+            case "Weapon 1":
                 return "SwitchToFirstWeapon";
-            case "Second weapon":
+            case "Weapon 2":
                 return "SwitchToSecondWeapon";
-            case "Third weapon":
+            case "Weapon 3":
                 return "SwitchToThirdWeapon";
             default:
                 return keyDescription;
