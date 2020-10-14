@@ -8,13 +8,15 @@ import javafx.scene.input.KeyCode;
 
 import static com.almasb.fxgl.dsl.FXGL.getGameScene;
 
+/**
+ * The controller for the play menu view.
+ */
 public class PlayMenuController extends MenuController<PlayMenu> {
-
     /**
      * Default constructor for PlayMenuController.
      *
-     * @param viewInstance Instance of a view to associate the controller with. Class has to implement IMenu.
-     * @param mainInstance
+     * @param viewInstance Instance of a view to associate the controller with.
+     * @param mainInstance An instance of the Main class.
      */
     public PlayMenuController(PlayMenu viewInstance, Main mainInstance)
     {

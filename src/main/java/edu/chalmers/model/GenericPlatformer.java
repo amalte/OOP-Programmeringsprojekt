@@ -24,6 +24,10 @@ public class GenericPlatformer {
     private BuildManager buildManager;
     private CollisionDetection collisionDetection;
 
+    /**
+     * Initialize the internals of our game. Add our entity factory, load our tiles from the specified level, ..
+     * @param levelName The name of the level to load the game with.
+     */
     public void initializeGame(String levelName) {
         this.gameWorldFactory = new GameWorldFactory();
         getGameWorld().addEntityFactory(this.gameWorldFactory);
@@ -37,6 +41,9 @@ public class GenericPlatformer {
         waveManager.generateNewWave();
     }
 
+    /**
+     * Dismantle this class. Stop the waveManager, remove all entities, ..
+     */
     public void remove()
     {
         if (this.waveManager != null)

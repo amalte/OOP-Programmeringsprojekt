@@ -11,26 +11,21 @@ import static com.almasb.fxgl.dsl.FXGL.getSceneService;
 
 /**
  * Class to be inherited from in menu controllers. Contains basic methods to simplify creating controllers for views extending FXGLMenu.
- * @param <T> Any class that extends FXGLMenu
+ * @param <T> Any class that extends SubScene. Class has to implement IMenu for nodes to be created.
  */
 public class MenuController<T extends SubScene> {
     /**
-     * The instance of a View that the controller is associated with.
+     * The instance of the SubScene class that the controller is associated with.
      */
     protected T viewInstance;
 
+    /**
+     * The instance of the Main class that the controller is associated with.
+     */
     protected Main mainInstance;
 
-    /**
-     * The type of the menu.
-     */
     private GameMenuType gameMenuType;
-
     private Boolean nodesCreated = false;
-
-    /**
-     * Whether or not the menu is visible.
-     */
     private volatile Boolean visible = false;
 
     /**
@@ -44,8 +39,8 @@ public class MenuController<T extends SubScene> {
      * Default constructor for MenuController.
      *
      * @param viewInstance Instance of a view to associate the controller with.
-     * @param mainInstance
-     * @param gameMenuType
+     * @param mainInstance An instance of the Main class.
+     * @param gameMenuType The type of the associated menu view.
      */
     protected MenuController(T viewInstance, Main mainInstance, GameMenuType gameMenuType)
     {
@@ -69,8 +64,7 @@ public class MenuController<T extends SubScene> {
     }
 
     /**
-     * Get the instance of the view associated with this class.
-     * @return The instance of the view
+     * @return The instance of the view.
      */
     public T getViewInstance()
     {
@@ -78,8 +72,7 @@ public class MenuController<T extends SubScene> {
     }
 
     /**
-     * Get the menu type of the view
-     * @return The menu type of the view
+     * @return The menu type of the view.
      */
     public GameMenuType getGameMenuType() {
         return this.gameMenuType;
@@ -108,11 +101,17 @@ public class MenuController<T extends SubScene> {
         this.visibleLatch.set(new CountDownLatch(1));
     }
 
+    /**
+     * @return Whether or not the view, associated with this controller, is visible.
+     */
     public Boolean isVisible()
     {
         return this.visible;
     }
 
+    /**
+     * @return The CountDownLatch for the visibility of the view associated with this controller.
+     */
     public CountDownLatch getVisibleLatch()
     {
         return this.visibleLatch.get();
