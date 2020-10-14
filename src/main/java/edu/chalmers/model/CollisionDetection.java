@@ -5,7 +5,6 @@ import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.physics.CollisionHandler;
 import edu.chalmers.model.building.blocks.Block;
 import edu.chalmers.model.enemy.EnemyComponent;
-import edu.chalmers.model.enemy.ai.EnemyAIComponent;
 import edu.chalmers.utilities.EntityPos;
 
 public class CollisionDetection {

@@ -1,6 +1,5 @@
 package edu.chalmers.controller.main;
 
-import com.almasb.fxgl.input.Input;
 import com.almasb.fxgl.input.KeyTrigger;
 import com.almasb.fxgl.input.Trigger;
 import edu.chalmers.controller.GameMenuType;
@@ -9,15 +8,10 @@ import edu.chalmers.controller.MenuController;
 import edu.chalmers.main.Main;
 import edu.chalmers.view.main.SettingsMenu;
 import edu.chalmers.view.nodes.ActionButton;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 
-import java.security.Key;
-
-import static com.almasb.fxgl.dsl.FXGL.*;
+import static com.almasb.fxgl.dsl.FXGL.getGameScene;
 
 /**
  * The controller for the settings menu.

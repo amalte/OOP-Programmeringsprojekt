@@ -10,7 +10,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
-import static edu.chalmers.view.util.ViewUtil.*;
+import static edu.chalmers.view.util.ViewUtil.addNode;
+import static edu.chalmers.view.util.ViewUtil.createActionButton;
 
 public class ExitMenu extends SubScene implements IMenu {
 

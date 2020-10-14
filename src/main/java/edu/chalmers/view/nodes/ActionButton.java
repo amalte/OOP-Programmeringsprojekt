@@ -1,7 +1,6 @@
 package edu.chalmers.view.nodes;
 
 import com.almasb.fxgl.dsl.FXGL;
-import edu.chalmers.utilities.Constants;
 import javafx.beans.binding.Bindings;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -9,8 +8,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-
-import static edu.chalmers.view.util.ViewUtil.addNode;
 
 /**
  * A clickable StackPane, with a default background and text.

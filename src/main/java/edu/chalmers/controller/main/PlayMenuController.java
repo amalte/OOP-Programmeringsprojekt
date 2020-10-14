@@ -4,7 +4,6 @@ import edu.chalmers.controller.GameMenuType;
 import edu.chalmers.controller.MenuController;
 import edu.chalmers.main.Main;
 import edu.chalmers.view.main.PlayMenu;
-import edu.chalmers.view.nodes.ActionButton;
 import javafx.scene.input.KeyCode;
 
 import static com.almasb.fxgl.dsl.FXGL.getGameScene;

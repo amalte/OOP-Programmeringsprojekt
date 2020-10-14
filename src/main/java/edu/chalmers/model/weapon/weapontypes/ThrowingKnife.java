@@ -17,7 +17,7 @@ public class ThrowingKnife implements IWeaponType{
 
     @Override
     public int getReloadTimeMilliseconds() {
-        return 2500;
+        return 2000;
     }
 
     @Override

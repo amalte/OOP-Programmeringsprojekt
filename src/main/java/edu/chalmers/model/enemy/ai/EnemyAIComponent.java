@@ -8,7 +8,7 @@ import edu.chalmers.model.enemy.EnemyComponent;
 import edu.chalmers.utilities.EntityPos;
 import edu.chalmers.utilities.RaycastCalculations;
 
-import java.util.*;
+import java.util.Optional;
 
 /**
  * EnemyAIComponent class. Contains and gives basic Enemy AI to an Entity.

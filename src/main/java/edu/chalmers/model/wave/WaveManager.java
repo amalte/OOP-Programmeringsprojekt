@@ -7,9 +7,9 @@ import edu.chalmers.model.EntityType;
 import edu.chalmers.model.enemy.StatMultiplier;
 import javafx.util.Duration;
 
-import static com.almasb.fxgl.dsl.FXGL.*;
+import java.util.List;
 
-import java.util.*;
+import static com.almasb.fxgl.dsl.FXGL.runOnce;
 
 /**
  * Class that handles waves in the game. Uses SpawnEnemyRunnable to spawn in enemies.

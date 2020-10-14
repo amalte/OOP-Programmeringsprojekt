@@ -4,7 +4,8 @@ import edu.chalmers.controller.GameMenuType;
 import edu.chalmers.controller.MenuController;
 import edu.chalmers.main.Main;
 import edu.chalmers.view.main.MainMenu;
-import static com.almasb.fxgl.dsl.FXGL.*;
+
+import static com.almasb.fxgl.dsl.FXGL.getGameController;
 
 /**
  * The controller for the main menu view.

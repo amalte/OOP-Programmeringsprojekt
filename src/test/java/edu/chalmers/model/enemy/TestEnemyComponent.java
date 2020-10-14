@@ -156,14 +156,6 @@ public class TestEnemyComponent {
     }
 
     @Test
-    public void testGetColor() {
-        init();
-
-        // Enemy is created with same color as its enemy type (zombie).
-        assertEquals(new Zombie().getColor(), enemyComponent.getColor());
-    }
-
-    @Test
     public void testGetDamage(){
         init();
 

@@ -44,8 +44,7 @@ public class Weapon {
     public void shoot(double x, double y) {
         if (magazineCounter > 0 && !reloading) {
             magazineCounter--;
-            new WeaponProjectile(new Point2D(x,y), mouseLocation(), projectileSpeed);
-
+            new WeaponProjectile(new Point2D(x,y), mouseLocation(), projectileSpeed,false);
         }
     }
 
@@ -89,5 +88,9 @@ public class Weapon {
 
     public IWeaponType getWeaponType() {
         return weaponType;
+    }
+
+    public void setTesting(boolean testing) {
+        this.testing = testing;
     }
 }

@@ -1,25 +1,19 @@
 package edu.chalmers.model;
 
-import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
-import static org.junit.jupiter.api.Assertions.*;
-
-import com.almasb.fxgl.dsl.EntityBuilder;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.components.CollidableComponent;
 import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.physics.PhysicsComponent;
-import edu.chalmers.model.enemy.EnemyComponent;
-import edu.chalmers.model.enemy.EnemyFactory;
-import edu.chalmers.model.enemy.StatMultiplier;
-import edu.chalmers.model.enemy.enemytypes.Zombie;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.*;
 import com.almasb.fxgl.test.RunWithFX;
+import edu.chalmers.model.enemy.EnemyFactory;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+
+import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(RunWithFX.class)
 public class TestCollisionDetection {
