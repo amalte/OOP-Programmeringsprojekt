@@ -139,18 +139,10 @@ public class Main extends GameApplication {
         if (!this.isGameRunning())
         {
             game.remove();
-
-            String levelName = "level" + levelIndex + ".tmx";
-            game.initializeGame(levelName);
-
-            getGameController().startNewGame();
+            game.initializeGame("level" + levelIndex + ".tmx");
 
             runOnce(() -> {
                 this.hideBackground();
-
-                buildView.buildStateSelected();
-                buildView.setUpTransparentTiles();
-                gameUI.setNodes();
 
                 this.gameRunning = true;
             }, Duration.seconds(0.5));
@@ -175,7 +167,11 @@ public class Main extends GameApplication {
     private void initExtraViews()
     {
         this.gameUI = new GameUI(game);
+        this.gameUI.setNodes();
+
         this.buildView = new BuildView();
+        this.buildView.buildStateSelected();
+        this.buildView.setUpTransparentTiles();
     }
 
     public BuildView getBuildView()
