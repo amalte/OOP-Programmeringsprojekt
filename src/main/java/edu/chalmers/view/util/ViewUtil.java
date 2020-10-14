@@ -1,16 +1,21 @@
-package edu.chalmers.view.main;
+package edu.chalmers.view.util;
 
-import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.scene.SubScene;
+import edu.chalmers.utilities.Constants;
+import edu.chalmers.view.nodes.ActionButton;
 import javafx.scene.Node;
 import javafx.scene.control.Slider;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
+
+import javax.swing.*;
 
 /**
  * Utils for usage in the main views.
  */
-public class MainViewUtil {
+public class ViewUtil {
     /**
      * Perform validation on a Node and then add it to the content root of this menu.
      * @param node Node to be added
@@ -40,14 +45,19 @@ public class MainViewUtil {
     }
 
     /**
-     * Create a menu button for this menu, using the ActionButton class.
-     * @param text The text of the menu button
-     * @param action The action of the menu button
-     * @return The menu button that was created
+     * Create an action button.
+     * @param text The text of the action button
+     * @param action The associated action for the action button
+     * @return The action button that was created
      */
-    public static StackPane createMenuButton(String text, Runnable action)
+    public static ActionButton createActionButton(String text, Runnable action)
     {
         return new ActionButton(text, action);
+    }
+
+    public static ActionButton createActionButton(String text, Runnable action, String backgroundPath)
+    {
+        return new ActionButton(text, action, backgroundPath);
     }
 
 
@@ -63,9 +73,18 @@ public class MainViewUtil {
         Slider slider = new Slider(min, max, startValue);
         slider.setShowTickLabels(true);
         slider.setShowTickMarks(true);
-        slider.setMajorTickUnit(50);
-        slider.setMinorTickCount(25);
+        slider.setMajorTickUnit(max / 2.0);
+        slider.setMinorTickCount(max / 4);
 
         return slider;
+    }
+
+    /**
+     * Get the background node for the application.
+     * @return ImageView loaded with an image from /assets/background.png
+     */
+    public static Node getBackgroundNode()
+    {
+        return new ImageView(new Image("/assets/background.png", Constants.GAME_WIDTH, Constants.GAME_HEIGHT, false, false));
     }
 }
