@@ -1,55 +1,143 @@
 package edu.chalmers.controller.main;
 
+import com.almasb.fxgl.input.Input;
+import com.almasb.fxgl.input.KeyTrigger;
+import com.almasb.fxgl.input.Trigger;
+import edu.chalmers.controller.GameMenuType;
+import edu.chalmers.controller.InputController;
 import edu.chalmers.controller.MenuController;
+import edu.chalmers.main.Main;
 import edu.chalmers.view.main.SettingsMenu;
+import edu.chalmers.view.nodes.ActionButton;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.input.KeyCode;
+import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
+
+import java.security.Key;
+
 import static com.almasb.fxgl.dsl.FXGL.*;
 
 /**
  * The controller for the settings menu.
  */
 public class SettingsMenuController extends MenuController<SettingsMenu> {
+    private ActionButton activatedButton;
+
 
     /**
      * Default constructor for SettingsMenuController.
-     * @param settingsMenu Instance of the SettingsMenu class to associate this controller with
+     *
+     * @param viewInstance Instance of a view to associate the controller with. Class has to implement IMenu.
+     * @param mainInstance
      */
-    public SettingsMenuController(SettingsMenu settingsMenu)
+    public SettingsMenuController(SettingsMenu viewInstance, Main mainInstance)
     {
-        super(settingsMenu);
+        super(viewInstance, mainInstance, GameMenuType.Settings);
     }
 
     /**
-     * Initialize the nodes (binds actions to them, etc.)
+     * Initialize the nodes (make view create them, binds actions to them, etc.)
      */
     @Override
     protected void initializeNodes() {
-        viewInstance.getMainVolumeSlider().valueProperty().addListener((observableValue, oldValue, newValue) -> {
-            if (!oldValue.equals(newValue))
-                modifySetting("mainVolume", newValue);
+        super.initializeNodes();
+
+        getGameScene().getRoot().getScene().setOnKeyPressed(keyEvent -> {
+            if (!rebindControl(keyEvent.getCode()) && keyEvent.getCode() == KeyCode.ESCAPE)
+                this.returnToMain();
         });
 
-        viewInstance.getMusicVolumeSlider().valueProperty().addListener((observableValue, oldValue, newValue) -> {
-            if (!oldValue.equals(newValue))
-                modifySetting("musicVolume", newValue);
-        });
+        viewInstance.getControlJumpButton().setOnMousePressed(mouseEvent -> handleControlButtonPress((ActionButton)mouseEvent.getSource()));
+        viewInstance.getControlWalkLeftButton().setOnMousePressed(mouseEvent -> handleControlButtonPress((ActionButton)mouseEvent.getSource()));
+        viewInstance.getControlWalkRightButton().setOnMousePressed(mouseEvent -> handleControlButtonPress((ActionButton)mouseEvent.getSource()));
+        viewInstance.getControlReloadButton().setOnMousePressed(mouseEvent -> handleControlButtonPress((ActionButton)mouseEvent.getSource()));
 
-        viewInstance.getSfxVolumeSlider().valueProperty().addListener((observableValue, oldValue, newValue) -> {
-            if (!oldValue.equals(newValue))
-                modifySetting("sfxVolume", newValue);
-        });
+        viewInstance.getControlFirstWeaponButton().setOnMousePressed(mouseEvent -> handleControlButtonPress((ActionButton)mouseEvent.getSource()));
+        viewInstance.getControlSecondWeaponButton().setOnMousePressed(mouseEvent -> handleControlButtonPress((ActionButton)mouseEvent.getSource()));
+        viewInstance.getControlThirdWeaponButton().setOnMousePressed(mouseEvent -> handleControlButtonPress((ActionButton)mouseEvent.getSource()));
 
-        // TODO: Bind actions to controls that manipulate the input
+        viewInstance.getBackButton().setOnMousePressed(mouseEvent -> returnToMain());
+    }
+
+    private void returnToMain()
+    {
+        getGameScene().getRoot().getScene().setOnKeyPressed(keyEvent -> { });
+        this.restoreActivatedButton();
+        this.hide();
+        this.mainInstance.getController(GameMenuType.Main).show();
+    }
+
+    private void restoreActivatedButton()
+    {
+        if (this.activatedButton != null)
+        {
+            synchronized (this.activatedButton)
+            {
+                String tag = activatedButton.getTag();
+                String keyDescription = this.viewInstance.resolveKeyDescription(tag);
+
+                KeyCode oldKeyCode = KeyCode.getKeyCode(InputController.InputInstance.getTriggerName(keyDescription));
+
+                ((Text)activatedButton.getChildren().get(1)).setText(String.format("%s - %s", oldKeyCode.toString(), tag));
+            }
+
+            this.activatedButton = null;
+        }
+    }
+
+    private void handleControlButtonPress(ActionButton activatedButton)
+    {
+        if (this.activatedButton == null)
+        {
+            synchronized (activatedButton)
+            {
+                ((Text)activatedButton.getChildren().get(1)).setText("Press any key..");
+            }
+
+            this.activatedButton = activatedButton;
+        }
     }
 
     /**
-     * Modify the value of a setting.
-     * @param settingName The name of the setting
-     * @param newValue The new value of the setting
+     * @param newKeyCode
+     * @return Whether the activatedButton field was null or not
      */
-    private void modifySetting(String settingName, Object newValue)
+    private Boolean rebindControl(KeyCode newKeyCode)
     {
-        // TODO: Change input settings via getGameScene().getInput()
+        if (this.activatedButton != null)
+        {
+            synchronized (this.activatedButton)
+            {
+                String tag = this.activatedButton.getTag();
+                String keyDescription = this.viewInstance.resolveKeyDescription(tag);
+                KeyCode oldKeyCode = KeyCode.getKeyCode(InputController.InputInstance.getTriggerName(keyDescription));
 
-        // TODO: Look into how sound settings can be modified
+                if (oldKeyCode != newKeyCode)
+                {
+                    for (Trigger trigger : InputController.InputInstance.getAllBindings().values())
+                    {
+                        if (trigger instanceof KeyTrigger)
+                        {
+                            KeyTrigger keyTrigger = (KeyTrigger)trigger;
+
+                            if (keyTrigger.component1() == newKeyCode)
+                                return true;
+                        }
+                    }
+                }
+
+                InputController.InputInstance.rebind(InputController.InputInstance.getActionByName(keyDescription), newKeyCode);
+                ((Text)this.activatedButton.getChildren().get(1)).setText(String.format("%s - %s", newKeyCode.toString(), tag));
+            }
+
+            activatedButton = null;
+
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }
