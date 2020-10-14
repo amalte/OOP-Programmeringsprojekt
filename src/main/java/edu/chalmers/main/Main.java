@@ -14,6 +14,7 @@ import edu.chalmers.controller.main.PlayMenuController;
 import edu.chalmers.controller.main.SettingsMenuController;
 import edu.chalmers.model.GenericPlatformer;
 import edu.chalmers.utilities.Constants;
+import edu.chalmers.view.BuildView;
 import edu.chalmers.view.GameUI;
 import edu.chalmers.view.game.ExitMenu;
 import edu.chalmers.view.main.MainMenu;
@@ -36,6 +37,9 @@ public class Main extends GameApplication {
     private GenericPlatformer game;
     private InputController inputController;
 
+    private BuildView buildView;
+    private GameUI gameUI;
+
     private Boolean gameRunning = false;
 
     public static void main(String[] args) {
@@ -57,14 +61,16 @@ public class Main extends GameApplication {
 
     @Override
     protected void initGame() {
-        this.createBackground();
-        this.showBackground();
-
         game = new GenericPlatformer();
         inputController = new InputController(game, this);
 
-        game.initializeGame("level1.tmx");
+        game.initializeGame("level2.tmx");
+
+        this.initExtraViews();
         inputController.initPlayerMovementInput();
+
+        this.createBackground();
+        this.showBackground();
     }
 
     @Override
@@ -139,13 +145,14 @@ public class Main extends GameApplication {
 
             getGameController().startNewGame();
 
-            this.gameRunning = true;
-
             runOnce(() -> {
                 this.hideBackground();
 
-                GameUI gameUI = new GameUI(game);
+                buildView.buildStateSelected();
+                buildView.setUpTransparentTiles();
                 gameUI.setNodes();
+
+                this.gameRunning = true;
             }, Duration.seconds(0.5));
         }
     }
@@ -163,5 +170,21 @@ public class Main extends GameApplication {
     public Boolean isGameRunning()
     {
         return this.gameRunning;
+    }
+
+    private void initExtraViews()
+    {
+        this.gameUI = new GameUI(game);
+        this.buildView = new BuildView();
+    }
+
+    public BuildView getBuildView()
+    {
+        return this.buildView;
+    }
+
+    public GameUI getGameUI()
+    {
+        return this.gameUI;
     }
 }
