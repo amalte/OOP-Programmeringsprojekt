@@ -28,13 +28,10 @@ public class GenericPlatformer {
     private BuildManager buildManager;
     private CollisionDetection collisionDetection;
 
-    public GenericPlatformer()
-    {
+    public void initializeGame(String levelName) {
         this.gameWorldFactory = new GameWorldFactory();
         getGameWorld().addEntityFactory(this.gameWorldFactory);
-    }
 
-    public void initializeGame(String levelName) {
         setLevelFromMap(levelName);
 
         this.collisionDetection = new CollisionDetection(getPlayerComponent());
