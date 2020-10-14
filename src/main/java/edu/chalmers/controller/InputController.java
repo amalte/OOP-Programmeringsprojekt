@@ -3,6 +3,7 @@ package edu.chalmers.controller;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.input.Input;
 import com.almasb.fxgl.input.UserAction;
+import edu.chalmers.model.AnimationComponent;
 import edu.chalmers.model.GenericPlatformer;
 import edu.chalmers.model.PlayerComponent;
 import edu.chalmers.utilities.CoordsCalculations;
@@ -36,6 +37,7 @@ public class InputController {
                 @Override
                 protected void onAction() {
                     player.getComponent(PlayerComponent.class).moveRight();
+                    player.getComponent(AnimationComponent.class).moveRight();
                 }
 
                 @Override
@@ -48,6 +50,7 @@ public class InputController {
                 @Override
                 protected void onAction() {
                     player.getComponent(PlayerComponent.class).moveLeft();
+                    player.getComponent(AnimationComponent.class).moveLeft();
                 }
 
                 @Override

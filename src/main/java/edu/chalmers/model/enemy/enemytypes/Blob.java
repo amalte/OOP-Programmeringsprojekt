@@ -1,15 +1,18 @@
 package edu.chalmers.model.enemy.enemytypes;
 
-import javafx.scene.paint.Color;
-
 /**
  * Blob class. A type of Enemy.
  */
 public class Blob implements IEnemyType {
 
     @Override
-    public Color getColor() {
-        return Color.DARKORANGE;
+    public String getTextureIdle() {
+        return "BlobSpriteIdle.png";
+    }
+
+    @Override
+    public String getTextureWalk() {
+        return "BlobSpriteWalk.png";
     }
 
     @Override

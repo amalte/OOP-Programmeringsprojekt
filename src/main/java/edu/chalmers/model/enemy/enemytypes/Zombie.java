@@ -1,15 +1,18 @@
 package edu.chalmers.model.enemy.enemytypes;
 
-import javafx.scene.paint.Color;
-
 /**
  * Zombie class. A type of Enemy.
  */
 public class Zombie implements IEnemyType {
 
     @Override
-    public Color getColor() {
-        return Color.DARKGREEN;
+    public String getTextureIdle() {
+        return "ZombieSpriteIdle.png";
+    }
+
+    @Override
+    public String getTextureWalk() {
+        return "ZombieSpriteWalk.png";
     }
 
     @Override

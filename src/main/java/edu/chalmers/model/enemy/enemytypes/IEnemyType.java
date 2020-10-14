@@ -1,9 +1,8 @@
 package edu.chalmers.model.enemy.enemytypes;
 
-import javafx.scene.paint.Color;
-
 public interface IEnemyType {
-    Color getColor();
+    String getTextureIdle();
+    String getTextureWalk();
     int getHealth();
     int getDamage();
     int getBlockDamage();
