@@ -24,4 +24,9 @@ public class Handgun implements IWeaponType{
     public int getProjectileSpeed() {
         return 600;
     }
+
+    @Override
+    public String getName() {
+        return "Handgun";
+    }
 }

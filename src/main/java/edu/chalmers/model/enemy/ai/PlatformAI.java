@@ -29,6 +29,12 @@ class PlatformAI {
      */
     public void setPlatforms() {
         platforms = getGameWorld().getEntitiesByType(EntityType.PLATFORM);
+
+        // Return if no platforms are found.
+        if(platforms.size() == 0) {
+            return;
+        }
+
         int worldPlatformIndex = 0;     // Index of the world platform in the platforms list.
 
         // Find list index of the world platform.

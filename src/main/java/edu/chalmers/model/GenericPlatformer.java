@@ -1,13 +1,14 @@
 package edu.chalmers.model;
 
 import com.almasb.fxgl.entity.Entity;
-import com.almasb.fxgl.entity.SpawnData;
 import edu.chalmers.model.building.BuildManager;
 import edu.chalmers.model.building.MapManager;
 import edu.chalmers.model.wave.WaveManager;
+import edu.chalmers.services.TileMap;
 import javafx.geometry.Point2D;
 
 import static com.almasb.fxgl.dsl.FXGL.getGameWorld;
+import static com.almasb.fxgl.dsl.FXGL.setLevelFromMap;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 
 
@@ -23,39 +24,47 @@ public class GenericPlatformer {
     private BuildManager buildManager;
     private CollisionDetection collisionDetection;
 
-    public GenericPlatformer() {
+    public GenericPlatformer()
+    {
         this.gameWorldFactory = new GameWorldFactory();
-        this.collisionDetection = new CollisionDetection();
-
-        initBuildManager();
+        getGameWorld().addEntityFactory(this.gameWorldFactory);
     }
 
+    public void initializeGame(String levelName) {
+        setLevelFromMap(levelName);
 
+        this.collisionDetection = new CollisionDetection(getPlayerComponent());
+        this.mapManager = new MapManager(new TileMap().getBlockMapFromLevel(levelName));
+        this.buildManager = new BuildManager(getPlayerComponent().getBuildRangeTiles(), mapManager);
+        this.waveManager = new WaveManager(getPlayer());
+        waveManager.generateNewWave();
+    }
+
+    public void remove()
+    {
+        if (this.waveManager != null)
+            this.waveManager.stopWaveTimer();
+
+        getGameWorld().getEntitiesCopy().forEach(Entity::removeFromWorld);
+    }
 
     /**
      * Get method that creates a new player if no player is already created.
      * @return A player object.
      */
-    public Entity getPlayer(){
-        if(player == null){
+    public Entity getPlayer() {
+        if(player == null || player.getComponents().size() == 0){
             createPlayer();
         }
         return player;
     }
 
     /**
-     * Initiates mapManager.
+     * Get method that gets the playerComponent of player
+     * @return A player component.
      */
-    public void initMapManager(){
-        this.buildManager = new BuildManager(3);
-    }
-
-    /**
-     * Initiates buildManager.
-     */
-    public void initBuildManager(){
-        //this.buildManager = new BuildManager(getPlayer().getComponent(PlayerComponent.class).getBuildRangeTiles());
-        this.buildManager = new BuildManager(3);
+    public PlayerComponent getPlayerComponent() {
+        return getPlayer().getComponent(PlayerComponent.class);
     }
 
     /**
@@ -64,13 +73,6 @@ public class GenericPlatformer {
      */
     public BuildManager getBuildManager(){
         return buildManager;
-    }
-
-    /**
-     * Initiates waveManger.
-     */
-    public void initWaveManager(){
-        this.waveManager = new WaveManager(getPlayer());
     }
 
     /**
@@ -84,7 +86,7 @@ public class GenericPlatformer {
     /**
      * Creates a player at position 0,0.
      */
-    private void createPlayer(){
+    private void createPlayer() {
         Point2D spawnPoint = getGameWorld().getEntitiesByType(EntityType.PLAYERSPAWNPOINT).get(0).getPosition();
         player = spawn("player", spawnPoint.getX(), spawnPoint.getY());
     }
@@ -95,12 +97,5 @@ public class GenericPlatformer {
      */
     public WaveManager getWaveManager(){
         return waveManager;
-    }
-
-    /**
-     * Initiates collision detections for the game worlds entities.
-     */
-    public void initCollisionDetection(){
-        collisionDetection.initCollisionHandler(getPlayer().getComponent(PlayerComponent.class));
     }
 }

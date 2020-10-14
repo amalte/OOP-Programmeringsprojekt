@@ -5,7 +5,6 @@ import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.physics.CollisionHandler;
 import edu.chalmers.model.building.blocks.Block;
 import edu.chalmers.model.enemy.EnemyComponent;
-import edu.chalmers.model.enemy.ai.EnemyAIComponent;
 import edu.chalmers.utilities.EntityPos;
 
 public class CollisionDetection {
@@ -14,7 +13,7 @@ public class CollisionDetection {
     /**
      * Handle all entity Collision that has a direct effect on either one or both of the Entities.
      */
-    public void initCollisionHandler(PlayerComponent player){
+    public CollisionDetection(PlayerComponent player){
         FXGL.getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityType.PLAYER, EntityType.PLATFORM) {
             @Override
             protected void onCollisionBegin(Entity a, Entity b) {
@@ -41,7 +40,7 @@ public class CollisionDetection {
             @Override
             protected void onCollisionBegin(Entity a, Entity b) {
 
-                if(aboveCollision(a, b) && !sideCollision(a, b)) {  // Can only jump if standing above and on block
+                if(aboveMiddleCollision(a, b) && !sideCollision(a, b)) {  // Can only jump if standing above and on block
                     //a.setY(EntityPos.getTopY(b) - a.getHeight());
                     //a.translateY(50);
 
@@ -60,7 +59,12 @@ public class CollisionDetection {
             @Override
             protected void onCollision(Entity a, Entity b) {
                 a.getComponent(PlayerComponent.class).inflictDamage(b.getComponent(EnemyComponent.class).getDamage());
-                a.getComponent(PlayerComponent.class).resetJumpAmounts();
+                //a.getComponent(PlayerComponent.class).resetJumpAmounts();
+
+                if(aboveMiddleCollision(a, b) && !sideCollision(a, b)) {  // Can only jump if standing above and on block
+
+                    a.getComponent(PlayerComponent.class).resetJumpAmounts();
+                }
             }
         });
 
@@ -69,7 +73,10 @@ public class CollisionDetection {
         FXGL.getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityType.ENEMY, EntityType.ENEMY) {
             @Override
             protected void onCollisionBegin(Entity a, Entity b) {
-                a.getComponent(EnemyComponent.class).resetJumpAmounts();
+
+                if(aboveMiddleCollision(a, b)) {  // Can only jump if standing above and on block
+                    a.getComponent(EnemyComponent.class).resetJumpAmounts();
+                }
             }
         });
 
@@ -98,7 +105,7 @@ public class CollisionDetection {
         FXGL.getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityType.ENEMY, EntityType.BLOCK) {
             @Override
             protected void onCollisionBegin(Entity a, Entity b) {
-                if(aboveCollision(a, b) && !sideCollision(a, b)) {  // Can only jump if standing above and on block
+                if(aboveMiddleCollision(a, b) && !sideCollision(a, b)) {  // Can only jump if standing above and on block
                     a.getComponent(EnemyComponent.class).resetJumpAmounts();
                 }
                 a.getComponent(EnemyComponent.class).setAirborne(false);
@@ -130,7 +137,7 @@ public class CollisionDetection {
         return !(EntityPos.getRightSideX(a) > EntityPos.getLeftSideX(b) && EntityPos.getLeftSideX(a) < EntityPos.getRightSideX(b));
     }
 
-    private boolean aboveCollision(Entity a, Entity b) {
-        return EntityPos.getBottomY(a)+marginPx > EntityPos.getTopY(b);
+    private boolean aboveMiddleCollision(Entity a, Entity b) {
+        return EntityPos.getBottomY(a) < EntityPos.getMiddleY(b);
     }
 }

@@ -5,13 +5,13 @@ import edu.chalmers.utilities.Constants;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameScene;
 
 public class GameSize {
-    double aspectRatio = Constants.ASPECT_RATIO;
+    private static double aspectRatio = Constants.ASPECT_RATIO;
 
     /**
      * Get method for the width of the game (depends on aspect ratio and what the actual window size is)
      * @return int width of the game
      */
-    public int getWidth() {
+    public static int getWidth() {
         if(getGameScene().getWidth()/aspectRatio > getGameScene().getHeight()) {
             return (int) Math.round(getGameScene().getHeight()*aspectRatio);
         }
@@ -24,7 +24,7 @@ public class GameSize {
      * Get method for the height of the game (depends on aspect ratio and what the actual window size is)
      * @return int height of the game
      */
-    public int getHeight() {
+    public static int getHeight() {
         if(getGameScene().getHeight()*aspectRatio > getGameScene().getWidth()) {
             return (int) Math.round(getGameScene().getWidth()/aspectRatio);
         }

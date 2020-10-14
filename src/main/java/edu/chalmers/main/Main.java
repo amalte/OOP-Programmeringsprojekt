@@ -2,17 +2,42 @@ package edu.chalmers.main;
 
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
-import com.almasb.fxgl.app.scene.FXGLMenu;
-import com.almasb.fxgl.app.scene.SceneFactory;
+import edu.chalmers.controller.GameMenuType;
 import edu.chalmers.controller.InputController;
+import edu.chalmers.controller.MenuController;
+import edu.chalmers.controller.game.ExitMenuController;
 import edu.chalmers.controller.main.MainMenuController;
+import edu.chalmers.controller.main.PlayMenuController;
+import edu.chalmers.controller.main.SettingsMenuController;
 import edu.chalmers.model.GenericPlatformer;
 import edu.chalmers.utilities.Constants;
-import edu.chalmers.view.GamePlayView;
+import edu.chalmers.view.BuildView;
+import edu.chalmers.view.GameUI;
+import edu.chalmers.view.game.ExitMenu;
 import edu.chalmers.view.main.MainMenu;
+import edu.chalmers.view.main.PlayMenu;
+import edu.chalmers.view.main.SettingsMenu;
+import javafx.scene.input.KeyCode;
+import javafx.scene.layout.AnchorPane;
+import javafx.util.Duration;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.almasb.fxgl.dsl.FXGL.*;
 
 public class Main extends GameApplication {
-    private MainMenuController mainMenuController;
+    private Boolean controllersInitialized = false;
+    private List<MenuController> controllerList = new ArrayList<>();
+    private AnchorPane backgroundPane;
+
+    private GenericPlatformer game;
+    private InputController inputController;
+
+    private BuildView buildView;
+    private GameUI gameUI;
+
+    private Boolean gameRunning = false;
 
     public static void main(String[] args) {
         System.setProperty("quantum.multithreaded", "false"); // DO NOT REMOVE. Caps FPS at 60 across all computers
@@ -21,42 +46,142 @@ public class Main extends GameApplication {
 
     protected void initSettings(GameSettings gameSettings) {
         gameSettings.setPreserveResizeRatio(true);
-        gameSettings.setManualResizeEnabled(true);
+        gameSettings.setManualResizeEnabled(false);
         gameSettings.setFullScreenAllowed(true);
-        //gameSettings.setFullScreenFromStart(true);    // Start game in fullscreen
+        gameSettings.setFullScreenFromStart(false);
         gameSettings.setWidth(Constants.GAME_WIDTH);
         gameSettings.setHeight(Constants.GAME_HEIGHT);
         gameSettings.setTitle("Generic Platformer");
         gameSettings.setVersion("1.0");
-
-        gameSettings.setDeveloperMenuEnabled(true);
-
-        gameSettings.setMainMenuEnabled(true);
-        gameSettings.setSceneFactory(new SceneFactory() {
-            @Override
-            public FXGLMenu newMainMenu() {
-                if (mainMenuController == null)
-                    mainMenuController = new MainMenuController(new MainMenu());
-
-                return mainMenuController.getViewInstance();
-            }
-        });
-
-        //gameSettings.setDeveloperMenuEnabled(true);
+        gameSettings.setMenuKey(KeyCode.PAUSE);
     }
 
     @Override
     protected void initGame() {
-        GenericPlatformer game = new GenericPlatformer();
-        InputController inputController = new InputController(game);
-        GamePlayView gameView = new GamePlayView(game);
-        gameView.initGameWorld();
-        gameView.changeLevel("level1.tmx");
+        game = new GenericPlatformer();
+        inputController = new InputController(game, this);
 
+        game.initializeGame("level2.tmx");
+
+        this.initExtraViews();
         inputController.initPlayerMovementInput();
-        game.initCollisionDetection();
-        game.initWaveManager();
 
-        game.getWaveManager().generateNewWave();
+        this.createBackground();
+        this.showBackground();
+    }
+
+    @Override
+    protected void initUI() {
+        runOnce(() -> {
+            if (!this.controllersInitialized)
+            {
+                controllerList.add(new MainMenuController(new MainMenu(), this));
+                controllerList.add(new SettingsMenuController(new SettingsMenu(), this));
+                controllerList.add(new PlayMenuController(new PlayMenu(), this));
+                controllerList.add(new ExitMenuController(new ExitMenu(), this));
+
+                this.controllersInitialized = true;
+            }
+
+            if (!this.isGameRunning())
+            {
+                getController(GameMenuType.Main).show();
+            }
+        }, Duration.seconds(0.5));
+    }
+
+    private void createBackground()
+    {
+        if (this.backgroundPane == null)
+        {
+            this.backgroundPane = new AnchorPane();
+            this.backgroundPane.setLayoutX(0);
+            this.backgroundPane.setLayoutY(0);
+            this.backgroundPane.setPrefSize(Constants.GAME_WIDTH, Constants.GAME_HEIGHT);
+            this.backgroundPane.setStyle("-fx-background-color: #000000;");
+        }
+    }
+
+    private void showBackground()
+    {
+        if (!getGameScene().getUiNodes().contains(this.backgroundPane))
+        {
+            getGameScene().addUINode(this.backgroundPane);
+        }
+    }
+
+    private void hideBackground()
+    {
+        if (getGameScene().getUiNodes().contains(this.backgroundPane))
+        {
+            getGameScene().removeUINode(this.backgroundPane);
+        }
+    }
+
+    public MenuController getController(GameMenuType gameMenuType)
+    {
+        for (MenuController menuController : controllerList)
+        {
+            if (menuController.getGameMenuType() == gameMenuType)
+            {
+                return menuController;
+            }
+        }
+
+        return null;
+    }
+
+    public void startGame(int levelIndex)
+    {
+        if (!this.isGameRunning())
+        {
+            game.remove();
+
+            String levelName = "level" + levelIndex + ".tmx";
+            game.initializeGame(levelName);
+
+            getGameController().startNewGame();
+
+            runOnce(() -> {
+                this.hideBackground();
+
+                buildView.buildStateSelected();
+                buildView.setUpTransparentTiles();
+                gameUI.setNodes();
+
+                this.gameRunning = true;
+            }, Duration.seconds(0.5));
+        }
+    }
+
+    public void stopGame()
+    {
+        if (this.isGameRunning())
+        {
+            getController(GameMenuType.Exit).hide();
+            getController(GameMenuType.Main).show();
+            this.gameRunning = false;
+        }
+    }
+
+    public Boolean isGameRunning()
+    {
+        return this.gameRunning;
+    }
+
+    private void initExtraViews()
+    {
+        this.gameUI = new GameUI(game);
+        this.buildView = new BuildView();
+    }
+
+    public BuildView getBuildView()
+    {
+        return this.buildView;
+    }
+
+    public GameUI getGameUI()
+    {
+        return this.gameUI;
     }
 }
