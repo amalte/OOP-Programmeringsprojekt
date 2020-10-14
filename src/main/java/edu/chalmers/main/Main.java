@@ -217,4 +217,9 @@ public class Main extends GameApplication {
      * @return The instance of the InputController class associated with our Main class.
      */
     public InputController getInputController() { return this.inputController; }
+
+    /**
+     * @return Whether or not the controllers have been initialized yet.
+     */
+    public Boolean getControllersInitialized() { return this.controllersInitialized; }
 }
