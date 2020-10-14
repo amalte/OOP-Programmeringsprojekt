@@ -84,13 +84,14 @@ public class EnemyFactory {
     private Entity buildEnemy(EnemyComponent enemyComponent, double x, double y, Entity player) {
         Entity entity = FXGL.entityBuilder().type(EntityType.ENEMY).at(x,y).bbox(new HitBox(BoundingShape.box(50,50))).build();
 
-
-        //viewWithBBox(new Rectangle(58, 58, enemyComponent.getColor()))
         entity.addComponent(enemyComponent);                                        // Add EnemyComponent
         entity.addComponent(enemyComponent.getPhysics());                           // Add PhysicsComponent
         entity.addComponent(new CollidableComponent(true));                         // Add CollidableComponent
         entity.addComponent(new EnemyAIComponent(enemyComponent, player));          // Add EnemyAIComponent
-        entity.addComponent(new AnimationComponent(enemyComponent.getEnemyType().getTextureIdle(),enemyComponent.getEnemyType().getTextureWalk()));
+        entity.addComponent(new AnimationComponent(                                 // Add AnimationComponent
+                enemyComponent.getEnemyType().getTextureIdle(),
+                enemyComponent.getEnemyType().getTextureWalk()));
+
         return entity;
 
         // TODO - Simplify code and try to initiate all components in EnemyComponent instead.

@@ -2,6 +2,7 @@ package edu.chalmers.model;
 
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.test.RunWithFX;
+import edu.chalmers.TestingUtilities;
 import edu.chalmers.model.wave.WaveManager;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -22,7 +23,7 @@ public class TestWaveManager {
     }
 
     private void resetTest() {
-        SetupWorld.clearEntities();
+        TestingUtilities.clearAllEntities();
         player = spawn("player");
         waveManager = new WaveManager(player);
     }

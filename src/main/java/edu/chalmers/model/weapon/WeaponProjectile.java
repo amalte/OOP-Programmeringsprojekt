@@ -80,8 +80,6 @@ public class WeaponProjectile {
      * @return Angle between center of player and the mouse pointer
      */
     private double calculateAngle() {
-
         return Point2DCalculations.getAngle(centerPlayerPoint, mousePoint);
-
     }
 }

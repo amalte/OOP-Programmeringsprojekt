@@ -3,6 +3,7 @@ package edu.chalmers.model;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.physics.CollisionHandler;
+import com.almasb.fxgl.physics.PhysicsComponent;
 import edu.chalmers.model.building.blocks.Block;
 import edu.chalmers.model.enemy.EnemyComponent;
 import edu.chalmers.utilities.EntityPos;
@@ -149,6 +150,10 @@ public class CollisionDetection {
         FXGL.getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityType.ENEMY, EntityType.PROJECTILE) {
             @Override
             protected void onCollisionBegin(Entity a, Entity b) {
+                // Remove projectile's velocity so Enemies don't get pushed.
+                b.getComponent(PhysicsComponent.class).setVelocityY(0);
+                b.getComponent(PhysicsComponent.class).setVelocityX(0);
+
                 //ToDo implement direct contact with projectile to receive proper damage and not from player.
                 if (a.hasComponent(EnemyComponent.class))
                     a.getComponent(EnemyComponent.class).inflictDamage(player.getActiveWeapon().getDamage());
