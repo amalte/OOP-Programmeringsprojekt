@@ -14,6 +14,7 @@ import edu.chalmers.controller.main.PlayMenuController;
 import edu.chalmers.controller.main.SettingsMenuController;
 import edu.chalmers.model.GenericPlatformer;
 import edu.chalmers.utilities.Constants;
+import edu.chalmers.view.GameUI;
 import edu.chalmers.view.game.ExitMenu;
 import edu.chalmers.view.main.MainMenu;
 import edu.chalmers.view.main.PlayMenu;
@@ -132,19 +133,19 @@ public class Main extends GameApplication {
         if (!this.isGameRunning())
         {
             game.remove();
-            game = new GenericPlatformer();
-            inputController = new InputController(game, this);
 
             String levelName = "level" + levelIndex + ".tmx";
             game.initializeGame(levelName);
 
-            inputController.initPlayerMovementInput();
             getGameController().startNewGame();
 
             this.gameRunning = true;
 
             runOnce(() -> {
                 this.hideBackground();
+
+                GameUI gameUI = new GameUI(game);
+                gameUI.setNodes();
             }, Duration.seconds(0.5));
         }
     }
