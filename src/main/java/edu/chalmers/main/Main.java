@@ -11,6 +11,8 @@ import edu.chalmers.controller.main.PlayMenuController;
 import edu.chalmers.controller.main.SettingsMenuController;
 import edu.chalmers.model.GenericPlatformer;
 import edu.chalmers.utilities.Constants;
+import edu.chalmers.utilities.CoordsCalculations;
+import edu.chalmers.utilities.EntityPos;
 import edu.chalmers.view.BuildView;
 import edu.chalmers.view.GameUI;
 import edu.chalmers.view.game.ExitMenu;
@@ -62,8 +64,6 @@ public class Main extends GameApplication {
         inputController = new InputController(game, this);
 
         game.initializeGame("level2.tmx");
-
-        this.initExtraViews();
         inputController.initPlayerMovementInput();
 
         this.createBackground();
@@ -139,7 +139,8 @@ public class Main extends GameApplication {
             game.initializeGame("level" + levelIndex + ".tmx");
 
             runOnce(() -> {
-                this.hideBackground();
+                getGameScene().clearUINodes();
+                this.initExtraViews();
 
                 this.gameRunning = true;
             }, Duration.seconds(0.5));
@@ -170,6 +171,8 @@ public class Main extends GameApplication {
         this.buildView = new BuildView();
         this.buildView.buildStateSelected();
         this.buildView.setUpTransparentTiles();
+        this.buildView.stopFollowMouse();
+        this.buildView.reachableTiles(game.getBuildManager().getEmptyReachableTiles(CoordsCalculations.posToTile(EntityPos.getPosition(game.getPlayer()))));
     }
 
     public BuildView getBuildView()
