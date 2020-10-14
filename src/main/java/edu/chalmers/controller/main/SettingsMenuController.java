@@ -25,7 +25,6 @@ import static com.almasb.fxgl.dsl.FXGL.*;
 public class SettingsMenuController extends MenuController<SettingsMenu> {
     private ActionButton activatedButton;
 
-
     /**
      * Default constructor for SettingsMenuController.
      *
@@ -100,10 +99,6 @@ public class SettingsMenuController extends MenuController<SettingsMenu> {
         }
     }
 
-    /**
-     * @param newKeyCode
-     * @return Whether the activatedButton field was null or not
-     */
     private Boolean rebindControl(KeyCode newKeyCode)
     {
         if (this.activatedButton != null)
