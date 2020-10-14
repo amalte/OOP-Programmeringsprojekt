@@ -46,7 +46,9 @@ public class GenericPlatformer {
 
     public void remove()
     {
-        this.waveManager.stopWaveTimer();
+        if (this.waveManager != null)
+            this.waveManager.stopWaveTimer();
+
         getGameWorld().reset();
         getGameWorld().removeEntities(getGameWorld().getEntities());
         getGameWorld().removeEntityFactory(this.gameWorldFactory);
