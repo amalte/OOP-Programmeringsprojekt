@@ -18,22 +18,27 @@ public class CollisionDetection {
         FXGL.getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityType.PLAYER, EntityType.PLATFORM) {
             @Override
             protected void onCollisionBegin(Entity a, Entity b) {
-                a.getComponent(PlayerComponent.class).resetJumpAmounts();
+                if (a.hasComponent(PlayerComponent.class))
+                    a.getComponent(PlayerComponent.class).resetJumpAmounts();
 
                 // onGround check.
                 // If the platform has X-Position of 0, then the platform is the ground.
                 if(b.getX() == 0) {
-                    a.getComponent(PlayerComponent.class).setOnGround(true);
+                    if (a.hasComponent(PlayerComponent.class))
+                        a.getComponent(PlayerComponent.class).setOnGround(true);
                 } else {
-                    a.getComponent(PlayerComponent.class).setOnGround(false);
+                    if (a.hasComponent(PlayerComponent.class))
+                        a.getComponent(PlayerComponent.class).setOnGround(false);
                 }
 
-                a.getComponent(PlayerComponent.class).setAirborne(false);
+                if (a.hasComponent(PlayerComponent.class))
+                    a.getComponent(PlayerComponent.class).setAirborne(false);
             }
 
             @Override
             protected void onCollisionEnd(Entity a, Entity b) {
-                a.getComponent(PlayerComponent.class).setAirborne(true);
+                if (a.hasComponent(PlayerComponent.class))
+                    a.getComponent(PlayerComponent.class).setAirborne(true);
             }
         });
 
@@ -45,26 +50,32 @@ public class CollisionDetection {
                     //a.setY(EntityPos.getTopY(b) - a.getHeight());
                     //a.translateY(50);
 
-                    a.getComponent(PlayerComponent.class).resetJumpAmounts();
+                    if (a.hasComponent(PlayerComponent.class))
+                        a.getComponent(PlayerComponent.class).resetJumpAmounts();
                 }
-                a.getComponent(PlayerComponent.class).setAirborne(false);
+
+                if (a.hasComponent(PlayerComponent.class))
+                    a.getComponent(PlayerComponent.class).setAirborne(false);
             }
 
             @Override
             protected void onCollisionEnd(Entity a, Entity b) {
-                a.getComponent(PlayerComponent.class).setAirborne(true);
+                if (a.hasComponent(PlayerComponent.class))
+                    a.getComponent(PlayerComponent.class).setAirborne(true);
             }
         });
 
         FXGL.getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityType.PLAYER, EntityType.ENEMY) {
             @Override
             protected void onCollision(Entity a, Entity b) {
-                a.getComponent(PlayerComponent.class).inflictDamage(b.getComponent(EnemyComponent.class).getDamage());
+
+                if (a.hasComponent(PlayerComponent.class) && b.hasComponent(EnemyComponent.class))
+                    a.getComponent(PlayerComponent.class).inflictDamage(b.getComponent(EnemyComponent.class).getDamage());
                 //a.getComponent(PlayerComponent.class).resetJumpAmounts();
 
                 if(aboveMiddleCollision(a, b) && !sideCollision(a, b)) {  // Can only jump if standing above and on block
-
-                    a.getComponent(PlayerComponent.class).resetJumpAmounts();
+                    if (a.hasComponent(PlayerComponent.class))
+                        a.getComponent(PlayerComponent.class).resetJumpAmounts();
                 }
             }
         });
@@ -76,7 +87,8 @@ public class CollisionDetection {
             protected void onCollisionBegin(Entity a, Entity b) {
 
                 if(aboveMiddleCollision(a, b)) {  // Can only jump if standing above and on block
-                    a.getComponent(EnemyComponent.class).resetJumpAmounts();
+                    if (a.hasComponent(EnemyComponent.class))
+                        a.getComponent(EnemyComponent.class).resetJumpAmounts();
                 }
             }
         });
@@ -84,22 +96,27 @@ public class CollisionDetection {
         FXGL.getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityType.ENEMY, EntityType.PLATFORM) {
             @Override
             protected void onCollisionBegin(Entity a, Entity b) {
-                a.getComponent(EnemyComponent.class).resetJumpAmounts();
+                if (a.hasComponent(EnemyComponent.class))
+                    a.getComponent(EnemyComponent.class).resetJumpAmounts();
 
                 // onGround check.
                 // If the platform has X-Position of 0, then the platform is the ground.
                 if(b.getX() == 0) {
-                    a.getComponent(EnemyComponent.class).setOnGround(true);
+                    if (a.hasComponent(EnemyComponent.class))
+                        a.getComponent(EnemyComponent.class).setOnGround(true);
                 } else {
-                    a.getComponent(EnemyComponent.class).setOnGround(false);
+                    if (a.hasComponent(EnemyComponent.class))
+                        a.getComponent(EnemyComponent.class).setOnGround(false);
                 }
 
-                a.getComponent(EnemyComponent.class).setAirborne(false);
+                if (a.hasComponent(EnemyComponent.class))
+                    a.getComponent(EnemyComponent.class).setAirborne(false);
             }
 
             @Override
             protected void onCollisionEnd(Entity a, Entity b) {
-                a.getComponent(EnemyComponent.class).setAirborne(true);
+                if (a.hasComponent(EnemyComponent.class))
+                    a.getComponent(EnemyComponent.class).setAirborne(true);
             }
         });
 
@@ -107,20 +124,26 @@ public class CollisionDetection {
             @Override
             protected void onCollisionBegin(Entity a, Entity b) {
                 if(aboveMiddleCollision(a, b) && !sideCollision(a, b)) {  // Can only jump if standing above and on block
-                    a.getComponent(EnemyComponent.class).resetJumpAmounts();
+                    if (a.hasComponent(EnemyComponent.class))
+                        a.getComponent(EnemyComponent.class).resetJumpAmounts();
                 }
-                a.getComponent(EnemyComponent.class).setAirborne(false);
+
+                if (a.hasComponent(EnemyComponent.class))
+                    a.getComponent(EnemyComponent.class).setAirborne(false);
             }
 
             @Override
             protected void onCollision(Entity a, Entity b) {
                 Block block = b.getObject("this");
-                block.inflictDamage(a.getComponent(EnemyComponent.class).getBlockDamage());
+
+                if (a.hasComponent(EnemyComponent.class))
+                    block.inflictDamage(a.getComponent(EnemyComponent.class).getBlockDamage());
             }
 
             @Override
             protected void onCollisionEnd(Entity a, Entity b) {
-                a.getComponent(EnemyComponent.class).setAirborne(true);
+                if (a.hasComponent(EnemyComponent.class))
+                    a.getComponent(EnemyComponent.class).setAirborne(true);
             }
         });
 
@@ -132,7 +155,8 @@ public class CollisionDetection {
                 b.getComponent(PhysicsComponent.class).setVelocityX(0);
 
                 //ToDo implement direct contact with projectile to receive proper damage and not from player.
-                a.getComponent(EnemyComponent.class).inflictDamage(player.getActiveWeapon().getDamage());
+                if (a.hasComponent(EnemyComponent.class))
+                    a.getComponent(EnemyComponent.class).inflictDamage(player.getActiveWeapon().getDamage());
                 b.removeFromWorld();
             }
         });

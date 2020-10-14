@@ -4,8 +4,8 @@ import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
+import edu.chalmers.model.AnimationComponent;
 import edu.chalmers.model.enemy.enemytypes.IEnemyType;
-import javafx.scene.paint.Color;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameWorld;
 
@@ -22,7 +22,6 @@ public class EnemyComponent extends Component {
     private boolean isAirborne = false;
 
     // STATS
-    private Color color;
     private int health;
     private int damage;
     private int blockDamage;
@@ -36,7 +35,6 @@ public class EnemyComponent extends Component {
         physics.setBodyType(BodyType.DYNAMIC);
         physics.setFixtureDef(new FixtureDef().friction(0.0f));
 
-        this.color = enemyType.getColor();
         this.health = (int) Math.round(enemyType.getHealth() * statMultiplier.getHealthMultiplier());
         this.damage = (int) Math.round(enemyType.getDamage() * statMultiplier.getDmgMultiplier());
         this.blockDamage = enemyType.getBlockDamage();
@@ -49,6 +47,9 @@ public class EnemyComponent extends Component {
      */
     public void moveLeft(){
         physics.setVelocityX(-moveSpeed);
+        if(entity.hasComponent(AnimationComponent.class)) {
+            entity.getComponent(AnimationComponent.class).moveLeft();
+        }
     }
 
     /**
@@ -56,6 +57,9 @@ public class EnemyComponent extends Component {
      */
     public void moveRight(){
         physics.setVelocityX(moveSpeed);
+        if(entity.hasComponent(AnimationComponent.class)) {
+            entity.getComponent(AnimationComponent.class).moveRight();
+        }
     }
 
     /**
@@ -155,14 +159,6 @@ public class EnemyComponent extends Component {
      */
     public IEnemyType getEnemyType() {
         return enemyType;
-    }
-
-    /**
-     * Getter for the variable color.
-     * @return The Color of entity.
-     */
-    public Color getColor() {
-        return color;
     }
 
     /**

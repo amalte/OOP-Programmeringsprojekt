@@ -17,7 +17,7 @@ public class Handgun implements IWeaponType{
 
     @Override
     public int getReloadTimeMilliseconds() {
-        return 2000;
+        return 1500;
     }
 
     @Override

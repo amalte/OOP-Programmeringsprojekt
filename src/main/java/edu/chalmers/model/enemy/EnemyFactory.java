@@ -3,13 +3,14 @@ package edu.chalmers.model.enemy;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.components.CollidableComponent;
+import com.almasb.fxgl.physics.BoundingShape;
+import com.almasb.fxgl.physics.HitBox;
+import edu.chalmers.model.AnimationComponent;
 import edu.chalmers.model.EntityType;
 import edu.chalmers.model.enemy.ai.EnemyAIComponent;
 import edu.chalmers.model.enemy.enemytypes.Blob;
 import edu.chalmers.model.enemy.enemytypes.Rex;
 import edu.chalmers.model.enemy.enemytypes.Zombie;
-import edu.chalmers.model.wave.WaveManager;
-import javafx.scene.shape.Rectangle;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameWorld;
 
@@ -81,12 +82,15 @@ public class EnemyFactory {
      * @return Returns the enemy entity.
      */
     private Entity buildEnemy(EnemyComponent enemyComponent, double x, double y, Entity player) {
-        Entity entity = FXGL.entityBuilder().type(EntityType.ENEMY).at(x,y).viewWithBBox(new Rectangle(50, 50, enemyComponent.getColor())).build();
+        Entity entity = FXGL.entityBuilder().type(EntityType.ENEMY).at(x,y).bbox(new HitBox(BoundingShape.box(50,50))).build();
 
         entity.addComponent(enemyComponent);                                        // Add EnemyComponent
         entity.addComponent(enemyComponent.getPhysics());                           // Add PhysicsComponent
         entity.addComponent(new CollidableComponent(true));                         // Add CollidableComponent
         entity.addComponent(new EnemyAIComponent(enemyComponent, player));          // Add EnemyAIComponent
+        entity.addComponent(new AnimationComponent(                                 // Add AnimationComponent
+                enemyComponent.getEnemyType().getTextureIdle(),
+                enemyComponent.getEnemyType().getTextureWalk()));
 
         return entity;
 

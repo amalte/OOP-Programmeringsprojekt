@@ -7,9 +7,9 @@ import edu.chalmers.model.EntityType;
 import edu.chalmers.model.enemy.StatMultiplier;
 import javafx.util.Duration;
 
-import static com.almasb.fxgl.dsl.FXGL.*;
+import java.util.List;
 
-import java.util.*;
+import static com.almasb.fxgl.dsl.FXGL.runOnce;
 
 /**
  * Class that handles waves in the game. Uses SpawnEnemyRunnable to spawn in enemies.
@@ -52,7 +52,6 @@ public class WaveManager {
                 enemiesToSpawn.add("REX");
             }
         }
-
         spawnEnemyRunnable.setEnemiesToSpawn(enemiesToSpawn);
     }
 
@@ -75,7 +74,7 @@ public class WaveManager {
     }
 
     //Method will stop the current waveTimer if it exists
-    private void stopWaveTimer() { if(waveTimerAction != null) waveTimerAction.expire(); }
+    public void stopWaveTimer() { if(waveTimerAction != null) waveTimerAction.expire(); }
 
     private TimerAction createWaveTimer() {
         return runOnce(() -> generateNewWave(), Duration.seconds(baseWaveTimeSec + getSpawnTimeSec()));

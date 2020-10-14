@@ -8,7 +8,7 @@ import edu.chalmers.model.enemy.EnemyComponent;
 import edu.chalmers.utilities.EntityPos;
 import edu.chalmers.utilities.RaycastCalculations;
 
-import java.util.*;
+import java.util.Optional;
 
 /**
  * EnemyAIComponent class. Contains and gives basic Enemy AI to an Entity.
@@ -45,6 +45,10 @@ public class EnemyAIComponent extends Component {
 
     @Override
     public void onUpdate(double tpf) {
+        if (getPlayerComponent() == null) {
+            return;
+        }
+
         // Reset move speed and jump height if Enemy is touching solid ground.
         if(!thisEnemy.isAirborne()) {
             statImprovementAI.resetSpeedAndJump();
@@ -180,7 +184,10 @@ public class EnemyAIComponent extends Component {
      * @return player.
      */
     public PlayerComponent getPlayerComponent() {
-        return player.getComponent(PlayerComponent.class);
+        if (getPlayer().hasComponent(PlayerComponent.class))
+            return player.getComponent(PlayerComponent.class);
+
+        return null;
     }
 
     /**

@@ -1,15 +1,18 @@
 package edu.chalmers.model.enemy.enemytypes;
 
-import javafx.scene.paint.Color;
-
 /**
  * Rex class. A type of Enemy.
  */
 public class Rex implements IEnemyType {
 
     @Override
-    public Color getColor() {
-        return Color.DARKRED;
+    public String getTextureIdle() {
+        return "DinoSpriteIdle.png";
+    }
+
+    @Override
+    public String getTextureWalk() {
+        return "DinoSpriteWalk.png";
     }
 
     @Override

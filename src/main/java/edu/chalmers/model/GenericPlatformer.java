@@ -1,8 +1,6 @@
 package edu.chalmers.model;
 
 import com.almasb.fxgl.entity.Entity;
-import com.almasb.fxgl.entity.SpawnData;
-import com.almasb.fxgl.entity.component.Component;
 import edu.chalmers.model.building.BuildManager;
 import edu.chalmers.model.building.MapManager;
 import edu.chalmers.model.wave.WaveManager;
@@ -10,6 +8,7 @@ import edu.chalmers.services.TileMap;
 import javafx.geometry.Point2D;
 
 import static com.almasb.fxgl.dsl.FXGL.getGameWorld;
+import static com.almasb.fxgl.dsl.FXGL.setLevelFromMap;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 
 
@@ -25,16 +24,28 @@ public class GenericPlatformer {
     private BuildManager buildManager;
     private CollisionDetection collisionDetection;
 
-    public GenericPlatformer() {
+    public void initializeGame(String levelName) {
         this.gameWorldFactory = new GameWorldFactory();
-    }
+        getGameWorld().addEntityFactory(this.gameWorldFactory);
 
-    public void initializeGame() {
+        setLevelFromMap(levelName);
+
         this.collisionDetection = new CollisionDetection(getPlayerComponent());
-        this.mapManager = new MapManager(new TileMap().getBlockMapFromLevel("level1.tmx"));
+        this.mapManager = new MapManager(new TileMap().getBlockMapFromLevel(levelName));
         this.buildManager = new BuildManager(getPlayerComponent().getBuildRangeTiles(), mapManager);
         this.waveManager = new WaveManager(getPlayer());
         waveManager.generateNewWave();
+    }
+
+    public void remove()
+    {
+        if (this.waveManager != null)
+            this.waveManager.stopWaveTimer();
+
+        getGameWorld().getEntitiesCopy().forEach(Entity::removeFromWorld);
+
+        if (this.gameWorldFactory != null)
+            getGameWorld().removeEntityFactory(this.gameWorldFactory);
     }
 
     /**
@@ -42,7 +53,7 @@ public class GenericPlatformer {
      * @return A player object.
      */
     public Entity getPlayer() {
-        if(player == null){
+        if(player == null || player.getComponents().size() == 0){
             createPlayer();
         }
         return player;

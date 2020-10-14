@@ -1,14 +1,15 @@
 package edu.chalmers.model;
 
-import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
-import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameWorld;
-import static org.junit.jupiter.api.Assertions.*;
-
 import com.almasb.fxgl.physics.PhysicsComponent;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.*;
 import com.almasb.fxgl.test.RunWithFX;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameWorld;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(RunWithFX.class)
 public class TestPlayerComponent {
