@@ -7,6 +7,7 @@ import edu.chalmers.controller.game.ExitMenuController;
 import edu.chalmers.main.Main;
 import edu.chalmers.model.GenericPlatformer;
 import edu.chalmers.model.PlayerComponent;
+import edu.chalmers.services.Coords;
 import edu.chalmers.utilities.CoordsCalculations;
 import edu.chalmers.utilities.EntityPos;
 import edu.chalmers.view.GameUI;
@@ -15,6 +16,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
+
+import java.util.List;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getInput;
 
@@ -112,16 +115,20 @@ public class InputController {
             InputInstance.addEventHandler(MouseDragEvent.MOUSE_MOVED, new EventHandler<MouseEvent>() {   // For Building UI
                 @Override
                 public void handle(MouseEvent event) {
-                    // Should only be called if entered new tile
-                    if(game.getBuildManager().isInBuildRange(CoordsCalculations.posToTile(input.getMousePositionWorld()), CoordsCalculations.posToTile(EntityPos.getPosition(player)))) {
-                        buildView.followMouse(input.getMousePositionWorld(), game.getBuildManager().possibleToPlaceBlockOnPos(input.getMousePositionWorld(), EntityPos.getPosition(player)));
-                    }
-                    else {
-                        buildView.stopFollowMouse();
-                    }
-                    buildView.reachableTiles(game.getBuildManager().getEmptyReachableTiles(CoordsCalculations.posToTile(EntityPos.getPosition(player))));
+                    if (mainInstance.isGameRunning())
+                    {
+                        // Should only be called if entered new tile
+                        if(game.getBuildManager().isInBuildRange(CoordsCalculations.posToTile(InputInstance.getMousePositionWorld()), CoordsCalculations.posToTile(EntityPos.getPosition(player)))) {
+                            mainInstance.getBuildView().followMouse(InputInstance.getMousePositionWorld(), game.getBuildManager().possibleToPlaceBlockOnPos(InputInstance.getMousePositionWorld(), EntityPos.getPosition(player)));
+                        }
+                        else {
+                            mainInstance.getBuildView().stopFollowMouse();
+                        }
 
-                    //buildView.followMouse(TileCalculations.posToTilePos(input.getMousePositionWorld(), Constants.TILE_SIZE), player.getComponent(PlayerComponent.class).getBuilding().possibleToPlaceBlockOnPos(input.getMousePositionWorld(), EntityPos.getPosition(player)));
+                        mainInstance.getBuildView().reachableTiles(game.getBuildManager().getEmptyReachableTiles(CoordsCalculations.posToTile(EntityPos.getPosition(player))));
+
+                        //buildView.followMouse(TileCalculations.posToTilePos(input.getMousePositionWorld(), Constants.TILE_SIZE), player.getComponent(PlayerComponent.class).getBuilding().possibleToPlaceBlockOnPos(input.getMousePositionWorld(), EntityPos.getPosition(player)));
+                    }
                 }
             });
 
