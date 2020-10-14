@@ -17,7 +17,7 @@ public class Crossbow implements IWeaponType {
 
     @Override
     public int getReloadTimeMilliseconds() {
-        return 1000;
+        return 500;
     }
 
     @Override
