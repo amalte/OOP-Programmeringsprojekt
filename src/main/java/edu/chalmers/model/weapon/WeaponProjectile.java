@@ -26,12 +26,17 @@ public class WeaponProjectile {
     private float projectileSizeW = 5;
     private float projectileSizeH = 5;
     private Double shootingAngle;
+    private boolean testing = false;
 
-    public WeaponProjectile(Point2D playerPoint, Point2D mousePoint, int projectileSpeed) {
+    public WeaponProjectile(Point2D playerPoint, Point2D mousePoint, int projectileSpeed, boolean testing) {
 
         this.mousePoint = mousePoint;
         this.projectileSpeed = projectileSpeed;
-        this.centerPlayerPoint = new Point2D(playerPoint.getX()+shooterSizeOffsetToCenter,playerPoint.getY()+shooterSizeOffsetToCenter);
+        if(!testing) {
+            this.centerPlayerPoint = new Point2D(playerPoint.getX() + shooterSizeOffsetToCenter, playerPoint.getY() + shooterSizeOffsetToCenter);
+        }else {
+            this.centerPlayerPoint = playerPoint;
+        }
 
         physics.setBodyType(BodyType.KINEMATIC);
         FXGL.entityBuilder()
