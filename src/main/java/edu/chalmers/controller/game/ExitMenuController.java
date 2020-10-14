@@ -13,7 +13,7 @@ import static com.almasb.fxgl.dsl.FXGL.getGameScene;
  */
 public class ExitMenuController extends MenuController<ExitMenu> {
 
-    public Boolean doNotHandleEscape = false;
+    private Boolean doNotHandleEscape = false;
 
     /**
      * Default constructor for ExitMenuController.
@@ -48,5 +48,15 @@ public class ExitMenuController extends MenuController<ExitMenu> {
             getGameScene().getRoot().getScene().setOnKeyPressed(keyEvent -> { });
             this.mainInstance.stopGame();
         });
+    }
+
+    public void setDoNotHandleEscape(Boolean doNotHandleEscape)
+    {
+        this.doNotHandleEscape = doNotHandleEscape;
+    }
+
+    public Boolean getDoNotHandleEscape()
+    {
+        return this.doNotHandleEscape;
     }
 }

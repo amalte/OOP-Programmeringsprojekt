@@ -45,10 +45,10 @@ public class InputController {
                     if (mainInstance.isGameRunning()) {
                         ExitMenuController exitMenuController = (ExitMenuController) mainInstance.getController(GameMenuType.Exit);
 
-                        if (!exitMenuController.doNotHandleEscape)
+                        if (!exitMenuController.getDoNotHandleEscape())
                             exitMenuController.show();
                         else
-                            exitMenuController.doNotHandleEscape = false;
+                            exitMenuController.setDoNotHandleEscape(false);
                     }
                 }
             }, KeyCode.ESCAPE);
