@@ -1,15 +1,18 @@
 package edu.chalmers.model;
 
+import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.component.Component;
+import com.almasb.fxgl.entity.level.Level;
+import com.almasb.fxgl.entity.level.tiled.TMXLevelLoader;
 import edu.chalmers.model.building.BuildManager;
 import edu.chalmers.model.building.MapManager;
 import edu.chalmers.model.wave.WaveManager;
 import edu.chalmers.services.TileMap;
 import javafx.geometry.Point2D;
 
-import static com.almasb.fxgl.dsl.FXGL.getGameWorld;
+import static com.almasb.fxgl.dsl.FXGL.*;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 
 
@@ -25,16 +28,28 @@ public class GenericPlatformer {
     private BuildManager buildManager;
     private CollisionDetection collisionDetection;
 
-    public GenericPlatformer() {
+    public GenericPlatformer()
+    {
         this.gameWorldFactory = new GameWorldFactory();
+        getGameWorld().addEntityFactory(this.gameWorldFactory);
     }
 
-    public void initializeGame() {
+    public void initializeGame(String levelName) {
+        setLevelFromMap(levelName);
+
         this.collisionDetection = new CollisionDetection(getPlayerComponent());
-        this.mapManager = new MapManager(new TileMap().getBlockMapFromLevel("level1.tmx"));
+        this.mapManager = new MapManager(new TileMap().getBlockMapFromLevel(levelName));
         this.buildManager = new BuildManager(getPlayerComponent().getBuildRangeTiles(), mapManager);
         this.waveManager = new WaveManager(getPlayer());
         waveManager.generateNewWave();
+    }
+
+    public void remove()
+    {
+        this.waveManager.stopWaveTimer();
+        getGameWorld().reset();
+        getGameWorld().removeEntities(getGameWorld().getEntities());
+        getGameWorld().removeEntityFactory(this.gameWorldFactory);
     }
 
     /**
@@ -42,7 +57,7 @@ public class GenericPlatformer {
      * @return A player object.
      */
     public Entity getPlayer() {
-        if(player == null){
+        if(player == null || player.getComponents().size() == 0){
             createPlayer();
         }
         return player;

@@ -1,192 +1,191 @@
 package edu.chalmers.view.main;
 
-import com.almasb.fxgl.app.scene.FXGLMenu;
-import com.almasb.fxgl.app.scene.MenuType;
 import com.almasb.fxgl.dsl.FXGL;
-import javafx.beans.binding.StringBinding;
+import com.almasb.fxgl.scene.SubScene;
+import edu.chalmers.controller.InputController;
+import edu.chalmers.view.IMenu;
+import edu.chalmers.view.nodes.ActionButton;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Slider;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.StackPane;
+import javafx.scene.input.KeyCode;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import org.jetbrains.annotations.NotNull;
 
-import static edu.chalmers.view.main.MainViewUtil.addNode;
+import static edu.chalmers.view.util.ViewUtil.*;
 
 /**
  * The settings menu for the game.
  */
-public class SettingsMenu extends FXGLMenu {
+public class SettingsMenu extends SubScene implements IMenu {
     /**
-     * Font size of setting descriptions.
+     * The label containing the title for this menu.
      */
-    private static final double SETTING_FONT_SIZE = 16;
-
-    /**
-     * The main volume slider.
-     */
-    private Slider mainVolumeSlider;
+    private Text titleText;
 
     /**
-     * The music volume slider.
+     * The control button for the "Jump" key.
      */
-    private Slider musicVolumeSlider;
+    private Node controlJumpButton;
 
     /**
-     * The sound effects volume slider.
+     * The control button for the "Walk left" key.
      */
-    private Slider sfxVolumeSlider;
+    private Node controlWalkLeftButton;
 
     /**
-     * Default constructor.
+     * The control button for the "Walk right" key.
      */
-    public SettingsMenu() {
-        super(MenuType.MAIN_MENU);
-
-        this.createNodes();
-    }
+    private Node controlWalkRightButton;
 
     /**
-     * Creates the default controls for the settings menu.
+     * The control button for the "Reload" key.
      */
-    private void createNodes()
-    {
-        this.mainVolumeSlider = addNode(this, createSlider(0, 100, 100),
-                (FXGL.getAppWidth() / 2) - (ActionButton.BUTTON_WIDTH / 2),
-                (FXGL.getAppHeight() / 2.5) - (ActionButton.BUTTON_HEIGHT / 2) + (0 * (ActionButton.BUTTON_WIDTH / 4)));
+    private Node controlReloadButton;
 
-        this.musicVolumeSlider = addNode(this, createSlider(0, 100, 100),
-                (FXGL.getAppWidth() / 2) - (ActionButton.BUTTON_WIDTH / 2),
-                (FXGL.getAppHeight() / 2.5) - (ActionButton.BUTTON_HEIGHT / 2) + (0.5 * (ActionButton.BUTTON_WIDTH / 4)));
+    private Node controlFirstWeaponButton;
 
-        this.sfxVolumeSlider = addNode(this, createSlider(0, 100, 100),
-                (FXGL.getAppWidth() / 2) - (ActionButton.BUTTON_WIDTH / 2),
-                (FXGL.getAppHeight() / 2.5) - (ActionButton.BUTTON_HEIGHT / 2) + (1 * (ActionButton.BUTTON_WIDTH / 4)));
-    }
+    private Node controlSecondWeaponButton;
+
+    private Node controlThirdWeaponButton;
 
     /**
-     * Create a slider with some preset values.
-     * @param min The minimum value of this slider
-     * @param max The maximum value of this slider
-     * @param startValue The start value of this slider
-     * @return The slider that was created
+     * The back button.
      */
-    private Slider createSlider(int min, int max, int startValue)
-    {
-        Slider slider = new Slider(min, max, startValue);
-        slider.setShowTickLabels(true);
-        slider.setShowTickMarks(true);
-        slider.setMajorTickUnit(50);
-        slider.setMinorTickCount(25);
-
-        return slider;
-    }
+    private Node backButton;
 
     /**
-     * Get the main volume slider.
-     * @return The main volume slider
+     * Create the nodes for the settings menu.
      */
-    public Slider getMainVolumeSlider()
-    {
-        return this.mainVolumeSlider;
-    }
-
-    /**
-     * Get the music volume slider.
-     * @return The music volume slider
-     */
-    public Slider getMusicVolumeSlider()
-    {
-        return this.musicVolumeSlider;
-    }
-
-    /**
-     * Get the SFX volume slider.
-     * @return The SFX volume slider
-     */
-    public Slider getSfxVolumeSlider()
-    {
-        return this.sfxVolumeSlider;
-    }
-
-    /**
-     * Create a menu button for this menu, using the ActionButton class.
-     * @param text The text of the menu button
-     * @param action The action of the menu button
-     * @return The action button that was created
-     */
-    private StackPane createMenuButton(String text, Runnable action)
-    {
-        return new ActionButton(text, action);
-    }
-
-    /**
-     * N/A.
-     * @param name N/A
-     * @param action N/A
-     * @return N/A
-     */
-    @NotNull
     @Override
-    protected Button createActionButton(@NotNull StringBinding name, @NotNull Runnable action) {
-        return new Button(name.get());
+    public void createNodes()
+    {
+        // Background
+        addNode(this, getBackgroundNode(), 0, 0);
+
+        // Title
+        this.titleText = new Text(getTitle());
+        this.titleText.setFill(Color.RED);
+        this.titleText.setStyle("-fx-font-size: 32; -fx-font-weight: bold;");
+        addNode(this, this.titleText,
+                (FXGL.getAppWidth() / 2.0) - (getTitle().length() * 16) / 2.0,
+                FXGL.getAppHeight() / 4.0);
+
+        // Control buttons
+        this.controlJumpButton = addNode(this, createControlButton("Jump"),
+                (FXGL.getAppWidth() / 2.0) - (ActionButton.BUTTON_WIDTH / 2.0)  - (2.5 * (ActionButton.BUTTON_WIDTH / 4.0)),
+                (FXGL.getAppHeight() / 3.0) - (ActionButton.BUTTON_HEIGHT / 2.0) + (0.0 * (ActionButton.BUTTON_HEIGHT / 4.0)));
+        this.controlWalkLeftButton = addNode(this, createControlButton("Walk left"),
+                (FXGL.getAppWidth() / 2.0) - (ActionButton.BUTTON_WIDTH / 2.0)  - (2.5 * (ActionButton.BUTTON_WIDTH / 4.0)),
+                (FXGL.getAppHeight() / 3.0) - (ActionButton.BUTTON_HEIGHT / 2.0) + (5.0 * (ActionButton.BUTTON_HEIGHT / 4.0)));
+        this.controlWalkRightButton = addNode(this, createControlButton("Walk right"),
+                (FXGL.getAppWidth() / 2.0) - (ActionButton.BUTTON_WIDTH / 2.0)  - (2.5 * (ActionButton.BUTTON_WIDTH / 4.0)),
+                (FXGL.getAppHeight() / 3.0) - (ActionButton.BUTTON_HEIGHT / 2.0) + (10.0 * (ActionButton.BUTTON_HEIGHT / 4.0)));
+        this.controlReloadButton = addNode(this, createControlButton("Reload"),
+                (FXGL.getAppWidth() / 2.0) - (ActionButton.BUTTON_WIDTH / 2.0)  - (2.5 * (ActionButton.BUTTON_WIDTH / 4.0)),
+                (FXGL.getAppHeight() / 3.0) - (ActionButton.BUTTON_HEIGHT / 2.0) + (15.0 * (ActionButton.BUTTON_HEIGHT / 4.0)));
+
+        this.controlFirstWeaponButton = addNode(this, createControlButton("First weapon"),
+                (FXGL.getAppWidth() / 2.0) - (ActionButton.BUTTON_WIDTH / 2.0)  + (2.5 * (ActionButton.BUTTON_WIDTH / 4.0)),
+                (FXGL.getAppHeight() / 3.0) - (ActionButton.BUTTON_HEIGHT / 2.0) + (0.0 * (ActionButton.BUTTON_HEIGHT / 4.0)));
+        this.controlSecondWeaponButton = addNode(this, createControlButton("Second weapon"),
+                (FXGL.getAppWidth() / 2.0) - (ActionButton.BUTTON_WIDTH / 2.0)  + (2.5 * (ActionButton.BUTTON_WIDTH / 4.0)),
+                (FXGL.getAppHeight() / 3.0) - (ActionButton.BUTTON_HEIGHT / 2.0) + (5.0 * (ActionButton.BUTTON_HEIGHT / 4.0)));
+        this.controlThirdWeaponButton = addNode(this, createControlButton("Third weapon"),
+                (FXGL.getAppWidth() / 2.0) - (ActionButton.BUTTON_WIDTH / 2.0)  + (2.5 * (ActionButton.BUTTON_WIDTH / 4.0)),
+                (FXGL.getAppHeight() / 3.0) - (ActionButton.BUTTON_HEIGHT / 2.0) + (10.0 * (ActionButton.BUTTON_HEIGHT / 4.0)));
+
+        // Main buttons
+        this.backButton = addNode(this, createActionButton("Back", () -> { }),
+                (FXGL.getAppWidth() / 2.0) - (ActionButton.BUTTON_WIDTH / 2.0),
+                (FXGL.getAppHeight() / 3.0) - (ActionButton.BUTTON_HEIGHT / 2.0) + (25.0 * (ActionButton.BUTTON_HEIGHT / 4.0)));
+    }
+
+    @Override
+    public String getTitle() {
+        return "Press one of the buttons below to change the keybindings";
+    }
+
+    private Node createControlButton(String text)
+    {
+        String keyDescription = resolveKeyDescription(text);
+        ActionButton controlButton = createActionButton(String.format("%s - %s", KeyCode.getKeyCode(InputController.InputInstance.getTriggerName(keyDescription)), text), () -> { });
+
+        controlButton.setTag(text);
+
+        return controlButton;
+    }
+
+    public String resolveKeyDescription(String keyDescription)
+    {
+        switch (keyDescription)
+        {
+            case "First weapon":
+                return "SwitchToFirstWeapon";
+            case "Second weapon":
+                return "SwitchToSecondWeapon";
+            case "Third weapon":
+                return "SwitchToThirdWeapon";
+            default:
+                return keyDescription;
+        }
     }
 
     /**
-     * N/A.
-     * @param name N/A
-     * @param action N/A
-     * @return N/A
+     * Get the control button for the "Jump" key.
+     * @return The control button
      */
-    @NotNull
-    @Override
-    protected Button createActionButton(@NotNull String name, @NotNull Runnable action) {
-        return new Button(name);
+    public Node getControlJumpButton()
+    {
+        return this.controlJumpButton;
     }
 
     /**
-     * N/A.
-     * @param width N/A
-     * @param height N/A
-     * @return N/A
+     * Get the control button for the "Walk left" key.
+     * @return The control button
      */
-    @NotNull
-    @Override
-    protected Node createBackground(double width, double height) {
-        return new ImageView();
+    public Node getControlWalkLeftButton()
+    {
+        return this.controlWalkLeftButton;
     }
 
     /**
-     * N/A.
-     * @param profileName N/A
-     * @return N/A
+     * Get the control button for the "Walk right" key.
+     * @return The control button
      */
-    @NotNull
-    @Override
-    protected Node createProfileView(@NotNull String profileName) {
-        return new Text(profileName);
+    public Node getControlWalkRightButton()
+    {
+        return this.controlWalkRightButton;
     }
 
     /**
-     * N/A.
-     * @param title N/A
-     * @return N/A
+     * Get the control button for the "Reload" key.
+     * @return The control button
      */
-    @NotNull
-    @Override
-    protected Node createTitleView(@NotNull String title) {
-        return new Text(title);
+    public Node getControlReloadButton()
+    {
+        return this.controlReloadButton;
+    }
+
+    public Node getControlFirstWeaponButton() { return this.controlFirstWeaponButton; }
+
+    public Node getControlSecondWeaponButton() { return this.controlSecondWeaponButton; }
+
+    public Node getControlThirdWeaponButton() { return this.controlThirdWeaponButton; }
+
+    /**
+     * Get the description text node.
+     * @return The description text node
+     */
+    public Text getTitleText()
+    {
+        return this.titleText;
     }
 
     /**
-     * N/A.
-     * @param version N/A
-     * @return N/A
+     * Get the back button
+     * @return The back button
      */
-    @NotNull
-    @Override
-    protected Node createVersionView(@NotNull String version) {
-        return new Text(version);
+    public Node getBackButton()
+    {
+        return this.backButton;
     }
 }

@@ -74,7 +74,7 @@ public class WaveManager {
     }
 
     //Method will stop the current waveTimer if it exists
-    private void stopWaveTimer() { if(waveTimerAction != null) waveTimerAction.expire(); }
+    public void stopWaveTimer() { if(waveTimerAction != null) waveTimerAction.expire(); }
 
     private TimerAction createWaveTimer() {
         return runOnce(() -> generateNewWave(), Duration.seconds(baseWaveTimeSec + getSpawnTimeSec()));
