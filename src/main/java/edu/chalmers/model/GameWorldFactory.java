@@ -60,4 +60,15 @@ public class GameWorldFactory implements EntityFactory {
                 .type(EntityType.PLAYERSPAWNPOINT)
                 .build();
     }
+
+    @Spawns("testingPlatform")
+    public Entity newTestingPlatform(SpawnData spawnData) {
+        return FXGL.entityBuilder()
+                .type(EntityType.PLATFORM)
+                .at(spawnData.getX(), spawnData.getY())
+                .viewWithBBox(new Rectangle(60, 60))
+                .with(new CollidableComponent(true))
+                .with(new PhysicsComponent())
+                .build();
+    }
 }

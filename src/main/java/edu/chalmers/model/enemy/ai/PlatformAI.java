@@ -9,6 +9,9 @@ import java.util.*;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameWorld;
 
+/**
+ * PlatformAI. Contains all variables and methods used by Enemy AI regarding platforms.
+ */
 class PlatformAI {
 
     EnemyAIComponent AI;
@@ -27,15 +30,15 @@ class PlatformAI {
     /**
      * Method finds all platforms in the level and adds them to the "platforms" list.
      */
-    public void setPlatforms() {
+    public void updatePlatforms() {
         platforms = getGameWorld().getEntitiesByType(EntityType.PLATFORM);
 
         // Return if no platforms are found.
-        if(platforms.size() == 0) {
+        if(platforms == null || platforms.size() == 0) {
             return;
         }
 
-        int worldPlatformIndex = 0;     // Index of the world platform in the platforms list.
+        int worldPlatformIndex = -1;     // Index of the world platform in the platforms list.
 
         // Find list index of the world platform.
         for (Entity p : platforms) {
@@ -47,7 +50,9 @@ class PlatformAI {
         }
 
         // Remove world from platform list.
-        platforms.remove(platforms.get(worldPlatformIndex));
+        if(worldPlatformIndex != -1) {
+            platforms.remove(platforms.get(worldPlatformIndex));
+        }
     }
 
     /**
@@ -55,6 +60,10 @@ class PlatformAI {
      * @return The closest platform.
      */
     public Entity getClosestPlatform() {
+        if(platforms.size() <= 0) {
+            return null;
+        }
+
         // Resets lists and variables for new closest platform search.
         platformYDeltaList.clear();
         platformYDeltaList.clear();
@@ -76,10 +85,14 @@ class PlatformAI {
         }
 
         double smallestYDelta = Collections.min(platformYDeltaList);
+        Collections.sort(platformYDeltaList);
         Entity closestPlatform = platformAndYDeltaMap.get(smallestYDelta);
 
-        if(Math.abs(smallestYDelta - platformYDeltaList.get(1)) < 5) {
-            twoPlatformsFound = true;
+        // If two or more platforms exist: check if closest platform and second closest has a Y-pos difference of less than 5.
+        if(platformYDeltaList.size() >= 2) {
+            if(Math.abs(smallestYDelta - platformYDeltaList.get(1)) < 5) {
+                twoPlatformsFound = true;
+            }
         }
 
         if(twoPlatformsFound) {
@@ -193,24 +206,24 @@ class PlatformAI {
      * Method checks the most recent platform the Player was in contact with. Updates playerRecentPlatformContact variable.
      */
     public void playerRecentPlatformContactCheck() {
-        if(RaycastCalculations.getRaycastHit(AI.getRaycastAI().getLeftPlayerPlatformRaycast()) == null ||
-            RaycastCalculations.getRaycastHit(AI.getRaycastAI().getRightPlayerPlatformRaycast()) == null) {
-            return;
-        }
 
         // For each platform in the world...
         for (Entity p : platforms) {
 
-            // Check if leftPlayerPlatformRaycast hit the current platform
-            if(RaycastCalculations.getRaycastHit(AI.getRaycastAI().getLeftPlayerPlatformRaycast()).equals(p)) {
-                playerRecentPlatformContact = p;
-                break;
+            // If raycast not equal null...
+            if(RaycastCalculations.getRaycastHit(AI.getRaycastAI().getLeftPlayerPlatformRaycast()) != null) {
+                // Check if leftPlayerPlatformRaycast hit the current platform
+                if(RaycastCalculations.getRaycastHit(AI.getRaycastAI().getLeftPlayerPlatformRaycast()).equals(p)) {
+                    playerRecentPlatformContact = p;
+                    break;
+                }
             }
-
-            // Check if rightPlayerPlatformRaycast hit the current platform
-            else if(RaycastCalculations.getRaycastHit(AI.getRaycastAI().getRightPlayerPlatformRaycast()).equals(p)) {
-                playerRecentPlatformContact = p;
-                break;
+            else if(RaycastCalculations.getRaycastHit(AI.getRaycastAI().getRightPlayerPlatformRaycast()) != null) {
+                // Check if rightPlayerPlatformRaycast hit the current platform
+                if(RaycastCalculations.getRaycastHit(AI.getRaycastAI().getRightPlayerPlatformRaycast()).equals(p)) {
+                    playerRecentPlatformContact = p;
+                    break;
+                }
             }
         }
     }

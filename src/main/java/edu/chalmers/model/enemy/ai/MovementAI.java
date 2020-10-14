@@ -3,7 +3,6 @@ package edu.chalmers.model.enemy.ai;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.time.TimerAction;
 import edu.chalmers.model.EntityType;
-import edu.chalmers.model.enemy.EnemyTypes;
 import edu.chalmers.utilities.RaycastCalculations;
 import javafx.util.Duration;
 
@@ -36,9 +35,9 @@ class MovementAI {
     }
 
     /**
-     * Method sets moveDirection based on Player position.
+     * Method updates moveDirection based on Player position.
      */
-    public void setMoveDirection() {
+    public void updateMoveDirection() {
         // Is target to the left or right?
         if (AI.isEntityToLeft(AI.getTarget())) {
             moveDirection = Direction.LEFT;
@@ -93,28 +92,7 @@ class MovementAI {
             return;
         }
 
-        // If horizontalRaycast hit a Block or a platform:
-        if (RaycastCalculations.checkRaycastHit(AI.getRaycastAI().getHorizontalRaycast(), EntityType.BLOCK) ||
-                RaycastCalculations.checkRaycastHit(AI.getRaycastAI().getHorizontalRaycast(), EntityType.PLATFORM)) {
-
-            AI.getThisEnemy().jump();
-            return;
-        }
-
-        // IF:
-        // activeDownwardRaycast did *not* hit a platform (Enemy is usually walking off a platform) *AND*
-        // activeDownwardRaycast did *not* hit a block *AND*
-        // Enemy is not airborne:
-        if(!RaycastCalculations.checkRaycastHit(AI.getRaycastAI().getActiveDownwardRaycast(), EntityType.PLATFORM) &&
-                !RaycastCalculations.checkRaycastHit(AI.getRaycastAI().getActiveDownwardRaycast(), EntityType.BLOCK) &&
-                !AI.getThisEnemy().isAirborne()) {
-
-            platformToPlatformStatImprovement();     // Increase moveSpeed and jumpHeight if Enemy is falling off platform and is going to jump.
-            AI.getThisEnemy().jump();
-            return;
-        }
-
-        // IF:
+        // IF (jump up to platform from the ground):
         // Players middle Y-pos is above Enemy *AND*
         // Player most recently did not touch the world ground *AND*
         // getHigherHorizontalRaycast hit a platform:
@@ -122,10 +100,32 @@ class MovementAI {
                 !AI.getPlayerComponent().isOnGround() &&
                 RaycastCalculations.checkRaycastHit(AI.getRaycastAI().getHigherHorizontalRaycast(), EntityType.PLATFORM)) {
 
-            groundToPlatformStatImprovement();     // Increase moveSpeed and jumpHeight.
+            AI.getStatImprovementAI().groundToPlatformStatImprovement();     // Increase moveSpeed and jumpHeight.
             AI.getThisEnemy().jump();
             return;
 
+        }
+
+        // IF (going to fall):
+        // activeDownwardRaycast did *not* hit a platform (Enemy is usually walking off a platform) *AND*
+        // activeDownwardRaycast did *not* hit a block *AND*
+        // Enemy is not airborne:
+        if(!RaycastCalculations.checkRaycastHit(AI.getRaycastAI().getActiveDownwardRaycast(), EntityType.PLATFORM) &&
+                !RaycastCalculations.checkRaycastHit(AI.getRaycastAI().getActiveDownwardRaycast(), EntityType.BLOCK) &&
+                !AI.getThisEnemy().isAirborne()) {
+
+            AI.getStatImprovementAI().platformToPlatformStatImprovement();     // Increase moveSpeed and jumpHeight if Enemy is falling off platform and is going to jump.
+            AI.getThisEnemy().jump();
+            return;
+        }
+
+        // IF (hit a block or platform):
+        // horizontalRaycast hit a Block or a platform:
+        if (RaycastCalculations.checkRaycastHit(AI.getRaycastAI().getHorizontalRaycast(), EntityType.BLOCK) ||
+                RaycastCalculations.checkRaycastHit(AI.getRaycastAI().getHorizontalRaycast(), EntityType.PLATFORM)) {
+
+            AI.getThisEnemy().jump();
+            return;
         }
     }
 
@@ -260,52 +260,6 @@ class MovementAI {
         }
     }
 
-    /**
-     * Method improves Enemy stats depending on the Enemy type.
-     */
-    private void groundToPlatformStatImprovement() {
-
-        // If Enemy is a Zombie:
-        if(AI.getThisEnemy().getEnemyType().getClass().equals(EnemyTypes.getZombieClass())) {
-            AI.getThisEnemy().setJumpHeightMultiplier(1.6);
-        }
-
-        // If Enemy is a Rex:
-        else if(AI.getThisEnemy().getEnemyType().getClass().equals(EnemyTypes.getRexClass())) {
-            AI.getThisEnemy().setJumpHeightMultiplier(1.6);
-        }
-
-        // If Enemy is a Blob
-        else if(AI.getThisEnemy().getEnemyType().getClass().equals(EnemyTypes.getBlobClass())) {
-            AI.getThisEnemy().setJumpHeightMultiplier(1.7);
-        }
-    }
-
-    /**
-     * Method improves Enemy stats depending on the Enemy type.
-     */
-    private void platformToPlatformStatImprovement() {
-
-        // If Enemy is a Zombie:
-        if(AI.getThisEnemy().getEnemyType().getClass().equals(EnemyTypes.getZombieClass())) {
-            AI.getThisEnemy().setMoveSpeedMultiplier(1.6);
-            AI.getThisEnemy().setJumpHeightMultiplier(1.7);
-        }
-
-        // If Enemy is a Rex:
-        else if(AI.getThisEnemy().getEnemyType().getClass().equals(EnemyTypes.getRexClass())) {
-            AI.getThisEnemy().setMoveSpeedMultiplier(2.1);
-            AI.getThisEnemy().setJumpHeightMultiplier(1.7);
-        }
-
-        // If Enemy is a Blob
-        else if(AI.getThisEnemy().getEnemyType().getClass().equals(EnemyTypes.getBlobClass())) {
-            AI.getThisEnemy().setMoveSpeedMultiplier(1.9);
-            AI.getThisEnemy().setJumpHeightMultiplier(1.6);
-        }
-    }
-
-
     // ---------- TIMERS ---------- //
 
     /**
@@ -355,5 +309,29 @@ class MovementAI {
      */
     public void setJumpAllowed(boolean jumpAllowed) {
         this.jumpAllowed = jumpAllowed;
+    }
+
+    /**
+     * Setter for moveDirection variable.
+     * @param moveDirection Direction value.
+     */
+    public void setMoveDirection(Direction moveDirection) {
+        this.moveDirection = moveDirection;
+    }
+
+    /**
+     * Setter for underPlatform variable.
+     * @param underPlatform True or False.
+     */
+    public void setUnderPlatform(boolean underPlatform) {
+        this.underPlatform = underPlatform;
+    }
+
+    /**
+     * Setter for moveToNextPlatform variable.
+     * @param moveToNextPlatform True or False.
+     */
+    public void setMoveToNextPlatform(boolean moveToNextPlatform) {
+        this.moveToNextPlatform = moveToNextPlatform;
     }
 }

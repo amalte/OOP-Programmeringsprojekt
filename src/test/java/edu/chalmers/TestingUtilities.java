@@ -9,7 +9,9 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameWorld;
 
 public class TestingUtilities {
 
-    // Removes all entities in the world
+    /**
+     * Clears all entities in the world
+     */
     public static void clearAllEntities() {
         // A separate list for entities was used to avoid ConcurrentModification exception.
         List entities = new ArrayList<Entity>();        // List with all entities.

@@ -3,6 +3,9 @@ package edu.chalmers.model.enemy.ai;
 import com.almasb.fxgl.physics.RaycastResult;
 import edu.chalmers.utilities.RaycastCalculations;
 
+/**
+ * RaycastAI. Contains all variables and methods used by Enemy AI regarding raycasts.
+ */
 class RaycastAI {
 
     private EnemyAIComponent AI;
@@ -10,11 +13,7 @@ class RaycastAI {
     // ---- RAYCAST VARIABLES ---- //
     private RaycastResult higherHorizontalRaycast;
     private RaycastResult horizontalRaycast;
-    private RaycastResult leftDownwardRaycast;
-    private RaycastResult rightDownwardRaycast;
     private RaycastResult activeDownwardRaycast;
-    private RaycastResult leftUpwardRaycast;
-    private RaycastResult rightUpwardRaycast;
     private RaycastResult entityRaycast;
 
     // ---- RAYCAST LENGTHS ---- //
@@ -31,31 +30,25 @@ class RaycastAI {
     }
 
     /**
-     * Method sets correct direction of raycast variables based on moveDirection.
+     * Method updates correct direction of raycast variables based on moveDirection.
      */
-    public void setRaycastsDirection() {
+    public void updateRaycastsDirection() {
         // +1 and -1 is used to indent the raycast position into the entity a bit, making it more accurate and able to catch entities with the same size.
         // Same goes for +3 and -3.
-
-        leftDownwardRaycast = RaycastCalculations.setVerticalRaycast(downwardRaycastLength, AI.getThisEnemy().getX() + 1, AI.getThisEnemy().getBottomY());
-        rightDownwardRaycast = RaycastCalculations.setVerticalRaycast(downwardRaycastLength, AI.getThisEnemy().getRightX() - 1, AI.getThisEnemy().getBottomY());
-
-        leftUpwardRaycast = RaycastCalculations.setVerticalRaycast(-upwardRaycastLength, AI.getThisEnemy().getX() + 1, AI.getThisEnemy().getY());
-        rightUpwardRaycast = RaycastCalculations.setVerticalRaycast(-upwardRaycastLength, AI.getThisEnemy().getRightX() - 1, AI.getThisEnemy().getY());
 
         // If moving left
         if (AI.getMovementAI().getMoveDirection() == MovementAI.Direction.LEFT) {
             higherHorizontalRaycast = RaycastCalculations.setHorizontalRaycast(-higherHorizontalRaycastLength, AI.getThisEnemy().getX(), AI.getThisEnemy().getY() - higherHorizontalRaycastDeltaHeight);
             horizontalRaycast = RaycastCalculations.setHorizontalRaycast(-horizontalRaycastLength, AI.getThisEnemy().getX(), AI.getThisEnemy().getY() + 3);
             entityRaycast = RaycastCalculations.setHorizontalRaycast(-entityRaycastLength, AI.getThisEnemy().getX(), AI.getThisEnemy().getY() + 3);
-            activeDownwardRaycast = leftDownwardRaycast;
+            activeDownwardRaycast = getLeftDownwardRaycast();
         }
         // If moving right
         else if (AI.getMovementAI().getMoveDirection() == MovementAI.Direction.RIGHT) {
             higherHorizontalRaycast = RaycastCalculations.setHorizontalRaycast(higherHorizontalRaycastLength, AI.getThisEnemy().getRightX(), AI.getThisEnemy().getY() - higherHorizontalRaycastDeltaHeight);
             horizontalRaycast = RaycastCalculations.setHorizontalRaycast(horizontalRaycastLength, AI.getThisEnemy().getRightX(), AI.getThisEnemy().getY() + 3);
             entityRaycast = RaycastCalculations.setHorizontalRaycast(entityRaycastLength, AI.getThisEnemy().getRightX(), AI.getThisEnemy().getY() + 3);
-            activeDownwardRaycast = rightDownwardRaycast;
+            activeDownwardRaycast = getRightDownwardRaycast();
         }
     }
 
@@ -68,11 +61,11 @@ class RaycastAI {
     }
 
     public RaycastResult getLeftDownwardRaycast() {
-        return leftDownwardRaycast;
+        return RaycastCalculations.setVerticalRaycast(downwardRaycastLength, AI.getThisEnemy().getX() + 1, AI.getThisEnemy().getBottomY());
     }
 
     public RaycastResult getRightDownwardRaycast() {
-        return rightDownwardRaycast;
+        return RaycastCalculations.setVerticalRaycast(downwardRaycastLength, AI.getThisEnemy().getRightX() - 1, AI.getThisEnemy().getBottomY());
     }
 
     public RaycastResult getActiveDownwardRaycast() {
@@ -80,11 +73,11 @@ class RaycastAI {
     }
 
     public RaycastResult getLeftUpwardRaycast() {
-        return leftUpwardRaycast;
+        return RaycastCalculations.setVerticalRaycast(-upwardRaycastLength, AI.getThisEnemy().getX() + 1, AI.getThisEnemy().getY());
     }
 
     public RaycastResult getRightUpwardRaycast() {
-        return rightUpwardRaycast;
+        return RaycastCalculations.setVerticalRaycast(-upwardRaycastLength, AI.getThisEnemy().getRightX() - 1, AI.getThisEnemy().getY());
     }
 
     public RaycastResult getEntityRaycast() {
