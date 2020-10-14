@@ -84,7 +84,7 @@ public class SettingsMenu extends SubScene implements IMenu {
     private Node createControlButton(String text)
     {
         String keyDescription = resolveKeyDescription(text);
-        ActionButton controlButton = createActionButton(String.format("%s - %s", KeyCode.getKeyCode(getInput().getTriggerName(keyDescription)), text), () -> { });
+        ActionButton controlButton = createActionButton(String.format("%s - %s", KeyCode.getKeyCode(InputController.getInputInstance().getTriggerName(keyDescription)), text), () -> { });
 
         controlButton.setTag(text);
 
