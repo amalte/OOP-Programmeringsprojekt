@@ -2,7 +2,6 @@ package edu.chalmers.main;
 
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import edu.chalmers.controller.GameMenuType;
 import edu.chalmers.controller.InputController;
 import edu.chalmers.controller.MenuController;
