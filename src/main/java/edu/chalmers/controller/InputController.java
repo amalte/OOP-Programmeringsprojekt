@@ -7,7 +7,6 @@ import edu.chalmers.controller.game.ExitMenuController;
 import edu.chalmers.main.Main;
 import edu.chalmers.model.GenericPlatformer;
 import edu.chalmers.model.PlayerComponent;
-import edu.chalmers.services.Coords;
 import edu.chalmers.utilities.CoordsCalculations;
 import edu.chalmers.utilities.EntityPos;
 import edu.chalmers.view.GameUI;
@@ -17,13 +16,10 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 
-import java.util.List;
-
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getInput;
 
 public class InputController {
     private static boolean initialized = false;
-    private static Entity player = null;
 
     public static Input InputInstance;
 
@@ -36,8 +32,6 @@ public class InputController {
     }
 
     public void initPlayerMovementInput() {
-        player = game.getPlayer();
-
         if (!initialized) {
             InputInstance = getInput();
 
@@ -47,59 +41,81 @@ public class InputController {
             InputInstance.addAction(new UserAction("Exit menu") {
                 @Override
                 protected void onActionBegin() {
-                    ExitMenuController exitMenuController = (ExitMenuController) mainInstance.getController(GameMenuType.Exit);
+                    if (mainInstance.isGameRunning()) {
+                        ExitMenuController exitMenuController = (ExitMenuController) mainInstance.getController(GameMenuType.Exit);
 
-                    if (!exitMenuController.doNotHandleEscape)
-                        exitMenuController.show();
-                    else
-                        exitMenuController.doNotHandleEscape = false;
+                        if (!exitMenuController.doNotHandleEscape)
+                            exitMenuController.show();
+                        else
+                            exitMenuController.doNotHandleEscape = false;
+                    }
                 }
             }, KeyCode.ESCAPE);
 
             InputInstance.addAction(new UserAction("Walk right") {
                 @Override
                 protected void onAction() {
-                    player.getComponent(PlayerComponent.class).moveRight();
+                    if (mainInstance.isGameRunning())
+                    {
+                        getPlayer().getComponent(PlayerComponent.class).moveRight();
+                    }
                 }
 
                 @Override
                 protected void onActionEnd() {
-                    player.getComponent(PlayerComponent.class).stop();
+                    if (mainInstance.isGameRunning())
+                    {
+                        getPlayer().getComponent(PlayerComponent.class).stop();
+                    }
                 }
             }, KeyCode.D);
 
             InputInstance.addAction(new UserAction("Walk left") {
                 @Override
                 protected void onAction() {
-                    player.getComponent(PlayerComponent.class).moveLeft();
+                    if (mainInstance.isGameRunning())
+                    {
+                        getPlayer().getComponent(PlayerComponent.class).moveLeft();
+                    }
                 }
 
                 @Override
                 protected void onActionEnd() {
-                    player.getComponent(PlayerComponent.class).stop();
+                    if (mainInstance.isGameRunning())
+                    {
+                        getPlayer().getComponent(PlayerComponent.class).stop();
+                    }
                 }
             }, KeyCode.A);
 
             InputInstance.addAction(new UserAction("Jump") {
                 @Override
                 protected void onActionBegin() {
-                    player.getComponent(PlayerComponent.class).jump();
+                    if (mainInstance.isGameRunning())
+                    {
+                        getPlayer().getComponent(PlayerComponent.class).jump();
+                    }
                 }
             }, KeyCode.W);
 
             InputInstance.addAction(new UserAction("Shoot") {
                 @Override
                 protected void onActionBegin() {
-                    player.getComponent(PlayerComponent.class).shoot();
+                    if (mainInstance.isGameRunning()) {
+                        getPlayer().getComponent(PlayerComponent.class).shoot();
+                    }
                 }
             }, MouseButton.PRIMARY);
 
             InputInstance.addAction(new UserAction("PlaceBlock") {
                 @Override
                 protected void onActionBegin() {
-                    if(game.getBuildManager().possibleToPlaceBlockOnPos(InputInstance.getMousePositionWorld(), EntityPos.getPosition(player))) {
-                        game.getBuildManager().placeBlock(InputInstance.getMousePositionWorld());
-                        //player.getComponent(PlayerComponent.class).placeBlock(input.getMousePositionWorld());
+                    if (mainInstance.isGameRunning())
+                    {
+                        if(game.getBuildManager().possibleToPlaceBlockOnPos(InputInstance.getMousePositionWorld(), EntityPos.getPosition(getPlayer()))) {
+                            game.getBuildManager().placeBlock(InputInstance.getMousePositionWorld());
+                            //getPlayer().getComponent(PlayerComponent.class).placeBlock(input.getMousePositionWorld());
+                        }
                     }
                 }
 
@@ -108,7 +124,9 @@ public class InputController {
             InputInstance.addAction(new UserAction("Reload") {
                 @Override
                 protected void onActionBegin() {
-                    player.getComponent(PlayerComponent.class).reload();
+                    if (mainInstance.isGameRunning()) {
+                        getPlayer().getComponent(PlayerComponent.class).reload();
+                    }
                 }
             }, KeyCode.R);
 
@@ -118,16 +136,16 @@ public class InputController {
                     if (mainInstance.isGameRunning())
                     {
                         // Should only be called if entered new tile
-                        if(game.getBuildManager().isInBuildRange(CoordsCalculations.posToTile(InputInstance.getMousePositionWorld()), CoordsCalculations.posToTile(EntityPos.getPosition(player)))) {
-                            mainInstance.getBuildView().followMouse(InputInstance.getMousePositionWorld(), game.getBuildManager().possibleToPlaceBlockOnPos(InputInstance.getMousePositionWorld(), EntityPos.getPosition(player)));
+                        if(game.getBuildManager().isInBuildRange(CoordsCalculations.posToTile(InputInstance.getMousePositionWorld()), CoordsCalculations.posToTile(EntityPos.getPosition(getPlayer())))) {
+                            mainInstance.getBuildView().followMouse(InputInstance.getMousePositionWorld(), game.getBuildManager().possibleToPlaceBlockOnPos(InputInstance.getMousePositionWorld(), EntityPos.getPosition(getPlayer())));
                         }
                         else {
                             mainInstance.getBuildView().stopFollowMouse();
                         }
 
-                        mainInstance.getBuildView().reachableTiles(game.getBuildManager().getEmptyReachableTiles(CoordsCalculations.posToTile(EntityPos.getPosition(player))));
+                        mainInstance.getBuildView().reachableTiles(game.getBuildManager().getEmptyReachableTiles(CoordsCalculations.posToTile(EntityPos.getPosition(getPlayer()))));
 
-                        //buildView.followMouse(TileCalculations.posToTilePos(input.getMousePositionWorld(), Constants.TILE_SIZE), player.getComponent(PlayerComponent.class).getBuilding().possibleToPlaceBlockOnPos(input.getMousePositionWorld(), EntityPos.getPosition(player)));
+                        //buildView.followMouse(TileCalculations.posToTilePos(input.getMousePositionWorld(), Constants.TILE_SIZE), getPlayer().getComponent(PlayerComponent.class).getBuilding().possibleToPlaceBlockOnPos(input.getMousePositionWorld(), EntityPos.getPosition(getPlayer())));
                     }
                 }
             });
@@ -135,25 +153,36 @@ public class InputController {
             InputInstance.addAction(new UserAction("SwitchToFirstWeapon") {
                 @Override
                 protected void onActionBegin() {
-                    player.getComponent(PlayerComponent.class).setActiveWeapon(0);
+                    if (mainInstance.isGameRunning()) {
+                        getPlayer().getComponent(PlayerComponent.class).setActiveWeapon(0);
+                    }
                 }
             }, KeyCode.DIGIT1);
 
             InputInstance.addAction(new UserAction("SwitchToSecondWeapon") {
                 @Override
                 protected void onActionBegin() {
-                    player.getComponent(PlayerComponent.class).setActiveWeapon(1);
+                    if (mainInstance.isGameRunning()) {
+                        getPlayer().getComponent(PlayerComponent.class).setActiveWeapon(1);
+                    }
                 }
             }, KeyCode.DIGIT2);
 
             InputInstance.addAction(new UserAction("SwitchToThirdWeapon") {
                 @Override
                 protected void onActionBegin() {
-                    player.getComponent(PlayerComponent.class).setActiveWeapon(2);
+                    if (mainInstance.isGameRunning()) {
+                        getPlayer().getComponent(PlayerComponent.class).setActiveWeapon(2);
+                    }
                 }
             }, KeyCode.DIGIT3);
 
             initialized = true;
         }
+    }
+    
+    private Entity getPlayer()
+    {
+        return game.getPlayer();
     }
 }
