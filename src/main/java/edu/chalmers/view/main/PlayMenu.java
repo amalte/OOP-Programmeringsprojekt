@@ -10,15 +10,18 @@ import javafx.scene.text.Text;
 
 import static edu.chalmers.view.util.ViewUtil.*;
 
+/**
+ * The play menu.
+ */
 public class PlayMenu extends SubScene implements IMenu {
     private Text titleText;
-
     private Node level1Button;
-
     private Node level2Button;
-
     private Node level3Button;
 
+    /**
+     * Create the nodes for this menu.
+     */
     @Override
     public void createNodes() {
         // Background
@@ -44,21 +47,33 @@ public class PlayMenu extends SubScene implements IMenu {
                 (FXGL.getAppHeight() / 2.5) - (ActionButton.BUTTON_HEIGHT / 2.0));
     }
 
+    /**
+     * @return The title of this view.
+     */
     @Override
     public String getTitle() {
         return "Select a level";
     }
 
+    /**
+     * @return The level 1 button.
+     */
     public Node getLevel1Button()
     {
         return this.level1Button;
     }
 
+    /**
+     * @return The level 2 button.
+     */
     public Node getLevel2Button()
     {
         return this.level2Button;
     }
 
+    /**
+     * @return The level 3 button.
+     */
     public Node getLevel3Button()
     {
         return this.level3Button;

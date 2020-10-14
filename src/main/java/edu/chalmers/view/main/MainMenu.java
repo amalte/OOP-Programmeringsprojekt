@@ -11,27 +11,12 @@ import javafx.scene.text.Text;
 import static edu.chalmers.view.util.ViewUtil.*;
 
 /**
- * The main menu for the game.
+ * The main menu.
  */
 public class MainMenu extends SubScene implements IMenu {
-    /**
-     * The label containing the title for this menu.
-     */
     private Text titleText;
-
-    /**
-     * The play button.
-     */
     private Node playButton;
-
-    /**
-     * The settings button.
-     */
     private Node settingsButton;
-
-    /**
-     * The exit button.
-     */
     private Node exitButton;
 
     /**
@@ -63,14 +48,16 @@ public class MainMenu extends SubScene implements IMenu {
                 (FXGL.getAppHeight() / 2.5) - (ActionButton.BUTTON_HEIGHT / 2.0) + (10.0 * (ActionButton.BUTTON_HEIGHT / 4.0)));
     }
 
+    /**
+     * @return The title of this view.
+     */
     @Override
     public String getTitle() {
         return "Generic Platformer";
     }
 
     /**
-     * Get the play button
-     * @return The play button
+     * @return The play button.
      */
     public Node getPlayButton()
     {
@@ -78,8 +65,7 @@ public class MainMenu extends SubScene implements IMenu {
     }
 
     /**
-     * Get the settings button
-     * @return The settings button
+     * @return The settings button.
      */
     public Node getSettingsButton()
     {
@@ -87,8 +73,7 @@ public class MainMenu extends SubScene implements IMenu {
     }
 
     /**
-     * Get the exit button
-     * @return The exit button
+     * @return The exit button.
      */
     public Node getExitButton()
     {

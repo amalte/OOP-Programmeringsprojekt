@@ -13,47 +13,21 @@ import javafx.scene.text.Text;
 import static edu.chalmers.view.util.ViewUtil.*;
 
 /**
- * The settings menu for the game.
+ * The settings menu.
  */
 public class SettingsMenu extends SubScene implements IMenu {
-    /**
-     * The label containing the title for this menu.
-     */
     private Text titleText;
-
-    /**
-     * The control button for the "Jump" key.
-     */
     private Node controlJumpButton;
-
-    /**
-     * The control button for the "Walk left" key.
-     */
     private Node controlWalkLeftButton;
-
-    /**
-     * The control button for the "Walk right" key.
-     */
     private Node controlWalkRightButton;
-
-    /**
-     * The control button for the "Reload" key.
-     */
     private Node controlReloadButton;
-
     private Node controlFirstWeaponButton;
-
     private Node controlSecondWeaponButton;
-
     private Node controlThirdWeaponButton;
-
-    /**
-     * The back button.
-     */
     private Node backButton;
 
     /**
-     * Create the nodes for the settings menu.
+     * Create the nodes for this menu.
      */
     @Override
     public void createNodes()
@@ -99,6 +73,9 @@ public class SettingsMenu extends SubScene implements IMenu {
                 (FXGL.getAppHeight() / 3.0) - (ActionButton.BUTTON_HEIGHT / 2.0) + (25.0 * (ActionButton.BUTTON_HEIGHT / 4.0)));
     }
 
+    /**
+     * @return The title of this view.
+     */
     @Override
     public String getTitle() {
         return "Press one of the buttons below to change the keybindings";
@@ -107,13 +84,18 @@ public class SettingsMenu extends SubScene implements IMenu {
     private Node createControlButton(String text)
     {
         String keyDescription = resolveKeyDescription(text);
-        ActionButton controlButton = createActionButton(String.format("%s - %s", KeyCode.getKeyCode(InputController.InputInstance.getTriggerName(keyDescription)), text), () -> { });
+        ActionButton controlButton = createActionButton(String.format("%s - %s", KeyCode.getKeyCode(InputController.getInputInstance().getTriggerName(keyDescription)), text), () -> { });
 
         controlButton.setTag(text);
 
         return controlButton;
     }
 
+    /**
+     * Resolve the description of a keybinding to a name registered in FXGL.
+     * @param keyDescription The description of the keybinding.
+     * @return The name of the keybinding registered in FXGL. Does no additional check to check if it is really registered in FXGL.
+     */
     public String resolveKeyDescription(String keyDescription)
     {
         switch (keyDescription)
@@ -130,8 +112,7 @@ public class SettingsMenu extends SubScene implements IMenu {
     }
 
     /**
-     * Get the control button for the "Jump" key.
-     * @return The control button
+     * @return The control button for the Jump key.
      */
     public Node getControlJumpButton()
     {
@@ -139,8 +120,7 @@ public class SettingsMenu extends SubScene implements IMenu {
     }
 
     /**
-     * Get the control button for the "Walk left" key.
-     * @return The control button
+     * @return The control button for the Walk Left key.
      */
     public Node getControlWalkLeftButton()
     {
@@ -148,8 +128,7 @@ public class SettingsMenu extends SubScene implements IMenu {
     }
 
     /**
-     * Get the control button for the "Walk right" key.
-     * @return The control button
+     * @return The control button for the Walk Right key.
      */
     public Node getControlWalkRightButton()
     {
@@ -157,32 +136,30 @@ public class SettingsMenu extends SubScene implements IMenu {
     }
 
     /**
-     * Get the control button for the "Reload" key.
-     * @return The control button
+     * @return The control button for the Reload key.
      */
     public Node getControlReloadButton()
     {
         return this.controlReloadButton;
     }
 
+    /**
+     * @return The control button for the First Weapon key.
+     */
     public Node getControlFirstWeaponButton() { return this.controlFirstWeaponButton; }
 
+    /**
+     * @return The control button for the Second Weapon key.
+     */
     public Node getControlSecondWeaponButton() { return this.controlSecondWeaponButton; }
 
+    /**
+     * @return The control button for the Third Weapon key.
+     */
     public Node getControlThirdWeaponButton() { return this.controlThirdWeaponButton; }
 
     /**
-     * Get the description text node.
-     * @return The description text node
-     */
-    public Text getTitleText()
-    {
-        return this.titleText;
-    }
-
-    /**
-     * Get the back button
-     * @return The back button
+     * @return The back button.
      */
     public Node getBackButton()
     {

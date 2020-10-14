@@ -44,6 +44,14 @@ public class ActionButton extends StackPane {
         this.setPrefHeight(BUTTON_HEIGHT);
     }
 
+    /**
+     * Second constructor.
+     * Creates controls for manipulating settings and binds the action to mouse clicks.
+     * Uses the specified image as a background instead of just a plain-colored background.
+     * @param buttonText The text of the button
+     * @param action The action of the button. It is ran when the button is clicked.
+     * @param backgroundPath The path to a background image.
+     */
     public ActionButton(String buttonText, Runnable action, String backgroundPath)
     {
         this.backgroundPath = backgroundPath;
@@ -53,10 +61,6 @@ public class ActionButton extends StackPane {
         this.setPrefHeight(BUTTON_HEIGHT);
     }
 
-    /**
-     * Creates a background and a text for the button.
-     * @param buttonText The text of the button
-     */
     private void createControls(String buttonText)
     {
         if (this.backgroundPath != null && !this.backgroundPath.trim().isEmpty())
@@ -80,11 +84,18 @@ public class ActionButton extends StackPane {
         }
     }
 
+    /**
+     * Set the tag of this button.
+     * @param tag The new tag.
+     */
     public void setTag(String tag)
     {
         this.tag = tag;
     }
 
+    /**
+     * @return The tag of this button.
+     */
     public String getTag()
     {
         return this.tag;

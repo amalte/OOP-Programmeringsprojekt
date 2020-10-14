@@ -12,6 +12,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.text.Text;
 
 import static com.almasb.fxgl.dsl.FXGL.getGameScene;
+import static com.almasb.fxgl.dsl.FXGL.getInput;
 
 /**
  * The controller for the settings menu.
@@ -22,8 +23,8 @@ public class SettingsMenuController extends MenuController<SettingsMenu> {
     /**
      * Default constructor for SettingsMenuController.
      *
-     * @param viewInstance Instance of a view to associate the controller with. Class has to implement IMenu.
-     * @param mainInstance
+     * @param viewInstance Instance of a view to associate the controller with.
+     * @param mainInstance An instance of the Main class.
      */
     public SettingsMenuController(SettingsMenu viewInstance, Main mainInstance)
     {
@@ -71,7 +72,7 @@ public class SettingsMenuController extends MenuController<SettingsMenu> {
                 String tag = activatedButton.getTag();
                 String keyDescription = this.viewInstance.resolveKeyDescription(tag);
 
-                KeyCode oldKeyCode = KeyCode.getKeyCode(InputController.InputInstance.getTriggerName(keyDescription));
+                KeyCode oldKeyCode = KeyCode.getKeyCode(InputController.getInputInstance().getTriggerName(keyDescription));
 
                 ((Text)activatedButton.getChildren().get(1)).setText(String.format("%s - %s", oldKeyCode.toString(), tag));
             }
@@ -101,11 +102,11 @@ public class SettingsMenuController extends MenuController<SettingsMenu> {
             {
                 String tag = this.activatedButton.getTag();
                 String keyDescription = this.viewInstance.resolveKeyDescription(tag);
-                KeyCode oldKeyCode = KeyCode.getKeyCode(InputController.InputInstance.getTriggerName(keyDescription));
+                KeyCode oldKeyCode = KeyCode.getKeyCode(InputController.getInputInstance().getTriggerName(keyDescription));
 
                 if (oldKeyCode != newKeyCode)
                 {
-                    for (Trigger trigger : InputController.InputInstance.getAllBindings().values())
+                    for (Trigger trigger : InputController.getInputInstance().getAllBindings().values())
                     {
                         if (trigger instanceof KeyTrigger)
                         {
@@ -117,7 +118,7 @@ public class SettingsMenuController extends MenuController<SettingsMenu> {
                     }
                 }
 
-                InputController.InputInstance.rebind(InputController.InputInstance.getActionByName(keyDescription), newKeyCode);
+                InputController.getInputInstance().rebind(InputController.getInputInstance().getActionByName(keyDescription), newKeyCode);
                 ((Text)this.activatedButton.getChildren().get(1)).setText(String.format("%s - %s", newKeyCode.toString(), tag));
             }
 

@@ -28,24 +28,33 @@ import java.util.List;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
 
+/**
+ * The entrypoint for this game.
+ */
 public class Main extends GameApplication {
     private Boolean controllersInitialized = false;
     private List<MenuController> controllerList = new ArrayList<>();
     private AnchorPane backgroundPane;
-
     private GenericPlatformer game;
     private InputController inputController;
-
     private BuildView buildView;
     private GameUI gameUI;
-
     private Boolean gameRunning = false;
 
+    /**
+     * Main method. Called when running the program.
+     * @param args Arguments to be passed onto FXGL.
+     */
     public static void main(String[] args) {
         System.setProperty("quantum.multithreaded", "false"); // DO NOT REMOVE. Caps FPS at 60 across all computers
         launch(args);
     }
 
+    /**
+     * Set good defaults for our game.
+     * @param gameSettings A parameter to be specified by FXGL itself. Contains a reference to the an instance of the GameSettings class.
+     */
+    @Override
     protected void initSettings(GameSettings gameSettings) {
         gameSettings.setPreserveResizeRatio(true);
         gameSettings.setManualResizeEnabled(false);
@@ -58,18 +67,24 @@ public class Main extends GameApplication {
         gameSettings.setMenuKey(KeyCode.PAUSE);
     }
 
+    /**
+     * Initialize our game. Player input, loading levels, etc.
+     */
     @Override
     protected void initGame() {
         game = new GenericPlatformer();
         inputController = new InputController(game, this);
 
         game.initializeGame("level2.tmx");
-        inputController.initPlayerMovementInput();
+        inputController.initPlayerInput();
 
         this.createBackground();
         this.showBackground();
     }
 
+    /**
+     * Initialize the UI of our game.
+     */
     @Override
     protected void initUI() {
         runOnce(() -> {
@@ -110,14 +125,11 @@ public class Main extends GameApplication {
         }
     }
 
-    private void hideBackground()
-    {
-        if (getGameScene().getUiNodes().contains(this.backgroundPane))
-        {
-            getGameScene().removeUINode(this.backgroundPane);
-        }
-    }
-
+    /**
+     * Get a registered controller that has the same specified game menu type.
+     * @param gameMenuType The game menu type to search for.
+     * @return The controller with the game menu type. May be null, if not found.
+     */
     public MenuController getController(GameMenuType gameMenuType)
     {
         for (MenuController menuController : controllerList)
@@ -131,6 +143,10 @@ public class Main extends GameApplication {
         return null;
     }
 
+    /**
+     * Start the game.
+     * @param levelIndex What level index to use when loading the TMX file. Format: "level{levelIndex}.tmx"
+     */
     public void startGame(int levelIndex)
     {
         if (!this.isGameRunning())
@@ -147,6 +163,9 @@ public class Main extends GameApplication {
         }
     }
 
+    /**
+     * Stop the game, if it is running.
+     */
     public void stopGame()
     {
         if (this.isGameRunning())
@@ -158,6 +177,9 @@ public class Main extends GameApplication {
         }
     }
 
+    /**
+     * @return Whether or not the game is running.
+     */
     public Boolean isGameRunning()
     {
         return this.gameRunning;
@@ -175,13 +197,24 @@ public class Main extends GameApplication {
         this.buildView.reachableTiles(game.getBuildManager().getEmptyReachableTiles(CoordsCalculations.posToTile(EntityPos.getPosition(game.getPlayer()))));
     }
 
+    /**
+     * @return The instance of the BuildView class associated with our Main class.
+     */
     public BuildView getBuildView()
     {
         return this.buildView;
     }
 
+    /**
+     * @return The instance of the GameUI class associated with our Main class.
+     */
     public GameUI getGameUI()
     {
         return this.gameUI;
     }
+
+    /**
+     * @return The instance of the InputController class associated with our Main class.
+     */
+    public InputController getInputController() { return this.inputController; }
 }

@@ -11,12 +11,11 @@ import static com.almasb.fxgl.dsl.FXGL.getGameController;
  * The controller for the main menu view.
  */
 public class MainMenuController extends MenuController<MainMenu> {
-
     /**
      * Default constructor for MainMenuController.
      *
-     * @param viewInstance Instance of a view to associate the controller with. Class has to implement IMenu.
-     * @param mainInstance
+     * @param viewInstance Instance of a view to associate the controller with.
+     * @param mainInstance An instance of the Main class.
      */
     public MainMenuController(MainMenu viewInstance, Main mainInstance)
     {

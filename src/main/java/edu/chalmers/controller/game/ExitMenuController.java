@@ -12,14 +12,11 @@ import static com.almasb.fxgl.dsl.FXGL.getGameScene;
  * The controller for the exit menu view.
  */
 public class ExitMenuController extends MenuController<ExitMenu> {
-
-    public Boolean doNotHandleEscape = false;
-
     /**
      * Default constructor for ExitMenuController.
      *
-     * @param viewInstance Instance of a view to associate the controller with. Class has to implement IMenu.
-     * @param mainInstance
+     * @param viewInstance Instance of a view to associate the controller with.
+     * @param mainInstance An instance of the Main class.
      */
     public ExitMenuController(ExitMenu viewInstance, Main mainInstance) {
         super(viewInstance, mainInstance, GameMenuType.Exit);
@@ -40,7 +37,7 @@ public class ExitMenuController extends MenuController<ExitMenu> {
                 this.hide();
 
                 // Workaround for InputController handling the key event
-                doNotHandleEscape = true;
+                ExitMenuController.this.mainInstance.getInputController().setDoNotHandleEscape(true);
             }
         });
 
