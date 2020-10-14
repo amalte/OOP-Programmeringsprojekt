@@ -28,10 +28,13 @@ public class GenericPlatformer {
     private BuildManager buildManager;
     private CollisionDetection collisionDetection;
 
-    public void initializeGame(String levelName) {
+    public GenericPlatformer()
+    {
         this.gameWorldFactory = new GameWorldFactory();
         getGameWorld().addEntityFactory(this.gameWorldFactory);
+    }
 
+    public void initializeGame(String levelName) {
         setLevelFromMap(levelName);
 
         this.collisionDetection = new CollisionDetection(getPlayerComponent());
@@ -46,9 +49,7 @@ public class GenericPlatformer {
         if (this.waveManager != null)
             this.waveManager.stopWaveTimer();
 
-        getGameWorld().reset();
-        getGameWorld().removeEntities(getGameWorld().getEntities());
-        getGameWorld().removeEntityFactory(this.gameWorldFactory);
+        getGameWorld().getEntitiesCopy().forEach(Entity::removeFromWorld);
     }
 
     /**
