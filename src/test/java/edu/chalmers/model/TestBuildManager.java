@@ -7,21 +7,21 @@ import edu.chalmers.model.building.BuildManager;
 import edu.chalmers.model.building.MapManager;
 import edu.chalmers.services.TileMap;
 import javafx.geometry.Point2D;
+import org.junit.AfterClass;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameWorld;
+import static edu.chalmers.FXGLTest.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@ExtendWith(RunWithFX.class)
 public class TestBuildManager {
-
     private BuildManager buildManager;
 
     @BeforeAll
     public static void initApp() throws InterruptedException {
-        SetupWorld.initApp();
+        initialize();
     }
 
     private void resetTest() {
@@ -31,10 +31,17 @@ public class TestBuildManager {
     }
 
     @Test
-    public void testPlaceBlock() {
-        resetTest();
-        Point2D blockPos = new Point2D(100, 100);
-        buildManager.placeBlock(blockPos);
-        assertEquals(1, getGameWorld().getEntitiesByType(EntityType.BLOCK).size());
+    public void testPlaceBlock() throws InterruptedException {
+        waitForRunLater(() -> {
+            resetTest();
+            Point2D blockPos = new Point2D(100, 100);
+            buildManager.placeBlock(blockPos);
+            assertEquals(1, getGameWorld().getEntitiesByType(EntityType.BLOCK).size());
+        });
+    }
+
+    @AfterClass
+    public static void tearDown() throws InterruptedException {
+        deInitialize();
     }
 }

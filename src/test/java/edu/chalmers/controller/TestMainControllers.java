@@ -16,7 +16,6 @@ import static edu.chalmers.FXGLTest.*;
 
 @ExtendWith(RunWithFX.class)
 public class TestMainControllers {
-    private static FXGLTest fxglTest = new FXGLTest();
     private static Main mainInstance;
 
     @BeforeClass
@@ -40,7 +39,6 @@ public class TestMainControllers {
         assertEquals(false, mainMenuController.isVisible());
 
         assertTrue(mainMenuController.getViewInstance() instanceof MainMenu);
-        assertEquals(mainInstance, mainMenuController.getMainInstance());
         assertEquals(GameMenuType.Main, mainMenuController.getGameMenuType());
 
     }
