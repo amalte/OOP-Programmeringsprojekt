@@ -3,75 +3,45 @@ package edu.chalmers.controller;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.test.RunWithFX;
+import com.almasb.fxgl.time.TimerAction;
+import edu.chalmers.FXGLTest;
 import edu.chalmers.controller.main.MainMenuController;
 import edu.chalmers.main.Main;
 import javafx.application.Platform;
+import javafx.util.Duration;
+import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(RunWithFX.class)
 public class TestMainControllers {
+    private static FXGLTest fxglTest = new FXGLTest();
     private static Main mainInstance;
 
     @BeforeClass
     public static void setUp() throws InterruptedException {
-        if (mainInstance == null)
-        {
-            new Thread(() -> {
-                GameApplication.launch(Main.class, new String[0]);
-            }).start();
-
-            Thread.sleep(2000);
-        }
-        GameApplication gameApplication = (Main) FXGL.getApp();
-
-        if (gameApplication instanceof Main)
-        {
-            mainInstance = (Main)gameApplication;
-
-            while (!mainInstance.getControllersInitialized())
-                Thread.sleep(100);
-        }
+        FXGLTest.setUp();
+        mainInstance = FXGLTest.getMainInstance();
     }
 
     @Test
     public void testMainMenuController() throws InterruptedException {
-        MainMenuController mainMenuController = null;
+        MenuController menuController = mainInstance.getController(GameMenuType.Main);
+        assertNotNull(menuController);
+        assertTrue(menuController instanceof MainMenuController);
 
-        while (true)
-        {
-            if (mainInstance != null)
-            {
-                MenuController menuController = mainInstance.getController(GameMenuType.Main);
+        MainMenuController mainMenuController = (MainMenuController)menuController;
+        Platform.runLater(mainMenuController::show);
 
-                if (menuController != null)
-                {
-                    Boolean menuControllerCorrect = menuController instanceof MainMenuController;
-                    assertEquals(true, menuControllerCorrect);
-
-                    if (menuControllerCorrect)
-                    {
-                        mainMenuController = (MainMenuController)menuController;
-                        break;
-                    } else {
-                        return;
-                    }
-                }
-            }
-
-            Thread.sleep(100);
-        }
-
-        MainMenuController finalMainMenuController = mainMenuController;
-        Platform.runLater(() -> {
-            finalMainMenuController.show();
-        });
-        Thread.sleep(500);
-
-        assertEquals(true, finalMainMenuController.isVisible());
+        assertEquals(true, mainMenuController.isVisible());
     }
 
     @Test
@@ -82,5 +52,11 @@ public class TestMainControllers {
     @Test
     public void testSettingsMenuController() {
 
+    }
+
+    @AfterClass
+    public static void tearDown() throws InterruptedException {
+        FXGLTest.tearDown();
+        mainInstance = null;
     }
 }
