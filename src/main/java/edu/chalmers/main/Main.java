@@ -25,6 +25,8 @@ import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
 
@@ -32,7 +34,8 @@ import static com.almasb.fxgl.dsl.FXGL.*;
  * The entrypoint for this game.
  */
 public class Main extends GameApplication {
-    private Boolean controllersInitialized = false;
+    private static AtomicReference<CountDownLatch> initializedLatch = new AtomicReference<>();
+
     private List<MenuController> controllerList = new ArrayList<>();
     private AnchorPane backgroundPane;
     private GenericPlatformer game;
@@ -88,17 +91,21 @@ public class Main extends GameApplication {
     @Override
     protected void initUI() {
         runOnce(() -> {
-            if (!this.controllersInitialized)
+            synchronized (this.controllerList)
             {
-                controllerList.add(new MainMenuController(new MainMenu(), this));
-                controllerList.add(new SettingsMenuController(new SettingsMenu(), this));
-                controllerList.add(new PlayMenuController(new PlayMenu(), this));
-                controllerList.add(new ExitMenuController(new ExitMenu(), this));
+                if (this.controllerList.isEmpty())
+                {
+                    this.controllerList.add(new MainMenuController(new MainMenu(), this));
+                    this.controllerList.add(new SettingsMenuController(new SettingsMenu(), this));
+                    this.controllerList.add(new PlayMenuController(new PlayMenu(), this));
+                    this.controllerList.add(new ExitMenuController(new ExitMenu(), this));
 
-                getController(GameMenuType.Main).show();
-
-                this.controllersInitialized = true;
+                    getController(GameMenuType.Main).show();
+                }
             }
+
+            if (getInitializedLatch() != null && getInitializedLatch().getCount() > 0)
+                getInitializedLatch().countDown();
         }, Duration.seconds(0.5));
     }
 
@@ -216,7 +223,13 @@ public class Main extends GameApplication {
     public InputController getInputController() { return this.inputController; }
 
     /**
-     * @return Whether or not the controllers have been initialized yet.
+     * Set the initializedLatch for Main.
+     * @param countDownLatch The instance of CountDownLatch to set initializedLatch to. This latch will be counted down, if its count is over 0, once that the initUI method has been ran.
      */
-    public Boolean getControllersInitialized() { return this.controllersInitialized; }
+    public static void setInitializedLatch(CountDownLatch countDownLatch) { initializedLatch.set(countDownLatch); }
+
+    /**
+     * @return The initializedLatch for Main.
+     */
+    public static CountDownLatch getInitializedLatch() { return initializedLatch.get(); }
 }
