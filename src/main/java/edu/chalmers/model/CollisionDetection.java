@@ -18,8 +18,11 @@ public class CollisionDetection {
         FXGL.getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityType.PLAYER, EntityType.PLATFORM) {
             @Override
             protected void onCollisionBegin(Entity a, Entity b) {
-                if (a.hasComponent(PlayerComponent.class))
-                    a.getComponent(PlayerComponent.class).resetJumpAmounts();
+                if(aboveMiddleCollision(a, b) && !sideCollision(a, b)) {  // Can only jump if standing above and on platform.
+
+                    if (a.hasComponent(PlayerComponent.class))
+                        a.getComponent(PlayerComponent.class).resetJumpAmounts();
+                }
 
                 // onGround check.
                 // If the platform has X-Position of 0, then the platform is the ground.

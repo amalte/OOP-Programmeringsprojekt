@@ -10,7 +10,7 @@ import edu.chalmers.model.GenericPlatformer;
 import edu.chalmers.model.PlayerComponent;
 import edu.chalmers.utilities.CoordsCalculations;
 import edu.chalmers.utilities.EntityPos;
-import edu.chalmers.view.GameUI;
+import edu.chalmers.view.game.GameUI;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;

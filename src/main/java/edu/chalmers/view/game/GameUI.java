@@ -1,4 +1,4 @@
-package edu.chalmers.view;
+package edu.chalmers.view.game;
 
 import com.almasb.fxgl.dsl.FXGL;
 import edu.chalmers.model.GenericPlatformer;
@@ -27,12 +27,14 @@ public class GameUI {
         currentWaveText.setX(Constants.GAME_WIDTH/2 - 150);
         currentWaveText.setText("Current Wave:" + CurrentWave);
         currentWaveText.setTextAlignment(TextAlignment.LEFT);
-        currentWaveText.setFont(Font.font("verdana", FontWeight.MEDIUM, FontPosture.REGULAR, 36));
+        currentWaveText.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 36));
+        currentWaveText.setFill(Color.TOMATO);
+        currentWaveText.setStroke(Color.BLACK);
         return currentWaveText;
     }
 
     private Rectangle drawHealthBar(){
-        healthBar = new Rectangle(healthBarMaxWidth,healthBarMaxHeight, Color.GREEN);
+        healthBar = new Rectangle(healthBarMaxWidth,healthBarMaxHeight, Color.LIMEGREEN);
         healthBar.setY(10);
         healthBar.setX(10);
         return healthBar;
@@ -49,14 +51,18 @@ public class GameUI {
 
     private Text drawAmountOfAmmoText(){
         amountOfAmmoText = new Text(10,100, "");
-        amountOfAmmoText.setFont(Font.font("verdana", FontWeight.MEDIUM, FontPosture.REGULAR, 24));
+        amountOfAmmoText.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 24));
+        amountOfAmmoText.setFill(Color.LIMEGREEN);
+        amountOfAmmoText.setStroke(Color.BLACK);
         updateAmmunition();
         return amountOfAmmoText;
     }
 
     public Text drawActiveWeapon(){
         activeWeaponText = new Text(10, 70, "");
-        activeWeaponText.setFont(Font.font("verdana", FontWeight.MEDIUM, FontPosture.REGULAR, 24));
+        activeWeaponText.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 24));
+        activeWeaponText.setFill(Color.LIMEGREEN);
+        activeWeaponText.setStroke(Color.BLACK);
         updateActiveWeapon();
         return activeWeaponText;
     }
