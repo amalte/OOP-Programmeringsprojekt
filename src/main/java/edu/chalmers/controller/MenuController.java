@@ -14,6 +14,8 @@ import static com.almasb.fxgl.dsl.FXGL.getSceneService;
  * @param <T> Any class that extends SubScene. Class has to implement IMenu for nodes to be created.
  */
 public class MenuController<T extends SubScene> {
+    private final AtomicReference<CountDownLatch> visibleLatch = new AtomicReference<CountDownLatch>();
+
     /**
      * The instance of the SubScene class that the controller is associated with.
      */
@@ -27,13 +29,6 @@ public class MenuController<T extends SubScene> {
     private GameMenuType gameMenuType;
     private Boolean nodesCreated = false;
     private volatile Boolean visible = false;
-
-    /**
-     * Counted down to 0 when the menu is displayed.
-     * Reset to 1 when the menu is hidden.
-     * AtomicReference so that different processor cores do not have different instances of the CountDownLatch.
-     */
-    private final AtomicReference<CountDownLatch> visibleLatch = new AtomicReference<CountDownLatch>();
 
     /**
      * Default constructor for MenuController.
