@@ -6,10 +6,13 @@ import edu.chalmers.model.weapon.WeaponFactory;
 import edu.chalmers.model.weapon.weapontypes.Crossbow;
 import edu.chalmers.model.weapon.weapontypes.Handgun;
 import edu.chalmers.model.weapon.weapontypes.ThrowingKnife;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import static edu.chalmers.FXGLTest.deInitialize;
+import static edu.chalmers.FXGLTest.initialize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
@@ -18,9 +21,9 @@ public class TestWeaponFactory {
 
     private Weapon weapon;
 
-    @BeforeAll
-    public static void initApplication() throws InterruptedException {
-        SetupWorld.initApp();
+    @BeforeClass
+    public static void setUp() throws InterruptedException {
+        initialize();
     }
 
     @Test
@@ -46,5 +49,10 @@ public class TestWeaponFactory {
     public void testWrongWeaponName() {
         weapon = WeaponFactory.getInstance().createWeapon("abc123");
         assertNull(weapon);
+    }
+
+    @AfterClass
+    public static void tearDown() throws InterruptedException {
+        deInitialize();
     }
 }
