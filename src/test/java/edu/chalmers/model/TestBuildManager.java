@@ -2,7 +2,7 @@ package edu.chalmers.model;
 
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.test.RunWithFX;
-import edu.chalmers.TestingUtilities;
+import edu.chalmers.FXGLTest;
 import edu.chalmers.model.building.BuildManager;
 import edu.chalmers.model.building.MapManager;
 import edu.chalmers.services.TileMap;
@@ -25,7 +25,7 @@ public class TestBuildManager {
     }
 
     private void resetTest() {
-        TestingUtilities.clearAllEntities();
+        FXGLTest.clearAllEntities();
         MapManager mapManager = new MapManager(new TileMap().getBlockMapFromLevel("level1.tmx"));
         buildManager = new BuildManager(new PlayerComponent(new PhysicsComponent()).getBuildRangeTiles(), mapManager);
     }

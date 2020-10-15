@@ -3,7 +3,7 @@ package edu.chalmers.model.enemy.ai;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.test.RunWithFX;
-import edu.chalmers.TestingUtilities;
+import edu.chalmers.FXGLTest;
 import edu.chalmers.model.SetupWorld;
 import edu.chalmers.model.enemy.EnemyComponent;
 import edu.chalmers.model.enemy.EnemyFactory;
@@ -46,7 +46,7 @@ public class TestEnemyAIComponent {
 
     @Test
     public void testSetPlayerReached() {
-        TestingUtilities.clearAllEntities();
+        FXGLTest.clearAllEntities();
         init();
 
         // Player not reached at first
@@ -65,7 +65,7 @@ public class TestEnemyAIComponent {
 
     @Test
     public void testEnemyAboveOrBelowFix() {
-        TestingUtilities.clearAllEntities();
+        FXGLTest.clearAllEntities();
         init();
 
         // Spawn a new enemy above existing enemy. The +1 is for raycast to work
@@ -85,7 +85,7 @@ public class TestEnemyAIComponent {
 
     @Test
     public void testGetNearbyEnemyAI() {
-        TestingUtilities.clearAllEntities();
+        FXGLTest.clearAllEntities();
         init();
 
         // Spawn a new enemy to the right of existing enemy. The +1 is for raycast to work
@@ -98,7 +98,7 @@ public class TestEnemyAIComponent {
 
     @Test
     public void testIsEntityToLeft() {
-        TestingUtilities.clearAllEntities();
+        FXGLTest.clearAllEntities();
         init();
 
         // Set enemy position and spawn new player to the right.
@@ -116,7 +116,7 @@ public class TestEnemyAIComponent {
 
     @Test
     public void testIsEntityToRight() {
-        TestingUtilities.clearAllEntities();
+        FXGLTest.clearAllEntities();
         init();
 
         // Set enemy position and spawn new player to the left.
@@ -134,7 +134,7 @@ public class TestEnemyAIComponent {
 
     @Test
     public void testIsEntityMiddleYAbove() {
-        TestingUtilities.clearAllEntities();
+        FXGLTest.clearAllEntities();
         init();
 
         // Set enemy position and spawn new player slightly above Enemy (but its middle not above).
@@ -152,7 +152,7 @@ public class TestEnemyAIComponent {
 
     @Test
     public void testIsEntityBottomYAbove() {
-        TestingUtilities.clearAllEntities();
+        FXGLTest.clearAllEntities();
         init();
 
         // Set enemy position and spawn new player slightly above Enemy (but its bottom Y-pos not above).
@@ -170,7 +170,7 @@ public class TestEnemyAIComponent {
 
     @Test
     public void testIsEntityMiddleYBelow() {
-        TestingUtilities.clearAllEntities();
+        FXGLTest.clearAllEntities();
         init();
 
         // Set enemy position and spawn new player slightly below Enemy (but its middle not above).
@@ -188,7 +188,7 @@ public class TestEnemyAIComponent {
 
     @Test
     public void testIsEntitySameY() {
-        TestingUtilities.clearAllEntities();
+        FXGLTest.clearAllEntities();
         init();
 
         // Set enemy position and spawn new player slightly below Enemy.
@@ -206,7 +206,7 @@ public class TestEnemyAIComponent {
 
     @Test
     public void testEnemyDirectlyAbove() {
-        TestingUtilities.clearAllEntities();
+        FXGLTest.clearAllEntities();
         init();
 
         // Set enemy position.
@@ -227,7 +227,7 @@ public class TestEnemyAIComponent {
 
     @Test
     public void testEnemyDirectlyBelow() {
-        TestingUtilities.clearAllEntities();
+        FXGLTest.clearAllEntities();
         init();
 
         // Set enemy position.

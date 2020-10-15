@@ -2,7 +2,7 @@ package edu.chalmers.model.enemy.ai;
 
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.test.RunWithFX;
-import edu.chalmers.TestingUtilities;
+import edu.chalmers.FXGLTest;
 import edu.chalmers.model.SetupWorld;
 import edu.chalmers.model.enemy.EnemyComponent;
 import edu.chalmers.model.enemy.EnemyFactory;
@@ -41,7 +41,7 @@ public class TestPlatformAI {
 
     @Test
     public void testUpdatePlatforms() {
-        TestingUtilities.clearAllEntities();
+        FXGLTest.clearAllEntities();
         init();
 
         Entity platform;
@@ -63,7 +63,7 @@ public class TestPlatformAI {
 
         // Clear all existing platforms. Platforms spawned att X=0 are not considered a platform (even if they technically are).
         // They are considered to be the ground, and are therefore not included in the platforms list.
-        TestingUtilities.clearAllEntities();
+        FXGLTest.clearAllEntities();
         spawn("testingPlatform", 0, 5);
         enemyAIComponent.getPlatformAI().updatePlatforms();
         assertEquals(0, enemyAIComponent.getPlatformAI().getPlatforms().size());
@@ -71,7 +71,7 @@ public class TestPlatformAI {
 
     @Test
     public void testGetClosestPlatform() {
-        TestingUtilities.clearAllEntities();
+        FXGLTest.clearAllEntities();
         init();
         Entity platform1;
 
@@ -83,7 +83,7 @@ public class TestPlatformAI {
 
 
         // --- Two platforms --- //
-        TestingUtilities.clearAllEntities();
+        FXGLTest.clearAllEntities();
         init();
 
         // Spawn two platforms at roughly the same Y-pos. platform 1 is closer out of the two.
@@ -98,7 +98,7 @@ public class TestPlatformAI {
 
     @Test
     public void getPlatformBelowEnemy() {
-        TestingUtilities.clearAllEntities();
+        FXGLTest.clearAllEntities();
         init();
         Entity platform;
 
@@ -113,7 +113,7 @@ public class TestPlatformAI {
         assertEquals(platform, enemyAIComponent.getPlatformAI().getPlatformBelowEnemy());
         //
 
-        TestingUtilities.clearAllEntities();
+        FXGLTest.clearAllEntities();
         init();
 
         // ---- rightDownwardRaycast ---- //
@@ -129,7 +129,7 @@ public class TestPlatformAI {
 
     @Test
     public void testCheckPlatformBelowEnemy() {
-        TestingUtilities.clearAllEntities();
+        FXGLTest.clearAllEntities();
         init();
         Entity platform;
 
@@ -147,7 +147,7 @@ public class TestPlatformAI {
 
     @Test
     public void testPlayerRecentPlatformContactCheck() {
-        TestingUtilities.clearAllEntities();
+        FXGLTest.clearAllEntities();
         init();
 
         // Player has not had contact with platform yet.
@@ -164,7 +164,7 @@ public class TestPlatformAI {
         assertEquals(platform, enemyAIComponent.getPlatformAI().getPlayerRecentPlatformContact());
         //
 
-        TestingUtilities.clearAllEntities();
+        FXGLTest.clearAllEntities();
         init();
 
         // ---- rightPlayerPlatformRaycast ---- //

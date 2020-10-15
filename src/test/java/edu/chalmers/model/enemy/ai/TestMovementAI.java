@@ -2,7 +2,7 @@ package edu.chalmers.model.enemy.ai;
 
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.test.RunWithFX;
-import edu.chalmers.TestingUtilities;
+import edu.chalmers.FXGLTest;
 import edu.chalmers.model.PlayerComponent;
 import edu.chalmers.model.SetupWorld;
 import edu.chalmers.model.enemy.EnemyComponent;
@@ -52,7 +52,7 @@ public class TestMovementAI {
 
     @Test
     public void testSetMoveDirection() {
-        TestingUtilities.clearAllEntities();
+        FXGLTest.clearAllEntities();
         init();
 
         // Spawn player to the left of Enemy and set it as target. updateMoveDirection() is not called so moveDirection should be null.
@@ -73,7 +73,7 @@ public class TestMovementAI {
 
     @Test
     public void testMoveTowardsTarget() {
-        TestingUtilities.clearAllEntities();
+        FXGLTest.clearAllEntities();
         init();
 
         // Spawn player to the left of Enemy and set it as target. Update moveDirection and start moving.
@@ -104,7 +104,7 @@ public class TestMovementAI {
         double moveSpeed;
 
         // ------ IF (jump up to platform from the ground) ------ //:
-        TestingUtilities.clearAllEntities();
+        FXGLTest.clearAllEntities();
         init();
         tempPlayer.getComponent(PlayerComponent.class).setOnGround(false);                        // Set player onGround to false.
         tempPlayer.setY(-100);                                                                    // Set player Y-position to above enemy.
@@ -133,7 +133,7 @@ public class TestMovementAI {
 
 
         // ------ IF (going to fall) ------ //:
-        TestingUtilities.clearAllEntities();
+        FXGLTest.clearAllEntities();
         init();
         enemyComponent.setAirborne(false);
 
@@ -166,7 +166,7 @@ public class TestMovementAI {
 
 
         // ------ IF (hit a block or platform) ------ //:
-        TestingUtilities.clearAllEntities();
+        FXGLTest.clearAllEntities();
         init();
         spawn("testingPlatform", enemy.getWidth() + 10, enemy.getY());      // Spawn platform to the right of Enemy.
 
@@ -187,7 +187,7 @@ public class TestMovementAI {
 
 
         // ------ IF !jumpAllowed ------ //:
-        TestingUtilities.clearAllEntities();
+        FXGLTest.clearAllEntities();
         init();
         enemyAIComponent.getMovementAI().setJumpAllowed(false);
         assertEquals(0, Math.round(enemyComponent.getPhysics().getVelocityY()));
@@ -196,7 +196,7 @@ public class TestMovementAI {
 
     @Test
     public void testFloatingPlatformMovement() {
-        TestingUtilities.clearAllEntities();
+        FXGLTest.clearAllEntities();
         init();
         enemyAIComponent.onUpdate(1);
 
@@ -218,7 +218,7 @@ public class TestMovementAI {
         enemyAIComponent.getMovementAI().floatingPlatformMovement();
         assertEquals(platform, enemyAIComponent.getPlatformAI().getClosestPlatform());
 
-        TestingUtilities.clearAllEntities();
+        FXGLTest.clearAllEntities();
         init();
 
         // ---- else ---- //:

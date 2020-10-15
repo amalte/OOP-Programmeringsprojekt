@@ -3,7 +3,7 @@ package edu.chalmers.model.enemy;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.test.RunWithFX;
-import edu.chalmers.TestingUtilities;
+import edu.chalmers.FXGLTest;
 import edu.chalmers.model.EntityType;
 import edu.chalmers.model.PlayerComponent;
 import edu.chalmers.model.SetupWorld;
@@ -94,7 +94,7 @@ public class TestEnemyComponent {
 
     @Test
     public void testCheckHealth(){
-        TestingUtilities.clearAllEntities();
+        FXGLTest.clearAllEntities();
         init();
 
         enemyComponent.inflictDamage(enemyComponent.getHealth());        // Inflict the enemy's health as damage (health then = 0).
