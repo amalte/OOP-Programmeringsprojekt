@@ -66,7 +66,7 @@ public class MenuController<T extends SubScene> {
     /**
      * @return The instance of the view.
      */
-    public T getViewInstance()
+    public final T getViewInstance()
     {
         return this.viewInstance;
     }
@@ -74,7 +74,7 @@ public class MenuController<T extends SubScene> {
     /**
      * @return The menu type of the view.
      */
-    public GameMenuType getGameMenuType() {
+    public final GameMenuType getGameMenuType() {
         return this.gameMenuType;
     }
 
@@ -104,7 +104,7 @@ public class MenuController<T extends SubScene> {
     /**
      * @return Whether or not the view, associated with this controller, is visible.
      */
-    public Boolean isVisible()
+    public final Boolean isVisible()
     {
         return this.visible;
     }
@@ -112,7 +112,7 @@ public class MenuController<T extends SubScene> {
     /**
      * @return The CountDownLatch for the visibility of the view associated with this controller.
      */
-    public CountDownLatch getVisibleLatch()
+    public final CountDownLatch getVisibleLatch()
     {
         return this.visibleLatch.get();
     }
