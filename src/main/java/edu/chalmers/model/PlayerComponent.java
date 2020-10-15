@@ -23,8 +23,8 @@ public class PlayerComponent extends Component {
     private boolean testing = false; //Boolean used for testing
 
     //Stats
-    private int health = 100;
-    private int maxHealth = health;
+    private int maxHealth = 100;
+    private int health = maxHealth;
     private int moveSpeed = 175;
     private int jumpHeight = 400;
     private final int AMOUNT_OF_JUMPS = 1;
