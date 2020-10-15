@@ -50,6 +50,7 @@ public class GenericPlatformer {
             this.waveManager.stopWaveTimer();
 
         getGameWorld().getEntitiesCopy().forEach(Entity::removeFromWorld);
+        getGameWorld().removeEntities(getGameWorld().getEntities());
 
         if (this.gameWorldFactory != null)
             getGameWorld().removeEntityFactory(this.gameWorldFactory);
