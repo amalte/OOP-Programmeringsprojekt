@@ -97,12 +97,26 @@ public class Main extends GameApplication {
             {
                 if (this.controllerList.isEmpty())
                 {
-                    this.controllerList.add(new MainMenuController(new MainMenu(), this));
-                    this.controllerList.add(new SettingsMenuController(new SettingsMenu(), this));
-                    this.controllerList.add(new PlayMenuController(new PlayMenu(), this));
-                    this.controllerList.add(new ExitMenuController(new ExitMenu(), this));
+                    MainMenuController mainMenuController = new MainMenuController(new MainMenu(), this);
 
-                    getController(GameMenuType.Main).show();
+                    SettingsMenuController settingsMenuController = new SettingsMenuController(new SettingsMenu(), this);
+                    settingsMenuController.setMainMenuController(mainMenuController);
+
+                    PlayMenuController playMenuController = new PlayMenuController(new PlayMenu(), this);
+                    playMenuController.setMainMenuController(mainMenuController);
+
+                    mainMenuController.setPlayMenuController(playMenuController);
+                    mainMenuController.setSettingsMenuController(settingsMenuController);
+
+                    ExitMenuController exitMenuController = new ExitMenuController(new ExitMenu(), this);
+                    exitMenuController.setInputController(inputController);
+
+                    this.controllerList.add(mainMenuController);
+                    this.controllerList.add(settingsMenuController);
+                    this.controllerList.add(playMenuController);
+                    this.controllerList.add(exitMenuController);
+
+                    mainMenuController.show();
                 }
             }
 

@@ -12,6 +12,8 @@ import static com.almasb.fxgl.dsl.FXGL.getGameScene;
  * The controller for the play menu view.
  */
 public class PlayMenuController extends MenuController<PlayMenu> {
+    private MainMenuController mainMenuController;
+
     /**
      * Default constructor for PlayMenuController.
      *
@@ -35,19 +37,30 @@ public class PlayMenuController extends MenuController<PlayMenu> {
             {
                 getGameScene().getRoot().getScene().setOnKeyPressed(keyEvent2 -> { });
                 this.hide();
-                this.mainInstance.getController(GameMenuType.Main).show();
+
+                if (this.mainMenuController != null)
+                    this.mainMenuController.show();
             }
         });
 
-        viewInstance.getLevel1Button().setOnMousePressed(mouseEvent -> selectLevel(1));
-        viewInstance.getLevel2Button().setOnMousePressed(mouseEvent -> selectLevel(2));
-        viewInstance.getLevel3Button().setOnMousePressed(mouseEvent -> selectLevel(3));
+        getViewInstance().getLevel1Button().setOnMousePressed(mouseEvent -> selectLevel(1));
+        getViewInstance().getLevel2Button().setOnMousePressed(mouseEvent -> selectLevel(2));
+        getViewInstance().getLevel3Button().setOnMousePressed(mouseEvent -> selectLevel(3));
     }
 
     private void selectLevel(int levelIndex)
     {
         getGameScene().getRoot().getScene().setOnKeyPressed(keyEvent -> {});
         this.hide();
-        this.mainInstance.startGame(levelIndex);
+        getMainInstance().startGame(levelIndex);
+    }
+
+    /**
+     * Set the instance of MainMenuController.
+     * @param mainMenuController An instance of the MainMenuController
+     */
+    public void setMainMenuController(MainMenuController mainMenuController)
+    {
+        this.mainMenuController = mainMenuController;
     }
 }

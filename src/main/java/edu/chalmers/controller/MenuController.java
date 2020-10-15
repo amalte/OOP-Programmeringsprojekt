@@ -14,18 +14,8 @@ import static com.almasb.fxgl.dsl.FXGL.getSceneService;
  * @param <T> Any class that extends SubScene. Class has to implement IMenu for nodes to be created.
  */
 public class MenuController<T extends SubScene> {
-    private final AtomicReference<CountDownLatch> visibleLatch = new AtomicReference<CountDownLatch>();
-
-    /**
-     * The instance of the SubScene class that the controller is associated with.
-     */
-    protected T viewInstance;
-
-    /**
-     * The instance of the Main class that the controller is associated with.
-     */
-    protected Main mainInstance;
-
+    private Main mainInstance;
+    private T viewInstance;
     private GameMenuType gameMenuType;
     private Boolean nodesCreated = false;
     private volatile Boolean visible = false;
@@ -42,8 +32,6 @@ public class MenuController<T extends SubScene> {
         this.viewInstance = viewInstance;
         this.mainInstance = mainInstance;
         this.gameMenuType = gameMenuType;
-
-        this.visibleLatch.set(new CountDownLatch(1));
     }
 
     /**
@@ -57,6 +45,11 @@ public class MenuController<T extends SubScene> {
             nodesCreated = true;
         }
     }
+
+    /**
+     * @return The main instance associated with this controller.
+     */
+    public Main getMainInstance() { return this.mainInstance; }
 
     /**
      * @return The instance of the view.
@@ -83,7 +76,6 @@ public class MenuController<T extends SubScene> {
         getSceneService().pushSubScene(viewInstance);
 
         this.visible = true;
-        this.visibleLatch.get().countDown();
     }
 
     /**
@@ -93,7 +85,6 @@ public class MenuController<T extends SubScene> {
         getSceneService().popSubScene();
 
         this.visible = false;
-        this.visibleLatch.set(new CountDownLatch(1));
     }
 
     /**
@@ -102,13 +93,5 @@ public class MenuController<T extends SubScene> {
     public final Boolean isVisible()
     {
         return this.visible;
-    }
-
-    /**
-     * @return The CountDownLatch for the visibility of the view associated with this controller.
-     */
-    public final CountDownLatch getVisibleLatch()
-    {
-        return this.visibleLatch.get();
     }
 }

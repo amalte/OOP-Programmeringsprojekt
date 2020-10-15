@@ -19,6 +19,7 @@ import static com.almasb.fxgl.dsl.FXGL.getInput;
  */
 public class SettingsMenuController extends MenuController<SettingsMenu> {
     private ActionButton activatedButton;
+    private MainMenuController mainMenuController;
 
     /**
      * Default constructor for SettingsMenuController.
@@ -43,16 +44,16 @@ public class SettingsMenuController extends MenuController<SettingsMenu> {
                 this.returnToMain();
         });
 
-        viewInstance.getControlJumpButton().setOnMousePressed(mouseEvent -> handleControlButtonPress((ActionButton)mouseEvent.getSource()));
-        viewInstance.getControlWalkLeftButton().setOnMousePressed(mouseEvent -> handleControlButtonPress((ActionButton)mouseEvent.getSource()));
-        viewInstance.getControlWalkRightButton().setOnMousePressed(mouseEvent -> handleControlButtonPress((ActionButton)mouseEvent.getSource()));
-        viewInstance.getControlReloadButton().setOnMousePressed(mouseEvent -> handleControlButtonPress((ActionButton)mouseEvent.getSource()));
+        getViewInstance().getControlJumpButton().setOnMousePressed(mouseEvent -> handleControlButtonPress((ActionButton)mouseEvent.getSource()));
+        getViewInstance().getControlWalkLeftButton().setOnMousePressed(mouseEvent -> handleControlButtonPress((ActionButton)mouseEvent.getSource()));
+        getViewInstance().getControlWalkRightButton().setOnMousePressed(mouseEvent -> handleControlButtonPress((ActionButton)mouseEvent.getSource()));
+        getViewInstance().getControlReloadButton().setOnMousePressed(mouseEvent -> handleControlButtonPress((ActionButton)mouseEvent.getSource()));
 
-        viewInstance.getControlFirstWeaponButton().setOnMousePressed(mouseEvent -> handleControlButtonPress((ActionButton)mouseEvent.getSource()));
-        viewInstance.getControlSecondWeaponButton().setOnMousePressed(mouseEvent -> handleControlButtonPress((ActionButton)mouseEvent.getSource()));
-        viewInstance.getControlThirdWeaponButton().setOnMousePressed(mouseEvent -> handleControlButtonPress((ActionButton)mouseEvent.getSource()));
+        getViewInstance().getControlFirstWeaponButton().setOnMousePressed(mouseEvent -> handleControlButtonPress((ActionButton)mouseEvent.getSource()));
+        getViewInstance().getControlSecondWeaponButton().setOnMousePressed(mouseEvent -> handleControlButtonPress((ActionButton)mouseEvent.getSource()));
+        getViewInstance().getControlThirdWeaponButton().setOnMousePressed(mouseEvent -> handleControlButtonPress((ActionButton)mouseEvent.getSource()));
 
-        viewInstance.getBackButton().setOnMousePressed(mouseEvent -> returnToMain());
+        getViewInstance().getBackButton().setOnMousePressed(mouseEvent -> returnToMain());
     }
 
     private void returnToMain()
@@ -60,7 +61,18 @@ public class SettingsMenuController extends MenuController<SettingsMenu> {
         getGameScene().getRoot().getScene().setOnKeyPressed(keyEvent -> { });
         this.restoreActivatedButton();
         this.hide();
-        this.mainInstance.getController(GameMenuType.Main).show();
+
+        if (this.mainMenuController != null)
+            this.mainMenuController.show();
+    }
+
+    /**
+     * Set the instance of MainMenuController.
+     * @param mainMenuController An instance of the MainMenuController
+     */
+    public void setMainMenuController(MainMenuController mainMenuController)
+    {
+        this.mainMenuController = mainMenuController;
     }
 
     private void restoreActivatedButton()
@@ -70,7 +82,7 @@ public class SettingsMenuController extends MenuController<SettingsMenu> {
             synchronized (this.activatedButton)
             {
                 String tag = activatedButton.getTag();
-                String keyDescription = this.viewInstance.resolveKeyDescription(tag);
+                String keyDescription = getViewInstance().resolveKeyDescription(tag);
 
                 KeyCode oldKeyCode = KeyCode.getKeyCode(InputController.getInputInstance().getTriggerName(keyDescription));
 
@@ -101,7 +113,7 @@ public class SettingsMenuController extends MenuController<SettingsMenu> {
             synchronized (this.activatedButton)
             {
                 String tag = this.activatedButton.getTag();
-                String keyDescription = this.viewInstance.resolveKeyDescription(tag);
+                String keyDescription = getViewInstance().resolveKeyDescription(tag);
                 KeyCode oldKeyCode = KeyCode.getKeyCode(InputController.getInputInstance().getTriggerName(keyDescription));
 
                 if (oldKeyCode != newKeyCode)
