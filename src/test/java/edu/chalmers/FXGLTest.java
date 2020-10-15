@@ -43,7 +43,7 @@ public final class FXGLTest {
     {
         if (mainInstance != null)
         {
-            waitForRunLater (getGameController()::exit);
+            waitForRunLater(mainInstance::shutdown);
             mainInstance = null;
         }
     }
@@ -53,6 +53,8 @@ public final class FXGLTest {
         runLaterLatch.set(new CountDownLatch(1));
 
         Platform.runLater(() ->{
+            assertTrue(Platform.isFxApplicationThread());
+
             runnable.run();
             runLaterLatch.get().countDown();
         });
