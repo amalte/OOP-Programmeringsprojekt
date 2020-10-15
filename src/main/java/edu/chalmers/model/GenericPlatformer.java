@@ -91,6 +91,14 @@ public class GenericPlatformer {
     }
 
     /**
+     * Get method for collisionDetection
+     * @return collisionDetection
+     */
+    public CollisionDetection getCollisionDetection() {
+        return collisionDetection;
+    }
+
+    /**
      * Creates a player at position 0,0.
      */
     private void createPlayer() {
