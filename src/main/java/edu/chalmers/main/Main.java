@@ -189,6 +189,7 @@ public class Main extends GameApplication {
     {
         this.gameUI = new GameUI(game);
         this.gameUI.setNodes();
+        game.getCollisionDetection().addObserver(gameUI);
 
         this.buildView = new BuildView();
         this.buildView.buildStateSelected();

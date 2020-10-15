@@ -2,12 +2,16 @@ package edu.chalmers.view.game;
 
 import com.almasb.fxgl.dsl.FXGL;
 import edu.chalmers.model.GenericPlatformer;
+import edu.chalmers.model.IObserver;
 import edu.chalmers.utilities.Constants;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.*;
 
-public class GameUI {
+/**
+ * View that creates all the nodes needed for showing game information to the user.
+ */
+public class GameUI implements IObserver {
 
     private GenericPlatformer game;
 
@@ -58,7 +62,7 @@ public class GameUI {
         return amountOfAmmoText;
     }
 
-    public Text drawActiveWeapon(){
+    private Text drawActiveWeapon(){
         activeWeaponText = new Text(10, 70, "");
         activeWeaponText.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 24));
         activeWeaponText.setFill(Color.LIMEGREEN);
@@ -67,10 +71,16 @@ public class GameUI {
         return activeWeaponText;
     }
 
+    /**
+     * Updates activeWeaponText to be equal to the name of the players selected weapon.
+     */
     public void updateActiveWeapon(){
         activeWeaponText.setText("Weapon: " + game.getPlayerComponent().getActiveWeapon().getWeaponType().getName());
     }
 
+    /**
+     * Updates amountOfAmmoText to be equal to the magazine of the players selected weapon.
+     */
     public void updateAmmunition(){
         amountOfAmmoText.setText("Ammunition: " + game.getPlayerComponent().getActiveWeapon().getMagazineCounter());
     }
@@ -94,4 +104,13 @@ public class GameUI {
         FXGL.getGameScene().addUINodes(drawWaveText(1), drawHealthBar(), drawBackgroundHealthBar(), drawAmountOfAmmoText(), drawActiveWeapon());
     }
 
+    /**
+     * Updates all the views nodes.
+     */
+    @Override
+    public void update() {
+        updateHealth();
+        updateActiveWeapon();
+        updateAmmunition();
+    }
 }
