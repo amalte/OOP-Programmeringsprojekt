@@ -12,8 +12,6 @@ import edu.chalmers.controller.main.PlayMenuController;
 import edu.chalmers.controller.main.SettingsMenuController;
 import edu.chalmers.model.GenericPlatformer;
 import edu.chalmers.utilities.Constants;
-import edu.chalmers.utilities.CoordsCalculations;
-import edu.chalmers.utilities.EntityPos;
 import edu.chalmers.view.game.BuildView;
 import edu.chalmers.view.game.GameUI;
 import edu.chalmers.view.game.ExitMenu;
@@ -45,6 +43,7 @@ public class Main extends GameApplication {
     private BuildView buildView;
     private GameUI gameUI;
     private Boolean gameRunning = false;
+    private Boolean gameShutdown = false;
 
     /**
      * Main method. Called when running the program.
@@ -61,6 +60,9 @@ public class Main extends GameApplication {
      */
     @Override
     protected void initSettings(GameSettings gameSettings) {
+        this.gameRunning = false;
+        this.gameShutdown = false;
+
         gameSettings.setPreserveResizeRatio(true);
         gameSettings.setManualResizeEnabled(false);
         gameSettings.setFullScreenAllowed(true);
@@ -133,6 +135,16 @@ public class Main extends GameApplication {
         buildUIController.updateBuildTileUI();   // Constantly update the build UI overlay
     }
 
+    /**
+     * Shuts the game down.
+     */
+    public void shutdown() {
+        this.gameRunning = false;
+        this.gameShutdown = true;
+
+        getGameController().exit();
+    }
+
     private void createBackground()
     {
         if (this.backgroundPane == null)
@@ -177,7 +189,7 @@ public class Main extends GameApplication {
      */
     public void startGame(int levelIndex)
     {
-        if (!this.isGameRunning())
+        if (!this.getGameRunning())
         {
             game.remove();
             game.initializeGame("level" + levelIndex + ".tmx");
@@ -198,7 +210,7 @@ public class Main extends GameApplication {
      */
     public void stopGame()
     {
-        if (this.isGameRunning())
+        if (this.getGameRunning())
         {
             this.showBackground();
             getController(GameMenuType.Exit).hide();
@@ -210,7 +222,7 @@ public class Main extends GameApplication {
     /**
      * @return Whether or not the game is running.
      */
-    public Boolean isGameRunning()
+    public Boolean getGameRunning()
     {
         return this.gameRunning;
     }
@@ -245,6 +257,11 @@ public class Main extends GameApplication {
      * @return The instance of the InputController class associated with our Main class.
      */
     public InputController getInputController() { return this.inputController; }
+
+    /**
+     * @return Whether or not the game has been shutdown through the shutdown() method.
+     */
+    public Boolean getGameShutdown() { return this.gameShutdown; }
 
     /**
      * Set the initializedLatch for Main.

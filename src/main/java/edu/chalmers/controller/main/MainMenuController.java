@@ -49,7 +49,7 @@ public class MainMenuController extends MenuController<MainMenu> {
         });
 
         getViewInstance().getExitButton().setOnMousePressed(mouseEvent -> {
-            getGameController().exit();
+            getMainInstance().shutdown();
         });
     }
 
