@@ -97,7 +97,7 @@ public class TestEnemyComponent {
         TestingUtilities.clearAllEntities();
         init();
 
-        enemyComponent.inflictDamage(enemyComponent.getHealth());        // Inflict the players health as damage (health then = 0).
+        enemyComponent.inflictDamage(enemyComponent.getHealth());        // Inflict the enemy's health as damage (health then = 0).
         assertEquals(0, getGameWorld().getEntitiesByType(EntityType.ENEMY).size());     // Enemy should have died and no Enemy entities in the world should exist.
     }
 
@@ -246,43 +246,6 @@ public class TestEnemyComponent {
 
 
     // -------- SETTERS -------- //
-
-    // Should these be tested?
-    /*
-    @Test
-    public void testSetOnGround() {
-        init();
-
-
-        //assertEquals();
-    }
-
-    @Test
-    public void testSetAirborne() {
-        init();
-
-        assertEquals();
-    }
-    */
-    //
-
-
-    // Methods not used.
-    /*
-    @Test
-    public void testSetHealthMultiplier() {
-        init();
-
-        assertEquals();
-    }
-
-    @Test
-    public void testSetDamageMultiplier() {
-        init();
-
-        assertEquals();
-    }
-    */
 
     @Test
     public void testSetMoveSpeedMultiplier() {

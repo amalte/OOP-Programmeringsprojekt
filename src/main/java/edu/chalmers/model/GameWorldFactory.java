@@ -9,6 +9,7 @@ import com.almasb.fxgl.entity.components.CollidableComponent;
 import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.physics.PhysicsComponent;
+import javafx.scene.shape.Rectangle;
 
 public class GameWorldFactory implements EntityFactory {
 
@@ -57,6 +58,17 @@ public class GameWorldFactory implements EntityFactory {
     public Entity newPlayerSpawnPoint(SpawnData spawnData){
         return FXGL.entityBuilder()
                 .type(EntityType.PLAYERSPAWNPOINT)
+                .build();
+    }
+
+    @Spawns("testingPlatform")
+    public Entity newTestingPlatform(SpawnData spawnData) {
+        return FXGL.entityBuilder()
+                .type(EntityType.PLATFORM)
+                .at(spawnData.getX(), spawnData.getY())
+                .viewWithBBox(new Rectangle(60, 60))
+                .with(new CollidableComponent(true))
+                .with(new PhysicsComponent())
                 .build();
     }
 }

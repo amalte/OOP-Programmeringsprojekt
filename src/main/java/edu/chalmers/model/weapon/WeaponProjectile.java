@@ -22,7 +22,7 @@ public class WeaponProjectile {
     private Point2D centerPlayerPoint;
     private Point2D mousePoint;
     private int projectileSpeed;
-    private int shooterSizeOffsetToCenter = 22;
+    private int shooterSizeOffsetToCenter = 29;
     private float projectileSizeW = 5;
     private float projectileSizeH = 5;
     private Double shootingAngle;
@@ -69,8 +69,8 @@ public class WeaponProjectile {
      * @param shootingAngle The angle between center of player and the mouse pointer
      */
     private void moveProjectileOutsidePlayerHitbox(double shootingAngle) {
-        double spawnPointX = Math.cos(shootingAngle)*35+(centerPlayerPoint.getX())-(projectileSizeW/2);
-        double spawnPointY = Math.sin(shootingAngle)*35+(centerPlayerPoint.getY())-(projectileSizeH/2);
+        double spawnPointX = Math.cos(shootingAngle)*(shooterSizeOffsetToCenter+15)+(centerPlayerPoint.getX())-(projectileSizeW/2);
+        double spawnPointY = Math.sin(shootingAngle)*(shooterSizeOffsetToCenter+15)+(centerPlayerPoint.getY())-(projectileSizeH/2);
         Point2D spawnPoint = new Point2D(spawnPointX,spawnPointY);
         physics.overwritePosition(spawnPoint);
     }
@@ -80,8 +80,6 @@ public class WeaponProjectile {
      * @return Angle between center of player and the mouse pointer
      */
     private double calculateAngle() {
-
         return Point2DCalculations.getAngle(centerPlayerPoint, mousePoint);
-
     }
 }

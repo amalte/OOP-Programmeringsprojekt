@@ -10,15 +10,16 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 /**
- * Utils for usage in the main views.
+ * Utility methods for use in views.
  */
 public class ViewUtil {
     /**
      * Perform validation on a Node and then add it to the content root of this menu.
+     * @param subScene The sub scene to add this node to
      * @param node Node to be added
      * @param x X-coordinate of the Node
      * @param y Y-coordinate of the Node
-     * @return The node that was added to the menu
+     * @return The node that was added to the menu.
      */
     public static <T extends Node> T addNode(SubScene subScene, T node, double x, double y)
     {
@@ -45,40 +46,28 @@ public class ViewUtil {
      * Create an action button.
      * @param text The text of the action button
      * @param action The associated action for the action button
-     * @return The action button that was created
+     * @return The action button that was created.
      */
     public static ActionButton createActionButton(String text, Runnable action)
     {
         return new ActionButton(text, action);
     }
 
+    /**
+     * Create an action button, with a background image.
+     * @param text The text of the action button
+     * @param action The associated action for the action button
+     * @param backgroundPath The path to a background image.
+     * @return The action button that was created
+     */
     public static ActionButton createActionButton(String text, Runnable action, String backgroundPath)
     {
         return new ActionButton(text, action, backgroundPath);
     }
 
-
-    /**
-     * Create a slider with some preset values.
-     * @param min The minimum value of this slider
-     * @param max The maximum value of this slider
-     * @param startValue The start value of this slider
-     * @return The slider that was created
-     */
-    public static Slider createSlider(int min, int max, int startValue)
-    {
-        Slider slider = new Slider(min, max, startValue);
-        slider.setShowTickLabels(true);
-        slider.setShowTickMarks(true);
-        slider.setMajorTickUnit(max / 2.0);
-        slider.setMinorTickCount(max / 4);
-
-        return slider;
-    }
-
     /**
      * Get the background node for the application.
-     * @return ImageView loaded with an image from /assets/background.png
+     * @return ImageView loaded with an image from /assets/background.png.
      */
     public static Node getBackgroundNode()
     {

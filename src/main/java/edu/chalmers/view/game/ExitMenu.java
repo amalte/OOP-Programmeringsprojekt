@@ -13,12 +13,12 @@ import javafx.scene.text.Text;
 import static edu.chalmers.view.util.ViewUtil.addNode;
 import static edu.chalmers.view.util.ViewUtil.createActionButton;
 
+/**
+ * The exit menu.
+ */
 public class ExitMenu extends SubScene implements IMenu {
-
     private Text titleText;
-
     private Node exitButton;
-
     private AnchorPane backgroundPane;
 
     /**
@@ -49,11 +49,17 @@ public class ExitMenu extends SubScene implements IMenu {
                 (FXGL.getAppHeight() / 2.5) - (ActionButton.BUTTON_HEIGHT / 2.0) + (0.0 * (ActionButton.BUTTON_HEIGHT / 4.0)));
     }
 
+    /**
+     * @return The title of this view.
+     */
     @Override
     public String getTitle() {
         return "Game Paused";
     }
 
+    /**
+     * @return The exit button.
+     */
     public Node getExitButton()
     {
         return this.exitButton;

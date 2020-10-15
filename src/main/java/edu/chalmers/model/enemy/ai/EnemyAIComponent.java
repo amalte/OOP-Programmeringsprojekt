@@ -2,6 +2,7 @@ package edu.chalmers.model.enemy.ai;
 
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.component.Component;
+import com.almasb.fxgl.physics.PhysicsComponent;
 import edu.chalmers.model.EntityType;
 import edu.chalmers.model.PlayerComponent;
 import edu.chalmers.model.enemy.EnemyComponent;
@@ -17,9 +18,10 @@ public class EnemyAIComponent extends Component {
 
     private EnemyComponent thisEnemy;
     private Entity player;
-    MovementAI movementAI;
-    RaycastAI raycastAI;
-    PlatformAI platformAI;
+    private MovementAI movementAI;
+    private RaycastAI raycastAI;
+    private PlatformAI platformAI;
+    private StatImprovementAI statImprovementAI;
 
     private boolean pathfindingOverride = false;
     private boolean playerReached = false;
@@ -32,34 +34,43 @@ public class EnemyAIComponent extends Component {
         movementAI = new MovementAI(this);
         raycastAI = new RaycastAI(this);
         platformAI = new PlatformAI(this);
+        statImprovementAI = new StatImprovementAI(this);
 
         target = player;
+
+        if(!this.player.hasComponent(PlayerComponent.class)) {
+            this.thisEnemy.die();
+            this.thisEnemy.getEntity().removeComponent(EnemyAIComponent.class);
+        }
     }
 
     @Override
     public void onAdded() {
-        platformAI.setPlatforms();
+        platformAI.updatePlatforms();
     }
 
     @Override
     public void onUpdate(double tpf) {
-        if (getPlayerComponent() == null)
-            return;
 
-        movementAI.setMoveDirection();
-        raycastAI.setRaycastsDirection();
+        // Reset move speed and jump height if Enemy is touching solid ground.
+        if(!thisEnemy.isAirborne()) {
+            statImprovementAI.resetSpeedAndJump();
+        }
+
+        movementAI.updateMoveDirection();
+        raycastAI.updateRaycastsDirection();
 
         // Check most recent platform the player was in contact with
         if(!getPlayerComponent().isAirborne()) {
             getPlatformAI().playerRecentPlatformContactCheck();
         }
-
+        
         // Move towards Player if pathfinding haven't been overridden.
         if (!pathfindingOverride) {
             movementAI.moveTowardsTarget();
         }
 
-        enemyAboveOrBelowFix();        // Must be before doJump() and multiplier reset.
+        enemyAboveOrBelowFix();        // Must be before doJump() (and multiplier reset?).
         movementAI.doJump();
         setPlayerReached();             // Must be after movement code.
         movementAI.enemyStuckUnderPlatformFix();
@@ -70,12 +81,6 @@ public class EnemyAIComponent extends Component {
         }
 
         //movementAI.followPlayerDown();
-
-        // Reset move speed and jump height if Enemy is touching solid ground.
-        if(!thisEnemy.isAirborne()) {
-            thisEnemy.setMoveSpeedMultiplier(1);
-            thisEnemy.setJumpHeightMultiplier(1);
-        }
     }
 
     /**
@@ -154,6 +159,14 @@ public class EnemyAIComponent extends Component {
     }
 
     /**
+     * Getter for statImprovementAI variable.
+     * @return statImprovementAI.
+     */
+    public StatImprovementAI getStatImprovementAI() {
+        return statImprovementAI;
+    }
+
+    /**
      * Getter for thisEnemy variable.
      * @return thisEnemy.
      */
@@ -174,10 +187,12 @@ public class EnemyAIComponent extends Component {
      * @return player.
      */
     public PlayerComponent getPlayerComponent() {
-        if (getPlayer().hasComponent(PlayerComponent.class))
-            return player.getComponent(PlayerComponent.class);
+        // TODO - Attach a PlayerComponent to player if it doesn't have one (shouldn't happen, weird bug).
+        if(!player.hasComponent(PlayerComponent.class)) {
+            player.addComponent(new PlayerComponent(new PhysicsComponent()));
+        }
 
-        return null;
+        return player.getComponent(PlayerComponent.class);
     }
 
     /**
@@ -228,7 +243,10 @@ public class EnemyAIComponent extends Component {
      * @return True or false.
      */
     public boolean isEntityToLeft(Entity entity) {
-        return EntityPos.getMiddleX(entity) - EntityPos.getMiddleX(thisEnemy.getEntity()) < 0;
+        //System.out.println("1.  TO LEFT");
+        //return Math.round(EntityPos.getMiddleX(entity) - EntityPos.getMiddleX(thisEnemy.getEntity())) < 0;
+        return Math.round(EntityPos.getMiddleX(entity) - thisEnemy.getX()) < 0;
+
     }
 
     /**
@@ -236,7 +254,9 @@ public class EnemyAIComponent extends Component {
      * @return True or false.
      */
     public boolean isEntityToRight(Entity entity) {
-        return EntityPos.getMiddleX(entity) - EntityPos.getMiddleX(thisEnemy.getEntity()) > 0;
+        //System.out.println("2.  TO     RIGHT");
+        //return Math.round(EntityPos.getMiddleX(entity) - EntityPos.getMiddleX(thisEnemy.getEntity())) > 0;
+        return Math.round(EntityPos.getMiddleX(entity) - thisEnemy.getRightX()) > 0;
     }
 
     /**

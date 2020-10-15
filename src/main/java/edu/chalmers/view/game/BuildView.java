@@ -1,4 +1,4 @@
-package edu.chalmers.view;
+package edu.chalmers.view.game;
 
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.texture.Texture;

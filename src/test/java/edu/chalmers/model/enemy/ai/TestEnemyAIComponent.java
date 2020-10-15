@@ -2,6 +2,7 @@ package edu.chalmers.model.enemy.ai;
 
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.SpawnData;
+import com.almasb.fxgl.test.RunWithFX;
 import edu.chalmers.TestingUtilities;
 import edu.chalmers.model.SetupWorld;
 import edu.chalmers.model.enemy.EnemyComponent;
@@ -9,10 +10,12 @@ import edu.chalmers.model.enemy.EnemyFactory;
 import edu.chalmers.model.enemy.StatMultiplier;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@ExtendWith(RunWithFX.class)
 public class TestEnemyAIComponent {
 
     private Entity enemy;
@@ -39,8 +42,6 @@ public class TestEnemyAIComponent {
 
         // +1 so raycast works. Level enemy with platform.
         enemy.setY(-(enemy.getHeight() + 1));
-
-        enemyAIComponent.onUpdate(1);
     }
 
     @Test
@@ -107,8 +108,8 @@ public class TestEnemyAIComponent {
 
         assertEquals(false, enemyAIComponent.isEntityToLeft(player));
 
-        // Set player position to the left.
-        player.setX(-10);
+        // Set player middle X-position to be slightly to the left of Enemy.
+        player.setX(-(player.getWidth() / 2 + 1));
 
         assertEquals(true, enemyAIComponent.isEntityToLeft(player));
     }
@@ -125,8 +126,8 @@ public class TestEnemyAIComponent {
 
         assertEquals(false, enemyAIComponent.isEntityToRight(player));
 
-        // Set player position to the right.
-        player.setX(10);
+        // Set player middle X-position to be exactly to the right of Enemy.
+        player.setX(enemy.getRightX() + player.getWidth() / 2);
 
         assertEquals(true, enemyAIComponent.isEntityToRight(player));
     }
