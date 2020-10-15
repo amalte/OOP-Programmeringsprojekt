@@ -95,12 +95,9 @@ public class Main extends GameApplication {
                 controllerList.add(new PlayMenuController(new PlayMenu(), this));
                 controllerList.add(new ExitMenuController(new ExitMenu(), this));
 
-                this.controllersInitialized = true;
-            }
-
-            if (!this.isGameRunning())
-            {
                 getController(GameMenuType.Main).show();
+
+                this.controllersInitialized = true;
             }
         }, Duration.seconds(0.5));
     }
