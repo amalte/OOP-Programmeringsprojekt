@@ -19,21 +19,23 @@ public class GameUI implements IObserver {
         this.game = game;
     }
 
-    private final double healthBarMaxWidth = 200;
+    private final double healthBarMaxWidth = 400;
     private final double healthBarMaxHeight = 30;
     private Rectangle healthBar;
     private Text amountOfAmmoText;
     private Text activeWeaponText;
+    private Text currentWaveText;
+    private Text reloadingText;
 
-    private Text drawWaveText(int CurrentWave) {
-        Text currentWaveText = new Text();
+    private Text drawWaveText() {
+        currentWaveText = new Text();
         currentWaveText.setY(50);
         currentWaveText.setX(Constants.GAME_WIDTH/2 - 150);
-        currentWaveText.setText("Current Wave:" + CurrentWave);
         currentWaveText.setTextAlignment(TextAlignment.LEFT);
         currentWaveText.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 36));
         currentWaveText.setFill(Color.TOMATO);
         currentWaveText.setStroke(Color.BLACK);
+        updateWaveCounter();
         return currentWaveText;
     }
 
@@ -62,13 +64,22 @@ public class GameUI implements IObserver {
         return amountOfAmmoText;
     }
 
-    private Text drawActiveWeapon(){
+    private Text drawActiveWeaponText(){
         activeWeaponText = new Text(10, 70, "");
         activeWeaponText.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 24));
         activeWeaponText.setFill(Color.LIMEGREEN);
         activeWeaponText.setStroke(Color.BLACK);
         updateActiveWeapon();
         return activeWeaponText;
+    }
+
+    private Text drawReloadingText(){
+        reloadingText = new Text(10, 130, "");
+        reloadingText.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 24));
+        reloadingText.setFill(Color.LIMEGREEN);
+        reloadingText.setStroke(Color.BLACK);
+        updateReloading();
+        return reloadingText;
     }
 
     /**
@@ -82,26 +93,41 @@ public class GameUI implements IObserver {
      * Updates amountOfAmmoText to be equal to the magazine of the players selected weapon.
      */
     public void updateAmmunition(){
-        amountOfAmmoText.setText("Ammunition: " + game.getPlayerComponent().getActiveWeapon().getMagazineCounter());
+            amountOfAmmoText.setText("Ammunition: " + game.getPlayerComponent().getActiveWeapon().getMagazineCounter());
     }
 
-    public void setReloading(){
-        amountOfAmmoText.setText("Reloading");
+    /**
+     * Updates reloadingText depending on if the active weapon is being reloaded.
+     */
+    public void updateReloading(){
+        if(game.getPlayerComponent().getActiveWeapon().isReloading()) {
+            reloadingText.setText("Reloading");
+        } else {
+            reloadingText.setText("Reloaded");
+        }
     }
+
 
     /**
      * Changes width on healthBar when health is lowered.
      */
-    public void updateHealth(){
+    private void updateHealth(){
         float percentage = (float)game.getPlayerComponent().getHealth()/(float)game.getPlayerComponent().getMaxHealth(); //Possible placed in controller
         healthBar.setWidth(healthBarMaxWidth * percentage);
+    }
+
+    /**
+     * Updates currentWaveText to the number of the current wave.
+     */
+    public void updateWaveCounter(){
+        currentWaveText.setText("Current Wave: "+ game.getWaveManager().getCurrentWave());
     }
 
     /**
      * Adds all UI nodes to the game scene.
      */
     public void setNodes() {
-        FXGL.getGameScene().addUINodes(drawWaveText(1), drawHealthBar(), drawBackgroundHealthBar(), drawAmountOfAmmoText(), drawActiveWeapon());
+        FXGL.getGameScene().addUINodes(drawWaveText(), drawHealthBar(), drawBackgroundHealthBar(), drawAmountOfAmmoText(), drawActiveWeaponText(), drawReloadingText());
     }
 
     /**
@@ -112,5 +138,7 @@ public class GameUI implements IObserver {
         updateHealth();
         updateActiveWeapon();
         updateAmmunition();
+        updateWaveCounter();
+        updateReloading();
     }
 }
