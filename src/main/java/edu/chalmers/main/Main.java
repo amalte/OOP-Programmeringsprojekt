@@ -2,6 +2,8 @@ package edu.chalmers.main;
 
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
+import com.almasb.fxgl.input.Input;
+import edu.chalmers.controller.BuildUIController;
 import edu.chalmers.controller.GameMenuType;
 import edu.chalmers.controller.InputController;
 import edu.chalmers.controller.MenuController;
@@ -11,6 +13,8 @@ import edu.chalmers.controller.main.PlayMenuController;
 import edu.chalmers.controller.main.SettingsMenuController;
 import edu.chalmers.model.GenericPlatformer;
 import edu.chalmers.utilities.Constants;
+import edu.chalmers.utilities.CoordsCalculations;
+import edu.chalmers.utilities.EntityPos;
 import edu.chalmers.view.BuildView;
 import edu.chalmers.view.GameUI;
 import edu.chalmers.view.game.ExitMenu;
@@ -33,6 +37,7 @@ public class Main extends GameApplication {
 
     private GenericPlatformer game;
     private InputController inputController;
+    private BuildUIController buildUIController;
 
     private BuildView buildView;
     private GameUI gameUI;
@@ -65,6 +70,7 @@ public class Main extends GameApplication {
 
         this.initExtraViews();
         inputController.initPlayerMovementInput();
+        buildUIController = new BuildUIController(game, buildView);
 
         this.createBackground();
         this.showBackground();
@@ -88,6 +94,11 @@ public class Main extends GameApplication {
                 getController(GameMenuType.Main).show();
             }
         }, Duration.seconds(0.5));
+    }
+
+    @Override
+    protected void onUpdate(double tpf) {
+        buildUIController.updateBuildTileUI();   // Constantly update the build UI overlay
     }
 
     private void createBackground()
@@ -166,9 +177,7 @@ public class Main extends GameApplication {
         this.gameUI = new GameUI(game);
         this.gameUI.setNodes();
 
-        this.buildView = new BuildView();
-        this.buildView.buildStateSelected();
-        this.buildView.setUpTransparentTiles();
+        this.buildView = new BuildView(game.getPlayerComponent().getBuildRangeTiles());
     }
 
     public BuildView getBuildView()

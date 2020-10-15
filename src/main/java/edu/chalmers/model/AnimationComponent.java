@@ -30,7 +30,7 @@ public class AnimationComponent extends Component {
 
     @Override
     public void onUpdate(double tpf) {
-        entity.translateX(speed * tpf);
+        //entity.translateX(speed * tpf);
 
         if (speed != 0) {
 
@@ -50,12 +50,12 @@ public class AnimationComponent extends Component {
     public void moveRight() {
         speed = 150;
 
-        getEntity().setScaleX(1);
+        //getEntity().setScaleX(1);
     }
 
     public void moveLeft() {
         speed = -150;
 
-        getEntity().setScaleX(-1);
+        //getEntity().setScaleX(-1);
     }
 }

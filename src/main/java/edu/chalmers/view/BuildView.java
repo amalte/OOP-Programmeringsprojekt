@@ -13,85 +13,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BuildView {
-    Texture blockTexture;
-    Rectangle mouseRect;
 
-    Rectangle transparentRect;
-    Texture outlineTexture;
+    private List<Node> transparentRects = new ArrayList<>();
+    private Rectangle mouseRect;
 
-    List<Node> transparentRects = new ArrayList<>();
-
-    public void buildStateSelected() {
-        //FXGL.getGameScene().addUI(new UI());
-
-        blockTexture = FXGL.getAssetLoader().loadTexture("woodBlock.png");
-        blockTexture.toColor(Color.rgb(255, 0, 0, 0.1));
-        blockTexture.setTranslateX(350);
-        blockTexture.setTranslateY(800);
-
-        outlineTexture = FXGL.getAssetLoader().loadTexture("outline.png");
-        outlineTexture.setFitWidth(60);
-        outlineTexture.setFitHeight(60);
-        outlineTexture.toColor(Color.rgb(255, 255, 255, 0.1));
-
-        transparentRect = new Rectangle(60, 60);
-        transparentRect.setStroke(Color.color(0, 0, 0, 1));
-        transparentRect.setFill(Color.GRAY);
-        transparentRect.setOpacity(0.5);
-
-        mouseRect = new Rectangle(60, 60);
-        mouseRect.setOpacity(0.5);
-
-        //FXGL.getGameScene().addUINode(blockTexture);
-        FXGL.getGameScene().addUINode(mouseRect);
-        //FXGL.getGameScene().addUINode(transparentRect);
-        //FXGL.getGameScene().addUINode(outlineTexture);
+    public BuildView(int buildRange) {
+        FXGL.getGameScene().addUINodes(createTransparentTiles(buildRange));
+        FXGL.getGameScene().addUINodes(createMouseRect());
     }
 
-    public void stopFollowMouse() {
-        mouseRect.setVisible(false);
-    }
-
-    public void followMouse(Point2D mousePos, boolean possibleToPlaceBlock) {
-        mouseRect.setVisible(true);
-        //blockTexture.setTranslateX(mousePos.getX());
-        //blockTexture.setTranslateY(mousePos.getY());
-        if(possibleToPlaceBlock) {
-            mouseRect.setFill(Color.GREEN);
-        }
-        else {
-            mouseRect.setFill(Color.RED);
-        }
-        Point2D followMousePos = CoordsCalculations.posToTilePos(mousePos);
-        mouseRect.setTranslateX(followMousePos.getX());
-        mouseRect.setTranslateY(followMousePos.getY());
-
-        //transparentRect.setTranslateX(mousePos.getX());
-        //transparentRect.setTranslateY(mousePos.getY());
-
-        //outlineTexture.setTranslateX(mousePos.getX());
-        //outlineTexture.setTranslateY(mousePos.getY());
-    }
-
-    private Rectangle createTransparentRect() {
-        Rectangle transparentRect = new Rectangle(60, 60);
-        transparentRect.setStroke(Color.color(0, 0, 0, 1));
-        transparentRect.setFill(Color.GRAY);
-        transparentRect.setOpacity(0.2);
-        return transparentRect;
-    }
-
-    public void setUpTransparentTiles() {
-        int tileWidth = 3*2+1;  // should get from player: buildRangeTiles
-        int totalTiles = tileWidth*tileWidth;
-
-        for(int i = 0; i < totalTiles; i++) {
-            transparentRects.add(createTransparentRect());
-        }
-        FXGL.getGameScene().addUINodes(transparentRects.toArray(new Node[0]));
-    }
-
-    public void reachableTiles(List<Coords> reachableTiles) {
+    public void updateTileOverlay(List<Coords> reachableTiles) {
         for (Node node: transparentRects) {
             node.setVisible(false);     // Hide all since list will get updated
         }
@@ -102,5 +33,45 @@ public class BuildView {
             transparentRects.get(i).setTranslateY(reachableTilePos.getY());
             transparentRects.get(i).setVisible(true);   // Only the ones that should be seen are visible
         }
+    }
+
+    public void hideBuildUI() {
+        mouseRect.setVisible(false);
+    }
+
+    public void showBuildUI(Point2D mousePos, boolean possibleToPlaceBlock) {
+        mouseRect.setVisible(true);
+        if (possibleToPlaceBlock) {
+            mouseRect.setFill(Color.GREEN);
+        } else {
+            mouseRect.setFill(Color.RED);
+        }
+        Point2D followMousePos = CoordsCalculations.posToTilePos(mousePos);
+        mouseRect.setTranslateX(followMousePos.getX());
+        mouseRect.setTranslateY(followMousePos.getY());
+    }
+
+    private Node[] createTransparentTiles(int buildRangeTiles) {
+        int tileWidth = buildRangeTiles*2+1;
+        int totalTiles = tileWidth*tileWidth;
+
+        for(int i = 0; i < totalTiles; i++) {
+            transparentRects.add(createTransparentRect());
+        }
+        return transparentRects.toArray(new Node[0]);
+    }
+
+    private Rectangle createTransparentRect() {
+        Rectangle transparentRect = new Rectangle(60, 60);
+        transparentRect.setStroke(Color.color(0, 0, 0, 1));
+        transparentRect.setFill(Color.GRAY);
+        transparentRect.setOpacity(0.2);
+        return transparentRect;
+    }
+
+    private Rectangle createMouseRect() {
+        mouseRect = new Rectangle(60, 60);
+        mouseRect.setOpacity(0.5);
+        return mouseRect;
     }
 }

@@ -50,14 +50,12 @@ public class GameUI {
     private Text drawAmountOfAmmoText(){
         amountOfAmmoText = new Text(10,100, "");
         amountOfAmmoText.setFont(Font.font("verdana", FontWeight.MEDIUM, FontPosture.REGULAR, 24));
-        updateAmmunition();
         return amountOfAmmoText;
     }
 
     public Text drawActiveWeapon(){
         activeWeaponText = new Text(10, 70, "");
         activeWeaponText.setFont(Font.font("verdana", FontWeight.MEDIUM, FontPosture.REGULAR, 24));
-        updateActiveWeapon();
         return activeWeaponText;
     }
 

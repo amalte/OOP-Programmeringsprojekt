@@ -8,7 +8,6 @@ import edu.chalmers.model.enemy.EnemyComponent;
 import edu.chalmers.utilities.EntityPos;
 
 public class CollisionDetection {
-    private int marginPx = 10;
 
     /**
      * Handle all entity Collision that has a direct effect on either one or both of the Entities.
@@ -46,8 +45,10 @@ public class CollisionDetection {
             protected void onCollisionBegin(Entity a, Entity b) {
 
                 if(aboveMiddleCollision(a, b) && !sideCollision(a, b)) {  // Can only jump if standing above and on block
-                    //a.setY(EntityPos.getTopY(b) - a.getHeight());
-                    //a.translateY(50);
+
+                    System.out.println("Player width: " + a.getWidth());
+                    System.out.println("Player left: " + EntityPos.getLeftSideX(a));
+                    System.out.println("Block right: " + EntityPos.getRightSideX(b));
 
                     if (a.hasComponent(PlayerComponent.class))
                         a.getComponent(PlayerComponent.class).resetJumpAmounts();
