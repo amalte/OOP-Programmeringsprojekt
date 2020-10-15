@@ -1,25 +1,18 @@
 package edu.chalmers.controller;
 
-import com.almasb.fxgl.app.GameApplication;
-import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.test.RunWithFX;
-import com.almasb.fxgl.time.TimerAction;
 import edu.chalmers.FXGLTest;
 import edu.chalmers.controller.main.MainMenuController;
 import edu.chalmers.main.Main;
+import edu.chalmers.view.main.MainMenu;
 import javafx.application.Platform;
-import javafx.util.Duration;
-import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicReference;
-
 import static org.junit.jupiter.api.Assertions.*;
+import static edu.chalmers.FXGLTest.*;
 
 @ExtendWith(RunWithFX.class)
 public class TestMainControllers {
@@ -28,7 +21,7 @@ public class TestMainControllers {
 
     @BeforeClass
     public static void setUp() throws InterruptedException {
-        FXGLTest.setUp();
+        initialize();
         mainInstance = FXGLTest.getMainInstance();
     }
 
@@ -39,9 +32,17 @@ public class TestMainControllers {
         assertTrue(menuController instanceof MainMenuController);
 
         MainMenuController mainMenuController = (MainMenuController)menuController;
-        Platform.runLater(mainMenuController::show);
 
+        waitForRunLater(mainMenuController::show);
         assertEquals(true, mainMenuController.isVisible());
+
+        waitForRunLater(mainMenuController::hide);
+        assertEquals(false, mainMenuController.isVisible());
+
+        assertTrue(mainMenuController.getViewInstance() instanceof MainMenu);
+        assertEquals(mainInstance, mainMenuController.getMainInstance());
+        assertEquals(GameMenuType.Main, mainMenuController.getGameMenuType());
+
     }
 
     @Test
@@ -56,7 +57,7 @@ public class TestMainControllers {
 
     @AfterClass
     public static void tearDown() throws InterruptedException {
-        FXGLTest.tearDown();
+        deInitialize();
         mainInstance = null;
     }
 }

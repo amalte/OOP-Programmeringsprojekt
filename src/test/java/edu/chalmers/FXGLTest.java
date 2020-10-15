@@ -11,24 +11,23 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static com.almasb.fxgl.dsl.FXGL.*;
 
 public final class FXGLTest {
-    private static final int FXGL_TIMEOUT_SEC = 10;
+    private static final int FX_TIMEOUT_SEC = 10;
     private static Main mainInstance;
 
-    public static void setUp() throws InterruptedException
+    public static void initialize() throws InterruptedException
     {
         if (mainInstance == null)
         {
             Main.setInitializedLatch(new CountDownLatch(1));
-
             new Thread(() -> {
                 GameApplication.launch(Main.class, new String[0]);
             }).start();
+            assertTrue(Main.getInitializedLatch().await(FX_TIMEOUT_SEC, TimeUnit.SECONDS));
 
-            assertTrue(Main.getInitializedLatch().await(FXGL_TIMEOUT_SEC, TimeUnit.SECONDS));
-
-            GameApplication gameApplication = FXGL.getApp();
+            GameApplication gameApplication = getApp();
             assertNotNull(gameApplication);
             assertTrue(gameApplication instanceof Main);
 
@@ -36,25 +35,25 @@ public final class FXGLTest {
         }
     }
 
-    public static void tearDown() throws InterruptedException
+    public static void deInitialize() throws InterruptedException
     {
         if (mainInstance != null)
         {
-            synchronized (mainInstance)
-            {
-                AtomicReference<CountDownLatch> timerActionLatch = new AtomicReference<>();
-                timerActionLatch.set(new CountDownLatch(1));
-
-                Platform.runLater(() -> {
-                    FXGL.getGameController().exit();
-                    timerActionLatch.get().countDown();
-                });
-
-                assertTrue(timerActionLatch.get().await(FXGL_TIMEOUT_SEC, TimeUnit.SECONDS));
-            }
-
+            waitForRunLater (getGameController()::exit);
             mainInstance = null;
         }
+    }
+
+    public static void waitForRunLater(Runnable runnable) throws InterruptedException {
+        AtomicReference<CountDownLatch> runLaterLatch = new AtomicReference<>();
+        runLaterLatch.set(new CountDownLatch(1));
+
+        Platform.runLater(() ->{
+            runnable.run();
+            runLaterLatch.get().countDown();
+        });
+
+        assertTrue(runLaterLatch.get().await(FX_TIMEOUT_SEC, TimeUnit.SECONDS));
     }
 
     public static Main getMainInstance()
