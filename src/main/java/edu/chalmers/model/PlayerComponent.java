@@ -17,7 +17,7 @@ import static com.almasb.fxgl.dsl.FXGL.runOnce;
 /**
  * Player class. Wraps an entity object as a Player.
  */
-public class PlayerComponent extends Component {
+public class PlayerComponent extends Component implements IObservable {
 
     private List<Weapon> weapons = new ArrayList<>();
     private boolean testing = false; //Boolean used for testing
@@ -108,6 +108,7 @@ public class PlayerComponent extends Component {
         if(!testing) {
             if (timer.isExpired()) {
                 health -= damage;
+                notifyObserver();
                 timer = runOnce(() -> {}, Duration.seconds(1));
             }
         } else{
@@ -120,6 +121,18 @@ public class PlayerComponent extends Component {
      */
     private void initTimer(){
         timer = runOnce(() -> {}, Duration.seconds(0));
+    }
+
+    @Override
+    public void addObserver(IObserver o) {
+        observers.add(o);
+    }
+
+    @Override
+    public void notifyObserver() {
+        for(IObserver o : observers){
+            o.update();
+        }
     }
 
     // -------- GETTERS -------- //

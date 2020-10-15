@@ -3,6 +3,8 @@ package edu.chalmers.model.weapon;
 
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.time.TimerAction;
+import edu.chalmers.model.IObservable;
+import edu.chalmers.model.IObserver;
 import edu.chalmers.model.weapon.weapontypes.IWeaponType;
 import javafx.geometry.Point2D;
 import javafx.util.Duration;
@@ -12,7 +14,7 @@ import static com.almasb.fxgl.dsl.FXGL.runOnce;
 /**
  * Weapon class. Hold the functionality of weapons.
  */
-public class Weapon {
+public class Weapon implements IObservable {
 
     private IWeaponType weaponType;
     private int magazineSize;
@@ -53,6 +55,7 @@ public class Weapon {
      */
     public void reload() {
         reloading = true;
+        notifyObserver();
         if(!testing) {
             if (timerAction.isExpired()) {
             timerAction = runOnce(() -> resetMagazine(), Duration.millis(reloadTimerMilliseconds));
@@ -65,6 +68,7 @@ public class Weapon {
     private void resetMagazine() {
         magazineCounter = magazineSize;
         reloading = false;
+        notifyObserver();
     }
 
     private void initTimer() {
@@ -90,7 +94,24 @@ public class Weapon {
         return weaponType;
     }
 
+    public boolean isReloading() {
+        return reloading;
+    }
+
     public void setTesting(boolean testing) {
         this.testing = testing;
     }
+
+    @Override
+    public void addObserver(IObserver o) {
+        observers.add(o);
+    }
+
+    @Override
+    public void notifyObserver() {
+        for(IObserver o : observers){
+            o.update();
+        }
+    }
+
 }
