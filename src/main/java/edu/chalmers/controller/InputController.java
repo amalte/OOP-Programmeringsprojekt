@@ -8,13 +8,9 @@ import edu.chalmers.main.Main;
 import edu.chalmers.model.AnimationComponent;
 import edu.chalmers.model.GenericPlatformer;
 import edu.chalmers.model.PlayerComponent;
-import edu.chalmers.utilities.CoordsCalculations;
 import edu.chalmers.utilities.EntityPos;
-import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseDragEvent;
-import javafx.scene.input.MouseEvent;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getInput;
 
@@ -31,7 +27,6 @@ public class InputController {
 
     /**
      * Default constructor for InputController.
-     *
      * @param game An instance of the GenericPlatformer class.
      * @param mainInstance An instance of the Main class.
      */
@@ -114,6 +109,7 @@ public class InputController {
                 protected void onActionBegin() {
                     if (mainInstance.isGameRunning()) {
                         getPlayer().getComponent(PlayerComponent.class).shoot();
+                        mainInstance.getGameUI().updateAmmunition();
                     }
                 }
             }, MouseButton.PRIMARY);
@@ -145,6 +141,9 @@ public class InputController {
                 protected void onActionBegin() {
                     if (mainInstance.isGameRunning()) {
                         getPlayer().getComponent(PlayerComponent.class).setActiveWeapon(0);
+                        mainInstance.getGameUI().updateActiveWeapon();
+                        mainInstance.getGameUI().updateAmmunition();
+                        mainInstance.getGameUI().updateReloading();
                     }
                 }
             }, KeyCode.DIGIT1);
@@ -154,6 +153,9 @@ public class InputController {
                 protected void onActionBegin() {
                     if (mainInstance.isGameRunning()) {
                         getPlayer().getComponent(PlayerComponent.class).setActiveWeapon(1);
+                        mainInstance.getGameUI().updateActiveWeapon();
+                        mainInstance.getGameUI().updateAmmunition();
+                        mainInstance.getGameUI().updateReloading();
                     }
                 }
             }, KeyCode.DIGIT2);
@@ -163,7 +165,10 @@ public class InputController {
                 protected void onActionBegin() {
                     if (mainInstance.isGameRunning()) {
                         getPlayer().getComponent(PlayerComponent.class).setActiveWeapon(2);
-                    }
+                        mainInstance.getGameUI().updateActiveWeapon();
+                        mainInstance.getGameUI().updateAmmunition();
+                        mainInstance.getGameUI().updateReloading();
+                }
                 }
             }, KeyCode.DIGIT3);
 

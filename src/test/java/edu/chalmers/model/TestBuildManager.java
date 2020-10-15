@@ -24,20 +24,21 @@ public class TestBuildManager {
         initialize();
     }
 
-    private void resetTest() {
-        FXGLTest.clearAllEntities();
+    private void resetTest() throws InterruptedException {
+        waitForRunLater(FXGLTest::clearAllEntities);
+
         MapManager mapManager = new MapManager(new TileMap().getBlockMapFromLevel("level1.tmx"));
         buildManager = new BuildManager(new PlayerComponent(new PhysicsComponent()).getBuildRangeTiles(), mapManager);
     }
 
     @Test
     public void testPlaceBlock() throws InterruptedException {
-        waitForRunLater(() -> {
-            resetTest();
-            Point2D blockPos = new Point2D(100, 100);
-            buildManager.placeBlock(blockPos);
-            assertEquals(1, getGameWorld().getEntitiesByType(EntityType.BLOCK).size());
-        });
+        resetTest();
+        Point2D blockPos = new Point2D(100, 100);
+
+        waitForRunLater(() -> buildManager.placeBlock(blockPos));
+
+        assertEquals(1, getGameWorld().getEntitiesByType(EntityType.BLOCK).size());
     }
 
     @AfterClass

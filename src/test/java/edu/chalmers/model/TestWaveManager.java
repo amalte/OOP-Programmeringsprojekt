@@ -25,40 +25,36 @@ public class TestWaveManager {
         initialize();
     }
 
-    private void resetTest() {
-        FXGLTest.clearAllEntities();
-        player = spawn("player");
+    private void resetTest() throws InterruptedException {
+        waitForRunLater(() -> {
+            FXGLTest.clearAllEntities();
+            player = spawn("player");
+        });
         waveManager = new WaveManager(player);
     }
 
     @Test
     public void testGenerateWave() throws InterruptedException {
-        waitForRunLater(() -> {
-            resetTest();
-            waveManager.generateNewWave();
-            assertEquals(2, waveManager.getCurrentWave());
-        });
+        resetTest();
+
+        waveManager.generateNewWave();
+        assertEquals(2, waveManager.getCurrentWave());
     }
 
     @Test
     public void testGetSpawnTimeSec() throws InterruptedException {
-        waitForRunLater(() -> {
-            resetTest();
-            assertEquals(0, waveManager.getSpawnTimeSec());
-            waveManager.generateNewWave();
-            assertEquals(4, waveManager.getSpawnTimeSec());
-        });
-
+        resetTest();
+        assertEquals(0, waveManager.getSpawnTimeSec());
+        waveManager.generateNewWave();
+        assertEquals(4, waveManager.getSpawnTimeSec());
     }
 
     @Test
     public void testGetCurrentWave() throws InterruptedException {
-        waitForRunLater(() -> {
-            resetTest();
-            assertEquals(1, waveManager.getCurrentWave());
-            waveManager.generateNewWave();
-            assertEquals(2, waveManager.getCurrentWave());
-        });
+        resetTest();
+        assertEquals(1, waveManager.getCurrentWave());
+        waveManager.generateNewWave();
+        assertEquals(2, waveManager.getCurrentWave());
     }
 
     @AfterClass
