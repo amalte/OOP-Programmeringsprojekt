@@ -29,7 +29,7 @@ public class AnimationComponent extends Component {
      */
     @Override
     public void onAdded() {
-        entity.getTransformComponent().setScaleOrigin(new Point2D(35, 30));
+        entity.getTransformComponent().setScaleOrigin(new Point2D(29, 29));
         entity.getViewComponent().addChild(texture);
     }
 
