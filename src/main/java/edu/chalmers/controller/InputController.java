@@ -10,7 +10,6 @@ import edu.chalmers.model.GenericPlatformer;
 import edu.chalmers.model.PlayerComponent;
 import edu.chalmers.utilities.CoordsCalculations;
 import edu.chalmers.utilities.EntityPos;
-import edu.chalmers.view.game.GameUI;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
@@ -47,9 +46,6 @@ public class InputController {
     public void initPlayerInput() {
         if (!initialized) {
             inputInstance = getInput();
-            
-            GameUI gameUI = new GameUI(game);
-            gameUI.setNodes();
 
             inputInstance.addAction(new UserAction("Exit menu") {
                 @Override

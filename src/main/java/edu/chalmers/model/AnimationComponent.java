@@ -1,6 +1,5 @@
 package edu.chalmers.model;
 
-import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.texture.AnimatedTexture;
@@ -8,9 +7,12 @@ import com.almasb.fxgl.texture.AnimationChannel;
 import javafx.geometry.Point2D;
 import javafx.util.Duration;
 
+/**
+ * AnimationComponent class. Creates animated textures and rotates the texture based on movement direction.
+ */
 public class AnimationComponent extends Component {
 
-    private int speed = 0;
+    private int timer = 0;
 
     private AnimatedTexture texture;
     private AnimationChannel animIdle, animWalk;
@@ -22,39 +24,50 @@ public class AnimationComponent extends Component {
         texture = new AnimatedTexture(animIdle);
     }
 
+    /**
+     * Sets the center point of the texture entity and adds the texture onto the entity.
+     */
     @Override
     public void onAdded() {
         entity.getTransformComponent().setScaleOrigin(new Point2D(35, 30));
         entity.getViewComponent().addChild(texture);
     }
 
+    /**
+     * Loops the walk anim when timer is bigger than 0 and otherwise loops the idle anim.
+     */
     @Override
     public void onUpdate(double tpf) {
-        entity.translateX(speed * tpf);
 
-        if (speed != 0) {
+        if (timer != 0) {
 
             if (texture.getAnimationChannel() == animIdle) {
                 texture.loopAnimationChannel(animWalk);
             }
 
-            speed = (int) (speed * 0.9);
+            timer = (int) (timer * 0.9);
 
-            if (FXGLMath.abs(speed) < 1) {
-                speed = 0;
+            if (timer < 1) {
+                timer = 0;
                 texture.loopAnimationChannel(animIdle);
             }
         }
     }
 
+    /**
+     * Sets the time walk anim should continue after moveRight method stops being called and rotates the texture to the right.
+     */
     public void moveRight() {
-        speed = 150;
+        timer = 100;
 
         getEntity().setScaleX(1);
     }
 
+    /**
+     * Sets the time walk anim should continue after moveLeft method stops being called and rotates the texture to the left.
+     */
     public void moveLeft() {
-        speed = -150;
+        timer = 100;
 
         getEntity().setScaleX(-1);
     }
