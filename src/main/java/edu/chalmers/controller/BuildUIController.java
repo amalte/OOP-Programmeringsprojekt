@@ -3,7 +3,7 @@ package edu.chalmers.controller;
 import edu.chalmers.model.GenericPlatformer;
 import edu.chalmers.utilities.CoordsCalculations;
 import edu.chalmers.utilities.EntityPos;
-import edu.chalmers.view.BuildView;
+import edu.chalmers.view.game.BuildView;
 
 import static com.almasb.fxgl.dsl.FXGL.getInput;
 

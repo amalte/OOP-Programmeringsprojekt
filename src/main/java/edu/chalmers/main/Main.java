@@ -2,6 +2,7 @@ package edu.chalmers.main;
 
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
+import edu.chalmers.controller.BuildUIController;
 import edu.chalmers.controller.GameMenuType;
 import edu.chalmers.controller.InputController;
 import edu.chalmers.controller.MenuController;
@@ -106,8 +107,13 @@ public class Main extends GameApplication {
         }, Duration.seconds(0.5));
     }
 
+    /**
+     * Runs update method that runs every tick
+     * @param tpf tpf
+     */
     @Override
     protected void onUpdate(double tpf) {
+        if(buildUIController != null)
         buildUIController.updateBuildTileUI();   // Constantly update the build UI overlay
     }
 
