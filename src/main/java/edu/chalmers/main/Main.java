@@ -79,8 +79,6 @@ public class Main extends GameApplication {
     protected void initGame() {
         game = new GenericPlatformer();
         inputController = new InputController(game, this);
-
-        game.initializeGame("level2.tmx");
         inputController.initPlayerInput();
 
         this.createBackground();
@@ -207,7 +205,8 @@ public class Main extends GameApplication {
     {
         this.gameUI = new GameUI(game);
         this.gameUI.setNodes();
-        game.getCollisionDetection().addObserver(gameUI);
+        game.getPlayerComponent().addObserver(gameUI);
+        //game.getWaveManager().addObserver(gameUI);
 
         this.buildView = new BuildView(game.getPlayerComponent().getBuildRangeTiles());
     }

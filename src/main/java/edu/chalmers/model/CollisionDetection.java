@@ -11,7 +11,7 @@ import edu.chalmers.utilities.EntityPos;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CollisionDetection implements IObservable{
+public class CollisionDetection {
 
     /**
      * Handle all entity Collision that has a direct effect on either one or both of the Entities.
@@ -48,8 +48,6 @@ public class CollisionDetection implements IObservable{
             protected void onCollisionBegin(Entity a, Entity b) {
 
                 if(aboveMiddleCollision(a, b) && !sideCollision(a, b)) {  // Can only jump if standing above and on block
-                    //a.setY(EntityPos.getTopY(b) - a.getHeight());
-                    //a.translateY(50);
 
                     if (a.hasComponent(PlayerComponent.class)) {
                         a.getComponent(PlayerComponent.class).resetJumpAmounts();
@@ -73,10 +71,6 @@ public class CollisionDetection implements IObservable{
                 if (a.hasComponent(PlayerComponent.class) && b.hasComponent(EnemyComponent.class)) {
                     a.getComponent(PlayerComponent.class).inflictDamage(b.getComponent(EnemyComponent.class).getDamage());
                     System.out.println(a.getComponent(PlayerComponent.class).getHealth());
-                    System.out.println(observers.size());
-                    notifyObserver();
-
-                    //a.getComponent(PlayerComponent.class).resetJumpAmounts();
 
                     if (aboveMiddleCollision(a, b) && !sideCollision(a, b)) {  // Can only jump if standing above and on block
                         a.getComponent(PlayerComponent.class).resetJumpAmounts();
@@ -178,17 +172,5 @@ public class CollisionDetection implements IObservable{
 
     private boolean aboveMiddleCollision(Entity a, Entity b) {
         return EntityPos.getBottomY(a) < EntityPos.getMiddleY(b);
-    }
-
-    @Override
-    public void addObserver(IObserver o) {
-        observers.add(o);
-    }
-
-    @Override
-    public void notifyObserver() {
-        for(IObserver o : observers){
-            o.update();
-        }
     }
 }

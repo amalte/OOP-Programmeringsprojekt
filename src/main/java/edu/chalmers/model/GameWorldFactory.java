@@ -28,11 +28,6 @@ public class GameWorldFactory implements EntityFactory {
         return FXGL.entityBuilder().type(EntityType.WORLDBORDER).bbox(new HitBox(BoundingShape.box(spawnData.<Integer>get("width"), spawnData.<Integer>get("height")))).with(new PhysicsComponent()).build();
     }
 
-    @Spawns("unJumpablePlatform")
-    public Entity newUnJumpablePlatform(SpawnData spawnData) {
-        return FXGL.entityBuilder().type(EntityType.UNJUMPABLEPLATFORM).bbox(new HitBox(BoundingShape.box(spawnData.<Integer>get("width"), spawnData.<Integer>get("height")))).with(new CollidableComponent(true)).with(new PhysicsComponent()).build();
-    }
-
     @Spawns("player")
     public Entity newPLayer(SpawnData spawnData){
         PhysicsComponent physics = new PhysicsComponent();

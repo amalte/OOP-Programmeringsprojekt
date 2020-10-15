@@ -31,7 +31,6 @@ public class InputController {
 
     /**
      * Default constructor for InputController.
-     *
      * @param game An instance of the GenericPlatformer class.
      * @param mainInstance An instance of the Main class.
      */
@@ -114,6 +113,7 @@ public class InputController {
                 protected void onActionBegin() {
                     if (mainInstance.isGameRunning()) {
                         getPlayer().getComponent(PlayerComponent.class).shoot();
+                        mainInstance.getGameUI().updateAmmunition();
                     }
                 }
             }, MouseButton.PRIMARY);
@@ -145,6 +145,9 @@ public class InputController {
                 protected void onActionBegin() {
                     if (mainInstance.isGameRunning()) {
                         getPlayer().getComponent(PlayerComponent.class).setActiveWeapon(0);
+                        mainInstance.getGameUI().updateActiveWeapon();
+                        mainInstance.getGameUI().updateAmmunition();
+                        mainInstance.getGameUI().updateReloading();
                     }
                 }
             }, KeyCode.DIGIT1);
@@ -154,6 +157,9 @@ public class InputController {
                 protected void onActionBegin() {
                     if (mainInstance.isGameRunning()) {
                         getPlayer().getComponent(PlayerComponent.class).setActiveWeapon(1);
+                        mainInstance.getGameUI().updateActiveWeapon();
+                        mainInstance.getGameUI().updateAmmunition();
+                        mainInstance.getGameUI().updateReloading();
                     }
                 }
             }, KeyCode.DIGIT2);
@@ -163,7 +169,10 @@ public class InputController {
                 protected void onActionBegin() {
                     if (mainInstance.isGameRunning()) {
                         getPlayer().getComponent(PlayerComponent.class).setActiveWeapon(2);
-                    }
+                        mainInstance.getGameUI().updateActiveWeapon();
+                        mainInstance.getGameUI().updateAmmunition();
+                        mainInstance.getGameUI().updateReloading();
+                }
                 }
             }, KeyCode.DIGIT3);
 
