@@ -132,6 +132,20 @@ public class InputController {
 
             }, MouseButton.SECONDARY);
 
+            /*InputInstance.addAction(new UserAction("PlaceBlock") {
+                @Override
+                protected void onActionBegin() {
+                    if (mainInstance.isGameRunning())
+                    {
+                        if(game.getBuildManager().possibleToPlaceBlockOnPos(InputInstance.getMousePositionWorld(), EntityPos.getPosition(getPlayer()))) {
+                            game.getBuildManager().placeBlock(InputInstance.getMousePositionWorld());
+                        }
+                    }
+                }
+
+            }, MouseButton.SECONDARY);*/
+
+
             inputInstance.addAction(new UserAction("Reload") {
                 @Override
                 protected void onActionBegin() {
@@ -141,7 +155,7 @@ public class InputController {
                 }
             }, KeyCode.R);
 
-            inputInstance.addEventHandler(MouseDragEvent.MOUSE_MOVED, new EventHandler<MouseEvent>() {   // For Building UI
+            /*inputInstance.addEventHandler(MouseDragEvent.MOUSE_MOVED, new EventHandler<MouseEvent>() {   // For Building UI
                 @Override
                 public void handle(MouseEvent event) {
                     if (mainInstance.isGameRunning())
@@ -159,7 +173,7 @@ public class InputController {
                         //buildView.followMouse(TileCalculations.posToTilePos(input.getMousePositionWorld(), Constants.TILE_SIZE), getPlayer().getComponent(PlayerComponent.class).getBuilding().possibleToPlaceBlockOnPos(input.getMousePositionWorld(), EntityPos.getPosition(getPlayer())));
                     }
                 }
-            });
+            });*/
 
             inputInstance.addAction(new UserAction("SwitchToFirstWeapon") {
                 @Override
@@ -191,7 +205,7 @@ public class InputController {
             initialized = true;
         }
     }
-    
+
     private Entity getPlayer()
     {
         return game.getPlayer();

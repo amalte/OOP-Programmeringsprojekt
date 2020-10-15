@@ -2,6 +2,7 @@ package edu.chalmers.main;
 
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
+import edu.chalmers.controller.BuildUIController;
 import edu.chalmers.controller.GameMenuType;
 import edu.chalmers.controller.InputController;
 import edu.chalmers.controller.MenuController;
@@ -39,6 +40,7 @@ public class Main extends GameApplication {
     private List<MenuController> controllerList = new ArrayList<>();
     private AnchorPane backgroundPane;
     private GenericPlatformer game;
+    private BuildUIController buildUIController;
     private InputController inputController;
     private BuildView buildView;
     private GameUI gameUI;
@@ -109,6 +111,16 @@ public class Main extends GameApplication {
         }, Duration.seconds(0.5));
     }
 
+    /**
+     * Runs update method that runs every tick
+     * @param tpf tpf
+     */
+    @Override
+    protected void onUpdate(double tpf) {
+        if(buildUIController != null)
+        buildUIController.updateBuildTileUI();   // Constantly update the build UI overlay
+    }
+
     private void createBackground()
     {
         if (this.backgroundPane == null)
@@ -162,6 +174,8 @@ public class Main extends GameApplication {
                 getGameScene().clearUINodes();
                 this.initExtraViews();
 
+                buildUIController = new BuildUIController(game, buildView);
+
                 this.gameRunning = true;
             }, Duration.seconds(0.5));
         }
@@ -195,11 +209,7 @@ public class Main extends GameApplication {
         this.gameUI.setNodes();
         game.getCollisionDetection().addObserver(gameUI);
 
-        this.buildView = new BuildView();
-        this.buildView.buildStateSelected();
-        this.buildView.setUpTransparentTiles();
-        this.buildView.stopFollowMouse();
-        this.buildView.reachableTiles(game.getBuildManager().getEmptyReachableTiles(CoordsCalculations.posToTile(EntityPos.getPosition(game.getPlayer()))));
+        this.buildView = new BuildView(game.getPlayerComponent().getBuildRangeTiles());
     }
 
     /**

@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CollisionDetection implements IObservable{
-    private int marginPx = 10;
 
     /**
      * Handle all entity Collision that has a direct effect on either one or both of the Entities.
@@ -28,11 +27,11 @@ public class CollisionDetection implements IObservable{
                     // onGround check.
                     // If the platform has X-Position of 0, then the platform is the ground.
                     if (b.getX() == 0) {
-                            a.getComponent(PlayerComponent.class).setOnGround(true);
+                        a.getComponent(PlayerComponent.class).setOnGround(true);
                     } else {
-                            a.getComponent(PlayerComponent.class).setOnGround(false);
+                        a.getComponent(PlayerComponent.class).setOnGround(false);
                     }
-                        a.getComponent(PlayerComponent.class).setAirborne(false);
+                    a.getComponent(PlayerComponent.class).setAirborne(false);
                 }
             }
 
@@ -80,7 +79,7 @@ public class CollisionDetection implements IObservable{
                     //a.getComponent(PlayerComponent.class).resetJumpAmounts();
 
                     if (aboveMiddleCollision(a, b) && !sideCollision(a, b)) {  // Can only jump if standing above and on block
-                            a.getComponent(PlayerComponent.class).resetJumpAmounts();
+                        a.getComponent(PlayerComponent.class).resetJumpAmounts();
                     }
                 }
             }
@@ -134,7 +133,7 @@ public class CollisionDetection implements IObservable{
                     if (aboveMiddleCollision(a, b) && !sideCollision(a, b)) {  // Can only jump if standing above and on block
                         a.getComponent(EnemyComponent.class).resetJumpAmounts();
                     }
-                        a.getComponent(EnemyComponent.class).setAirborne(false);
+                    a.getComponent(EnemyComponent.class).setAirborne(false);
                 }
             }
 
