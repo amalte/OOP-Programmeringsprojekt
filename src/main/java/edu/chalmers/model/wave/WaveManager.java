@@ -4,6 +4,8 @@ import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.time.TimerAction;
 import edu.chalmers.model.EntityType;
+import edu.chalmers.model.IObservable;
+import edu.chalmers.model.IObserver;
 import edu.chalmers.model.enemy.StatMultiplier;
 import javafx.util.Duration;
 
@@ -14,8 +16,8 @@ import static com.almasb.fxgl.dsl.FXGL.runOnce;
 /**
  * Class that handles waves in the game. Uses SpawnEnemyRunnable to spawn in enemies.
  */
-public class WaveManager {
-    private int currentWave = 1;
+public class WaveManager implements IObservable {
+    private int currentWave = 0;
     private int baseWaveTimeSec = 15;  // Shortest time a wave lasts before the next one starts
 
     private TimerAction waveTimerAction;    // Timer for when a new wave should spawn
@@ -35,6 +37,7 @@ public class WaveManager {
         updateEnemyStats();
         startNewWaveTimer();    // Will generateNewWave if timer reaches 0 (Warning will be infinite loop unless timer is stopped somewhere)
         spawnEnemies(spawnEnemyRunnable);
+        notifyObserver();
     }
 
     //Method will add enemies that should spawn to the param list, which and how many enemies that are added depends on which wave it is
@@ -114,5 +117,17 @@ public class WaveManager {
                 generateNewWave();
             }
         }, Duration.seconds(1));
+    }
+
+    @Override
+    public void addObserver(IObserver o) {
+        observers.add(o);
+    }
+
+    @Override
+    public void notifyObserver() {
+        for(IObserver o : observers){
+            o.update();
+        }
     }
 }
