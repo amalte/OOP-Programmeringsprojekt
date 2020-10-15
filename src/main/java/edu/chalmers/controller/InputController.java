@@ -125,26 +125,11 @@ public class InputController {
                     {
                         if(game.getBuildManager().possibleToPlaceBlockOnPos(inputInstance.getMousePositionWorld(), EntityPos.getPosition(getPlayer()))) {
                             game.getBuildManager().placeBlock(inputInstance.getMousePositionWorld());
-                            //getPlayer().getComponent(PlayerComponent.class).placeBlock(input.getMousePositionWorld());
                         }
                     }
                 }
 
             }, MouseButton.SECONDARY);
-
-            /*InputInstance.addAction(new UserAction("PlaceBlock") {
-                @Override
-                protected void onActionBegin() {
-                    if (mainInstance.isGameRunning())
-                    {
-                        if(game.getBuildManager().possibleToPlaceBlockOnPos(InputInstance.getMousePositionWorld(), EntityPos.getPosition(getPlayer()))) {
-                            game.getBuildManager().placeBlock(InputInstance.getMousePositionWorld());
-                        }
-                    }
-                }
-
-            }, MouseButton.SECONDARY);*/
-
 
             inputInstance.addAction(new UserAction("Reload") {
                 @Override
@@ -154,26 +139,6 @@ public class InputController {
                     }
                 }
             }, KeyCode.R);
-
-            /*inputInstance.addEventHandler(MouseDragEvent.MOUSE_MOVED, new EventHandler<MouseEvent>() {   // For Building UI
-                @Override
-                public void handle(MouseEvent event) {
-                    if (mainInstance.isGameRunning())
-                    {
-                        // Should only be called if entered new tile
-                        if(game.getBuildManager().isInBuildRange(CoordsCalculations.posToTile(inputInstance.getMousePositionWorld()), CoordsCalculations.posToTile(EntityPos.getPosition(getPlayer())))) {
-                            mainInstance.getBuildView().followMouse(inputInstance.getMousePositionWorld(), game.getBuildManager().possibleToPlaceBlockOnPos(inputInstance.getMousePositionWorld(), EntityPos.getPosition(getPlayer())));
-                        }
-                        else {
-                            mainInstance.getBuildView().stopFollowMouse();
-                        }
-
-                        mainInstance.getBuildView().reachableTiles(game.getBuildManager().getEmptyReachableTiles(CoordsCalculations.posToTile(EntityPos.getPosition(getPlayer()))));
-
-                        //buildView.followMouse(TileCalculations.posToTilePos(input.getMousePositionWorld(), Constants.TILE_SIZE), getPlayer().getComponent(PlayerComponent.class).getBuilding().possibleToPlaceBlockOnPos(input.getMousePositionWorld(), EntityPos.getPosition(getPlayer())));
-                    }
-                }
-            });*/
 
             inputInstance.addAction(new UserAction("SwitchToFirstWeapon") {
                 @Override
