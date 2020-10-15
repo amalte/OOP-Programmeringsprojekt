@@ -8,13 +8,9 @@ import edu.chalmers.main.Main;
 import edu.chalmers.model.AnimationComponent;
 import edu.chalmers.model.GenericPlatformer;
 import edu.chalmers.model.PlayerComponent;
-import edu.chalmers.utilities.CoordsCalculations;
 import edu.chalmers.utilities.EntityPos;
-import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseDragEvent;
-import javafx.scene.input.MouseEvent;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getInput;
 
