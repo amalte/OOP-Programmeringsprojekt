@@ -19,19 +19,34 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+
 import static com.almasb.fxgl.dsl.FXGL.getGameScene;
+import static com.almasb.fxgl.dsl.FXGL.getSceneService;
 import static edu.chalmers.FXGLTest.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class for all of the main controllers.
+ */
 public class TestMainControllers {
     private static Main mainInstance;
 
+    /**
+     * Set up the test class.
+     * @throws InterruptedException
+     */
     @BeforeClass
     public static void setUp() throws InterruptedException {
         initialize();
         mainInstance = FXGLTest.getMainInstance();
     }
 
+    /**
+     * Test the MainMenuController class.
+     * @throws InterruptedException
+     */
     @Test
     public void testMainMenuController() throws InterruptedException {
         /**
@@ -98,17 +113,22 @@ public class TestMainControllers {
                 0,0, 0, 0, MouseButton.PRIMARY, 1, false, false,
                 false, false, true, false, false, true, false, true,
                 null)));
-        assertTrue(mainMenuController.getPlayMenuController().isVisible());
+        assertTrue(playMenuController.isVisible());
 
         // Settings
         waitForRunLater(() -> mainMenu.getSettingsButton().getOnMousePressed().handle(new MouseEvent(MouseEvent.MOUSE_CLICKED,
                 0,0, 0, 0, MouseButton.PRIMARY, 1, false, false,
                 false, false, true, false, false, true, false, true,
                 null)));
-        assertTrue(mainMenuController.getSettingsMenuController().isVisible());
+        assertTrue(settingsMenuController.isVisible());
+        waitForRunLater(() -> settingsMenuController.hide());
 
         // Exit
+        CountDownLatch gameRunningLatch = new CountDownLatch(1);
+        mainInstance.setGameRunningLatch(gameRunningLatch);
         waitForRunLater(() -> mainInstance.startGame(1));
+        assertTrue(gameRunningLatch.await(AWAIT_TIMEOUT_SEC, TimeUnit.SECONDS));
+
         waitForRunLater(() -> mainMenu.getExitButton().getOnMousePressed().handle(new MouseEvent(MouseEvent.MOUSE_CLICKED,
                 0,0, 0, 0, MouseButton.PRIMARY, 1, false, false,
                 false, false, true, false, false, true, false, true,
@@ -119,6 +139,10 @@ public class TestMainControllers {
          */
     }
 
+    /**
+     * Test the PlayMenuController class.
+     * @throws InterruptedException
+     */
     @Test
     public void testPlayMenuController() throws InterruptedException {
         /**
@@ -158,7 +182,7 @@ public class TestMainControllers {
          */
         MainMenuController mainMenuController = (MainMenuController) mainInstance.getController(GameMenuType.Main);
         playMenuController.setMainMenuController(null);
-        assertEquals(null, playMenuController.getMainMenuController());
+        assertNull(playMenuController.getMainMenuController());
         playMenuController.setMainMenuController(mainMenuController);
         assertEquals(mainMenuController, playMenuController.getMainMenuController());
         /**
@@ -207,6 +231,10 @@ public class TestMainControllers {
          */
     }
 
+    /**
+     * Test the SettingsMenuController class.
+     * @throws InterruptedException
+     */
     @Test
     public void testSettingsMenuController() throws InterruptedException {
         /**
@@ -256,7 +284,7 @@ public class TestMainControllers {
          */
         MainMenuController mainMenuController = (MainMenuController) mainInstance.getController(GameMenuType.Main);
         settingsMenuController.setMainMenuController(null);
-        assertEquals(null, settingsMenuController.getMainMenuController());
+        assertNull(settingsMenuController.getMainMenuController());
         settingsMenuController.setMainMenuController(mainMenuController);
         assertEquals(mainMenuController, settingsMenuController.getMainMenuController());
         /**
@@ -369,6 +397,10 @@ public class TestMainControllers {
          */
     }
 
+    /**
+     * Tear down the test class.
+     * @throws InterruptedException
+     */
     @AfterClass
     public static void tearDown() throws InterruptedException {
         deInitialize();

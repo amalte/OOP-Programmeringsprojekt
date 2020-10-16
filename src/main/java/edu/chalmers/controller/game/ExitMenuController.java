@@ -51,9 +51,6 @@ public class ExitMenuController extends MenuController<ExitMenu> {
             getGameScene().getRoot().getScene().setOnKeyPressed(keyEvent -> { });
             this.hide();
 
-            if (this.inputController != null && this.inputController.getDoNotHandleEscape())
-                this.inputController.setDoNotHandleEscape(false);
-
             getMainInstance().stopGame();
         });
     }

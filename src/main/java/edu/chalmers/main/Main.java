@@ -191,27 +191,27 @@ public class Main extends GameApplication {
      */
     public void startGame(int levelIndex)
     {
-        if (this.getGameRunning())
-            this.stopGame();
+        if (!this.getGameRunning())
+        {
+            String levelName = "level" + levelIndex + ".tmx";
 
-        String levelName = "level" + levelIndex + ".tmx";
+            game.remove();
+            game.initializeGame(levelName);
 
-        game.remove();
-        game.initializeGame(levelName);
+            this.currentLevel = levelName;
 
-        this.currentLevel = levelName;
+            runOnce(() -> {
+                getGameScene().clearUINodes();
+                this.initExtraViews();
 
-        runOnce(() -> {
-            getGameScene().clearUINodes();
-            this.initExtraViews();
+                buildUIController = new BuildUIController(game, buildView);
 
-            buildUIController = new BuildUIController(game, buildView);
+                this.gameRunning = true;
 
-            this.gameRunning = true;
-
-            if (getGameRunningLatch() != null && getGameRunningLatch().getCount() > 0)
-                getGameRunningLatch().countDown();
-        }, Duration.seconds(0.5));
+                if (getGameRunningLatch() != null && getGameRunningLatch().getCount() > 0)
+                    getGameRunningLatch().countDown();
+            }, Duration.seconds(0.5));
+        }
     }
 
     /**
