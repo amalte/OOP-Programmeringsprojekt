@@ -2,11 +2,9 @@ package edu.chalmers.view.main;
 
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.scene.SubScene;
-import edu.chalmers.controller.InputController;
 import edu.chalmers.view.IMenu;
 import edu.chalmers.view.nodes.ActionButton;
 import javafx.scene.Node;
-import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
@@ -17,14 +15,14 @@ import static edu.chalmers.view.util.ViewUtil.*;
  */
 public class SettingsMenu extends SubScene implements IMenu {
     private Text titleText;
-    private Node controlJumpButton;
-    private Node controlWalkLeftButton;
-    private Node controlWalkRightButton;
-    private Node controlReloadButton;
-    private Node controlFirstWeaponButton;
-    private Node controlSecondWeaponButton;
-    private Node controlThirdWeaponButton;
-    private Node backButton;
+    private ActionButton controlJumpButton;
+    private ActionButton controlWalkLeftButton;
+    private ActionButton controlWalkRightButton;
+    private ActionButton controlReloadButton;
+    private ActionButton controlFirstWeaponButton;
+    private ActionButton controlSecondWeaponButton;
+    private ActionButton controlThirdWeaponButton;
+    private ActionButton backButton;
 
     /**
      * Create the nodes for this menu.
@@ -44,26 +42,26 @@ public class SettingsMenu extends SubScene implements IMenu {
                 FXGL.getAppHeight() / 4.0);
 
         // Control buttons
-        this.controlJumpButton = addNode(this, createControlButton("Jump"),
+        this.controlJumpButton = addNode(this, createActionButton("", () -> { }),
                 (FXGL.getAppWidth() / 2.0) - (ActionButton.BUTTON_WIDTH / 2.0)  - (2.5 * (ActionButton.BUTTON_WIDTH / 4.0)),
                 (FXGL.getAppHeight() / 3.0) - (ActionButton.BUTTON_HEIGHT / 2.0) + (0.0 * (ActionButton.BUTTON_HEIGHT / 4.0)));
-        this.controlWalkLeftButton = addNode(this, createControlButton("Walk left"),
+        this.controlWalkLeftButton = addNode(this, createActionButton("", () -> { }),
                 (FXGL.getAppWidth() / 2.0) - (ActionButton.BUTTON_WIDTH / 2.0)  - (2.5 * (ActionButton.BUTTON_WIDTH / 4.0)),
                 (FXGL.getAppHeight() / 3.0) - (ActionButton.BUTTON_HEIGHT / 2.0) + (5.0 * (ActionButton.BUTTON_HEIGHT / 4.0)));
-        this.controlWalkRightButton = addNode(this, createControlButton("Walk right"),
+        this.controlWalkRightButton = addNode(this, createActionButton("", () -> { }),
                 (FXGL.getAppWidth() / 2.0) - (ActionButton.BUTTON_WIDTH / 2.0)  - (2.5 * (ActionButton.BUTTON_WIDTH / 4.0)),
                 (FXGL.getAppHeight() / 3.0) - (ActionButton.BUTTON_HEIGHT / 2.0) + (10.0 * (ActionButton.BUTTON_HEIGHT / 4.0)));
-        this.controlReloadButton = addNode(this, createControlButton("Reload"),
+        this.controlReloadButton = addNode(this, createActionButton("", () -> { }),
                 (FXGL.getAppWidth() / 2.0) - (ActionButton.BUTTON_WIDTH / 2.0)  - (2.5 * (ActionButton.BUTTON_WIDTH / 4.0)),
                 (FXGL.getAppHeight() / 3.0) - (ActionButton.BUTTON_HEIGHT / 2.0) + (15.0 * (ActionButton.BUTTON_HEIGHT / 4.0)));
 
-        this.controlFirstWeaponButton = addNode(this, createControlButton("Weapon 1"),
+        this.controlFirstWeaponButton = addNode(this, createActionButton("", () -> { }),
                 (FXGL.getAppWidth() / 2.0) - (ActionButton.BUTTON_WIDTH / 2.0)  + (2.5 * (ActionButton.BUTTON_WIDTH / 4.0)),
                 (FXGL.getAppHeight() / 3.0) - (ActionButton.BUTTON_HEIGHT / 2.0) + (0.0 * (ActionButton.BUTTON_HEIGHT / 4.0)));
-        this.controlSecondWeaponButton = addNode(this, createControlButton("Weapon 2"),
+        this.controlSecondWeaponButton = addNode(this, createActionButton("", () -> { }),
                 (FXGL.getAppWidth() / 2.0) - (ActionButton.BUTTON_WIDTH / 2.0)  + (2.5 * (ActionButton.BUTTON_WIDTH / 4.0)),
                 (FXGL.getAppHeight() / 3.0) - (ActionButton.BUTTON_HEIGHT / 2.0) + (5.0 * (ActionButton.BUTTON_HEIGHT / 4.0)));
-        this.controlThirdWeaponButton = addNode(this, createControlButton("Weapon 3"),
+        this.controlThirdWeaponButton = addNode(this, createActionButton("", () -> { }),
                 (FXGL.getAppWidth() / 2.0) - (ActionButton.BUTTON_WIDTH / 2.0)  + (2.5 * (ActionButton.BUTTON_WIDTH / 4.0)),
                 (FXGL.getAppHeight() / 3.0) - (ActionButton.BUTTON_HEIGHT / 2.0) + (10.0 * (ActionButton.BUTTON_HEIGHT / 4.0)));
 
@@ -81,40 +79,10 @@ public class SettingsMenu extends SubScene implements IMenu {
         return "Press one of the buttons below to change the keybindings";
     }
 
-    private Node createControlButton(String text)
-    {
-        String keyDescription = resolveKeyDescription(text);
-        ActionButton controlButton = createActionButton(String.format("%s - %s", KeyCode.getKeyCode(InputController.getInputInstance().getTriggerName(keyDescription)), text), () -> { });
-
-        controlButton.setTag(text);
-
-        return controlButton;
-    }
-
-    /**
-     * Resolve the description of a keybinding to a name registered in FXGL.
-     * @param keyDescription The description of the keybinding.
-     * @return The name of the keybinding registered in FXGL. Does no additional check to check if it is really registered in FXGL.
-     */
-    public String resolveKeyDescription(String keyDescription)
-    {
-        switch (keyDescription)
-        {
-            case "Weapon 1":
-                return "SwitchToFirstWeapon";
-            case "Weapon 2":
-                return "SwitchToSecondWeapon";
-            case "Weapon 3":
-                return "SwitchToThirdWeapon";
-            default:
-                return keyDescription;
-        }
-    }
-
     /**
      * @return The control button for the Jump key.
      */
-    public Node getControlJumpButton()
+    public ActionButton getControlJumpButton()
     {
         return this.controlJumpButton;
     }
@@ -122,7 +90,7 @@ public class SettingsMenu extends SubScene implements IMenu {
     /**
      * @return The control button for the Walk Left key.
      */
-    public Node getControlWalkLeftButton()
+    public ActionButton getControlWalkLeftButton()
     {
         return this.controlWalkLeftButton;
     }
@@ -130,7 +98,7 @@ public class SettingsMenu extends SubScene implements IMenu {
     /**
      * @return The control button for the Walk Right key.
      */
-    public Node getControlWalkRightButton()
+    public ActionButton getControlWalkRightButton()
     {
         return this.controlWalkRightButton;
     }
@@ -138,7 +106,7 @@ public class SettingsMenu extends SubScene implements IMenu {
     /**
      * @return The control button for the Reload key.
      */
-    public Node getControlReloadButton()
+    public ActionButton getControlReloadButton()
     {
         return this.controlReloadButton;
     }
@@ -146,22 +114,22 @@ public class SettingsMenu extends SubScene implements IMenu {
     /**
      * @return The control button for the First Weapon key.
      */
-    public Node getControlFirstWeaponButton() { return this.controlFirstWeaponButton; }
+    public ActionButton getControlFirstWeaponButton() { return this.controlFirstWeaponButton; }
 
     /**
      * @return The control button for the Second Weapon key.
      */
-    public Node getControlSecondWeaponButton() { return this.controlSecondWeaponButton; }
+    public ActionButton getControlSecondWeaponButton() { return this.controlSecondWeaponButton; }
 
     /**
      * @return The control button for the Third Weapon key.
      */
-    public Node getControlThirdWeaponButton() { return this.controlThirdWeaponButton; }
+    public ActionButton getControlThirdWeaponButton() { return this.controlThirdWeaponButton; }
 
     /**
      * @return The back button.
      */
-    public Node getBackButton()
+    public ActionButton getBackButton()
     {
         return this.backButton;
     }

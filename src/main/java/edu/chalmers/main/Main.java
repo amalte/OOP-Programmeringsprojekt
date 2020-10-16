@@ -42,9 +42,11 @@ public class Main extends GameApplication {
     private InputController inputController;
     private BuildView buildView;
     private GameUI gameUI;
+    private String currentLevel = "";
     private Boolean gameRunning = false;
     private Boolean gameShutdown = false;
-
+    private Boolean testRunning = false;
+    private AtomicReference<CountDownLatch> gameRunningLatch = new AtomicReference<>();
     /**
      * Main method. Called when running the program.
      * @param args Arguments to be passed onto FXGL.
@@ -60,9 +62,6 @@ public class Main extends GameApplication {
      */
     @Override
     protected void initSettings(GameSettings gameSettings) {
-        this.gameRunning = false;
-        this.gameShutdown = false;
-
         gameSettings.setPreserveResizeRatio(true);
         gameSettings.setManualResizeEnabled(false);
         gameSettings.setFullScreenAllowed(true);
@@ -131,18 +130,21 @@ public class Main extends GameApplication {
      */
     @Override
     protected void onUpdate(double tpf) {
-        if(buildUIController != null)
-        buildUIController.updateBuildTileUI();   // Constantly update the build UI overlay
+        if  (buildUIController != null)
+            buildUIController.updateBuildTileUI();   // Constantly update the build UI overlay
     }
 
     /**
      * Shuts the game down.
      */
     public void shutdown() {
-        this.gameRunning = false;
-        this.gameShutdown = true;
+        this.stopGame();
 
-        getGameController().exit();
+        if (!this.testRunning)
+        {
+            this.gameShutdown = true;
+            getGameController().exit();
+        }
     }
 
     private void createBackground()
@@ -189,20 +191,27 @@ public class Main extends GameApplication {
      */
     public void startGame(int levelIndex)
     {
-        if (!this.getGameRunning())
-        {
-            game.remove();
-            game.initializeGame("level" + levelIndex + ".tmx");
+        if (this.getGameRunning())
+            this.stopGame();
 
-            runOnce(() -> {
-                getGameScene().clearUINodes();
-                this.initExtraViews();
+        String levelName = "level" + levelIndex + ".tmx";
 
-                buildUIController = new BuildUIController(game, buildView);
+        game.remove();
+        game.initializeGame(levelName);
 
-                this.gameRunning = true;
-            }, Duration.seconds(0.5));
-        }
+        this.currentLevel = levelName;
+
+        runOnce(() -> {
+            getGameScene().clearUINodes();
+            this.initExtraViews();
+
+            buildUIController = new BuildUIController(game, buildView);
+
+            this.gameRunning = true;
+
+            if (getGameRunningLatch() != null && getGameRunningLatch().getCount() > 0)
+                getGameRunningLatch().countDown();
+        }, Duration.seconds(0.5));
     }
 
     /**
@@ -220,6 +229,14 @@ public class Main extends GameApplication {
     }
 
     /**
+     * @return Whether or not the game has shutdown.
+     */
+    public Boolean getGameShutdown()
+    {
+        return this.gameShutdown;
+    }
+
+    /**
      * @return Whether or not the game is running.
      */
     public Boolean getGameRunning()
@@ -232,17 +249,8 @@ public class Main extends GameApplication {
         this.gameUI = new GameUI(game);
         this.gameUI.setNodes();
         game.getPlayerComponent().addObserver(gameUI);
-        //game.getWaveManager().addObserver(gameUI);
 
         this.buildView = new BuildView(game.getPlayerComponent().getBuildRangeTiles());
-    }
-
-    /**
-     * @return The instance of the BuildView class associated with our Main class.
-     */
-    public BuildView getBuildView()
-    {
-        return this.buildView;
     }
 
     /**
@@ -259,9 +267,9 @@ public class Main extends GameApplication {
     public InputController getInputController() { return this.inputController; }
 
     /**
-     * @return Whether or not the game has been shutdown through the shutdown() method.
+     * @return The current, loaded level. Format: level(num).tmx
      */
-    public Boolean getGameShutdown() { return this.gameShutdown; }
+    public String getCurrentLevel() { return this.currentLevel; }
 
     /**
      * Set the initializedLatch for Main.
@@ -273,4 +281,24 @@ public class Main extends GameApplication {
      * @return The initializedLatch for Main.
      */
     public static CountDownLatch getInitializedLatch() { return initializedLatch.get(); }
+
+    /**
+     * Set the gameRunningLatch for Main.
+     * @param gameRunningLatch The instance of CountDownLatch to set gameRunningLatch to. This latch will be counted down, if its count is over 0, once that gameRunning has been set to true.
+     */
+    public void setGameRunningLatch(CountDownLatch gameRunningLatch) { this.gameRunningLatch.set(gameRunningLatch); }
+
+    /**
+     * @return The gameRunningLatch for Main.
+     */
+    public CountDownLatch getGameRunningLatch() { return this.gameRunningLatch.get(); }
+
+    /**
+     * Set whether or not a unit is running for the current session.
+     * @param testRunning Whether or not a unit are currently running.
+     */
+    public void setTestRunning(Boolean testRunning)
+    {
+        this.testRunning = testRunning;
+    }
 }

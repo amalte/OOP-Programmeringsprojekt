@@ -15,9 +15,9 @@ import static edu.chalmers.view.util.ViewUtil.*;
  */
 public class PlayMenu extends SubScene implements IMenu {
     private Text titleText;
-    private Node level1Button;
-    private Node level2Button;
-    private Node level3Button;
+    private ActionButton level1Button;
+    private ActionButton level2Button;
+    private ActionButton level3Button;
 
     /**
      * Create the nodes for this menu.
@@ -58,7 +58,7 @@ public class PlayMenu extends SubScene implements IMenu {
     /**
      * @return The level 1 button.
      */
-    public Node getLevel1Button()
+    public ActionButton getLevel1Button()
     {
         return this.level1Button;
     }
@@ -66,7 +66,7 @@ public class PlayMenu extends SubScene implements IMenu {
     /**
      * @return The level 2 button.
      */
-    public Node getLevel2Button()
+    public ActionButton getLevel2Button()
     {
         return this.level2Button;
     }
@@ -74,7 +74,7 @@ public class PlayMenu extends SubScene implements IMenu {
     /**
      * @return The level 3 button.
      */
-    public Node getLevel3Button()
+    public ActionButton getLevel3Button()
     {
         return this.level3Button;
     }

@@ -8,6 +8,7 @@ import edu.chalmers.main.Main;
 import edu.chalmers.model.AnimationComponent;
 import edu.chalmers.model.GenericPlatformer;
 import edu.chalmers.model.PlayerComponent;
+import edu.chalmers.model.weapon.Weapon;
 import edu.chalmers.utilities.EntityPos;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
@@ -131,7 +132,10 @@ public class InputController {
                 @Override
                 protected void onActionBegin() {
                     if (mainInstance.getGameRunning()) {
-                        getPlayer().getComponent(PlayerComponent.class).reload();
+                        Weapon weapon = getPlayer().getComponent(PlayerComponent.class).getActiveWeapon();
+
+                        if (weapon.getMagazineCounter() < weapon.getMagazineSize())
+                            getPlayer().getComponent(PlayerComponent.class).reload();
                     }
                 }
             }, KeyCode.R);

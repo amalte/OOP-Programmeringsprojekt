@@ -1,7 +1,6 @@
 package edu.chalmers;
 
 import com.almasb.fxgl.app.GameApplication;
-import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import edu.chalmers.main.Main;
 import javafx.application.Platform;
@@ -12,30 +11,32 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
+import static com.almasb.fxgl.dsl.FXGL.getApp;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameWorld;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static com.almasb.fxgl.dsl.FXGL.*;
 
 public final class FXGLTest {
-    private static final int FX_TIMEOUT_SEC = 10;
+    public static final int AWAIT_TIMEOUT_SEC = 10;
     private static Main mainInstance;
 
     public static void initialize() throws InterruptedException
     {
         if (mainInstance == null)
         {
-            Main.setInitializedLatch(new CountDownLatch(1));
+            CountDownLatch initializedLatch = new CountDownLatch(1);
+            Main.setInitializedLatch(initializedLatch);
             new Thread(() -> {
                 GameApplication.launch(Main.class, new String[0]);
             }).start();
-            assertTrue(Main.getInitializedLatch().await(FX_TIMEOUT_SEC, TimeUnit.SECONDS));
+            assertTrue(initializedLatch.await(AWAIT_TIMEOUT_SEC, TimeUnit.SECONDS));
 
             GameApplication gameApplication = getApp();
             assertNotNull(gameApplication);
             assertTrue(gameApplication instanceof Main);
 
             mainInstance = (Main)gameApplication;
+            mainInstance.setTestRunning(true);
         }
     }
 
@@ -44,7 +45,8 @@ public final class FXGLTest {
         if (mainInstance != null)
         {
             waitForRunLater(mainInstance::shutdown);
-            mainInstance = null;
+
+            // mainInstance = null;
         }
     }
 
@@ -59,7 +61,7 @@ public final class FXGLTest {
             runLaterLatch.get().countDown();
         });
 
-        assertTrue(runLaterLatch.get().await(FX_TIMEOUT_SEC, TimeUnit.SECONDS));
+        assertTrue(runLaterLatch.get().await(AWAIT_TIMEOUT_SEC, TimeUnit.SECONDS));
     }
 
     public static Main getMainInstance()

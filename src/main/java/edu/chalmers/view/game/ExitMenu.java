@@ -18,7 +18,7 @@ import static edu.chalmers.view.util.ViewUtil.createActionButton;
  */
 public class ExitMenu extends SubScene implements IMenu {
     private Text titleText;
-    private Node exitButton;
+    private ActionButton exitButton;
     private AnchorPane backgroundPane;
 
     /**
@@ -60,7 +60,7 @@ public class ExitMenu extends SubScene implements IMenu {
     /**
      * @return The exit button.
      */
-    public Node getExitButton()
+    public ActionButton getExitButton()
     {
         return this.exitButton;
     }
