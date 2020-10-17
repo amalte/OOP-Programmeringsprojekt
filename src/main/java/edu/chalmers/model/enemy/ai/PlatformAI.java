@@ -66,7 +66,7 @@ class PlatformAI {
 
         // Resets lists and variables for new closest platform search.
         platformYDeltaList.clear();
-        platformYDeltaList.clear();
+        platformAndYDeltaMap.clear();
         boolean twoPlatformsFound = false;
 
         for (Entity p : platforms) {
@@ -80,6 +80,11 @@ class PlatformAI {
 
             // Y-Position delta between current platform and Enemy. Add delta to list and to map along with the platform.
             Double yDelta = Double.valueOf(Math.abs(p.getY() - AI.getThisEnemy().getY()));
+
+            // Increase the yDelta if a platform with that specific yDelta already exist. (so platform doesn't get replaced in hashmap).
+            if(platformAndYDeltaMap.get(yDelta) != null) {
+                yDelta++;
+            }
             platformYDeltaList.add(yDelta);
             platformAndYDeltaMap.put(yDelta, p);
         }
@@ -218,7 +223,8 @@ class PlatformAI {
                     break;
                 }
             }
-            else if(RaycastCalculations.getRaycastHit(AI.getRaycastAI().getRightPlayerPlatformRaycast()) != null) {
+
+            if(RaycastCalculations.getRaycastHit(AI.getRaycastAI().getRightPlayerPlatformRaycast()) != null) {
                 // Check if rightPlayerPlatformRaycast hit the current platform
                 if(RaycastCalculations.getRaycastHit(AI.getRaycastAI().getRightPlayerPlatformRaycast()).equals(p)) {
                     playerRecentPlatformContact = p;

@@ -2,7 +2,6 @@ package edu.chalmers.model.enemy.ai;
 
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.component.Component;
-import com.almasb.fxgl.physics.PhysicsComponent;
 import edu.chalmers.model.EntityType;
 import edu.chalmers.model.PlayerComponent;
 import edu.chalmers.model.enemy.EnemyComponent;
@@ -187,11 +186,6 @@ public class EnemyAIComponent extends Component {
      * @return player.
      */
     public PlayerComponent getPlayerComponent() {
-        // TODO - Attach a PlayerComponent to player if it doesn't have one (shouldn't happen, weird bug).
-        if(!player.hasComponent(PlayerComponent.class)) {
-            player.addComponent(new PlayerComponent(new PhysicsComponent()));
-        }
-
         return player.getComponent(PlayerComponent.class);
     }
 

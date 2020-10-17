@@ -22,7 +22,7 @@ public class Crossbow implements IWeaponType {
 
     @Override
     public int getProjectileSpeed() {
-        return 700;
+        return 800;
     }
 
     @Override
