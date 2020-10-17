@@ -40,26 +40,76 @@ public class SettingsMenuController extends MenuController<SettingsMenu> {
         super.initializeNodes();
 
         getGameScene().getRoot().getScene().setOnKeyPressed(keyEvent -> {
-            if (!rebindControl(keyEvent.getCode()) && keyEvent.getCode() == KeyCode.ESCAPE)
+            if (keyEvent.getCode() == KeyCode.ESCAPE)
                 this.returnToMain();
+            else
+                rebindControl(keyEvent.getCode());
         });
 
         getViewInstance().getControlJumpButton().setOnMousePressed(mouseEvent -> handleControlButtonPress((ActionButton)mouseEvent.getSource()));
+        setControlButtonText(getViewInstance().getControlJumpButton(), "Jump");
+
         getViewInstance().getControlWalkLeftButton().setOnMousePressed(mouseEvent -> handleControlButtonPress((ActionButton)mouseEvent.getSource()));
+        setControlButtonText(getViewInstance().getControlWalkLeftButton(), "Walk left");
+
         getViewInstance().getControlWalkRightButton().setOnMousePressed(mouseEvent -> handleControlButtonPress((ActionButton)mouseEvent.getSource()));
+        setControlButtonText(getViewInstance().getControlWalkRightButton(), "Walk right");
+
         getViewInstance().getControlReloadButton().setOnMousePressed(mouseEvent -> handleControlButtonPress((ActionButton)mouseEvent.getSource()));
+        setControlButtonText(getViewInstance().getControlReloadButton(), "Reload");
 
         getViewInstance().getControlFirstWeaponButton().setOnMousePressed(mouseEvent -> handleControlButtonPress((ActionButton)mouseEvent.getSource()));
+        setControlButtonText(getViewInstance().getControlFirstWeaponButton(), "Weapon 1");
+
         getViewInstance().getControlSecondWeaponButton().setOnMousePressed(mouseEvent -> handleControlButtonPress((ActionButton)mouseEvent.getSource()));
+        setControlButtonText(getViewInstance().getControlSecondWeaponButton(), "Weapon 2");
+
         getViewInstance().getControlThirdWeaponButton().setOnMousePressed(mouseEvent -> handleControlButtonPress((ActionButton)mouseEvent.getSource()));
+        setControlButtonText(getViewInstance().getControlThirdWeaponButton(), "Weapon 3");
 
         getViewInstance().getBackButton().setOnMousePressed(mouseEvent -> returnToMain());
     }
 
-    private void returnToMain()
-    {
+    /**
+     * Hide the view.
+     */
+    @Override
+    public void hide() {
+        super.hide();
+
+        this.reset();
+    }
+
+    private void reset() {
         getGameScene().getRoot().getScene().setOnKeyPressed(keyEvent -> { });
         this.restoreActivatedButton();
+    }
+
+    private void setControlButtonText(ActionButton actionButton, String text)
+    {
+        String keyDescription = resolveKeyDescription(text);
+
+        ((Text)actionButton.getChildren().get(1)).setText(String.format("%s - %s", KeyCode.getKeyCode(InputController.getInputInstance().getTriggerName(keyDescription)), text));
+        actionButton.setTag(text);
+    }
+
+    private String resolveKeyDescription(String keyDescription)
+    {
+        switch (keyDescription)
+        {
+            case "Weapon 1":
+                return "SwitchToFirstWeapon";
+            case "Weapon 2":
+                return "SwitchToSecondWeapon";
+            case "Weapon 3":
+                return "SwitchToThirdWeapon";
+            default:
+                return keyDescription;
+        }
+    }
+
+    private void returnToMain()
+    {
         this.hide();
 
         if (this.mainMenuController != null)
@@ -75,14 +125,25 @@ public class SettingsMenuController extends MenuController<SettingsMenu> {
         this.mainMenuController = mainMenuController;
     }
 
-    private void restoreActivatedButton()
+    /**
+     * @return The instance of the MainMenuController.
+     */
+    public MainMenuController getMainMenuController()
+    {
+        return this.mainMenuController;
+    }
+
+    /**
+     * Restore the activated button.
+     */
+    public void restoreActivatedButton()
     {
         if (this.activatedButton != null)
         {
             synchronized (this.activatedButton)
             {
                 String tag = activatedButton.getTag();
-                String keyDescription = getViewInstance().resolveKeyDescription(tag);
+                String keyDescription = resolveKeyDescription(tag);
 
                 KeyCode oldKeyCode = KeyCode.getKeyCode(InputController.getInputInstance().getTriggerName(keyDescription));
 
@@ -106,14 +167,14 @@ public class SettingsMenuController extends MenuController<SettingsMenu> {
         }
     }
 
-    private Boolean rebindControl(KeyCode newKeyCode)
+    private void rebindControl(KeyCode newKeyCode)
     {
         if (this.activatedButton != null)
         {
             synchronized (this.activatedButton)
             {
                 String tag = this.activatedButton.getTag();
-                String keyDescription = getViewInstance().resolveKeyDescription(tag);
+                String keyDescription = resolveKeyDescription(tag);
                 KeyCode oldKeyCode = KeyCode.getKeyCode(InputController.getInputInstance().getTriggerName(keyDescription));
 
                 if (oldKeyCode != newKeyCode)
@@ -125,7 +186,7 @@ public class SettingsMenuController extends MenuController<SettingsMenu> {
                             KeyTrigger keyTrigger = (KeyTrigger)trigger;
 
                             if (keyTrigger.component1() == newKeyCode)
-                                return true;
+                                return;
                         }
                     }
                 }
@@ -135,11 +196,6 @@ public class SettingsMenuController extends MenuController<SettingsMenu> {
             }
 
             activatedButton = null;
-
-            return true;
-        }
-        else {
-            return false;
         }
     }
 }

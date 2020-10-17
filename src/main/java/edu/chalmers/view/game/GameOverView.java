@@ -5,7 +5,6 @@ import com.almasb.fxgl.scene.SubScene;
 import edu.chalmers.utilities.Constants;
 import edu.chalmers.view.IMenu;
 import edu.chalmers.view.nodes.ActionButton;
-import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -14,9 +13,11 @@ import static edu.chalmers.view.util.ViewUtil.addNode;
 import static edu.chalmers.view.util.ViewUtil.createActionButton;
 
 /**
- * The exit menu.
+ * The game over Scene.
  */
-public class ExitMenu extends SubScene implements IMenu {
+public class GameOverView extends SubScene implements IMenu {
+
+
     private Text titleText;
     private ActionButton exitButton;
     private AnchorPane backgroundPane;
@@ -40,11 +41,11 @@ public class ExitMenu extends SubScene implements IMenu {
         this.titleText.setFill(Color.RED);
         this.titleText.setStyle("-fx-font-size: 48; -fx-font-weight: bold;");
         addNode(this, this.titleText,
-                (FXGL.getAppWidth() / 2.0) - (getTitle().length() * 28.5) / 2.0,
+                (FXGL.getAppWidth() / 2.0) - (getTitle().length() * 26) / 2.0,
                 FXGL.getAppHeight() / 5.0);
 
         // Main buttons
-        this.exitButton = addNode(this, createActionButton("Exit to main menu", () -> { }),
+        this.exitButton = addNode(this, createActionButton("Return to main menu", () -> { }),
                 (FXGL.getAppWidth() / 2.0) - (ActionButton.BUTTON_WIDTH / 2.0),
                 (FXGL.getAppHeight() / 2.5) - (ActionButton.BUTTON_HEIGHT / 2.0) + (0.0 * (ActionButton.BUTTON_HEIGHT / 4.0)));
     }
@@ -54,7 +55,7 @@ public class ExitMenu extends SubScene implements IMenu {
      */
     @Override
     public String getTitle() {
-        return "Game Paused";
+        return "Game Over! Try Again";
     }
 
     /**

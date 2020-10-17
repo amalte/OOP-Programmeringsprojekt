@@ -22,12 +22,18 @@ public class GameUI implements IObserver {
     private final double healthBarMaxWidth = 400;
     private final double healthBarMaxHeight = 30;
     private Rectangle healthBar;
+    private Rectangle healthBackground;
     private Text amountOfAmmoText;
     private Text activeWeaponText;
     private Text currentWaveText;
     private Text reloadingText;
 
-    private Text drawWaveText() {
+    /**
+     * Create the nodes for this view.
+     */
+    public void createNodes(){
+
+        //Current wave text
         currentWaveText = new Text();
         currentWaveText.setY(50);
         currentWaveText.setX(Constants.GAME_WIDTH/2 - 150);
@@ -35,51 +41,49 @@ public class GameUI implements IObserver {
         currentWaveText.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 36));
         currentWaveText.setFill(Color.TOMATO);
         currentWaveText.setStroke(Color.BLACK);
-        updateWaveCounter();
-        return currentWaveText;
-    }
 
-    private Rectangle drawHealthBar(){
+        FXGL.getGameScene().addUINode(currentWaveText);
+
+        //Health bar
         healthBar = new Rectangle(healthBarMaxWidth,healthBarMaxHeight, Color.LIMEGREEN);
         healthBar.setY(10);
         healthBar.setX(10);
-        return healthBar;
-    }
 
-    private Rectangle drawBackgroundHealthBar(){
-        Rectangle background = new Rectangle(healthBarMaxWidth, healthBarMaxHeight);
-        background.setY(10);
-        background.setX(10);
-        background.setFill(Color.TRANSPARENT);
-        background.setStroke(Color.BLACK);
-        return background;
-    }
+        FXGL.getGameScene().addUINode(healthBar);
 
-    private Text drawAmountOfAmmoText(){
+        //Health bar background
+        healthBackground = new Rectangle(healthBarMaxWidth, healthBarMaxHeight);
+        healthBackground.setY(10);
+        healthBackground.setX(10);
+        healthBackground.setFill(Color.TRANSPARENT);
+        healthBackground.setStroke(Color.BLACK);
+
+        FXGL.getGameScene().addUINode(healthBackground);
+
+        //Amount of ammo text
         amountOfAmmoText = new Text(10,100, "");
         amountOfAmmoText.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 24));
         amountOfAmmoText.setFill(Color.LIMEGREEN);
         amountOfAmmoText.setStroke(Color.BLACK);
-        updateAmmunition();
-        return amountOfAmmoText;
-    }
 
-    private Text drawActiveWeaponText(){
+        FXGL.getGameScene().addUINode(amountOfAmmoText);
+
+        //Active weapon text
         activeWeaponText = new Text(10, 70, "");
         activeWeaponText.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 24));
         activeWeaponText.setFill(Color.LIMEGREEN);
         activeWeaponText.setStroke(Color.BLACK);
-        updateActiveWeapon();
-        return activeWeaponText;
-    }
 
-    private Text drawReloadingText(){
+        FXGL.getGameScene().addUINode(activeWeaponText);
+
+        //Reloading text
         reloadingText = new Text(10, 130, "");
         reloadingText.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 24));
         reloadingText.setFill(Color.LIMEGREEN);
         reloadingText.setStroke(Color.BLACK);
-        updateReloading();
-        return reloadingText;
+
+        FXGL.getGameScene().addUINode(reloadingText);
+        update();
     }
 
     /**
@@ -93,7 +97,7 @@ public class GameUI implements IObserver {
      * Updates amountOfAmmoText to be equal to the magazine of the players selected weapon.
      */
     public void updateAmmunition(){
-            amountOfAmmoText.setText("Ammunition: " + game.getPlayerComponent().getActiveWeapon().getMagazineCounter());
+        amountOfAmmoText.setText("Ammunition: " + game.getPlayerComponent().getActiveWeapon().getMagazineCounter());
     }
 
     /**
@@ -121,13 +125,6 @@ public class GameUI implements IObserver {
      */
     public void updateWaveCounter(){
         currentWaveText.setText("Current Wave: "+ game.getWaveManager().getCurrentWave());
-    }
-
-    /**
-     * Adds all UI nodes to the game scene.
-     */
-    public void setNodes() {
-        FXGL.getGameScene().addUINodes(drawWaveText(), drawHealthBar(), drawBackgroundHealthBar(), drawAmountOfAmmoText(), drawActiveWeaponText(), drawReloadingText());
     }
 
     /**

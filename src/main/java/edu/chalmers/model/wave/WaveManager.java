@@ -130,4 +130,9 @@ public class WaveManager implements IObservable {
             o.update();
         }
     }
+
+    @Override
+    public void removeObserver(IObserver o) {
+        observers.remove(o);
+    }
 }

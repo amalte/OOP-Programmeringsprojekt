@@ -81,7 +81,8 @@ class PlatformAI {
             // Y-Position delta between current platform and Enemy. Add delta to list and to map along with the platform.
             Double yDelta = Double.valueOf(Math.abs(p.getY() - AI.getThisEnemy().getY()));
 
-            // Increase the yDelta if a platform with that specific yDelta already exist. (so platform doesn't get replaced in hashmap).
+            // Increase the yDelta if a platform with that specific yDelta already exist (so platform doesn't get replaced in HashMap by the same key).
+            // Stupid way to fix the issue but not enough time for a proper fix.
             if(platformAndYDeltaMap.get(yDelta) != null) {
                 yDelta++;
             }

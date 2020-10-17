@@ -19,4 +19,10 @@ public interface IObservable {
      * Notify all IObservers in List observers.
      */
     void notifyObserver();
+
+    /**
+     * Removes an IObserver from observers.
+     * @param o IObserver to be removed form list observers.
+     */
+    void removeObserver(IObserver o);
 }

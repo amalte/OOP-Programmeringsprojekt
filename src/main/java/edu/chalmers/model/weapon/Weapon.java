@@ -90,6 +90,11 @@ public class Weapon implements IObservable {
 
     public int getMagazineCounter() {return magazineCounter;}
 
+    /**
+     * @return The size of the weapon's magazine.
+     */
+    public int getMagazineSize() { return magazineSize; }
+
     public IWeaponType getWeaponType() {
         return weaponType;
     }
@@ -112,6 +117,11 @@ public class Weapon implements IObservable {
         for(IObserver o : observers){
             o.update();
         }
+    }
+
+    @Override
+    public void removeObserver(IObserver o) {
+        observers.remove(o);
     }
 
 }

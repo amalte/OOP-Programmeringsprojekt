@@ -8,6 +8,7 @@ import edu.chalmers.main.Main;
 import edu.chalmers.model.AnimationComponent;
 import edu.chalmers.model.GenericPlatformer;
 import edu.chalmers.model.PlayerComponent;
+import edu.chalmers.model.weapon.Weapon;
 import edu.chalmers.utilities.EntityPos;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
@@ -45,7 +46,7 @@ public class InputController {
             inputInstance.addAction(new UserAction("Exit menu") {
                 @Override
                 protected void onActionBegin() {
-                    if (mainInstance.isGameRunning()) {
+                    if (mainInstance.getGameRunning()) {
                         ExitMenuController exitMenuController = (ExitMenuController) mainInstance.getController(GameMenuType.Exit);
 
                         if (!InputController.this.getDoNotHandleEscape())
@@ -59,7 +60,7 @@ public class InputController {
             inputInstance.addAction(new UserAction("Walk right") {
                 @Override
                 protected void onAction() {
-                    if (mainInstance.isGameRunning())
+                    if (mainInstance.getGameRunning())
                     {
                         getPlayer().getComponent(PlayerComponent.class).moveRight();
                         getPlayer().getComponent(AnimationComponent.class).moveRight();
@@ -68,7 +69,7 @@ public class InputController {
 
                 @Override
                 protected void onActionEnd() {
-                    if (mainInstance.isGameRunning())
+                    if (mainInstance.getGameRunning())
                     {
                         getPlayer().getComponent(PlayerComponent.class).stop();
                     }
@@ -78,7 +79,7 @@ public class InputController {
             inputInstance.addAction(new UserAction("Walk left") {
                 @Override
                 protected void onAction() {
-                    if (mainInstance.isGameRunning())
+                    if (mainInstance.getGameRunning())
                     {
                         getPlayer().getComponent(PlayerComponent.class).moveLeft();
                         getPlayer().getComponent(AnimationComponent.class).moveLeft();
@@ -87,7 +88,7 @@ public class InputController {
 
                 @Override
                 protected void onActionEnd() {
-                    if (mainInstance.isGameRunning())
+                    if (mainInstance.getGameRunning())
                     {
                         getPlayer().getComponent(PlayerComponent.class).stop();
                     }
@@ -97,7 +98,7 @@ public class InputController {
             inputInstance.addAction(new UserAction("Jump") {
                 @Override
                 protected void onActionBegin() {
-                    if (mainInstance.isGameRunning())
+                    if (mainInstance.getGameRunning())
                     {
                         getPlayer().getComponent(PlayerComponent.class).jump();
                     }
@@ -107,7 +108,7 @@ public class InputController {
             inputInstance.addAction(new UserAction("Shoot") {
                 @Override
                 protected void onActionBegin() {
-                    if (mainInstance.isGameRunning()) {
+                    if (mainInstance.getGameRunning()) {
                         getPlayer().getComponent(PlayerComponent.class).shoot();
                         mainInstance.getGameUI().updateAmmunition();
                     }
@@ -117,7 +118,7 @@ public class InputController {
             inputInstance.addAction(new UserAction("PlaceBlock") {
                 @Override
                 protected void onActionBegin() {
-                    if (mainInstance.isGameRunning())
+                    if (mainInstance.getGameRunning())
                     {
                         if(game.getBuildManager().possibleToPlaceBlockOnPos(inputInstance.getMousePositionWorld(), EntityPos.getPosition(getPlayer()))) {
                             game.getBuildManager().placeBlock(inputInstance.getMousePositionWorld());
@@ -130,8 +131,11 @@ public class InputController {
             inputInstance.addAction(new UserAction("Reload") {
                 @Override
                 protected void onActionBegin() {
-                    if (mainInstance.isGameRunning()) {
-                        getPlayer().getComponent(PlayerComponent.class).reload();
+                    if (mainInstance.getGameRunning()) {
+                        Weapon weapon = getPlayer().getComponent(PlayerComponent.class).getActiveWeapon();
+
+                        if (weapon.getMagazineCounter() < weapon.getMagazineSize())
+                            getPlayer().getComponent(PlayerComponent.class).reload();
                     }
                 }
             }, KeyCode.R);
@@ -139,7 +143,7 @@ public class InputController {
             inputInstance.addAction(new UserAction("SwitchToFirstWeapon") {
                 @Override
                 protected void onActionBegin() {
-                    if (mainInstance.isGameRunning()) {
+                    if (mainInstance.getGameRunning()) {
                         getPlayer().getComponent(PlayerComponent.class).setActiveWeapon(0);
                         mainInstance.getGameUI().updateActiveWeapon();
                         mainInstance.getGameUI().updateAmmunition();
@@ -151,7 +155,7 @@ public class InputController {
             inputInstance.addAction(new UserAction("SwitchToSecondWeapon") {
                 @Override
                 protected void onActionBegin() {
-                    if (mainInstance.isGameRunning()) {
+                    if (mainInstance.getGameRunning()) {
                         getPlayer().getComponent(PlayerComponent.class).setActiveWeapon(1);
                         mainInstance.getGameUI().updateActiveWeapon();
                         mainInstance.getGameUI().updateAmmunition();
@@ -163,7 +167,7 @@ public class InputController {
             inputInstance.addAction(new UserAction("SwitchToThirdWeapon") {
                 @Override
                 protected void onActionBegin() {
-                    if (mainInstance.isGameRunning()) {
+                    if (mainInstance.getGameRunning()) {
                         getPlayer().getComponent(PlayerComponent.class).setActiveWeapon(2);
                         mainInstance.getGameUI().updateActiveWeapon();
                         mainInstance.getGameUI().updateAmmunition();

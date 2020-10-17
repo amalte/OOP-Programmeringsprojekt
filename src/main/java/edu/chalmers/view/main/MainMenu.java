@@ -15,9 +15,9 @@ import static edu.chalmers.view.util.ViewUtil.*;
  */
 public class MainMenu extends SubScene implements IMenu {
     private Text titleText;
-    private Node playButton;
-    private Node settingsButton;
-    private Node exitButton;
+    private ActionButton playButton;
+    private ActionButton settingsButton;
+    private ActionButton exitButton;
 
     /**
      * Create the nodes for this menu.
@@ -59,7 +59,7 @@ public class MainMenu extends SubScene implements IMenu {
     /**
      * @return The play button.
      */
-    public Node getPlayButton()
+    public ActionButton getPlayButton()
     {
         return this.playButton;
     }
@@ -67,7 +67,7 @@ public class MainMenu extends SubScene implements IMenu {
     /**
      * @return The settings button.
      */
-    public Node getSettingsButton()
+    public ActionButton getSettingsButton()
     {
         return this.settingsButton;
     }
@@ -75,7 +75,7 @@ public class MainMenu extends SubScene implements IMenu {
     /**
      * @return The exit button.
      */
-    public Node getExitButton()
+    public ActionButton getExitButton()
     {
         return this.exitButton;
     }

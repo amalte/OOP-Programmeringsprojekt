@@ -57,10 +57,18 @@ public class PlayMenuController extends MenuController<PlayMenu> {
 
     /**
      * Set the instance of MainMenuController.
-     * @param mainMenuController An instance of the MainMenuController
+     * @param mainMenuController An instance of the MainMenuController.
      */
     public void setMainMenuController(MainMenuController mainMenuController)
     {
         this.mainMenuController = mainMenuController;
+    }
+
+    /**
+     * @return The instance of the MainMenuController.
+     */
+    public MainMenuController getMainMenuController()
+    {
+        return this.mainMenuController;
     }
 }

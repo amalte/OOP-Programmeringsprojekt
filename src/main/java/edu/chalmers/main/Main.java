@@ -7,14 +7,15 @@ import edu.chalmers.controller.GameMenuType;
 import edu.chalmers.controller.InputController;
 import edu.chalmers.controller.MenuController;
 import edu.chalmers.controller.game.ExitMenuController;
+import edu.chalmers.controller.game.GameOverViewController;
 import edu.chalmers.controller.main.MainMenuController;
 import edu.chalmers.controller.main.PlayMenuController;
 import edu.chalmers.controller.main.SettingsMenuController;
 import edu.chalmers.model.GenericPlatformer;
+import edu.chalmers.model.IObserver;
 import edu.chalmers.utilities.Constants;
-import edu.chalmers.utilities.CoordsCalculations;
-import edu.chalmers.utilities.EntityPos;
 import edu.chalmers.view.game.BuildView;
+import edu.chalmers.view.game.GameOverView;
 import edu.chalmers.view.game.GameUI;
 import edu.chalmers.view.game.ExitMenu;
 import edu.chalmers.view.main.MainMenu;
@@ -44,8 +45,11 @@ public class Main extends GameApplication {
     private InputController inputController;
     private BuildView buildView;
     private GameUI gameUI;
+    private String currentLevel = "";
     private Boolean gameRunning = false;
-
+    private Boolean gameShutdown = false;
+    private Boolean testRunning = false;
+    private AtomicReference<CountDownLatch> gameRunningLatch = new AtomicReference<>();
     /**
      * Main method. Called when running the program.
      * @param args Arguments to be passed onto FXGL.
@@ -106,6 +110,8 @@ public class Main extends GameApplication {
                     mainMenuController.setPlayMenuController(playMenuController);
                     mainMenuController.setSettingsMenuController(settingsMenuController);
 
+                    GameOverViewController gameOverViewController = new GameOverViewController(new GameOverView(), this, game);
+
                     ExitMenuController exitMenuController = new ExitMenuController(new ExitMenu(), this);
                     exitMenuController.setInputController(inputController);
 
@@ -113,6 +119,7 @@ public class Main extends GameApplication {
                     this.controllerList.add(settingsMenuController);
                     this.controllerList.add(playMenuController);
                     this.controllerList.add(exitMenuController);
+                    this.controllerList.add(gameOverViewController);
 
                     mainMenuController.show();
                 }
@@ -129,8 +136,21 @@ public class Main extends GameApplication {
      */
     @Override
     protected void onUpdate(double tpf) {
-        if(buildUIController != null)
-        buildUIController.updateBuildTileUI();   // Constantly update the build UI overlay
+        if  (buildUIController != null)
+            buildUIController.updateBuildTileUI();   // Constantly update the build UI overlay
+    }
+
+    /**
+     * Shuts the game down.
+     */
+    public void shutdown() {
+        this.stopGame();
+
+        if (!this.testRunning)
+        {
+            this.gameShutdown = true;
+            getGameController().exit();
+        }
     }
 
     private void createBackground()
@@ -177,18 +197,26 @@ public class Main extends GameApplication {
      */
     public void startGame(int levelIndex)
     {
-        if (!this.isGameRunning())
+        if (!this.getGameRunning())
         {
+            String levelName = "level" + levelIndex + ".tmx";
+
             game.remove();
-            game.initializeGame("level" + levelIndex + ".tmx");
+            game.initializeGame(levelName);
+
+            this.currentLevel = levelName;
 
             runOnce(() -> {
                 getGameScene().clearUINodes();
                 this.initExtraViews();
 
                 buildUIController = new BuildUIController(game, buildView);
+                game.getWaveManager().addObserver((IObserver)getController(GameMenuType.GameOver));
 
                 this.gameRunning = true;
+
+                if (getGameRunningLatch() != null && getGameRunningLatch().getCount() > 0)
+                    getGameRunningLatch().countDown();
             }, Duration.seconds(0.5));
         }
     }
@@ -198,8 +226,10 @@ public class Main extends GameApplication {
      */
     public void stopGame()
     {
-        if (this.isGameRunning())
+        if (this.getGameRunning())
         {
+            game.getWaveManager().removeObserver(gameUI);
+            game.getWaveManager().removeObserver((IObserver) getController(GameMenuType.GameOver));
             this.showBackground();
             getController(GameMenuType.Exit).hide();
             getController(GameMenuType.Main).show();
@@ -208,9 +238,17 @@ public class Main extends GameApplication {
     }
 
     /**
+     * @return Whether or not the game has shutdown.
+     */
+    public Boolean getGameShutdown()
+    {
+        return this.gameShutdown;
+    }
+
+    /**
      * @return Whether or not the game is running.
      */
-    public Boolean isGameRunning()
+    public Boolean getGameRunning()
     {
         return this.gameRunning;
     }
@@ -218,19 +256,10 @@ public class Main extends GameApplication {
     private void initExtraViews()
     {
         this.gameUI = new GameUI(game);
-        this.gameUI.setNodes();
+        this.gameUI.createNodes();
         game.getPlayerComponent().addObserver(gameUI);
-        //game.getWaveManager().addObserver(gameUI);
 
         this.buildView = new BuildView(game.getPlayerComponent().getBuildRangeTiles());
-    }
-
-    /**
-     * @return The instance of the BuildView class associated with our Main class.
-     */
-    public BuildView getBuildView()
-    {
-        return this.buildView;
     }
 
     /**
@@ -247,6 +276,11 @@ public class Main extends GameApplication {
     public InputController getInputController() { return this.inputController; }
 
     /**
+     * @return The current, loaded level. Format: level(num).tmx
+     */
+    public String getCurrentLevel() { return this.currentLevel; }
+
+    /**
      * Set the initializedLatch for Main.
      * @param countDownLatch The instance of CountDownLatch to set initializedLatch to. This latch will be counted down, if its count is over 0, once that the initUI method has been ran.
      */
@@ -256,4 +290,24 @@ public class Main extends GameApplication {
      * @return The initializedLatch for Main.
      */
     public static CountDownLatch getInitializedLatch() { return initializedLatch.get(); }
+
+    /**
+     * Set the gameRunningLatch for Main.
+     * @param gameRunningLatch The instance of CountDownLatch to set gameRunningLatch to. This latch will be counted down, if its count is over 0, once that gameRunning has been set to true.
+     */
+    public void setGameRunningLatch(CountDownLatch gameRunningLatch) { this.gameRunningLatch.set(gameRunningLatch); }
+
+    /**
+     * @return The gameRunningLatch for Main.
+     */
+    public CountDownLatch getGameRunningLatch() { return this.gameRunningLatch.get(); }
+
+    /**
+     * Set whether or not a unit is running for the current session.
+     * @param testRunning Whether or not a unit are currently running.
+     */
+    public void setTestRunning(Boolean testRunning)
+    {
+        this.testRunning = testRunning;
+    }
 }

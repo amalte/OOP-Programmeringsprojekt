@@ -135,6 +135,11 @@ public class PlayerComponent extends Component implements IObservable {
         }
     }
 
+    @Override
+    public void removeObserver(IObserver o) {
+        observers.remove(o);
+    }
+
     // -------- GETTERS -------- //
 
     /**

@@ -70,21 +70,27 @@ public class MenuController<T extends SubScene> {
      * Show the view.
      */
     public void show() {
-        this.initializeNodes();
+        if (!this.isVisible())
+        {
+            this.initializeNodes();
 
-        getSceneService().popSubScene();
-        getSceneService().pushSubScene(viewInstance);
+            getSceneService().popSubScene();
+            getSceneService().pushSubScene(viewInstance);
 
-        this.visible = true;
+            this.visible = true;
+        }
     }
 
     /**
      * Hide the view.
      */
     public void hide() {
-        getSceneService().popSubScene();
+        if (this.isVisible())
+        {
+            getSceneService().popSubScene();
 
-        this.visible = false;
+            this.visible = false;
+        }
     }
 
     /**

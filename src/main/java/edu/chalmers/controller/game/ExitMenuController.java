@@ -49,6 +49,8 @@ public class ExitMenuController extends MenuController<ExitMenu> {
 
         getViewInstance().getExitButton().setOnMousePressed(mouseEvent -> {
             getGameScene().getRoot().getScene().setOnKeyPressed(keyEvent -> { });
+            this.hide();
+
             getMainInstance().stopGame();
         });
     }
@@ -65,7 +67,7 @@ public class ExitMenuController extends MenuController<ExitMenu> {
     /**
      * @return The instance of the InputController.
      */
-    public InputController getInputController(InputController inputController)
+    public InputController getInputController()
     {
         return this.inputController;
     }

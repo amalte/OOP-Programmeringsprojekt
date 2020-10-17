@@ -22,5 +22,15 @@ public enum GameMenuType {
     /**
      * Exit menu.
      */
-    Exit
+    Exit,
+
+    /**
+     * Game over menu.
+     */
+    GameOver,
+
+    /**
+     * Dummy menu.
+     */
+    Dummy
 }
