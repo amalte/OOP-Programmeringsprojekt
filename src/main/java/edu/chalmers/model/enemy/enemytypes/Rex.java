@@ -16,6 +16,11 @@ public class Rex implements IEnemyType {
     }
 
     @Override
+    public String getTextureJump() {
+        return "DinoSpriteJump.png";
+    }
+
+    @Override
     public int getHealth() {
         return 350;
     }

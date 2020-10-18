@@ -16,6 +16,11 @@ public class Zombie implements IEnemyType {
     }
 
     @Override
+    public String getTextureJump() {
+        return "ZombieSpriteJump.png";
+    }
+
+    @Override
     public int getHealth() {
         return 125;
     }
