@@ -5,7 +5,6 @@ import com.almasb.fxgl.input.Input;
 import com.almasb.fxgl.input.UserAction;
 import edu.chalmers.controller.game.ExitMenuController;
 import edu.chalmers.main.Main;
-import edu.chalmers.model.AnimationComponent;
 import edu.chalmers.model.GenericPlatformer;
 import edu.chalmers.model.PlayerComponent;
 import edu.chalmers.model.weapon.Weapon;
@@ -63,7 +62,6 @@ public class InputController {
                     if (mainInstance.getGameRunning())
                     {
                         getPlayer().getComponent(PlayerComponent.class).moveRight();
-                        getPlayer().getComponent(AnimationComponent.class).moveRight();
                     }
                 }
 
@@ -82,7 +80,6 @@ public class InputController {
                     if (mainInstance.getGameRunning())
                     {
                         getPlayer().getComponent(PlayerComponent.class).moveLeft();
-                        getPlayer().getComponent(AnimationComponent.class).moveLeft();
                     }
                 }
 
