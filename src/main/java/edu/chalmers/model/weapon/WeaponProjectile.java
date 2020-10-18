@@ -26,7 +26,7 @@ public class WeaponProjectile {
     private float projectileSizeW = 5;
     private float projectileSizeH = 5;
     private Double shootingAngle;
-    private boolean testing = false;
+    private boolean testing = false; //Boolean used for testing
 
     public WeaponProjectile(Point2D playerPoint, Point2D mousePoint, int projectileSpeed, boolean testing) {
 

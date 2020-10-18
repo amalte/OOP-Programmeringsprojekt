@@ -22,7 +22,7 @@ public class ThrowingKnife implements IWeaponType{
 
     @Override
     public int getProjectileSpeed() {
-        return 450;
+        return 600;
     }
 
     @Override

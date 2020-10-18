@@ -49,25 +49,31 @@ public class PlayerComponent extends Component implements IObservable {
 
     /**
      * Method moves players Entity left (negative x).
+     * Calls method moveLeft from animationComponent.
      */
     public void moveLeft(){
         physics.setVelocityX(-moveSpeed);
+        entity.getComponent(AnimationComponent.class).moveLeft();
     }
 
     /**
      * Method moves players Entity right (positive x).
+     * Calls method moveRight from animationComponent.
      */
     public void moveRight(){
         physics.setVelocityX(moveSpeed);
+        entity.getComponent(AnimationComponent.class).moveRight();
     }
 
     /**
      * Method moves players Entity up (negative y) with jumpHeight if the player have any jumps left.
      * Reduce amount of jumps left by 1.
+     * Calls method jump from animationComponent.
      */
     public void jump(){
         if(jumps != 0) {
             physics.setVelocityY(-jumpHeight);
+            entity.getComponent(AnimationComponent.class).jump();
             jumps--;
         }
     }
@@ -91,6 +97,15 @@ public class PlayerComponent extends Component implements IObservable {
      */
     public void stop(){
         physics.setVelocityX(0);
+    }
+
+    /**
+     * Calls method landed from AnimationComponent.
+     * Calls method resetJumpAmounts().
+     */
+    public void landed() {
+        entity.getComponent(AnimationComponent.class).landed();
+        resetJumpAmounts();
     }
 
     /**
@@ -133,6 +148,11 @@ public class PlayerComponent extends Component implements IObservable {
         for(IObserver o : observers){
             o.update();
         }
+    }
+
+    @Override
+    public void removeObserver(IObserver o) {
+        observers.remove(o);
     }
 
     // -------- GETTERS -------- //

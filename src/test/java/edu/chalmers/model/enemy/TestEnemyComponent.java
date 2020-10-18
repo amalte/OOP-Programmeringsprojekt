@@ -8,12 +8,14 @@ import edu.chalmers.model.EntityType;
 import edu.chalmers.model.PlayerComponent;
 import edu.chalmers.model.SetupWorld;
 import edu.chalmers.model.enemy.enemytypes.Zombie;
+import org.junit.AfterClass;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameWorld;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
+import static edu.chalmers.FXGLTest.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(RunWithFX.class)
@@ -24,186 +26,218 @@ public class TestEnemyComponent {
     private EnemyComponent enemyComponent;
 
     @BeforeAll
-    public static void initApplication() throws InterruptedException {
-        SetupWorld.initApp();
+    public static void initApp() throws InterruptedException {
+        initialize();
+    }
+
+    @AfterClass
+    public static void tearDown() throws InterruptedException {
+        deInitialize();
     }
 
     // Initializes the Player, Enemy and its EnemyComponent.
-    private void init() {
-        player = spawn("player",0,0).getComponent(PlayerComponent.class);
-        enemy = EnemyFactory.getInstance().createEnemy("ZOMBIE", 0, 0, player.getEntity(), new StatMultiplier());
-        enemyComponent = enemy.getComponent(EnemyComponent.class);
+    private void init() throws InterruptedException {
+        waitForRunLater(() -> {
+            FXGLTest.clearAllEntities();
+
+            player = spawn("player",0,0).getComponent(PlayerComponent.class);
+            enemy = EnemyFactory.getInstance().createEnemy("ZOMBIE", 0, 0, player.getEntity(), new StatMultiplier());
+            enemyComponent = enemy.getComponent(EnemyComponent.class);
+        });
     }
 
     @Test
-    public void testMoveLeft() {
+    public void testMoveLeft() throws InterruptedException {
         init();
-
-        enemyComponent.moveLeft();
-        assertEquals(-enemyComponent.getMoveSpeed(), Math.round(enemyComponent.getPhysics().getVelocityX()));
+        waitForRunLater(() -> {
+            enemyComponent.moveLeft();
+            assertEquals(-enemyComponent.getMoveSpeed(), Math.round(enemyComponent.getPhysics().getVelocityX()));
+        });
     }
 
     @Test
-    public void testMoveRight() {
+    public void testMoveRight() throws InterruptedException {
         init();
+        waitForRunLater(() -> {
+            enemyComponent.moveRight();
+            assertEquals(enemyComponent.getMoveSpeed(), Math.round(enemyComponent.getPhysics().getVelocityX()));
+        });
 
-        enemyComponent.moveRight();
-        assertEquals(enemyComponent.getMoveSpeed(), Math.round(enemyComponent.getPhysics().getVelocityX()));
     }
 
     @Test
-    public void testJump(){
+    public void testJump() throws InterruptedException {
         init();
-
-        enemyComponent.resetJumpAmounts();      // Reset jumpAmounts as enemies start with 0 jumpAmounts until they collide with the ground.
-        enemyComponent.jump();
-        assertEquals(-enemyComponent.getJumpHeight(), Math.round(enemyComponent.getPhysics().getVelocityY()));
+        waitForRunLater(() -> {
+            enemyComponent.resetJumpAmounts();      // Reset jumpAmounts as enemies start with 0 jumpAmounts until they collide with the ground.
+            enemyComponent.jump();
+            assertEquals(-enemyComponent.getJumpHeight(), Math.round(enemyComponent.getPhysics().getVelocityY()));
+        });
     }
 
     @Test
-    public void testResetJumpAmounts(){
+    public void testResetJumpAmounts() throws InterruptedException {
         init();
+        waitForRunLater(() -> {
+            enemyComponent.jump();
+            assertEquals(0, enemyComponent.getJumps());
 
-        enemyComponent.jump();
-        assertEquals(0, enemyComponent.getJumps());
-
-        enemyComponent.resetJumpAmounts();
-        assertEquals(1, enemyComponent.getJumps());
+            enemyComponent.resetJumpAmounts();
+            assertEquals(1, enemyComponent.getJumps());
+        });
     }
 
     @Test
-    public void testStop(){
+    public void testStop() throws InterruptedException {
         init();
+        waitForRunLater(() -> {
+            // Start movement so enemies can eventually stop.
+            enemyComponent.moveRight();
+            assertEquals(enemyComponent.getMoveSpeed(), Math.round(enemyComponent.getPhysics().getVelocityX()));
 
-        // Start movement so enemies can eventually stop.
-        enemyComponent.moveRight();
-        assertEquals(enemyComponent.getMoveSpeed(), Math.round(enemyComponent.getPhysics().getVelocityX()));
-
-        enemyComponent.stop();
-        assertEquals(0, enemyComponent.getPhysics().getVelocityX());
+            enemyComponent.stop();
+            assertEquals(0, enemyComponent.getPhysics().getVelocityX());
+        });
     }
 
     @Test
-    public void testInflictDamage(){
+    public void testInflictDamage() throws InterruptedException {
         init();
-
-        int startHealth = enemyComponent.getHealth();
-        enemyComponent.inflictDamage(10);
-        assertEquals(enemyComponent.getHealth(), (startHealth - 10));   // Start health - inflicted health.
+        waitForRunLater(() -> {
+            int startHealth = enemyComponent.getHealth();
+            enemyComponent.inflictDamage(10);
+            assertEquals(enemyComponent.getHealth(), (startHealth - 10));   // Start health - inflicted health.
+        });
     }
 
     @Test
-    public void testCheckHealth(){
-        FXGLTest.clearAllEntities();
+    public void testCheckHealth() throws InterruptedException {
         init();
-
-        enemyComponent.inflictDamage(enemyComponent.getHealth());        // Inflict the enemy's health as damage (health then = 0).
-        assertEquals(0, getGameWorld().getEntitiesByType(EntityType.ENEMY).size());     // Enemy should have died and no Enemy entities in the world should exist.
+        waitForRunLater(() -> {
+            enemyComponent.inflictDamage(enemyComponent.getHealth());        // Inflict the enemy's health as damage (health then = 0).
+            assertEquals(0, getGameWorld().getEntitiesByType(EntityType.ENEMY).size());     // Enemy should have died and no Enemy entities in the world should exist.
+        });
     }
 
     // ---------- GETTERS ---------- //
 
     @Test
-    public void testGetX() {
+    public void testGetX() throws InterruptedException {
         init();
-        assertEquals(0, enemyComponent.getX());     // Enemy is initialized with X-pos 0
+        waitForRunLater(() -> {
+            assertEquals(0, enemyComponent.getX());     // Enemy is initialized with X-pos 0
 
-        enemy.setX(10);
-        assertEquals(10, enemyComponent.getX());
+            enemy.setX(10);
+            assertEquals(10, enemyComponent.getX());
+        });
     }
 
     @Test
-    public void testGetRightX() {
+    public void testGetRightX() throws InterruptedException {
         init();
-        assertEquals((0 + enemy.getWidth()), enemyComponent.getRightX());     // Enemy is initialized with X-pos 0
+        waitForRunLater(() -> {
+            assertEquals((0 + enemy.getWidth()), enemyComponent.getRightX());     // Enemy is initialized with X-pos 0
 
-        enemy.setX(10);
-        assertEquals((10 + enemy.getWidth()), enemyComponent.getRightX());
+            enemy.setX(10);
+            assertEquals((10 + enemy.getWidth()), enemyComponent.getRightX());
+        });
     }
 
     @Test
-    public void testGetY() {
+    public void testGetY() throws InterruptedException {
         init();
-        assertEquals(0, enemyComponent.getY());     // Enemy is initialized with Y-pos 0
+        waitForRunLater(() -> {
+            assertEquals(0, enemyComponent.getY());     // Enemy is initialized with Y-pos 0
 
-        enemy.setY(10);
-        assertEquals(10, enemyComponent.getY());
+            enemy.setY(10);
+            assertEquals(10, enemyComponent.getY());
+        });
     }
 
     @Test
-    public void testGetBottomY() {
+    public void testGetBottomY() throws InterruptedException {
         init();
-        assertEquals((0 + enemy.getHeight()), enemyComponent.getBottomY());     // Enemy is initialized with Y-pos 0.
+        waitForRunLater(() -> {
+            assertEquals((0 + enemy.getHeight()), enemyComponent.getBottomY());     // Enemy is initialized with Y-pos 0.
 
-        enemy.setY(10);
-        assertEquals((10 + enemy.getHeight()), enemyComponent.getBottomY());
+            enemy.setY(10);
+            assertEquals((10 + enemy.getHeight()), enemyComponent.getBottomY());
+        });
     }
 
     @Test
-    public void testGetPhysics() {
+    public void testGetPhysics() throws InterruptedException {
         init();
-
-        // Enemy is created with same color as its enemy type (zombie).
-        assertEquals(PhysicsComponent.class, enemyComponent.getPhysics().getClass());
+        waitForRunLater(() -> {
+            // Enemy is created with same color as its enemy type (zombie).
+            assertEquals(PhysicsComponent.class, enemyComponent.getPhysics().getClass());
+        });
     }
 
     @Test
-    public void testGetEnemyType() {
+    public void testGetEnemyType() throws InterruptedException {
         init();
-
-        // Enemy is created as a zombie.
-        assertEquals(Zombie.class, enemyComponent.getEnemyType().getClass());
+        waitForRunLater(() -> {
+            // Enemy is created as a zombie.
+            assertEquals(Zombie.class, enemyComponent.getEnemyType().getClass());
+        });
     }
 
     @Test
-    public void testGetDamage(){
+    public void testGetDamage() throws InterruptedException {
         init();
-
-        // Enemy is created with same damage as its enemy type (zombie).
-        assertEquals(new Zombie().getDamage(), enemyComponent.getDamage());
+        waitForRunLater(() -> {
+            // Enemy is created with same damage as its enemy type (zombie).
+            assertEquals(new Zombie().getDamage(), enemyComponent.getDamage());
+        });
     }
 
     @Test
-    public void testGetBlockDamage() {
+    public void testGetBlockDamage() throws InterruptedException {
         init();
-
-        // Enemy is created with same block damage as its enemy type (zombie).
-        assertEquals(new Zombie().getBlockDamage(), enemyComponent.getBlockDamage());
+        waitForRunLater(() -> {
+            // Enemy is created with same block damage as its enemy type (zombie).
+            assertEquals(new Zombie().getBlockDamage(), enemyComponent.getBlockDamage());
+        });
     }
 
     @Test
-    public void testGetHealth(){
+    public void testGetHealth() throws InterruptedException {
         init();
-
-        // Enemy is created with same health as its enemy type (zombie).
-        assertEquals(new Zombie().getHealth(), enemyComponent.getHealth());
+        waitForRunLater(() -> {
+            // Enemy is created with same health as its enemy type (zombie).
+            assertEquals(new Zombie().getHealth(), enemyComponent.getHealth());
+        });
     }
 
     @Test
-    public void testGetMoveSpeed() {
+    public void testGetMoveSpeed() throws InterruptedException {
         init();
-
-        // Enemy is created with same move speed as its enemy type (zombie).
-        assertEquals(new Zombie().getMoveSpeed(), enemyComponent.getMoveSpeed());
+        waitForRunLater(() -> {
+            // Enemy is created with same move speed as its enemy type (zombie).
+            assertEquals(new Zombie().getMoveSpeed(), enemyComponent.getMoveSpeed());
+        });
     }
 
     @Test
-    public void testGetJumpHeight() {
+    public void testGetJumpHeight() throws InterruptedException {
         init();
-
-        // Enemy is created with same jump height as its enemy type (zombie).
-        assertEquals(new Zombie().getJumpHeight(), enemyComponent.getJumpHeight());
+        waitForRunLater(() -> {
+            // Enemy is created with same jump height as its enemy type (zombie).
+            assertEquals(new Zombie().getJumpHeight(), enemyComponent.getJumpHeight());
+        });
     }
 
     @Test
-    public void testGetJumps() {
+    public void testGetJumps() throws InterruptedException {
         init();
+        waitForRunLater(() -> {
+            // Enemy is spawned with 0 jumps available (until collision with the ground).
+            assertEquals(0, enemyComponent.getJumps());
 
-        // Enemy is spawned with 0 jumps available (until collision with the ground).
-        assertEquals(0, enemyComponent.getJumps());
-
-        enemyComponent.resetJumpAmounts();
-        assertEquals(1, enemyComponent.getJumps());
+            enemyComponent.resetJumpAmounts();
+            assertEquals(1, enemyComponent.getJumps());
+        });
     }
 
     // How to test these?
@@ -248,21 +282,23 @@ public class TestEnemyComponent {
     // -------- SETTERS -------- //
 
     @Test
-    public void testSetMoveSpeedMultiplier() {
+    public void testSetMoveSpeedMultiplier() throws InterruptedException {
         init();
-
-        int startMoveSpeed = enemyComponent.getMoveSpeed();
-        enemyComponent.setMoveSpeedMultiplier(2);
-        assertEquals((startMoveSpeed * 2), enemyComponent.getMoveSpeed());
+        waitForRunLater(() -> {
+            int startMoveSpeed = enemyComponent.getMoveSpeed();
+            enemyComponent.setMoveSpeedMultiplier(2);
+            assertEquals((startMoveSpeed * 2), enemyComponent.getMoveSpeed());
+        });
     }
 
     @Test
-    public void testSetJumpHeightMultiplier() {
+    public void testSetJumpHeightMultiplier() throws InterruptedException {
         init();
-
-        int startJumpHeight = enemyComponent.getJumpHeight();
-        enemyComponent.setJumpHeightMultiplier(2);
-        assertEquals((startJumpHeight * 2), enemyComponent.getJumpHeight());
+        waitForRunLater(() -> {
+            int startJumpHeight = enemyComponent.getJumpHeight();
+            enemyComponent.setJumpHeightMultiplier(2);
+            assertEquals((startJumpHeight * 2), enemyComponent.getJumpHeight());
+        });
     }
 }
 

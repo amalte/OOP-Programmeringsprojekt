@@ -22,7 +22,7 @@ public class Handgun implements IWeaponType{
 
     @Override
     public int getProjectileSpeed() {
-        return 600;
+        return 900;
     }
 
     @Override

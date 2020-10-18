@@ -16,6 +16,11 @@ public class Blob implements IEnemyType {
     }
 
     @Override
+    public String getTextureJump() {
+        return "BlobSpriteJump.png";
+    }
+
+    @Override
     public int getHealth() {
         return 100;
     }

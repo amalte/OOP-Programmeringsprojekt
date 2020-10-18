@@ -7,12 +7,15 @@ import edu.chalmers.controller.GameMenuType;
 import edu.chalmers.controller.InputController;
 import edu.chalmers.controller.MenuController;
 import edu.chalmers.controller.game.ExitMenuController;
+import edu.chalmers.controller.game.GameOverViewController;
 import edu.chalmers.controller.main.MainMenuController;
 import edu.chalmers.controller.main.PlayMenuController;
 import edu.chalmers.controller.main.SettingsMenuController;
 import edu.chalmers.model.GenericPlatformer;
+import edu.chalmers.model.IObserver;
 import edu.chalmers.utilities.Constants;
 import edu.chalmers.view.game.BuildView;
+import edu.chalmers.view.game.GameOverView;
 import edu.chalmers.view.game.GameUI;
 import edu.chalmers.view.game.ExitMenu;
 import edu.chalmers.view.main.MainMenu;
@@ -107,6 +110,8 @@ public class Main extends GameApplication {
                     mainMenuController.setPlayMenuController(playMenuController);
                     mainMenuController.setSettingsMenuController(settingsMenuController);
 
+                    GameOverViewController gameOverViewController = new GameOverViewController(new GameOverView(), this, game);
+
                     ExitMenuController exitMenuController = new ExitMenuController(new ExitMenu(), this);
                     exitMenuController.setInputController(inputController);
 
@@ -114,6 +119,7 @@ public class Main extends GameApplication {
                     this.controllerList.add(settingsMenuController);
                     this.controllerList.add(playMenuController);
                     this.controllerList.add(exitMenuController);
+                    this.controllerList.add(gameOverViewController);
 
                     mainMenuController.show();
                 }
@@ -205,6 +211,7 @@ public class Main extends GameApplication {
                 this.initExtraViews();
 
                 buildUIController = new BuildUIController(game, buildView);
+                game.getWaveManager().addObserver((IObserver)getController(GameMenuType.GameOver));
 
                 this.gameRunning = true;
 
@@ -221,6 +228,8 @@ public class Main extends GameApplication {
     {
         if (this.getGameRunning())
         {
+            game.getWaveManager().removeObserver(gameUI);
+            game.getWaveManager().removeObserver((IObserver) getController(GameMenuType.GameOver));
             this.showBackground();
             getController(GameMenuType.Exit).hide();
             getController(GameMenuType.Main).show();
@@ -247,7 +256,7 @@ public class Main extends GameApplication {
     private void initExtraViews()
     {
         this.gameUI = new GameUI(game);
-        this.gameUI.setNodes();
+        this.gameUI.createNodes();
         game.getPlayerComponent().addObserver(gameUI);
 
         this.buildView = new BuildView(game.getPlayerComponent().getBuildRangeTiles());

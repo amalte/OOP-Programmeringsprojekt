@@ -38,7 +38,7 @@ public class GameWorldFactory implements EntityFactory {
                 .with(physics)
                 .with(new PlayerComponent(physics))
                 .with(new CollidableComponent(true))
-                .with(new AnimationComponent("PlayerSpriteIdle.png","PlayerSpriteWalk.png"))
+                .with(new AnimationComponent("PlayerSpriteIdle.png","PlayerSpriteWalk.png","PlayerSpriteJump.png"))
                 .build();
     }
 

@@ -15,10 +15,9 @@ class StatImprovementAI {
     private double blobGroundToPlatformJmp = 1.7;
 
     // Platform to platform - move speed:
-    private double zombiePlatformToPlatformSpeed = 1.6;
-    private double rexPlatformToPlatformSpeed = 2.1;
-    private double blobPlatformToPlatformSpeed = 1.9;
-
+    private double zombiePlatformToPlatformSpeed = 1.9;
+    private double rexPlatformToPlatformSpeed = 2.5;
+    private double blobPlatformToPlatformSpeed = 2.4;
     // Platform to platform - jump height:
     private double zombiePlatformToPlatformJmp = 1.7;
     private double rexPlatformToPlatformJmp = 1.7;

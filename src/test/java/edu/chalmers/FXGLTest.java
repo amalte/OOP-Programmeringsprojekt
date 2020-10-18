@@ -1,8 +1,10 @@
 package edu.chalmers;
 
 import com.almasb.fxgl.app.GameApplication;
+import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import edu.chalmers.main.Main;
+import edu.chalmers.model.GameWorldFactory;
 import javafx.application.Platform;
 
 import java.util.ArrayList;
@@ -47,6 +49,8 @@ public final class FXGLTest {
             assertTrue(gameApplication instanceof Main);
 
             mainInstance = (Main)gameApplication;
+
+            FXGL.getGameWorld().addEntityFactory(new GameWorldFactory());
             mainInstance.setTestRunning(true);
         }
     }

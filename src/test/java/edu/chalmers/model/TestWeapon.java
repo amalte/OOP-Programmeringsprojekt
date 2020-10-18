@@ -3,7 +3,6 @@ package edu.chalmers.model;
 import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.physics.PhysicsComponent;
-import com.almasb.fxgl.test.RunWithFX;
 import edu.chalmers.model.weapon.Weapon;
 import edu.chalmers.model.weapon.WeaponFactory;
 import edu.chalmers.model.weapon.WeaponProjectile;
@@ -11,12 +10,10 @@ import javafx.geometry.Point2D;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 import static edu.chalmers.FXGLTest.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@ExtendWith(RunWithFX.class)
 public class TestWeapon {
 
     private Weapon weapon;

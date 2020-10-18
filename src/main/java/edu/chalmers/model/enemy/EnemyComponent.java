@@ -68,6 +68,7 @@ public class EnemyComponent extends Component {
     public void jump(){
         if(jumps != 0) {
             physics.setVelocityY(-jumpHeight);
+            entity.getComponent(AnimationComponent.class).jump();
             jumps--;
         }
     }
@@ -84,6 +85,15 @@ public class EnemyComponent extends Component {
      */
     public void die() {
         getGameWorld().removeEntity(entity);
+    }
+
+    /**
+     * Calls method landed from AnimationComponent.
+     * Calls method resetJumpAmounts().
+     */
+    public void landed() {
+        entity.getComponent(AnimationComponent.class).landed();
+        resetJumpAmounts();
     }
 
     /**

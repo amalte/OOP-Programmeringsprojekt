@@ -90,7 +90,7 @@ public class EnemyFactory {
         entity.addComponent(new EnemyAIComponent(enemyComponent, player));          // Add EnemyAIComponent
         entity.addComponent(new AnimationComponent(                                 // Add AnimationComponent
                 enemyComponent.getEnemyType().getTextureIdle(),
-                enemyComponent.getEnemyType().getTextureWalk()));
+                enemyComponent.getEnemyType().getTextureWalk(), enemyComponent.getEnemyType().getTextureJump()));
 
         return entity;
 
