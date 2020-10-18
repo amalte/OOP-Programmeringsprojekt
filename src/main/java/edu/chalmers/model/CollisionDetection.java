@@ -8,9 +8,6 @@ import edu.chalmers.model.building.blocks.Block;
 import edu.chalmers.model.enemy.EnemyComponent;
 import edu.chalmers.utilities.EntityPos;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class CollisionDetection {
 
     /**
@@ -22,7 +19,7 @@ public class CollisionDetection {
             protected void onCollisionBegin(Entity a, Entity b) {
                 if(aboveMiddleCollision(a, b) && !sideCollision(a, b)) {  // Can only jump if standing above and on platform.
                     if (a.hasComponent(PlayerComponent.class)) {
-                        a.getComponent(PlayerComponent.class).resetJumpAmounts();
+                        a.getComponent(PlayerComponent.class).landed();
                         // onGround check.
                         // If the platform has X-Position of 0, then the platform is the ground.
                         if (b.getX() == 0) {
@@ -50,7 +47,7 @@ public class CollisionDetection {
                 if(aboveMiddleCollision(a, b) && !sideCollision(a, b)) {  // Can only jump if standing above and on block
 
                     if (a.hasComponent(PlayerComponent.class)) {
-                        a.getComponent(PlayerComponent.class).resetJumpAmounts();
+                        a.getComponent(PlayerComponent.class).landed();
                         a.getComponent(PlayerComponent.class).setAirborne(false);
                     }
                 }
@@ -72,7 +69,7 @@ public class CollisionDetection {
                     a.getComponent(PlayerComponent.class).inflictDamage(b.getComponent(EnemyComponent.class).getDamage());
 
                     if (aboveMiddleCollision(a, b) && !sideCollision(a, b)) {  // Can only jump if standing above and on block
-                        a.getComponent(PlayerComponent.class).resetJumpAmounts();
+                        a.getComponent(PlayerComponent.class).landed();
                     }
                 }
             }
@@ -86,7 +83,7 @@ public class CollisionDetection {
 
                 if(aboveMiddleCollision(a, b)) {  // Can only jump if standing above and on block
                     if (a.hasComponent(EnemyComponent.class)) {
-                        a.getComponent(EnemyComponent.class).resetJumpAmounts();
+                        a.getComponent(EnemyComponent.class).landed();
                     }
                 }
             }
@@ -96,7 +93,7 @@ public class CollisionDetection {
             @Override
             protected void onCollisionBegin(Entity a, Entity b) {
                 if (a.hasComponent(EnemyComponent.class))
-                    a.getComponent(EnemyComponent.class).resetJumpAmounts();
+                    a.getComponent(EnemyComponent.class).landed();
 
                 // onGround check.
                 // If the platform has X-Position of 0, then the platform is the ground.
@@ -124,7 +121,7 @@ public class CollisionDetection {
             protected void onCollisionBegin(Entity a, Entity b) {
                 if (a.hasComponent(EnemyComponent.class)) {
                     if (aboveMiddleCollision(a, b) && !sideCollision(a, b)) {  // Can only jump if standing above and on block
-                        a.getComponent(EnemyComponent.class).resetJumpAmounts();
+                        a.getComponent(EnemyComponent.class).landed();
                     }
                     a.getComponent(EnemyComponent.class).setAirborne(false);
                 }
