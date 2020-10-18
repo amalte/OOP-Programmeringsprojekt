@@ -16,10 +16,21 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameWorld;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * Helper class for all of the tests related to FXGL/JavaFX.
+ */
 public final class FXGLTest {
+    /**
+     * The maximum amount of time (in seconds) to wait for a condition to be true.
+     */
     public static final int AWAIT_TIMEOUT_SEC = 10;
+
     private static Main mainInstance;
 
+    /**
+     * Initialize this helper class.
+     * @throws InterruptedException
+     */
     public static void initialize() throws InterruptedException
     {
         if (mainInstance == null)
@@ -40,6 +51,11 @@ public final class FXGLTest {
         }
     }
 
+    /**
+     * De-initialize the helper class.
+     * Does not actually shut the application done as this prevents tests from running new application instances on the same JVM thread (JavaFX limitation).
+     * @throws InterruptedException
+     */
     public static void deInitialize() throws InterruptedException
     {
         if (mainInstance != null)
@@ -50,6 +66,12 @@ public final class FXGLTest {
         }
     }
 
+    /**
+     * Execute a Runnable on the JavaFX thread and wait until it has finished.
+     * Used to circumvent the error "java.lang.IllegalStatException - Not on FX application thread”.
+     * @param runnable The Runnable to be executed on the JavaFX thread.
+     * @throws InterruptedException
+     */
     public static void waitForRunLater(Runnable runnable) throws InterruptedException {
         AtomicReference<CountDownLatch> runLaterLatch = new AtomicReference<>();
         runLaterLatch.set(new CountDownLatch(1));
@@ -64,6 +86,9 @@ public final class FXGLTest {
         assertTrue(runLaterLatch.get().await(AWAIT_TIMEOUT_SEC, TimeUnit.SECONDS));
     }
 
+    /**
+     * @return The current instance of the Main class. Null if initialize() has not been called.
+     */
     public static Main getMainInstance()
     {
         return mainInstance;
