@@ -61,7 +61,7 @@ public class TestMovementAI {
     }
 
     @Test
-    public void testSetMoveDirection() throws InterruptedException {
+    public void testUpdateMoveDirection() throws InterruptedException {
         init();
         waitForRunLater(() -> {
             // Spawn player to the left of Enemy and set it as target. updateMoveDirection() is not called so moveDirection should be null.
@@ -211,7 +211,7 @@ public class TestMovementAI {
     }
 
     @Test
-    public void testFloatingPlatformMovement() throws InterruptedException {
+    public void testDoFloatingPlatformMovement() throws InterruptedException {
         init();
         waitForRunLater(() -> {
             enemyAIComponent.onUpdate(1);
@@ -225,24 +225,63 @@ public class TestMovementAI {
 
             enemyComponent.setAirborne(false);
             // No platform exists so should be null.
-            enemyAIComponent.getMovementAI().floatingPlatformMovement();
+            enemyAIComponent.getMovementAI().doFloatingPlatformMovement();
             assertEquals(null, enemyAIComponent.getPlatformAI().getClosestPlatform());
 
             // Add platform and update platforms list.
             Entity platform = spawn("testingPlatform", 100, 100);
             enemyAIComponent.getPlatformAI().updatePlatforms();
-            enemyAIComponent.getMovementAI().floatingPlatformMovement();
+            enemyAIComponent.getMovementAI().doFloatingPlatformMovement();
             assertEquals(platform, enemyAIComponent.getPlatformAI().getClosestPlatform());
+
+            // If closestPlatform is *not* equal to null. Put closestPlatform below Enemy.
+            enemy.setX(platform.getX());
+            enemy.setY(platform.getY() - (enemy.getHeight() + 5));
+            enemyAIComponent.getMovementAI().doFloatingPlatformMovement();
+            assertEquals(false, enemyAIComponent.getMovementAI().isMoveToNextPlatform());
         });
 
 
         // ---- else ---- //:
         init();
         waitForRunLater(() -> {
-
             tempPlayer.getComponent(PlayerComponent.class).setOnGround(true);
             enemyComponent.setAirborne(false);
             assertEquals(tempPlayer, enemyAIComponent.getTarget());
         });
+    }
+
+    @Test
+    public void testenemyStuckUnderPlatformFix() throws InterruptedException {
+        init();
+        waitForRunLater(() -> {
+
+            // Enemy is not under platform at start
+            assertEquals(false, enemyAIComponent.getMovementAI().isUnderPlatform());
+            assertEquals(false, enemyAIComponent.isPathfindingOverride());
+
+            // Put player above enemy. Spawn platform above enemy. Set booleans to correct value.
+            tempPlayer.setY(-1000);
+            spawn("testingPlatform", enemy.getX(), enemy.getY() - 75);
+            enemyComponent.setAirborne(false);
+            enemyComponent.setOnGround(true);
+            tempPlayer.getComponent(PlayerComponent.class).setOnGround(false);
+
+            enemyAIComponent.getMovementAI().enemyStuckUnderPlatformFix();
+            assertEquals(true, enemyAIComponent.getMovementAI().isUnderPlatform());
+            assertEquals(false, enemyAIComponent.getMovementAI().isJumpAllowed());
+
+            assertEquals(true, enemyAIComponent.isPathfindingOverride());
+            // Set player to the left. Prompts enemy movement to the right.
+            tempPlayer.setX(-1000);
+            enemyAIComponent.getMovementAI().enemyStuckUnderPlatformFix();
+            assertEquals(enemyComponent.getMoveSpeed(), Math.round(enemyComponent.getPhysics().getVelocityX()));
+
+            // Set player to the right. Prompts enemy movement to the left.
+            tempPlayer.setX(1000);
+            enemyAIComponent.getMovementAI().enemyStuckUnderPlatformFix();
+            assertEquals(-enemyComponent.getMoveSpeed(), Math.round(enemyComponent.getPhysics().getVelocityX()));
+        });
+
     }
 }

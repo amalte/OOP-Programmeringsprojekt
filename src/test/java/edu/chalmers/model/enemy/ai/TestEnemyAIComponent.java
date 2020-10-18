@@ -107,7 +107,7 @@ public class TestEnemyAIComponent {
     }
 
     @Test
-    public void testIsEntityToLeft() throws InterruptedException {
+    public void testIsEntityMiddleToLeft() throws InterruptedException {
         init();
         waitForRunLater(() -> {
             // Set enemy position and spawn new player to the right.
@@ -115,17 +115,17 @@ public class TestEnemyAIComponent {
             enemy.setY(0);
             Entity player = spawn("player", 10, 0);
 
-            assertEquals(false, enemyAIComponent.isEntityToLeft(player));
+            assertEquals(false, enemyAIComponent.isEntityMiddleToLeft(player));
 
             // Set player middle X-position to be slightly to the left of Enemy.
             player.setX(-(player.getWidth() / 2 + 1));
 
-            assertEquals(true, enemyAIComponent.isEntityToLeft(player));
+            assertEquals(true, enemyAIComponent.isEntityMiddleToLeft(player));
         });
     }
 
     @Test
-    public void testIsEntityToRight() throws InterruptedException {
+    public void testIsEntityMiddleToRight() throws InterruptedException {
         init();
         waitForRunLater(() -> {
             // Set enemy position and spawn new player to the left.
@@ -133,12 +133,12 @@ public class TestEnemyAIComponent {
             enemy.setY(0);
             Entity player = spawn("player", -10, 0);
 
-            assertEquals(false, enemyAIComponent.isEntityToRight(player));
+            assertEquals(false, enemyAIComponent.isEntityMiddleToRight(player));
 
             // Set player middle X-position to be exactly to the right of Enemy.
             player.setX(enemy.getRightX() + player.getWidth() / 2);
 
-            assertEquals(true, enemyAIComponent.isEntityToRight(player));
+            assertEquals(true, enemyAIComponent.isEntityMiddleToRight(player));
         });
     }
 

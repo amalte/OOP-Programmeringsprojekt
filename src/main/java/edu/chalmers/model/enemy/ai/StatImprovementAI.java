@@ -1,27 +1,11 @@
 package edu.chalmers.model.enemy.ai;
 
-import edu.chalmers.model.enemy.EnemyTypes;
-
 /**
- * StatImprovementAI. Contains all variables and methods used when Enemy stats need to be improved because of AI.
+ * StatImprovementAI. Contains all methods used when Enemy stats need to be improved because of AI.
  */
 class StatImprovementAI {
 
     EnemyAIComponent AI;
-
-    // Ground to platform - jump height:
-    private double zombieGroundToPlatformJmp = 1.6;
-    private double rexGroundToPlatformJmp = 1.6;
-    private double blobGroundToPlatformJmp = 1.7;
-
-    // Platform to platform - move speed:
-    private double zombiePlatformToPlatformSpeed = 1.9;
-    private double rexPlatformToPlatformSpeed = 2.5;
-    private double blobPlatformToPlatformSpeed = 2.4;
-    // Platform to platform - jump height:
-    private double zombiePlatformToPlatformJmp = 1.7;
-    private double rexPlatformToPlatformJmp = 1.7;
-    private double blobPlatformToPlatformJmp = 1.6;
 
     public StatImprovementAI(EnemyAIComponent enemyAIComponent) {
         this.AI = enemyAIComponent;
@@ -36,85 +20,92 @@ class StatImprovementAI {
     }
 
     /**
-     * Method improves Enemy stats depending on the Enemy type.
+     * Method improves Enemy stats depending on the Enemy type. Used for a ground to platform jump.
      */
     public void groundToPlatformStatImprovement() {
 
         // If Enemy is a Zombie:
-        if(AI.getThisEnemy().getEnemyType().getClass().equals(EnemyTypes.getZombieClass())) {
-            AI.getThisEnemy().setJumpHeightMultiplier(zombieGroundToPlatformJmp);
+        if(AI.getThisEnemy().getEnemyType().getName().equalsIgnoreCase("Zombie")) {
+            improveStats(1, getZombieGroundToPlatformJmp());
         }
 
         // If Enemy is a Rex:
-        else if(AI.getThisEnemy().getEnemyType().getClass().equals(EnemyTypes.getRexClass())) {
-            AI.getThisEnemy().setJumpHeightMultiplier(rexGroundToPlatformJmp);
+        else if(AI.getThisEnemy().getEnemyType().getName().equalsIgnoreCase("Rex")) {
+            improveStats(1, getRexGroundToPlatformJmp());
         }
 
         // If Enemy is a Blob
-        else if(AI.getThisEnemy().getEnemyType().getClass().equals(EnemyTypes.getBlobClass())) {
-            AI.getThisEnemy().setJumpHeightMultiplier(blobGroundToPlatformJmp);
+        else if(AI.getThisEnemy().getEnemyType().getName().equalsIgnoreCase("Blob")) {
+            improveStats(1, getBlobGroundToPlatformJmp());
         }
     }
 
     /**
-     * Method improves Enemy stats depending on the Enemy type.
+     * Method improves Enemy stats depending on the Enemy type. Used for a platform to platform jump.
      */
     public void platformToPlatformStatImprovement() {
 
         // If Enemy is a Zombie:
-        if(AI.getThisEnemy().getEnemyType().getClass().equals(EnemyTypes.getZombieClass())) {
-            AI.getThisEnemy().setMoveSpeedMultiplier(zombiePlatformToPlatformSpeed);
-            AI.getThisEnemy().setJumpHeightMultiplier(zombiePlatformToPlatformJmp);
+        if(AI.getThisEnemy().getEnemyType().getName().equalsIgnoreCase("Zombie")) {
+            improveStats(getZombiePlatformToPlatformSpeed(), getZombiePlatformToPlatformJmp());
         }
 
         // If Enemy is a Rex:
-        else if(AI.getThisEnemy().getEnemyType().getClass().equals(EnemyTypes.getRexClass())) {
-            AI.getThisEnemy().setMoveSpeedMultiplier(rexPlatformToPlatformSpeed);
-            AI.getThisEnemy().setJumpHeightMultiplier(rexPlatformToPlatformJmp);
+        else if(AI.getThisEnemy().getEnemyType().getName().equalsIgnoreCase("Rex")) {
+            improveStats(getRexPlatformToPlatformSpeed(), getRexPlatformToPlatformJmp());
         }
 
         // If Enemy is a Blob
-        else if(AI.getThisEnemy().getEnemyType().getClass().equals(EnemyTypes.getBlobClass())) {
-            AI.getThisEnemy().setMoveSpeedMultiplier(blobPlatformToPlatformSpeed);
-            AI.getThisEnemy().setJumpHeightMultiplier(blobPlatformToPlatformJmp);
+        else if(AI.getThisEnemy().getEnemyType().getName().equalsIgnoreCase("Blob")) {
+            improveStats(getBlobPlatformToPlatformSpeed(), getBlobPlatformToPlatformJmp());
         }
+    }
+
+    /**
+     * Method improves Enemy stats with the given multiplier values.
+     * @param moveSpeedMultiplier Multiplier to improve move speed with.
+     * @param jmpHeightMultiplier Multiplier to improve jump height with.
+     */
+    private void improveStats(double moveSpeedMultiplier, double jmpHeightMultiplier) {
+        AI.getThisEnemy().setMoveSpeedMultiplier(moveSpeedMultiplier);
+        AI.getThisEnemy().setJumpHeightMultiplier(jmpHeightMultiplier);
     }
 
     // -------- GETTERS -------- //
 
     public double getZombieGroundToPlatformJmp() {
-        return zombieGroundToPlatformJmp;
+        return 1.6;
     }
 
     public double getRexGroundToPlatformJmp() {
-        return rexGroundToPlatformJmp;
+        return 1.6;
     }
 
     public double getBlobGroundToPlatformJmp() {
-        return blobGroundToPlatformJmp;
+        return 1.7;
     }
 
     public double getZombiePlatformToPlatformSpeed() {
-        return zombiePlatformToPlatformSpeed;
+        return 1.9;
     }
 
     public double getRexPlatformToPlatformSpeed() {
-        return rexPlatformToPlatformSpeed;
+        return 2.5;
     }
 
     public double getBlobPlatformToPlatformSpeed() {
-        return blobPlatformToPlatformSpeed;
+        return 2.4;
     }
 
     public double getZombiePlatformToPlatformJmp() {
-        return zombiePlatformToPlatformJmp;
+        return 1.7;
     }
 
     public double getRexPlatformToPlatformJmp() {
-        return rexPlatformToPlatformJmp;
+        return 1.7;
     }
 
     public double getBlobPlatformToPlatformJmp() {
-        return blobPlatformToPlatformJmp;
+        return 1.6;
     }
 }

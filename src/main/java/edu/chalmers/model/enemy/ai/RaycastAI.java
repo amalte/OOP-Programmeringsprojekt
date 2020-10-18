@@ -1,7 +1,9 @@
 package edu.chalmers.model.enemy.ai;
 
+import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.physics.RaycastResult;
 import edu.chalmers.utilities.RaycastCalculations;
+import javafx.scene.shape.Line;
 
 /**
  * RaycastAI. Contains all variables and methods used by Enemy AI regarding raycasts.
@@ -9,6 +11,7 @@ import edu.chalmers.utilities.RaycastCalculations;
 class RaycastAI {
 
     private EnemyAIComponent AI;
+    //Line line;        // Debug line
 
     // ---- RAYCAST VARIABLES ---- //
     private RaycastResult higherHorizontalRaycast;
@@ -27,6 +30,9 @@ class RaycastAI {
 
     public RaycastAI(EnemyAIComponent enemyAIComponent) {
         this.AI = enemyAIComponent;
+
+//        line = new Line(AI.getThisEnemy().getRightX(), AI.getThisEnemy().getY()+3, AI.getThisEnemy().getRightX()+horizontalRaycastLength, AI.getThisEnemy().getY()+3);
+//        FXGL.getGameScene().addUINode(line);
     }
 
     /**
@@ -35,13 +41,18 @@ class RaycastAI {
     public void updateRaycastsDirection() {
         // +1 and -1 is used to indent the raycast position into the entity a bit, making it more accurate and able to catch entities with the same size.
         // Same goes for +3 and -3.
+        // +10 at horizontalRaycast's X-pos (when moving left) as raycast was off center because of hitbox and texture size difference.
 
         // If moving left
         if (AI.getMovementAI().getMoveDirection() == MovementAI.Direction.LEFT) {
             higherHorizontalRaycast = RaycastCalculations.setHorizontalRaycast(-higherHorizontalRaycastLength, AI.getThisEnemy().getX(), AI.getThisEnemy().getY() - higherHorizontalRaycastDeltaHeight);
-            horizontalRaycast = RaycastCalculations.setHorizontalRaycast(-horizontalRaycastLength, AI.getThisEnemy().getX(), AI.getThisEnemy().getY() + 3);
+            horizontalRaycast = RaycastCalculations.setHorizontalRaycast(-horizontalRaycastLength, AI.getThisEnemy().getX()+10, AI.getThisEnemy().getY() + 3);
             entityRaycast = RaycastCalculations.setHorizontalRaycast(-entityRaycastLength, AI.getThisEnemy().getX(), AI.getThisEnemy().getY() + 3);
             activeDownwardRaycast = getLeftDownwardRaycast();
+
+//            FXGL.getGameScene().removeUINode(line);
+//            line = new Line(AI.getThisEnemy().getX()+10, AI.getThisEnemy().getY()+3, AI.getThisEnemy().getX()+5-horizontalRaycastLength, AI.getThisEnemy().getY()+3);
+//            FXGL.getGameScene().addUINode(line);
         }
         // If moving right
         else if (AI.getMovementAI().getMoveDirection() == MovementAI.Direction.RIGHT) {
@@ -49,6 +60,10 @@ class RaycastAI {
             horizontalRaycast = RaycastCalculations.setHorizontalRaycast(horizontalRaycastLength, AI.getThisEnemy().getRightX(), AI.getThisEnemy().getY() + 3);
             entityRaycast = RaycastCalculations.setHorizontalRaycast(entityRaycastLength, AI.getThisEnemy().getRightX(), AI.getThisEnemy().getY() + 3);
             activeDownwardRaycast = getRightDownwardRaycast();
+
+//            FXGL.getGameScene().removeUINode(line);
+//            line = new Line(AI.getThisEnemy().getRightX(), AI.getThisEnemy().getY()+3, AI.getThisEnemy().getRightX()+horizontalRaycastLength, AI.getThisEnemy().getY()+3);
+//            FXGL.getGameScene().addUINode(line);
         }
     }
 

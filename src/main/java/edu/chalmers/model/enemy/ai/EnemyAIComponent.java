@@ -76,10 +76,8 @@ public class EnemyAIComponent extends Component {
 
         // If number of platforms is 4 (map is level1): Activate floatingPlatformMovement.
         if(platformAI.getPlatforms().size() == 4) {
-            movementAI.floatingPlatformMovement();
+            movementAI.doFloatingPlatformMovement();
         }
-
-        //movementAI.followPlayerDown();
     }
 
     /**
@@ -190,14 +188,6 @@ public class EnemyAIComponent extends Component {
     }
 
     /**
-     * Getter for pathfindingOverride variable.
-     * @return pathfindingOverride.
-     */
-    public boolean isPathfindingOverride() {
-        return pathfindingOverride;
-    }
-
-    /**
      * Getter for target variable.
      * @return target.
      */
@@ -211,6 +201,14 @@ public class EnemyAIComponent extends Component {
      */
     public boolean isPlayerReached() {
         return playerReached;
+    }
+
+    /**
+     * Getter for pathfindingOverride variable.
+     * @return pathFinding variable.
+     */
+    public boolean isPathfindingOverride() {
+        return pathfindingOverride;
     }
 
     // --------- SETTERS --------- //
@@ -233,23 +231,19 @@ public class EnemyAIComponent extends Component {
     // --------- BOOLEANS --------- //
 
     /**
-     * Method checks if the given entity is to the left of the Enemy.
+     * Method checks if the given entity's middle x-pos is to the left of the Enemy.
      * @return True or false.
      */
-    public boolean isEntityToLeft(Entity entity) {
-        //System.out.println("1.  TO LEFT");
-        //return Math.round(EntityPos.getMiddleX(entity) - EntityPos.getMiddleX(thisEnemy.getEntity())) < 0;
+    public boolean isEntityMiddleToLeft(Entity entity) {
         return Math.round(EntityPos.getMiddleX(entity) - thisEnemy.getX()) < 0;
 
     }
 
     /**
-     * Method checks if the given entity is to the right of the Enemy.
+     * Method checks if the given entity's middle x-pos is to the right of the Enemy.
      * @return True or false.
      */
-    public boolean isEntityToRight(Entity entity) {
-        //System.out.println("2.  TO     RIGHT");
-        //return Math.round(EntityPos.getMiddleX(entity) - EntityPos.getMiddleX(thisEnemy.getEntity())) > 0;
+    public boolean isEntityMiddleToRight(Entity entity) {
         return Math.round(EntityPos.getMiddleX(entity) - thisEnemy.getRightX()) > 0;
     }
 

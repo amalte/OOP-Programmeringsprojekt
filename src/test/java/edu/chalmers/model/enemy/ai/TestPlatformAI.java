@@ -178,7 +178,7 @@ public class TestPlatformAI {
 
             // Set position so only rightPlayerPlatformRaycast is hitting platform.
             tempPlayer.setX((platform.getX() - 10));
-            tempPlayer.setY(platform.getY() - (enemy.getHeight() + 2));
+            tempPlayer.setY(platform.getY() - (tempPlayer.getHeight() + 2));
 
             enemyAIComponent.getPlatformAI().playerRecentPlatformContactCheck();
             Entity platform1 = enemyAIComponent.getPlatformAI().getPlayerRecentPlatformContact();

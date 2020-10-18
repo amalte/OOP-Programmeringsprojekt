@@ -6,18 +6,8 @@ package edu.chalmers.model.enemy.enemytypes;
 public class Blob implements IEnemyType {
 
     @Override
-    public String getTextureIdle() {
-        return "BlobSpriteIdle.png";
-    }
-
-    @Override
-    public String getTextureWalk() {
-        return "BlobSpriteWalk.png";
-    }
-
-    @Override
-    public String getTextureJump() {
-        return "BlobSpriteJump.png";
+    public String getName() {
+        return "Blob";
     }
 
     @Override
@@ -43,5 +33,20 @@ public class Blob implements IEnemyType {
     @Override
     public int getJumpHeight() {
         return 275;
+    }
+
+    @Override
+    public String getTextureIdle() {
+        return "BlobSpriteIdle.png";
+    }
+
+    @Override
+    public String getTextureWalk() {
+        return "BlobSpriteWalk.png";
+    }
+
+    @Override
+    public String getTextureJump() {
+        return "BlobSpriteJump.png";
     }
 }
