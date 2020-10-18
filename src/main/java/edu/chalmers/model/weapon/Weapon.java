@@ -12,7 +12,7 @@ import javafx.util.Duration;
 import static com.almasb.fxgl.dsl.FXGL.runOnce;
 
 /**
- * Weapon class. Hold the functionality of weapons.
+ * Weapon class. Holds the functionality of weapons.
  */
 public class Weapon implements IObservable {
 
@@ -23,7 +23,7 @@ public class Weapon implements IObservable {
     private int projectileSpeed;
     private int magazineCounter;
     private boolean reloading = false;
-    private boolean testing = false;
+    private boolean testing = false; //Boolean used for testing
 
     private TimerAction timerAction;
 
@@ -46,7 +46,7 @@ public class Weapon implements IObservable {
     public void shoot(double x, double y) {
         if (magazineCounter > 0 && !reloading) {
             magazineCounter--;
-            new WeaponProjectile(new Point2D(x,y), mouseLocation(), projectileSpeed,false);
+            new WeaponProjectile(new Point2D(x,y), mouseLocation(), projectileSpeed, testing);
         }
     }
 
@@ -65,6 +65,9 @@ public class Weapon implements IObservable {
         }
     }
 
+    /**
+     * Resets the magazineCounter to magazineSize
+     */
     private void resetMagazine() {
         magazineCounter = magazineSize;
         reloading = false;
@@ -75,6 +78,10 @@ public class Weapon implements IObservable {
         timerAction = runOnce(() -> {}, Duration.millis(0));
     }
 
+    /**
+     * Gets the mouse position in the application
+     * @return Returns the mouse position as a Point2D
+     */
     private Point2D mouseLocation() {
         return FXGL.getInput().getMousePositionWorld();
 
