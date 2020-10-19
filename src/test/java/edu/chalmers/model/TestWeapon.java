@@ -13,6 +13,7 @@ import org.junit.Test;
 
 import static edu.chalmers.FXGLTest.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestWeapon {
 
@@ -72,6 +73,19 @@ public class TestWeapon {
     public void testGetDamage() {
         weapon = WeaponFactory.getInstance().createWeapon("Handgun");
         assertEquals(weapon.getDamage(), 45);
+    }
+
+    @Test
+    public void testObserverMethods() throws InterruptedException {
+        MockObserver o = new MockObserver();
+        weapon = WeaponFactory.getInstance().createWeapon("Handgun");
+        assertTrue(weapon.observers.size() == 0);
+        weapon.addObserver(o);
+        assertTrue(weapon.observers.size() == 1);
+        weapon.notifyObserver();
+        assertTrue(o.isTest());
+        weapon.removeObserver(o);
+        assertTrue(weapon.observers.size() == 0);
     }
 
     @AfterClass
