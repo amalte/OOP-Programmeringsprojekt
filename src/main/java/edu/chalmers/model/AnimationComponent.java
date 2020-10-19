@@ -100,6 +100,10 @@ public class AnimationComponent extends Component {
         return timer;
     }
 
+    public boolean isAirborne() {
+        return isAirborne;
+    }
+
     public AnimationChannel getAnimIdle() {
         return animIdle;
     }

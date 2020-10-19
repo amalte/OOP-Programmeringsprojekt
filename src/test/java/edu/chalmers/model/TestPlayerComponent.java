@@ -1,12 +1,10 @@
 package edu.chalmers.model;
 
 import com.almasb.fxgl.physics.PhysicsComponent;
-import com.almasb.fxgl.test.RunWithFX;
 import edu.chalmers.FXGLTest;
 import org.junit.AfterClass;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameWorld;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
@@ -14,7 +12,6 @@ import static edu.chalmers.FXGLTest.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@ExtendWith(RunWithFX.class)
 public class TestPlayerComponent {
 
     private PlayerComponent player;
@@ -82,9 +79,8 @@ public class TestPlayerComponent {
     @Test
     public void testInflictDamage() throws InterruptedException {
         resetPlayer();
-        int temp = player.getHealth();
         player.inflictDamage(10);
-        assertEquals(temp - 10, player.getHealth());
+        assertEquals(player.getMaxHealth() - 10, player.getHealth());
     }
 
     @Test
@@ -123,5 +119,42 @@ public class TestPlayerComponent {
         assertTrue(player.isOnGround());
         player.setOnGround(false);
         assertTrue(!player.isOnGround());
+    }
+
+    @Test
+    public void testReload() throws InterruptedException {
+        resetPlayer();
+        player.getActiveWeapon().setTesting(true);
+        waitForRunLater(() -> {
+            player.shoot();
+        });
+        int temp = player.getActiveWeapon().getMagazineCounter();
+        player.reload();
+        assertEquals(player.getActiveWeapon().getMagazineSize(),player.getActiveWeapon().getMagazineCounter());
+    }
+
+    @Test
+    public void testObserverMethods() throws InterruptedException {
+        resetPlayer();
+        MockObserver o = new MockObserver();
+        assertTrue(player.observers.size() == 0);
+        player.addObserver(o);
+        assertTrue(player.observers.size() == 1);
+        player.notifyObserver();
+        assertTrue(o.isTest());
+        player.removeObserver(o);
+        assertTrue(player.observers.size() == 0);
+    }
+
+    @Test
+    public void testLanded() throws InterruptedException {
+        resetPlayer();
+        int temp = player.getJumps();
+        player.jump();
+        assertEquals(temp-1, player.getJumps());
+        assertTrue(player.getEntity().getComponent(AnimationComponent.class).isAirborne());
+        player.landed();
+        assertTrue(!player.getEntity().getComponent(AnimationComponent.class).isAirborne());
+        assertEquals(temp, player.getJumps());
     }
 }
