@@ -41,9 +41,9 @@ public class TestEnemyFactory {
             Entity zombie2 = EnemyFactory.getInstance().createEnemy("ZOMBIE", 0, 0, tempPlayer, new StatMultiplier());
             Entity zombie3 = EnemyFactory.getInstance().createEnemy("ZoMbIe", 0, 0, tempPlayer, new StatMultiplier());
 
-            assertEquals(EnemyTypes.getZombieClass(), zombie1.getComponent(EnemyComponent.class).getEnemyType().getClass());
-            assertEquals(EnemyTypes.getZombieClass(), zombie2.getComponent(EnemyComponent.class).getEnemyType().getClass());
-            assertEquals(EnemyTypes.getZombieClass(), zombie3.getComponent(EnemyComponent.class).getEnemyType().getClass());
+            assertEquals("Zombie", zombie1.getComponent(EnemyComponent.class).getEnemyType().getName());
+            assertEquals("Zombie", zombie2.getComponent(EnemyComponent.class).getEnemyType().getName());
+            assertEquals("Zombie", zombie3.getComponent(EnemyComponent.class).getEnemyType().getName());
         });
     }
 
@@ -55,9 +55,9 @@ public class TestEnemyFactory {
             Entity rex2 = EnemyFactory.getInstance().createEnemy("REX", 0, 0, tempPlayer, new StatMultiplier());
             Entity rex3 = EnemyFactory.getInstance().createEnemy("ReX", 0, 0, tempPlayer, new StatMultiplier());
 
-            assertEquals(EnemyTypes.getRexClass(), rex1.getComponent(EnemyComponent.class).getEnemyType().getClass());
-            assertEquals(EnemyTypes.getRexClass(), rex2.getComponent(EnemyComponent.class).getEnemyType().getClass());
-            assertEquals(EnemyTypes.getRexClass(), rex3.getComponent(EnemyComponent.class).getEnemyType().getClass());
+            assertEquals("Rex", rex1.getComponent(EnemyComponent.class).getEnemyType().getName());
+            assertEquals("Rex", rex2.getComponent(EnemyComponent.class).getEnemyType().getName());
+            assertEquals("Rex", rex3.getComponent(EnemyComponent.class).getEnemyType().getName());
         });
     }
 
@@ -69,9 +69,9 @@ public class TestEnemyFactory {
             Entity blob2 = EnemyFactory.getInstance().createEnemy("BLOB", 0, 0, tempPlayer, new StatMultiplier());
             Entity blob3 = EnemyFactory.getInstance().createEnemy("BlOb", 0, 0, tempPlayer, new StatMultiplier());
 
-            assertEquals(EnemyTypes.getBlobClass(), blob1.getComponent(EnemyComponent.class).getEnemyType().getClass());
-            assertEquals(EnemyTypes.getBlobClass(), blob2.getComponent(EnemyComponent.class).getEnemyType().getClass());
-            assertEquals(EnemyTypes.getBlobClass(), blob3.getComponent(EnemyComponent.class).getEnemyType().getClass());
+            assertEquals("Blob", blob1.getComponent(EnemyComponent.class).getEnemyType().getName());
+            assertEquals("Blob", blob2.getComponent(EnemyComponent.class).getEnemyType().getName());
+            assertEquals("Blob", blob3.getComponent(EnemyComponent.class).getEnemyType().getName());
         });
     }
 

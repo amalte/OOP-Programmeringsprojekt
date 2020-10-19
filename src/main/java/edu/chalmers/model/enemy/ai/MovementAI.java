@@ -6,31 +6,25 @@ import edu.chalmers.model.EntityType;
 import edu.chalmers.utilities.RaycastCalculations;
 import javafx.util.Duration;
 
-import java.util.Random;
-
 import static com.almasb.fxgl.dsl.FXGL.runOnce;
 
 class MovementAI {
 
     public enum Direction {LEFT, RIGHT}
 
-    EnemyAIComponent AI;
+    private EnemyAIComponent AI;
     private Direction moveDirection;
-    private int randInt;
-    Entity closestPlatform = null;
+    private Entity closestPlatform = null;
 
     private TimerAction underPlatformTimer;
     private TimerAction moveToNextPlatformTimer;
-    boolean underPlatform = false;
-    boolean moveToNextPlatform = true;
-    boolean jumpAllowed = true;
+
+    private boolean underPlatform = false;
+    private boolean moveToNextPlatform = true;
+    private boolean jumpAllowed = true;
 
     public MovementAI(EnemyAIComponent enemyAIComponent) {
         this.AI = enemyAIComponent;
-
-        Random random = new Random();
-        randInt = random.nextInt(2);
-
         initTimer();
     }
 
@@ -39,9 +33,9 @@ class MovementAI {
      */
     public void updateMoveDirection() {
         // Is target to the left or right?
-        if (AI.isEntityToLeft(AI.getTarget())) {
+        if (AI.isEntityMiddleToLeft(AI.getTarget())) {
             moveDirection = Direction.LEFT;
-        } else if (AI.isEntityToRight(AI.getTarget())) {
+        } else if (AI.isEntityMiddleToRight(AI.getTarget())) {
             moveDirection = Direction.RIGHT;
         }
     }
@@ -58,14 +52,14 @@ class MovementAI {
         }
 
         // Is Enemy to the right of target AND Player is not reached by Enemy or nearby Enemy?
-        if (AI.isEntityToLeft(AI.getTarget()) &&
+        if (AI.isEntityMiddleToLeft(AI.getTarget()) &&
                 !AI.isPlayerReached() &&
                 !nearbyEnemyHasReachedPlayer) {
             AI.getThisEnemy().moveLeft();
         }
 
         // Is Enemy to the left of target AND Player is not reached by Enemy or nearby Enemy?
-        else if (AI.isEntityToRight(AI.getTarget()) &&
+        else if (AI.isEntityMiddleToRight(AI.getTarget()) &&
                 !AI.isPlayerReached() &&
                 !nearbyEnemyHasReachedPlayer) {
             AI.getThisEnemy().moveRight();
@@ -130,49 +124,45 @@ class MovementAI {
     }
 
     /**
-     * Method makes Enemy try to reach the Player when the path is more complicated (involving climbing up floating platforms).
+     * Method makes Enemy try to reach the Player when the path involves climbing up floating platforms.
     */
-    public void floatingPlatformMovement() {
+    public void doFloatingPlatformMovement() {
 
         // IF:
         // the Player is *not* on the ground *AND*
         // Enemy is *not* under a platform *AND*
-        // Player is above Enemy
-        // Player and Enemy *don't* have the same Y-position
+        // Player is above Enemy *AND*
+        // Player and Enemy *don't* have the same Y-position *AND*
+        // Enemy should move to next platform:
         if(!AI.getPlayerComponent().isOnGround() &&
                 !underPlatform &&
                 AI.isEntityBottomYAbove(AI.getPlayer()) &&
-                !AI.isEntitySameY(AI.getPlayer())) {
+                !AI.isEntitySameY(AI.getPlayer()) &&
+                moveToNextPlatform) {
 
-            // If Enemy should move to next platform
-            if(moveToNextPlatform) {
-
-                // If closest platform is *not* equal to null
-                if(closestPlatform != null) {
-
-                    // Checks if platform below Enemy is closestPlatform. If so: delay move to next platform.
-                    if(AI.getPlatformAI().checkPlatformBelowEnemy(closestPlatform)) {
-                        moveToNextPlatform = false;
-                        moveToNextPlatformDelay();      // Sets moveToNextPlatform to true after a short delay (to give Enemy time to reach platform).
-                    }
+            // If closest platform is *not* equal to null
+            if(closestPlatform != null) {
+                // Checks if platform below Enemy is closestPlatform. If so: delay move to next platform.
+                if(AI.getPlatformAI().checkPlatformBelowEnemy(closestPlatform)) {
+                    moveToNextPlatform = false;
+                    moveToNextPlatformDelay();      // Sets moveToNextPlatform to true after a short delay (to give Enemy time to reach platform).
                 }
+            }
 
-                // Set closestPlatform if Enemy or Player is not airborne.
-                if(!AI.getThisEnemy().isAirborne() /*&&
-                        !AI.getPlayerComponent().isAirborne()*/) {
-                    closestPlatform = AI.getPlatformAI().getClosestPlatform();
-                }
+            // Set closestPlatform if Enemy is not airborne.
+            if(!AI.getThisEnemy().isAirborne()) {
+                closestPlatform = AI.getPlatformAI().getClosestPlatform();
+            }
 
-                // Set target to closestPlatform if it isn't equal to null.
-                if(closestPlatform != null &&
-                        AI.getPlatformAI().getPlayerRecentPlatformContact() != null) {
+            // Set target to closestPlatform if it isn't equal to null.
+            if(closestPlatform != null &&
+                    AI.getPlatformAI().getPlayerRecentPlatformContact() != null) {
 
-                    AI.setTarget(closestPlatform);
+                AI.setTarget(closestPlatform);
 
-                    // If the most recent platform the player was in contact with is the same platform below Enemy: set target to player.
-                    if(AI.getPlatformAI().getPlayerRecentPlatformContact().equals(AI.getPlatformAI().getPlatformBelowEnemy())) {
-                        AI.setTarget(AI.getPlayer());
-                    }
+                // If the most recent platform the player was in contact with is the same platform below Enemy: set target to player.
+                if(AI.getPlatformAI().getPlayerRecentPlatformContact().equals(AI.getPlatformAI().getPlatformBelowEnemy())) {
+                    AI.setTarget(AI.getPlayer());
                 }
             }
         }
@@ -224,37 +214,17 @@ class MovementAI {
             AI.setPathfindingOverride(true);
 
             // Move right if Player is to the left.
-            if(AI.isEntityToLeft(AI.getPlayer())) {
+            if(AI.isEntityMiddleToLeft(AI.getPlayer())) {
                 AI.getThisEnemy().moveRight();
             }
 
             // Move left if Player is to the right.
-            else if (AI.isEntityToRight(AI.getPlayer())) {
+            else if (AI.isEntityMiddleToRight(AI.getPlayer())) {
                 AI.getThisEnemy().moveLeft();
             }
         }
 
         // Enemy is not under a platform, therefore turn pathfinding back on.
-        else {
-            AI.setPathfindingOverride(false);
-        }
-    }
-
-    /**
-     * Method makes Enemy go down from a platform or a higher point if the Player is directly below.
-     */
-    // TODO - not done (not working as intended)
-    public void followPlayerDown() {
-        if(AI.isEntityMiddleYBelow(AI.getPlayer()) && !AI.getThisEnemy().isAirborne()) {
-            AI.setPathfindingOverride(true);
-
-            if(randInt == 0) {
-                AI.getThisEnemy().moveLeft();
-            }
-            else if(randInt == 1) {
-                AI.getThisEnemy().moveRight();
-            }
-        }
         else {
             AI.setPathfindingOverride(false);
         }
@@ -295,10 +265,34 @@ class MovementAI {
 
     /**
      * Getter for moveDirection variable.
-     * @return moveDirection.
+     * @return True or False.
      */
     public Direction getMoveDirection() {
         return moveDirection;
+    }
+
+    /**
+     * Getter for jumpAllowed variable.
+     * @return True or False.
+     */
+    public boolean isJumpAllowed() {
+        return jumpAllowed;
+    }
+
+    /**
+     * Getter for isUnderPlatform variable.
+     * @return True or false.
+     */
+    public boolean isUnderPlatform() {
+        return underPlatform;
+    }
+
+    /**
+     * Getter for moveToNextPlatform variable.
+     * @return True or false.
+     */
+    public boolean isMoveToNextPlatform() {
+        return moveToNextPlatform;
     }
 
     // ------- SETTERS ------- //

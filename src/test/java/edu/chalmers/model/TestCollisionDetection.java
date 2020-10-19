@@ -1,47 +1,62 @@
 package edu.chalmers.model;
 
-import com.almasb.fxgl.dsl.FXGL;
-import com.almasb.fxgl.entity.Entity;
-import com.almasb.fxgl.entity.components.CollidableComponent;
-import com.almasb.fxgl.physics.BoundingShape;
-import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.test.RunWithFX;
+import edu.chalmers.FXGLTest;
+import edu.chalmers.model.enemy.EnemyComponent;
 import edu.chalmers.model.enemy.EnemyFactory;
+import edu.chalmers.model.enemy.StatMultiplier;
+import org.junit.AfterClass;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
+import static edu.chalmers.FXGLTest.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(RunWithFX.class)
 public class TestCollisionDetection {
 
     private EnemyFactory enemyFactory = EnemyFactory.getInstance();
+    private PlayerComponent p;
+    private EnemyComponent enemy;
 
     @BeforeAll
-    public static void initApplication() throws InterruptedException {
-        SetupWorld.initApp();
+    public static void initApp() throws InterruptedException {
+        initialize();
+    }
+
+    @AfterClass
+    public static void tearDown() throws InterruptedException {
+        deInitialize();
     }
 
     @Test
-    public void testInitCollisionHandler() {
-        CollisionDetection collision = new CollisionDetection(new PlayerComponent(new PhysicsComponent()));
-
-        PlayerComponent p = spawn("player", 0 ,50).getComponent(PlayerComponent.class);
+    public void testCollisionHandler() throws InterruptedException {
+        /*waitForRunLater(() -> {
+            FXGLTest.clearAllEntities();
+            CollisionDetection collision = new CollisionDetection(new PlayerComponent(new PhysicsComponent()));
+            p = spawn("player", 0, 0).getComponent(PlayerComponent.class);
+            p.setTesting(true);
+        });
         p.setTesting(true);
         p.jump();
         assertEquals(0, p.getJumps());
-        Entity platform = FXGL.entityBuilder().type(EntityType.PLATFORM).at(0,0).bbox(new HitBox(BoundingShape.box(50, 50))).with(new CollidableComponent(true)).with(new PhysicsComponent()).build();
+        /*Entity platform = spawn("platform",0,0);
         assertTrue(p.getEntity().isColliding(platform));
-
-        fail("No finished test written!");
-        /* UNIMPLEMENTED TESTS
         assertTrue(p.isOnGround());
         assertEquals(1, p.getJumps());
-        EnemyComponent e = enemyFactory.createEnemy("zombie", 60,60, p.getEntity(), new StatMultiplier()).getComponent(EnemyComponent.class);
-        assertTrue(p.getHealth() == p.getHealth()-e.getDamage())
+
+
+        assertEquals(p.getMaxHealth(), p.getHealth());
+        waitForRunLater(() -> {
+            enemy = enemyFactory.createEnemy("Zombie", 0, 0, p.getEntity(), new StatMultiplier()).getComponent(EnemyComponent.class);
+        });
+        assertTrue(p.getEntity().isColliding(enemy.getEntity()));
+        assertEquals(1, p.getJumps());
+        assertEquals(p.getMaxHealth()-enemy.getDamage(), p.getHealth());
          */
+        assertTrue(false);
     }
 }

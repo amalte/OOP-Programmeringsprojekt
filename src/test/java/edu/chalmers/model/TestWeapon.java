@@ -12,7 +12,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static edu.chalmers.FXGLTest.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestWeapon {
 
@@ -30,7 +30,7 @@ public class TestWeapon {
             FXGL.getGameWorld().getEntities().clear();
 
             new WeaponProjectile(new Point2D(0, 0), FXGL.getAppCenter(), 500, true);
-
+        });
             double angle = FXGLMath.atan2(FXGL.getAppCenter().getY(), FXGL.getAppCenter().getX());
 
             Point2D projectileActualVelocity = FXGL.getGameWorld().getEntities().get(0).getComponent(PhysicsComponent.class).getLinearVelocity();
@@ -38,40 +38,61 @@ public class TestWeapon {
 
             assertEquals((int) projectileExpectedVelocity.getY(), (int) projectileActualVelocity.getY());
             assertEquals((int) projectileExpectedVelocity.getX(), (int) projectileActualVelocity.getX());
-        });
+
 
     }
 
     @Test
     public void testShoot() throws InterruptedException {
-        waitForRunLater(() -> {
             weapon = WeaponFactory.getInstance().createWeapon("Crossbow");
-            assertEquals(weapon.getMagazineCounter(), 1);
-            weapon.shoot(0,0);
-            assertEquals(weapon.getMagazineCounter(), 0);
-            weapon.shoot(0,0);
-            assertEquals(weapon.getMagazineCounter(), 0);}
-        );
-
+            assertEquals(weapon.getMagazineSize(), weapon.getMagazineCounter());
+            waitForRunLater(() -> {
+                weapon.shoot(0,0);
+                assertEquals(weapon.getMagazineSize()-1, weapon.getMagazineCounter());
+                weapon.shoot(0,0);
+            });
+            assertEquals(0, weapon.getMagazineCounter());
     }
 
     @Test
     public void testReload() throws InterruptedException {
+        weapon = WeaponFactory.getInstance().createWeapon("Handgun");
+        weapon.setTesting(true);
         waitForRunLater(() -> {
-            weapon = WeaponFactory.getInstance().createWeapon("Handgun");
-            weapon.setTesting(true);
             weapon.shoot(0, 0);
             weapon.shoot(0, 0);
-            assertEquals(weapon.getMagazineCounter(), 8);
-            weapon.reload();
-            assertEquals(weapon.getMagazineCounter(), 10);
         });
+        assertEquals(weapon.getMagazineSize()-2, weapon.getMagazineCounter());
+        weapon.reload();
+        assertEquals(weapon.getMagazineSize(), weapon.getMagazineCounter());
     }
 
     @Test
     public void testGetDamage() {
         weapon = WeaponFactory.getInstance().createWeapon("Handgun");
-        assertEquals(weapon.getDamage(), 45);
+        assertEquals(45, weapon.getDamage());
+    }
+
+    @Test
+    public void testGetIsReloading() {
+        weapon = WeaponFactory.getInstance().createWeapon("Handgun");
+        assertFalse(weapon.isReloading());
+        weapon.reload();
+        assertTrue(weapon.isReloading());
+
+    }
+
+    @Test
+    public void testObserverMethods() throws InterruptedException {
+        MockObserver o = new MockObserver();
+        weapon = WeaponFactory.getInstance().createWeapon("Handgun");
+        assertTrue(weapon.observers.size() == 0);
+        weapon.addObserver(o);
+        assertTrue(weapon.observers.size() == 1);
+        weapon.notifyObserver();
+        assertTrue(o.isTest());
+        weapon.removeObserver(o);
+        assertTrue(weapon.observers.size() == 0);
     }
 
     @AfterClass

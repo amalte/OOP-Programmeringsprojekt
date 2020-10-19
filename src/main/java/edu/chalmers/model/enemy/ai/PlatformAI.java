@@ -14,11 +14,11 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameWorld;
  */
 class PlatformAI {
 
-    EnemyAIComponent AI;
+    private EnemyAIComponent AI;
 
-    List<Entity> platforms = new ArrayList<>();                         // List witt all platforms.
-    List<Double> platformYDeltaList = new ArrayList<>();                // List with all Y-pos delta between thisEnemy and platforms.
-    HashMap<Double, Entity> platformAndYDeltaMap = new HashMap<>();     // HashMap with Y-Pos deltas and their corresponding platform.
+    private List<Entity> platforms = new ArrayList<>();                         // List witt all platforms.
+    private List<Double> platformYDeltaList = new ArrayList<>();                // List with all Y-pos delta between thisEnemy and platforms.
+    private HashMap<Double, Entity> platformAndYDeltaMap = new HashMap<>();     // HashMap with Y-Pos deltas and their corresponding platform.
 
     // The most recent platform the Player has been in contact with. Is the same across all Enemy entities.
     private static Entity playerRecentPlatformContact = null;
@@ -74,6 +74,12 @@ class PlatformAI {
             // Skip platform if Enemy is standing on it
             if(getPlatformBelowEnemy() != null) {
                 if(getPlatformBelowEnemy().equals(p)) {
+
+                    // If only one platform exists and it is the one Enemy is standing on:
+                    if(platforms.size() == 1) {
+                        return null;
+                    }
+                    // Else, continue.
                     continue;
                 }
             }

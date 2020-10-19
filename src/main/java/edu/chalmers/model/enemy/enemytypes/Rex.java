@@ -6,18 +6,8 @@ package edu.chalmers.model.enemy.enemytypes;
 public class Rex implements IEnemyType {
 
     @Override
-    public String getTextureIdle() {
-        return "DinoSpriteIdle.png";
-    }
-
-    @Override
-    public String getTextureWalk() {
-        return "DinoSpriteWalk.png";
-    }
-
-    @Override
-    public String getTextureJump() {
-        return "DinoSpriteJump.png";
+    public String getName() {
+        return "Rex";
     }
 
     @Override
@@ -43,5 +33,20 @@ public class Rex implements IEnemyType {
     @Override
     public int getJumpHeight() {
         return 255;
+    }
+
+    @Override
+    public String getTextureIdle() {
+        return "DinoSpriteIdle.png";
+    }
+
+    @Override
+    public String getTextureWalk() {
+        return "DinoSpriteWalk.png";
+    }
+
+    @Override
+    public String getTextureJump() {
+        return "DinoSpriteJump.png";
     }
 }

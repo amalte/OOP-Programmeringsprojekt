@@ -106,8 +106,10 @@ public class GameUI implements IObserver {
     public void updateReloading(){
         if(game.getPlayerComponent().getActiveWeapon().isReloading()) {
             reloadingText.setText("Reloading");
+            reloadingText.setFill(Color.INDIANRED);
         } else {
             reloadingText.setText("Reloaded");
+            reloadingText.setFill(Color.LIMEGREEN);
         }
     }
 

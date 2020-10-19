@@ -6,18 +6,8 @@ package edu.chalmers.model.enemy.enemytypes;
 public class Zombie implements IEnemyType {
 
     @Override
-    public String getTextureIdle() {
-        return "ZombieSpriteIdle.png";
-    }
-
-    @Override
-    public String getTextureWalk() {
-        return "ZombieSpriteWalk.png";
-    }
-
-    @Override
-    public String getTextureJump() {
-        return "ZombieSpriteJump.png";
+    public String getName() {
+        return "Zombie";
     }
 
     @Override
@@ -43,5 +33,20 @@ public class Zombie implements IEnemyType {
     @Override
     public int getJumpHeight() {
         return 260;
+    }
+
+    @Override
+    public String getTextureIdle() {
+        return "ZombieSpriteIdle.png";
+    }
+
+    @Override
+    public String getTextureWalk() {
+        return "ZombieSpriteWalk.png";
+    }
+
+    @Override
+    public String getTextureJump() {
+        return "ZombieSpriteJump.png";
     }
 }
