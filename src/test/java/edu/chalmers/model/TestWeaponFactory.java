@@ -5,9 +5,9 @@ import edu.chalmers.model.weapon.WeaponFactory;
 import edu.chalmers.model.weapon.weapontypes.Crossbow;
 import edu.chalmers.model.weapon.weapontypes.Handgun;
 import edu.chalmers.model.weapon.weapontypes.ThrowingKnife;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import static edu.chalmers.FXGLTest.deInitialize;
 import static edu.chalmers.FXGLTest.initialize;
@@ -18,7 +18,7 @@ public class TestWeaponFactory {
 
     private Weapon weapon;
 
-    @BeforeClass
+    @BeforeAll
     public static void setUp() throws InterruptedException {
         initialize();
     }
@@ -48,7 +48,7 @@ public class TestWeaponFactory {
         assertNull(weapon);
     }
 
-    @AfterClass
+    @AfterAll
     public static void tearDown() throws InterruptedException {
         deInitialize();
     }
