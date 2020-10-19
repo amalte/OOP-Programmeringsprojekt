@@ -51,6 +51,7 @@ public class GenericPlatformer {
 
         getGameWorld().getEntitiesCopy().forEach(Entity::removeFromWorld);
         getGameWorld().removeEntities(getGameWorld().getEntities());
+        player = null;
 
         if (this.gameWorldFactory != null)
             getGameWorld().removeEntityFactory(this.gameWorldFactory);
@@ -61,7 +62,7 @@ public class GenericPlatformer {
      * @return A player object.
      */
     public Entity getPlayer() {
-        if(player == null || player.getComponents().size() == 0){
+        if(player == null || player.getComponents().size() == 0 || !player.hasComponent(PlayerComponent.class)){
             createPlayer();
         }
         return player;
