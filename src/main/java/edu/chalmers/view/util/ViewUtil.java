@@ -5,7 +5,6 @@ import com.almasb.fxgl.scene.SubScene;
 import edu.chalmers.utilities.Constants;
 import edu.chalmers.view.nodes.ActionButton;
 import javafx.scene.Node;
-import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -71,6 +70,6 @@ public class ViewUtil {
      */
     public static Node getBackgroundNode()
     {
-        return new ImageView(new Image("/assets/background.png", Constants.GAME_WIDTH, Constants.GAME_HEIGHT, false, false));
+        return new ImageView(new Image("/assets/background2.png", Constants.GAME_WIDTH, Constants.GAME_HEIGHT, false, false));
     }
 }

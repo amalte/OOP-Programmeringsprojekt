@@ -12,6 +12,6 @@ public class TestPoint2DCalculations {
         Point2D p2 = new Point2D(0, 5);
 
 
-        assertEquals(Math.toRadians(90), Math.toDegrees(Math.round(Point2DCalculations.getAngle(p1, p2))));
+        assertEquals(Math.toRadians(90), Point2DCalculations.getAngle(p1, p2));
     }
 }
