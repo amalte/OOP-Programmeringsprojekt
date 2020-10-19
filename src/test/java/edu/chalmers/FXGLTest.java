@@ -49,8 +49,6 @@ public final class FXGLTest {
             assertTrue(gameApplication instanceof Main);
 
             mainInstance = (Main)gameApplication;
-
-            FXGL.getGameWorld().addEntityFactory(new GameWorldFactory());
             mainInstance.setTestRunning(true);
         }
     }
