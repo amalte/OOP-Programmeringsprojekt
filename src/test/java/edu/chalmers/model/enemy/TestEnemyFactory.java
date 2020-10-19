@@ -2,7 +2,7 @@ package edu.chalmers.model.enemy;
 
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.test.RunWithFX;
-import edu.chalmers.model.SetupWorld;
+import edu.chalmers.FXGLTest;
 import org.junit.AfterClass;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
