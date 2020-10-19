@@ -2,12 +2,15 @@ package edu.chalmers.model;
 
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.test.RunWithFX;
+import edu.chalmers.FXGLTest;
+import org.junit.AfterClass;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameWorld;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
+import static edu.chalmers.FXGLTest.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -17,33 +20,39 @@ public class TestPlayerComponent {
     private PlayerComponent player;
 
     @BeforeAll
-    public static void initApplication() throws InterruptedException {
-        SetupWorld.initApp();
+    public static void initApp() throws InterruptedException {
+        initialize();
     }
 
-    private void resetPlayer(){
-        //ToDo reset stats instead of object
-        player = spawn("player",50,0).getComponent(PlayerComponent.class);
+    @AfterClass
+    public static void tearDown() throws InterruptedException {
+        deInitialize();
+    }
+
+    private void resetPlayer() throws InterruptedException {
+        waitForRunLater(() -> {
+            FXGLTest.clearAllEntities();
+            player = spawn("player", 50, 0).getComponent(PlayerComponent.class);
+            player.setTesting(true);
+        });
     }
 
     @Test
     public void testMoveLeft() throws InterruptedException {
         resetPlayer(); //Reset all player stats
-        int temp = (int) player.getEntity().getX(); //Players x position in the beginning
         player.moveLeft();
-
         assertEquals(- player.getMoveSpeed(), (int) player.getEntity().getComponent(PhysicsComponent.class).getVelocityX());
     }
 
     @Test
-    public void testMoveRight() {
+    public void testMoveRight() throws InterruptedException {
         resetPlayer();
         player.moveRight();
         assertEquals(player.getMoveSpeed(), (int) player.getEntity().getComponent(PhysicsComponent.class).getVelocityX());
     }
 
     @Test
-    public void testJump(){
+    public void testJump() throws InterruptedException {
         resetPlayer();
         player.jump();
         assertEquals(-player.getJumpHeight(), (int) player.getEntity().getComponent(PhysicsComponent.class).getVelocityY());
@@ -51,7 +60,7 @@ public class TestPlayerComponent {
 
 
     @Test
-    public void testStop(){
+    public void testStop() throws InterruptedException {
         resetPlayer();
         player.moveLeft();
         assertEquals(-player.getMoveSpeed(), (int)player.getEntity().getComponent(PhysicsComponent.class).getVelocityX());
@@ -61,7 +70,7 @@ public class TestPlayerComponent {
     }
 
     @Test
-    public void testResetJumpAmounts(){
+    public void testResetJumpAmounts() throws InterruptedException {
         resetPlayer();
         player.jump();
         assertEquals(0, player.getJumps());
@@ -71,23 +80,24 @@ public class TestPlayerComponent {
     }
 
     @Test
-    public void testInflictDamage() {
+    public void testInflictDamage() throws InterruptedException {
         resetPlayer();
-        player.setTesting(true);
         int temp = player.getHealth();
         player.inflictDamage(10);
         assertEquals(temp - 10, player.getHealth());
     }
 
     @Test
-    public void testShoot() {
+    public void testShoot() throws InterruptedException {
         resetPlayer();
-        player.shoot();
+        waitForRunLater(() -> {
+            player.shoot();
+        });
         assertEquals(1, getGameWorld().getEntitiesByType(EntityType.PROJECTILE).size());
     }
 
     @Test
-    public void testSetActiveWeapon(){
+    public void testSetActiveWeapon() throws InterruptedException {
         resetPlayer();
         player.setActiveWeapon(0);
         assertTrue(player.getWeapons().get(0) == player.getActiveWeapon());
@@ -98,7 +108,7 @@ public class TestPlayerComponent {
     }
 
     @Test
-    public void testSetIsOnGround(){
+    public void testSetIsOnGround() throws InterruptedException {
         resetPlayer();
         player.setAirborne(true);
         assertTrue(player.isAirborne());
@@ -107,7 +117,7 @@ public class TestPlayerComponent {
     }
 
     @Test
-    public void testSetOnGround(){
+    public void testSetOnGround() throws InterruptedException {
         resetPlayer();
         player.setOnGround(true);
         assertTrue(player.isOnGround());
