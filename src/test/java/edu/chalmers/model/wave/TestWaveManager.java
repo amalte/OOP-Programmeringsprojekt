@@ -3,6 +3,7 @@ package edu.chalmers.model.wave;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.test.RunWithFX;
 import edu.chalmers.FXGLTest;
+import edu.chalmers.model.MockObserver;
 import edu.chalmers.model.wave.WaveManager;
 import edu.chalmers.model.weapon.WeaponFactory;
 import org.junit.AfterClass;
