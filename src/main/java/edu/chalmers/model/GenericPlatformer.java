@@ -25,13 +25,19 @@ public class GenericPlatformer {
     private CollisionDetection collisionDetection;
 
     /**
+     * Default constructor for GenericPlatformer.
+     * Creates an entity factory and adds it to the game.
+     */
+    public GenericPlatformer()
+    {
+        this.createEntityFactory();
+    }
+
+    /**
      * Initialize the internals of our game. Add our entity factory, load our tiles from the specified level, ..
      * @param levelName The name of the level to load the game with.
      */
     public void initializeGame(String levelName) {
-        this.gameWorldFactory = new GameWorldFactory();
-        getGameWorld().addEntityFactory(this.gameWorldFactory);
-
         setLevelFromMap(levelName);
 
         this.collisionDetection = new CollisionDetection(getPlayerComponent());
@@ -52,8 +58,16 @@ public class GenericPlatformer {
         getGameWorld().getEntitiesCopy().forEach(Entity::removeFromWorld);
         getGameWorld().removeEntities(getGameWorld().getEntities());
 
+        this.createEntityFactory();
+    }
+
+    private void createEntityFactory()
+    {
         if (this.gameWorldFactory != null)
             getGameWorld().removeEntityFactory(this.gameWorldFactory);
+
+        this.gameWorldFactory = new GameWorldFactory();
+        getGameWorld().addEntityFactory(this.gameWorldFactory);
     }
 
     /**
