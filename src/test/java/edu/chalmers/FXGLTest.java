@@ -31,7 +31,7 @@ public final class FXGLTest {
 
     /**
      * Initialize this helper class.
-     * @throws InterruptedException
+     * @throws InterruptedException Timeout has been reached, see AWAIT_TIMEOUT_SEC.
      */
     public static void initialize() throws InterruptedException
     {
@@ -57,8 +57,8 @@ public final class FXGLTest {
 
     /**
      * De-initialize the helper class.
-     * Does not actually shut the application done as this prevents tests from running new application instances on the same JVM thread (JavaFX limitation).
-     * @throws InterruptedException
+     * Does not actually shut the application down, as this prevents tests from running new application instances on the same JVM thread (JavaFX limitation).
+     * @throws InterruptedException Timeout has been reached, see AWAIT_TIMEOUT_SEC.
      */
     public static void deInitialize() throws InterruptedException
     {
@@ -72,9 +72,9 @@ public final class FXGLTest {
 
     /**
      * Execute a Runnable on the JavaFX thread and wait until it has finished.
-     * Used to circumvent the error "java.lang.IllegalStatException - Not on FX application thread”.
+     * Used to circumvent the error "java.lang.IllegalStatException - Not on FX application thread”, when running code that interacts with JavaFX outside of its assigned UI thread.
      * @param runnable The Runnable to be executed on the JavaFX thread.
-     * @throws InterruptedException
+     * @throws InterruptedException Timeout has been reached, see AWAIT_TIMEOUT_SEC.
      */
     public static void waitForRunLater(Runnable runnable) throws InterruptedException {
         AtomicReference<CountDownLatch> runLaterLatch = new AtomicReference<>();
