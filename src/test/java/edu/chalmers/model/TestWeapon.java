@@ -7,9 +7,9 @@ import edu.chalmers.model.weapon.Weapon;
 import edu.chalmers.model.weapon.WeaponFactory;
 import edu.chalmers.model.weapon.WeaponProjectile;
 import javafx.geometry.Point2D;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import static edu.chalmers.FXGLTest.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,7 +19,7 @@ public class TestWeapon {
     private Weapon weapon;
 
 
-    @BeforeClass
+    @BeforeAll
     public static void setUp() throws InterruptedException {
         initialize();
     }
@@ -95,7 +95,7 @@ public class TestWeapon {
         assertTrue(weapon.observers.size() == 0);
     }
 
-    @AfterClass
+    @AfterAll
     public static void tearDown() throws InterruptedException {
         deInitialize();
     }

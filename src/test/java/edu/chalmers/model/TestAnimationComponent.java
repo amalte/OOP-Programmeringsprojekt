@@ -1,9 +1,9 @@
 package edu.chalmers.model;
 
 import com.almasb.fxgl.entity.Entity;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 import static edu.chalmers.FXGLTest.*;
@@ -13,7 +13,7 @@ public class TestAnimationComponent {
 
     private Entity entity;
 
-    @BeforeClass
+    @BeforeAll
     public static void setUp() throws InterruptedException {
         initialize();
     }
@@ -57,7 +57,7 @@ public class TestAnimationComponent {
             assertEquals(entity.getScaleX(), 1);
     }
 
-    @AfterClass
+    @AfterAll
     public static void tearDown() throws InterruptedException {
         deInitialize();
     }
