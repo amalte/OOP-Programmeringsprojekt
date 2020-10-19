@@ -1,4 +1,4 @@
-package edu.chalmers.model;
+package edu.chalmers.model.wave;
 
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.test.RunWithFX;

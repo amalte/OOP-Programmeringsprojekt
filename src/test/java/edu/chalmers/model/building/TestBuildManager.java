@@ -1,8 +1,10 @@
-package edu.chalmers.model;
+package edu.chalmers.model.building;
 
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.test.RunWithFX;
 import edu.chalmers.FXGLTest;
+import edu.chalmers.model.EntityType;
+import edu.chalmers.model.PlayerComponent;
 import edu.chalmers.model.building.BuildManager;
 import edu.chalmers.model.building.MapManager;
 import edu.chalmers.services.TileMap;
