@@ -1,6 +1,8 @@
 package edu.chalmers.controller;
 
 /**
+ * @author Anwarr Shiervani
+ *
  * Types of menus.
  */
 public enum GameMenuType {

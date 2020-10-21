@@ -9,6 +9,8 @@ import edu.chalmers.view.main.SettingsMenu;
 import static com.almasb.fxgl.dsl.FXGL.getGameController;
 
 /**
+ * @author Anwarr Shiervani
+ *
  * The controller for the main menu view.
  */
 public class MainMenuController extends MenuController<MainMenu> {

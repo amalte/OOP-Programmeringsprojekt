@@ -11,6 +11,8 @@ import javafx.scene.input.KeyCode;
 import static com.almasb.fxgl.dsl.FXGL.getGameScene;
 
 /**
+ * @author Anwarr Shiervani
+ *
  * The controller for the exit menu view.
  */
 public class ExitMenuController extends MenuController<ExitMenu> {

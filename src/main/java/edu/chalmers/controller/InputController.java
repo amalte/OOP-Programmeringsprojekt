@@ -15,6 +15,8 @@ import javafx.scene.input.MouseButton;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getInput;
 
 /**
+ * @author Oscar Arvidson, Erik Wetter, Anwarr Shiervani
+ *
  * This class handles player movement input.
  */
 public class InputController {
