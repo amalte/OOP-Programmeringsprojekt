@@ -2,16 +2,13 @@ package edu.chalmers.model.enemy;
 
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.physics.PhysicsComponent;
-import com.almasb.fxgl.test.RunWithFX;
 import edu.chalmers.FXGLTest;
 import edu.chalmers.model.EntityType;
 import edu.chalmers.model.PlayerComponent;
-import edu.chalmers.model.SetupWorld;
 import edu.chalmers.model.enemy.enemytypes.Zombie;
 import org.junit.AfterClass;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameWorld;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
