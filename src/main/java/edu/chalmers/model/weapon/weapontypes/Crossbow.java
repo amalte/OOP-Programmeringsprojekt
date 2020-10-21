@@ -1,6 +1,8 @@
 package edu.chalmers.model.weapon.weapontypes;
 
 /**
+ * @author Erik Wetter
+ *
  * Crossbow class. A type of weapon.
  */
 public class Crossbow implements IWeaponType {

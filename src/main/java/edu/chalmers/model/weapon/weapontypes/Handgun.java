@@ -1,6 +1,8 @@
 package edu.chalmers.model.weapon.weapontypes;
 
 /**
+ * @author Erik Wetter
+ *
  * Handgun class. A type of weapon.
  */
 public class Handgun implements IWeaponType{

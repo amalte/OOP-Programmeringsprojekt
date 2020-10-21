@@ -2,6 +2,11 @@ package edu.chalmers.model.building.blocks;
 
 import edu.chalmers.model.building.IBlock;
 
+/**
+ * @author Malte Åkvist
+ *
+ * PermanentBlock that can't be removed (platforms in the game)
+ */
 public class PermanentBlock implements IBlock {
 
     @Override

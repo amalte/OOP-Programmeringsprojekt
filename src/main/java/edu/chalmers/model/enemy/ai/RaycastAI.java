@@ -6,6 +6,8 @@ import edu.chalmers.utilities.RaycastCalculations;
 import javafx.scene.shape.Line;
 
 /**
+ * @author Sam Salek
+ *
  * RaycastAI. Contains all variables and methods used by Enemy AI regarding raycasts.
  */
 class RaycastAI {

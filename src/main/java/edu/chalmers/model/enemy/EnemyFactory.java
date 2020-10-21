@@ -15,9 +15,10 @@ import edu.chalmers.model.enemy.enemytypes.Zombie;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameWorld;
 
 /**
+ * @author Sam Salek
+ *
  * A factory used to create different types of Enemy entities.
  */
-
 public class EnemyFactory {
 
     private static EnemyFactory instance;

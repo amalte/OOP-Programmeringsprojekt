@@ -18,6 +18,11 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameWorld;
 import static edu.chalmers.FXGLTest.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * @author Malte Åkvist
+ *
+ * Test class for BuildManager.
+ */
 public class TestBuildManager {
     private BuildManager buildManager;
 

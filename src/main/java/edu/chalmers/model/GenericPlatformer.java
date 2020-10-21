@@ -11,8 +11,9 @@ import static com.almasb.fxgl.dsl.FXGL.getGameWorld;
 import static com.almasb.fxgl.dsl.FXGL.setLevelFromMap;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 
-
 /**
+ * @author Oscar Arvidson
+ *
  * Aggregate root class for the game.
  */
 public class GenericPlatformer {

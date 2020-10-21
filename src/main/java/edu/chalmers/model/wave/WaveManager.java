@@ -14,6 +14,8 @@ import java.util.List;
 import static com.almasb.fxgl.dsl.FXGL.runOnce;
 
 /**
+ * @author Malte Åkvist
+ *
  * Class that handles waves in the game. Uses SpawnEnemyRunnable to spawn in enemies.
  */
 public class WaveManager implements IObservable {

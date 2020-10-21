@@ -1,11 +1,15 @@
 package edu.chalmers.model.building;
 
-import edu.chalmers.model.building.blocks.Block;
 import edu.chalmers.services.Coords;
 
 import java.util.*;
 
-public class MapManager implements Observer {
+/**
+ * @author Malte Åkvist
+ *
+ * MapManager handles the map in the game (where all buildable blocks and permanent blocks are)
+ */
+public class MapManager implements IMapObserver {
     private HashMap<Coords, IBlock> blockMap;
 
     public MapManager(HashMap<Coords, IBlock> blockMap) {

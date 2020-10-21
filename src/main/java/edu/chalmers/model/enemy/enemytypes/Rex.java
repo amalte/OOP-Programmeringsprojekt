@@ -1,6 +1,8 @@
 package edu.chalmers.model.enemy.enemytypes;
 
 /**
+ * @author Sam Salek
+ *
  * Rex class. A type of Enemy.
  */
 public class Rex implements IEnemyType {

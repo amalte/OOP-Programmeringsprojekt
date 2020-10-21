@@ -8,6 +8,11 @@ import edu.chalmers.model.building.blocks.Block;
 import edu.chalmers.model.enemy.EnemyComponent;
 import edu.chalmers.utilities.EntityPos;
 
+/**
+ * @author Oscar Arvidson
+ *
+ * CollisionDetection class, handles all collision in the game.
+ */
 public class CollisionDetection {
 
     /**

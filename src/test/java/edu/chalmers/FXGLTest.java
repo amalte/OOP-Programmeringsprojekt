@@ -19,6 +19,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
+ * @author Anwarr Shiervani
+ *
  * Helper class for all of the tests related to FXGL/JavaFX.
  */
 public final class FXGLTest {

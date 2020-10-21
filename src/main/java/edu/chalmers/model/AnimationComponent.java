@@ -8,6 +8,8 @@ import javafx.geometry.Point2D;
 import javafx.util.Duration;
 
 /**
+ * @author Erik Wetter
+ *
  * AnimationComponent class. Creates animated textures for an entity and controls which animated texture is shown based on the entities movement.
  */
 public class AnimationComponent extends Component {

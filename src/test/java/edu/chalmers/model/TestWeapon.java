@@ -14,6 +14,11 @@ import org.junit.jupiter.api.Test;
 import static edu.chalmers.FXGLTest.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @author Erik Wetter
+ *
+ * Test class for Weapons.
+ */
 public class TestWeapon {
 
     private Weapon weapon;

@@ -12,6 +12,8 @@ import edu.chalmers.utilities.RaycastCalculations;
 import java.util.Optional;
 
 /**
+ * @author Sam Salek
+ *
  * EnemyAIComponent class. Contains and gives basic Enemy AI to an Entity.
  */
 public class EnemyAIComponent extends Component {

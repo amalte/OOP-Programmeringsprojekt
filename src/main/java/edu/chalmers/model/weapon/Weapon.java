@@ -12,6 +12,8 @@ import javafx.util.Duration;
 import static com.almasb.fxgl.dsl.FXGL.runOnce;
 
 /**
+ * @author Erik Wetter
+ *
  * Weapon class. Holds the functionality of weapons.
  */
 public class Weapon implements IObservable {

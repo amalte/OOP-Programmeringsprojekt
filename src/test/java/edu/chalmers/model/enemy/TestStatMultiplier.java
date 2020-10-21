@@ -4,6 +4,11 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * @author Sam Salek
+ *
+ * Test class for StatMultiplier.
+ */
 public class TestStatMultiplier {
 
     @Test

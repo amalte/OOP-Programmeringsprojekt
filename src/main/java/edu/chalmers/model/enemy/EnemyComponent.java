@@ -10,6 +10,8 @@ import edu.chalmers.model.enemy.enemytypes.IEnemyType;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameWorld;
 
 /**
+ * @author Sam Salek
+ *
  * EnemyComponent class. When added to entity it becomes an Enemy.
  */
 public class EnemyComponent extends Component {

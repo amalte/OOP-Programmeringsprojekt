@@ -15,7 +15,11 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 import static edu.chalmers.FXGLTest.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-@ExtendWith(RunWithFX.class)
+/**
+ * @author Oscar Arvidson
+ *
+ * Test class for CollisionDetection.
+ */
 public class TestCollisionDetection {
 
     private EnemyFactory enemyFactory = EnemyFactory.getInstance();

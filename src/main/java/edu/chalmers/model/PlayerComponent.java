@@ -15,6 +15,8 @@ import java.util.List;
 import static com.almasb.fxgl.dsl.FXGL.runOnce;
 
 /**
+ * @author Oscar Arvidson
+ *
  * Player class. Wraps an entity object as a Player.
  */
 public class PlayerComponent extends Component implements IObservable {

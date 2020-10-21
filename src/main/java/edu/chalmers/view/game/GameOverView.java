@@ -13,6 +13,8 @@ import static edu.chalmers.view.util.ViewUtil.addNode;
 import static edu.chalmers.view.util.ViewUtil.createActionButton;
 
 /**
+ * @author Anwarr Shiervani
+ *
  * The game over Scene.
  */
 public class GameOverView extends SubScene implements IMenu {

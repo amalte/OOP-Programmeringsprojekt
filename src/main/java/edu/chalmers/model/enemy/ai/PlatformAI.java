@@ -10,6 +10,8 @@ import java.util.*;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameWorld;
 
 /**
+ * @author Sam Salek
+ *
  * PlatformAI. Contains all variables and methods used by Enemy AI regarding platforms.
  */
 class PlatformAI {
