@@ -1,6 +1,8 @@
 package edu.chalmers.view;
 
 /**
+ * @author Anwarr Shiervani
+ *
  * Interface to be inherited by the menu views.
  */
 public interface IMenu {

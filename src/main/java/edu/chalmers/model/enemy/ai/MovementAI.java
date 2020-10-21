@@ -8,6 +8,11 @@ import javafx.util.Duration;
 
 import static com.almasb.fxgl.dsl.FXGL.runOnce;
 
+/**
+ * @author Sam Salek
+ *
+ * MovementAI class handles the movement for enemies
+ */
 class MovementAI {
 
     public enum Direction {LEFT, RIGHT}

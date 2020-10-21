@@ -9,6 +9,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 /**
+ * @author Anwarr Shiervani
+ *
  * Utility methods for use in views.
  */
 public class ViewUtil {

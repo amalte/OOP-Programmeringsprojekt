@@ -3,6 +3,11 @@ package edu.chalmers.utilities;
 import com.almasb.fxgl.core.math.FXGLMath;
 import javafx.geometry.Point2D;
 
+/**
+ * @author Malte Åkvist
+ *
+ * Point2DCalculations calculations for points
+ */
 public class Point2DCalculations {
 
     /**

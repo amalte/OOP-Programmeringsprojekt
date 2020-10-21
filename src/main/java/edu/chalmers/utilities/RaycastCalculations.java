@@ -9,6 +9,11 @@ import java.util.Optional;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getPhysicsWorld;
 
+/**
+ * @author Sam Salek
+ *
+ * RaycastCalculations performs raycastcalculations
+ */
 public class RaycastCalculations {
 
     /**

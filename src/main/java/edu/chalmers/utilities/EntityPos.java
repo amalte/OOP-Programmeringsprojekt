@@ -3,6 +3,11 @@ package edu.chalmers.utilities;
 import com.almasb.fxgl.entity.Entity;
 import javafx.geometry.Point2D;
 
+/**
+ * @author Sam Salek, Malte Åkvist
+ *
+ * EntityPos class to get different positions of an entity.
+ */
 public class EntityPos {
 
     /**

@@ -3,6 +3,11 @@ package edu.chalmers.model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Oscar Arvidson
+ *
+ * IObservable interface observable interface.
+ */
 public interface IObservable {
     /**
      * List of IObservers.

@@ -9,6 +9,11 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 import static edu.chalmers.FXGLTest.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * @author Erik Wetter
+ *
+ * Test class for AnimationComponent.
+ */
 public class TestAnimationComponent {
 
     private Entity entity;

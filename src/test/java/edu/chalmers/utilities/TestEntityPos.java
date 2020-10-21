@@ -12,6 +12,11 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 import static edu.chalmers.FXGLTest.*;
 import static org.testng.AssertJUnit.assertEquals;
 
+/**
+ * @author Malte Åkvist
+ *
+ * Test class for EntityPos.
+ */
 public class TestEntityPos {
     Entity player;
 

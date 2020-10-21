@@ -1,6 +1,8 @@
 package edu.chalmers.model.weapon.weapontypes;
 
 /**
+ * @author Erik Wetter
+ *
  * ThrowingKnife class. A type of weapon.
  */
 public class ThrowingKnife implements IWeaponType{

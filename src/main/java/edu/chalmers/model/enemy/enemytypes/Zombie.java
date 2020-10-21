@@ -1,6 +1,8 @@
 package edu.chalmers.model.enemy.enemytypes;
 
 /**
+ * @author Sam Salek
+ *
  * Zombie class. A type of Enemy.
  */
 public class Zombie implements IEnemyType {

@@ -12,6 +12,11 @@ import javafx.scene.shape.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Malte Åkvist
+ *
+ * BuildView view that draws grid and placeable box for building UI
+ */
 public class BuildView {
 
     private List<Node> transparentRects = new ArrayList<>();

@@ -10,6 +10,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
 /**
+ * @author Anwarr Shiervani
+ *
  * A clickable StackPane, with a default background and text.
  */
 public class ActionButton extends StackPane {

@@ -1,6 +1,8 @@
 package edu.chalmers.model.enemy;
 
 /**
+ * @author Sam Salek
+ *
  * StatMultiplier class. Contains multiplier variables for Enemy entity stats.
  */
 public class StatMultiplier {

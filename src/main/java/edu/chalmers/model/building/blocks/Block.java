@@ -15,7 +15,12 @@ import javafx.util.Duration;
 
 import static com.almasb.fxgl.dsl.FXGL.runOnce;
 
-public class Block implements IBlock, Observable {
+/**
+ * @author Malte Åkvist
+ *
+ * A class for Blocks that the player can build.
+ */
+public class Block implements IBlock, IBlockObservable {
 
     private Entity currentBlock;
     private PhysicsComponent physics = new PhysicsComponent();
@@ -67,14 +72,14 @@ public class Block implements IBlock, Observable {
 
     @Override
     public void notifyObservers() {
-        for (Observer observer: observers) {
-            observer.update(CoordsCalculations.posToTile(currentBlock.getPosition()));
+        for (IMapObserver IMapObserver : IMapObservers) {
+            IMapObserver.update(CoordsCalculations.posToTile(currentBlock.getPosition()));
         }
     }
 
     @Override
-    public void addObserver(Observer observer) {
-        observers.add(observer);
+    public void addObserver(IMapObserver IMapObserver) {
+        IMapObservers.add(IMapObserver);
     }
 
     /**

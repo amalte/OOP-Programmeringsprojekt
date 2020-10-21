@@ -1,6 +1,8 @@
 package edu.chalmers.model.enemy.enemytypes;
 
 /**
+ * @author Sam Salek
+ *
  * IEnemyType Interface. An interface for the Enemy type. Contains the necessary methods and values to differentiate each Enemy type.
  */
 public interface IEnemyType {

@@ -12,6 +12,11 @@ import static edu.chalmers.FXGLTest.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * @author Oscar Arvidson
+ *
+ * Test class for PlayerComponent.
+ */
 public class TestPlayerComponent {
 
     private PlayerComponent player;

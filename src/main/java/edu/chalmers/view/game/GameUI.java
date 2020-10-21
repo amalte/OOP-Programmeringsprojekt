@@ -9,6 +9,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.*;
 
 /**
+ * @author Oscar Arvidson
+ *
  * View that creates all the nodes needed for showing game information to the user.
  */
 public class GameUI implements IObserver {
