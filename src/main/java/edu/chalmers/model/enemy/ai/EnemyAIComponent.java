@@ -1,5 +1,6 @@
 package edu.chalmers.model.enemy.ai;
 
+import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.component.Component;
 import edu.chalmers.model.EntityType;
@@ -36,11 +37,6 @@ public class EnemyAIComponent extends Component {
         statImprovementAI = new StatImprovementAI(this);
 
         target = player;
-
-        if(!this.player.hasComponent(PlayerComponent.class)) {
-            this.thisEnemy.die();
-            this.thisEnemy.getEntity().removeComponent(EnemyAIComponent.class);
-        }
     }
 
     @Override
@@ -50,6 +46,14 @@ public class EnemyAIComponent extends Component {
 
     @Override
     public void onUpdate(double tpf) {
+
+        // Fix issue when Player spawns without a PlayerComponent
+        if(!this.player.hasComponent(PlayerComponent.class)) {
+            FXGL.getGameWorld().removeEntity(entity);
+            entity.removeFromWorld();
+            entity = null;
+            return;
+        }
 
         // Reset move speed and jump height if Enemy is touching solid ground.
         if(!thisEnemy.isAirborne()) {
