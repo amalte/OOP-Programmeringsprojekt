@@ -17,7 +17,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static edu.chalmers.FXGLTest.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@ExtendWith(RunWithFX.class)
+/**
+ * @author Malte Åkvist
+ *
+ * Test class for WaveManager.
+ */
 public class TestWaveManager {
 
     private WaveManager waveManager;

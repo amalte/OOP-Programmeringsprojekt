@@ -13,6 +13,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 /**
+ * @author Erik Wetter
+ *
  * WeaponProjectile class. Spawns a projectile that moves from the spawn point towards the given target.
  */
 public class WeaponProjectile {

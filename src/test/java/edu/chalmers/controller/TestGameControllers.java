@@ -21,6 +21,8 @@ import static edu.chalmers.FXGLTest.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
+ * @author Anwarr Shiervani
+ *
  * Test class for all of the game controllers.
  */
 public class TestGameControllers {

@@ -3,6 +3,11 @@ package edu.chalmers.utilities;
 import edu.chalmers.services.Coords;
 import javafx.geometry.Point2D;
 
+/**
+ * @author Malte Åkvist
+ *
+ * CoordsCalculations used to convert between tiles (Coords) and points.
+ */
 public class CoordsCalculations {
 
     /**

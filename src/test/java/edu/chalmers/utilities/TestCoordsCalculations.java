@@ -17,6 +17,11 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameWorld;
 import static edu.chalmers.FXGLTest.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * @author Malte Åkvist
+ *
+ * Test class for CoordsCalculations.
+ */
 public class TestCoordsCalculations {
 
     @Test

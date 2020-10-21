@@ -11,6 +11,8 @@ import javafx.scene.text.Text;
 import static edu.chalmers.view.util.ViewUtil.*;
 
 /**
+ * @author Anwarr Shiervani
+ *
  * The settings menu.
  */
 public class SettingsMenu extends SubScene implements IMenu {

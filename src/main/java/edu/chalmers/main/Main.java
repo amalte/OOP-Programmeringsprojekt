@@ -33,6 +33,8 @@ import java.util.concurrent.atomic.AtomicReference;
 import static com.almasb.fxgl.dsl.FXGL.*;
 
 /**
+ * @author Anwarr Shiervani
+ *
  * The entrypoint for this game.
  */
 public class Main extends GameApplication {

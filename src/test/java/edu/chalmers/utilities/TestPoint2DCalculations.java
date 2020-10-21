@@ -5,6 +5,11 @@ import org.junit.jupiter.api.Test;
 
 import static org.testng.AssertJUnit.assertEquals;
 
+/**
+ * @author Erik Wetter, Malte Åkvist
+ *
+ * Test class for Point2DCalculations.
+ */
 public class TestPoint2DCalculations {
     @Test
     void testGetAngle() {

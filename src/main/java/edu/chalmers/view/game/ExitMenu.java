@@ -14,7 +14,9 @@ import static edu.chalmers.view.util.ViewUtil.addNode;
 import static edu.chalmers.view.util.ViewUtil.createActionButton;
 
 /**
- * The exit menu.
+ * @author Anwarr Shiervani
+ *
+ * Exit menu view, exit menu.
  */
 public class ExitMenu extends SubScene implements IMenu {
     private Text titleText;

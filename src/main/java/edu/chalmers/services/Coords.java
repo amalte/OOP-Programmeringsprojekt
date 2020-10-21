@@ -2,6 +2,11 @@ package edu.chalmers.services;
 
 import java.util.Objects;
 
+/**
+ * @author Malte Åkvist
+ *
+ * Coords class used for tiles in the game (game has 32*18 tiles)
+ */
 public class Coords {
     private int x;
     private int y;

@@ -11,6 +11,11 @@ import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import javafx.scene.shape.Rectangle;
 
+/**
+ * @author Oscar Arvidson
+ *
+ * GameWorldFactory a factory class that creates game related entities (platform, spawnpoints, player)
+ */
 public class GameWorldFactory implements EntityFactory {
 
     /**

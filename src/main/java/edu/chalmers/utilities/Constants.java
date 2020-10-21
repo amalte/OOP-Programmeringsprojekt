@@ -1,5 +1,10 @@
 package edu.chalmers.utilities;
 
+/**
+ * @author Malte Åkvist
+ *
+ * Constants class that contains constant data in the game.
+ */
 public class Constants {
 
     public static final int TILE_SIZE = 60;   // How big a tile is in pixels

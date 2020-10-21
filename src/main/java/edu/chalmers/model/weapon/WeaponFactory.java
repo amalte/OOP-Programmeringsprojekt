@@ -5,6 +5,8 @@ import edu.chalmers.model.weapon.weapontypes.Handgun;
 import edu.chalmers.model.weapon.weapontypes.ThrowingKnife;
 
 /**
+ * @author Erik Wetter
+ *
  * A factory used to create different types of weapons.
  */
 public class WeaponFactory {

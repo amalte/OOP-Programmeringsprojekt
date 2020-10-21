@@ -6,6 +6,11 @@ import org.junit.Test;
 
 import static org.testng.AssertJUnit.*;
 
+/**
+ * @author Malte Åkvist
+ *
+ * Test class for Coords.
+ */
 public class TestCoords {
 
     @Test

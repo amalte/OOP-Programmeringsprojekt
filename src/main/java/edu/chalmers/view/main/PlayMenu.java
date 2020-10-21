@@ -11,6 +11,8 @@ import javafx.scene.text.Text;
 import static edu.chalmers.view.util.ViewUtil.*;
 
 /**
+ * @author Anwarr Shiervani
+ *
  * The play menu.
  */
 public class PlayMenu extends SubScene implements IMenu {

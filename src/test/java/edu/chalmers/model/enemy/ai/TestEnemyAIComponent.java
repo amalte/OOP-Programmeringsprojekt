@@ -16,7 +16,11 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 import static edu.chalmers.FXGLTest.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@ExtendWith(RunWithFX.class)
+/**
+ * @author Sam Salek
+ *
+ * Test class for EnemyAIComponent.
+ */
 public class TestEnemyAIComponent {
 
     private Entity enemy;

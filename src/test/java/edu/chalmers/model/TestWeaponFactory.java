@@ -14,6 +14,11 @@ import static edu.chalmers.FXGLTest.initialize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+/**
+ * @author Erik Wetter
+ *
+ * Test class for WeaponFactory.
+ */
 public class TestWeaponFactory {
 
     private Weapon weapon;

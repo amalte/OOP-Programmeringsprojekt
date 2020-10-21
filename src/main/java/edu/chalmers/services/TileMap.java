@@ -11,6 +11,11 @@ import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * @author Malte Åkvist
+ *
+ * TileMap service, loads an array (map of a level) from TMX file and converts it to a HashMap.
+ */
 public class TileMap {
     private String dataLayer = "Tile Layer 1";
     private int emptyTile = 0;

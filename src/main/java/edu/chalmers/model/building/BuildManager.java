@@ -9,6 +9,11 @@ import javafx.geometry.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Malte Åkvist
+ *
+ * BuildManager that handles building in the game.
+ */
 public class BuildManager {
     private MapManager mapManager;
     private int buildRangeTiles;

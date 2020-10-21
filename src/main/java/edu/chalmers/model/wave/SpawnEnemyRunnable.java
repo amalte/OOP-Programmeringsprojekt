@@ -15,6 +15,8 @@ import static com.almasb.fxgl.dsl.FXGL.getGameWorld;
 import static com.almasb.fxgl.dsl.FXGL.runOnce;
 
 /**
+ * @author Malte Åkvist
+ *
  * A RunnableClass that spawns enemies.
  */
 public class SpawnEnemyRunnable implements Runnable {

@@ -1,6 +1,8 @@
 package edu.chalmers.model.enemy.ai;
 
 /**
+ * @author Sam Salek
+ *
  * StatImprovementAI. Contains all methods used when Enemy stats need to be improved because of AI.
  */
 class StatImprovementAI {
