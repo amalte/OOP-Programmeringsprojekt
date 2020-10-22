@@ -13,7 +13,7 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 
 /**
  * @author Oscar Arvidson
- *
+ * <p>
  * Aggregate root class for the game.
  */
 public class GenericPlatformer {
@@ -29,13 +29,13 @@ public class GenericPlatformer {
      * Default constructor for GenericPlatformer.
      * Creates an entity factory and adds it to the game.
      */
-    public GenericPlatformer()
-    {
+    public GenericPlatformer() {
         this.createEntityFactory();
     }
 
     /**
      * Initialize the internals of our game. Add our entity factory, load our tiles from the specified level, ..
+     *
      * @param levelName The name of the level to load the game with.
      */
     public void initializeGame(String levelName) {
@@ -51,8 +51,7 @@ public class GenericPlatformer {
     /**
      * Dismantle this class. Stop the waveManager, remove all entities, ..
      */
-    public void remove()
-    {
+    public void remove() {
         if (this.waveManager != null)
             this.waveManager.stopWaveTimer();
 
@@ -63,8 +62,7 @@ public class GenericPlatformer {
         this.createEntityFactory();
     }
 
-    private void createEntityFactory()
-    {
+    private void createEntityFactory() {
         if (this.gameWorldFactory != null)
             getGameWorld().removeEntityFactory(this.gameWorldFactory);
 
@@ -74,10 +72,11 @@ public class GenericPlatformer {
 
     /**
      * Get method that creates a new player if no player is already created.
+     *
      * @return A player object.
      */
     public Entity getPlayer() {
-        if(player == null || player.getComponents().size() == 0 || !player.hasComponent(PlayerComponent.class)){
+        if (player == null || player.getComponents().size() == 0 || !player.hasComponent(PlayerComponent.class)) {
             createPlayer();
         }
         return player;
@@ -85,6 +84,7 @@ public class GenericPlatformer {
 
     /**
      * Get method that gets the playerComponent of player
+     *
      * @return A player component.
      */
     public PlayerComponent getPlayerComponent() {
@@ -93,9 +93,10 @@ public class GenericPlatformer {
 
     /**
      * Get method for buildManager.
+     *
      * @return buildManager.
      */
-    public BuildManager getBuildManager(){
+    public BuildManager getBuildManager() {
         return buildManager;
     }
 
@@ -109,9 +110,10 @@ public class GenericPlatformer {
 
     /**
      * Get method for waveManager.
+     *
      * @return waveManager.
      */
-    public WaveManager getWaveManager(){
+    public WaveManager getWaveManager() {
         return waveManager;
     }
 }

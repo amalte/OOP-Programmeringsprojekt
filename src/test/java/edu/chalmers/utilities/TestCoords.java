@@ -8,7 +8,7 @@ import static org.testng.AssertJUnit.*;
 
 /**
  * @author Malte Åkvist
- *
+ * <p>
  * Test class for Coords.
  */
 public class TestCoords {

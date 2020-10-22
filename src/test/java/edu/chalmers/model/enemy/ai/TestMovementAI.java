@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Sam Salek
- *
+ * <p>
  * Test class for MovementAI.
  */
 public class TestMovementAI {
@@ -41,7 +41,7 @@ public class TestMovementAI {
         waitForRunLater(() -> {
             FXGLTest.clearAllEntities();
 
-            tempPlayer = spawn("player",10000,10000);
+            tempPlayer = spawn("player", 10000, 10000);
             changeEnemy("Zombie");
 
             // +1 so raycast works. Level enemy with platform.
@@ -138,7 +138,7 @@ public class TestMovementAI {
             changeEnemy("blob");
             initJump();
             // Set jump height to enemy type's jump height * the stat improvement. -1 because stupid rounding error.
-            jmpHeight = Math.round(-(enemyComponent.getEnemyType().getJumpHeight() * enemyAIComponent.getStatImprovementAI().getBlobGroundToPlatformJmp())) -1;
+            jmpHeight = Math.round(-(enemyComponent.getEnemyType().getJumpHeight() * enemyAIComponent.getStatImprovementAI().getBlobGroundToPlatformJmp())) - 1;
             assertEquals(jmpHeight, Math.round(enemyComponent.getPhysics().getVelocityY()));
         });
         //
@@ -165,7 +165,7 @@ public class TestMovementAI {
             initJump();
             // Set jump height and move speed to enemy type's values * the stat improvement. -1 because stupid rounding error.
             moveSpeed = Math.round(enemyComponent.getEnemyType().getMoveSpeed() * enemyAIComponent.getStatImprovementAI().getRexPlatformToPlatformSpeed());
-            jmpHeight = Math.round(-(enemyComponent.getEnemyType().getJumpHeight() * enemyAIComponent.getStatImprovementAI().getRexPlatformToPlatformJmp())) -1;
+            jmpHeight = Math.round(-(enemyComponent.getEnemyType().getJumpHeight() * enemyAIComponent.getStatImprovementAI().getRexPlatformToPlatformJmp())) - 1;
             assertEquals(moveSpeed, Math.round(enemyComponent.getMoveSpeed()));
             assertEquals(jmpHeight, Math.round(enemyComponent.getPhysics().getVelocityY()));
 

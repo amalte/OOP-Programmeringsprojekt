@@ -16,7 +16,7 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameWorld;
 
 /**
  * @author Sam Salek
- *
+ * <p>
  * A factory used to create different types of Enemy entities.
  */
 public class EnemyFactory {
@@ -24,14 +24,16 @@ public class EnemyFactory {
     private static EnemyFactory instance;
 
     // Use 'getInstance' to get access
-    private EnemyFactory(){}
+    private EnemyFactory() {
+    }
 
     /**
      * Singleton. Gets instance of this class, and creates one if instance doesn't already exist.
+     *
      * @return Returns the singleton instance of the class.
      */
     public static EnemyFactory getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new EnemyFactory();
         }
 
@@ -40,30 +42,29 @@ public class EnemyFactory {
 
     /**
      * Method creates a Enemy entity.
+     *
      * @param enemyName Name of the entity which should be created.
-     * @param x X-Position where entity should be created.
-     * @param y Y-Position where entity should be created.
-     * @param player A reference to the Player entity.
+     * @param x         X-Position where entity should be created.
+     * @param y         Y-Position where entity should be created.
+     * @param player    A reference to the Player entity.
      * @return Returns a Enemy entity.
      */
     public Entity createEnemy(String enemyName, double x, double y, Entity player, StatMultiplier statMultiplier) {
-        if(enemyName == null) {
+        if (enemyName == null) {
             return null;
         }
 
-        if(enemyName.equalsIgnoreCase("ZOMBIE")) {
+        if (enemyName.equalsIgnoreCase("ZOMBIE")) {
             EnemyComponent zombieComponent = new EnemyComponent(new Zombie(), statMultiplier);
             Entity zombie = buildEnemy(zombieComponent, x, y, player);
             getGameWorld().addEntity(zombie);
             return zombie;
-        }
-        else if(enemyName.equalsIgnoreCase("REX")) {
+        } else if (enemyName.equalsIgnoreCase("REX")) {
             EnemyComponent rexComponent = new EnemyComponent(new Rex(), statMultiplier);
             Entity rex = buildEnemy(rexComponent, x, y, player);
             getGameWorld().addEntity(rex);
             return rex;
-        }
-        else if(enemyName.equalsIgnoreCase("BLOB")) {
+        } else if (enemyName.equalsIgnoreCase("BLOB")) {
             EnemyComponent blobComponent = new EnemyComponent(new Blob(), statMultiplier);
             Entity blob = buildEnemy(blobComponent, x, y, player);
             getGameWorld().addEntity(blob);
@@ -76,14 +77,15 @@ public class EnemyFactory {
 
     /**
      * Method builds an enemy entity with the given arguments.
+     *
      * @param enemyComponent The type of enemy entity which should be built.
-     * @param x X-Position where entity should be built.
-     * @param y Y-Position where entity should be built.
-     * @param player Reference to the player. Used for the PathfindingComponent.
+     * @param x              X-Position where entity should be built.
+     * @param y              Y-Position where entity should be built.
+     * @param player         Reference to the player. Used for the PathfindingComponent.
      * @return Returns the enemy entity.
      */
     private Entity buildEnemy(EnemyComponent enemyComponent, double x, double y, Entity player) {
-        Entity entity = FXGL.entityBuilder().type(EntityType.ENEMY).at(x,y).bbox(new HitBox(BoundingShape.box(50,50))).build();
+        Entity entity = FXGL.entityBuilder().type(EntityType.ENEMY).at(x, y).bbox(new HitBox(BoundingShape.box(50, 50))).build();
 
         entity.addComponent(enemyComponent);                                        // Add EnemyComponent
         entity.addComponent(enemyComponent.getPhysics());                           // Add PhysicsComponent

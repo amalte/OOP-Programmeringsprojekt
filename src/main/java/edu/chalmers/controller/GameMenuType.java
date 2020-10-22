@@ -2,7 +2,7 @@ package edu.chalmers.controller;
 
 /**
  * @author Anwarr Shiervani
- *
+ * <p>
  * Types of menus.
  */
 public enum GameMenuType {

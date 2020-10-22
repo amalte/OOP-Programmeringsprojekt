@@ -15,7 +15,7 @@ import static com.almasb.fxgl.dsl.FXGL.runOnce;
 
 /**
  * @author Malte Åkvist
- *
+ * <p>
  * Class that handles waves in the game. Uses SpawnEnemyRunnable to spawn in enemies.
  */
 public class WaveManager implements IObservable {
@@ -50,10 +50,10 @@ public class WaveManager implements IObservable {
         for (int i = 0; i < currentWave; i++) {
             enemiesToSpawn.add("ZOMBIE");
         }
-        for (int i = 0; i < Math.round((double)currentWave / 2); i++) {
+        for (int i = 0; i < Math.round((double) currentWave / 2); i++) {
             enemiesToSpawn.add("BLOB");
         }
-        if(currentWave % 3 == 0) {  // Spawn difficult enemy every 3 waves
+        if (currentWave % 3 == 0) {  // Spawn difficult enemy every 3 waves
             for (int i = 0; i < currentWave / 5; i++) {
                 enemiesToSpawn.add("REX");
             }
@@ -62,12 +62,12 @@ public class WaveManager implements IObservable {
     }
 
     private void increaseEnemyStats() {
-        spawnEnemyRunnable.setStatMultiplier(new StatMultiplier(1 + currentWave*0.05));   // Health of enemies increases by 5% every wave
+        spawnEnemyRunnable.setStatMultiplier(new StatMultiplier(1 + currentWave * 0.05));   // Health of enemies increases by 5% every wave
     }
 
     //Method will spawn enemies from enemiesToSpawnList with an interval of shortSpawnMs to longSpawnMs milliseconds
     private void spawnEnemies(SpawnEnemyRunnable spawnEnemyRunnable) {
-        if(!spawnEnemyRunnable.getIsRunnableActive()) {   // Make sure only one spawn wave timer is active
+        if (!spawnEnemyRunnable.getIsRunnableActive()) {   // Make sure only one spawn wave timer is active
             runOnce(spawnEnemyRunnable, Duration.ZERO);  // Start spawn runnable, (first one will spawn with no delay)
             spawnEnemyRunnable.setIsRunnableActive(true);
         }
@@ -83,7 +83,7 @@ public class WaveManager implements IObservable {
      * Stop the current waveTimer, if it exists and is not expired.
      */
     public void stopWaveTimer() {
-        if(waveTimerAction != null && !waveTimerAction.isExpired()) waveTimerAction.expire();
+        if (waveTimerAction != null && !waveTimerAction.isExpired()) waveTimerAction.expire();
     }
 
     private TimerAction createWaveTimer() {
@@ -92,7 +92,7 @@ public class WaveManager implements IObservable {
 
     //Returns the amount of seconds it will take to spawn the current wave
     private int getSpawnTimeSec() {
-        if(spawnEnemyRunnable.getEnemiesToSpawn().size() == 0) {
+        if (spawnEnemyRunnable.getEnemiesToSpawn().size() == 0) {
             return 0;   // SpawnTime cant be calculated because enemiesToSpawn list is empty
         }
         return Math.round((spawnEnemyRunnable.getEnemiesToSpawn().size() * averageSpawnIntervalSec()) - averageSpawnIntervalSec());     // -averageSpawnTime since first enemy takes no time to spawn
@@ -100,11 +100,12 @@ public class WaveManager implements IObservable {
 
     //Method calculates on average how long the spawn interval for each enemy is
     private float averageSpawnIntervalSec() {
-        return (float)(spawnEnemyRunnable.getLongSpawnMs() + spawnEnemyRunnable.getShortSpawnMs()) / (2 * 1000);    // Divided by 1000 to convert ms to sec
+        return (float) (spawnEnemyRunnable.getLongSpawnMs() + spawnEnemyRunnable.getShortSpawnMs()) / (2 * 1000);    // Divided by 1000 to convert ms to sec
     }
 
     /**
      * Getter for currentWave variable
+     *
      * @return integer currentWave
      */
     public int getCurrentWave() {
@@ -121,6 +122,7 @@ public class WaveManager implements IObservable {
 
     /**
      * Adds an observer to the observers list
+     *
      * @param o the observer to add
      */
     @Override
@@ -133,13 +135,14 @@ public class WaveManager implements IObservable {
      */
     @Override
     public void notifyObserver() {
-        for(IObserver o : observers){
+        for (IObserver o : observers) {
             o.update();
         }
     }
 
     /**
      * Removes an observer from the observers list
+     *
      * @param o the observer to remove
      */
     @Override

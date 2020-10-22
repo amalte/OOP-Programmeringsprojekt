@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Anwarr Shiervani
- *
+ * <p>
  * Helper class for all of the tests related to FXGL/JavaFX.
  */
 public final class FXGLTest {
@@ -31,12 +31,11 @@ public final class FXGLTest {
 
     /**
      * Initialize this helper class.
+     *
      * @throws InterruptedException Timeout has been reached, see AWAIT_TIMEOUT_SEC.
      */
-    public static void initialize() throws InterruptedException
-    {
-        if (mainInstance == null)
-        {
+    public static void initialize() throws InterruptedException {
+        if (mainInstance == null) {
             CountDownLatch initializedLatch = new CountDownLatch(1);
             Main.setInitializedLatch(initializedLatch);
             new Thread(() -> {
@@ -48,7 +47,7 @@ public final class FXGLTest {
             assertNotNull(gameApplication);
             assertTrue(gameApplication instanceof Main);
 
-            mainInstance = (Main)gameApplication;
+            mainInstance = (Main) gameApplication;
             mainInstance.setTestRunning(true);
         }
     }
@@ -56,12 +55,11 @@ public final class FXGLTest {
     /**
      * De-initialize the helper class.
      * Does not actually shut the application down, as this prevents tests from running new application instances on the same JVM thread (JavaFX limitation).
+     *
      * @throws InterruptedException Timeout has been reached, see AWAIT_TIMEOUT_SEC.
      */
-    public static void deInitialize() throws InterruptedException
-    {
-        if (mainInstance != null)
-        {
+    public static void deInitialize() throws InterruptedException {
+        if (mainInstance != null) {
             waitForRunLater(mainInstance::shutdown);
 
             // mainInstance = null;
@@ -71,6 +69,7 @@ public final class FXGLTest {
     /**
      * Execute a Runnable on the JavaFX thread and wait until it has finished.
      * Used to circumvent the error "java.lang.IllegalStatException - Not on FX application thread”, when running code that interacts with JavaFX outside of its assigned UI thread.
+     *
      * @param runnable The Runnable to be executed on the JavaFX thread.
      * @throws InterruptedException Timeout has been reached, see AWAIT_TIMEOUT_SEC.
      */
@@ -78,7 +77,7 @@ public final class FXGLTest {
         AtomicReference<CountDownLatch> runLaterLatch = new AtomicReference<>();
         runLaterLatch.set(new CountDownLatch(1));
 
-        Platform.runLater(() ->{
+        Platform.runLater(() -> {
             assertTrue(Platform.isFxApplicationThread());
 
             runnable.run();
@@ -91,8 +90,7 @@ public final class FXGLTest {
     /**
      * @return The current instance of the Main class. Null if initialize() has not been called.
      */
-    public static Main getMainInstance()
-    {
+    public static Main getMainInstance() {
         return mainInstance;
     }
 
@@ -104,7 +102,7 @@ public final class FXGLTest {
         List entities = new ArrayList<Entity>();        // List with all entities.
 
         // Add each and every entity from the game world to the list.
-        for(Entity e : getGameWorld().getEntities()) {
+        for (Entity e : getGameWorld().getEntities()) {
             entities.add(e);
         }
         getGameWorld().removeEntities(entities);     // Remove all existing entities from the world.

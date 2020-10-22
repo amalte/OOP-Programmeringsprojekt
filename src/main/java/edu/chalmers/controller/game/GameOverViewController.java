@@ -11,7 +11,7 @@ import static com.almasb.fxgl.dsl.FXGL.getGameScene;
 
 /**
  * @author Oscar Arvidson
- *
+ * <p>
  * The controller for the exit menu view.
  */
 public class GameOverViewController extends MenuController<GameOverView> implements IObserver {
@@ -20,11 +20,11 @@ public class GameOverViewController extends MenuController<GameOverView> impleme
 
     /**
      * Default constructor for ExitMenuController.
+     *
      * @param viewInstance Instance of a view to associate the controller with.
      * @param mainInstance An instance of the Main class.
      */
-    public GameOverViewController(GameOverView viewInstance, Main mainInstance, GenericPlatformer game)
-    {
+    public GameOverViewController(GameOverView viewInstance, Main mainInstance, GenericPlatformer game) {
         super(viewInstance, mainInstance, GameMenuType.GameOver);
         this.game = game;
     }
@@ -33,12 +33,12 @@ public class GameOverViewController extends MenuController<GameOverView> impleme
      * Initialize the nodes (make view create them, binds actions to them, etc.)
      */
     @Override
-    protected void initializeNodes()
-    {
+    protected void initializeNodes() {
         super.initializeNodes();
 
         getViewInstance().getExitButton().setOnMousePressed(mouseEvent -> {
-            getGameScene().getRoot().getScene().setOnKeyPressed(keyEvent -> { });
+            getGameScene().getRoot().getScene().setOnKeyPressed(keyEvent -> {
+            });
             this.hide();
 
             getMainInstance().stopGame();
@@ -47,7 +47,7 @@ public class GameOverViewController extends MenuController<GameOverView> impleme
 
     @Override
     public void update() {
-        if(game.getPlayerComponent().getHealth() <= 0){
+        if (game.getPlayerComponent().getHealth() <= 0) {
             this.show();
         }
     }

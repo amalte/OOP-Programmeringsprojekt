@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * @author Erik Wetter
- *
+ * <p>
  * Test class for WeaponFactory.
  */
 public class TestWeaponFactory {
@@ -26,6 +26,11 @@ public class TestWeaponFactory {
     @BeforeAll
     public static void setUp() throws InterruptedException {
         initialize();
+    }
+
+    @AfterAll
+    public static void tearDown() throws InterruptedException {
+        deInitialize();
     }
 
     @Test
@@ -51,10 +56,5 @@ public class TestWeaponFactory {
     public void testWrongWeaponName() {
         weapon = WeaponFactory.getInstance().createWeapon("abc123");
         assertNull(weapon);
-    }
-
-    @AfterAll
-    public static void tearDown() throws InterruptedException {
-        deInitialize();
     }
 }

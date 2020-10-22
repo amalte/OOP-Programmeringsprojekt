@@ -2,7 +2,7 @@ package edu.chalmers.model;
 
 /**
  * @author Oscar Arvidson
- *
+ * <p>
  * IObserver interface observer interface.
  */
 public interface IObserver {

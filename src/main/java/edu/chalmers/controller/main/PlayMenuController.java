@@ -10,7 +10,7 @@ import static com.almasb.fxgl.dsl.FXGL.getGameScene;
 
 /**
  * @author Anwarr Shiervani
- *
+ * <p>
  * The controller for the play menu view.
  */
 public class PlayMenuController extends MenuController<PlayMenu> {
@@ -22,8 +22,7 @@ public class PlayMenuController extends MenuController<PlayMenu> {
      * @param viewInstance Instance of a view to associate the controller with.
      * @param mainInstance An instance of the Main class.
      */
-    public PlayMenuController(PlayMenu viewInstance, Main mainInstance)
-    {
+    public PlayMenuController(PlayMenu viewInstance, Main mainInstance) {
         super(viewInstance, mainInstance, GameMenuType.Play);
     }
 
@@ -35,9 +34,9 @@ public class PlayMenuController extends MenuController<PlayMenu> {
         super.initializeNodes();
 
         getGameScene().getRoot().getScene().setOnKeyPressed(keyEvent -> {
-            if (keyEvent.getCode() == KeyCode.ESCAPE)
-            {
-                getGameScene().getRoot().getScene().setOnKeyPressed(keyEvent2 -> { });
+            if (keyEvent.getCode() == KeyCode.ESCAPE) {
+                getGameScene().getRoot().getScene().setOnKeyPressed(keyEvent2 -> {
+                });
                 this.hide();
 
                 if (this.mainMenuController != null)
@@ -50,27 +49,26 @@ public class PlayMenuController extends MenuController<PlayMenu> {
         getViewInstance().getLevel3Button().setOnMousePressed(mouseEvent -> selectLevel(3));
     }
 
-    private void selectLevel(int levelIndex)
-    {
-        getGameScene().getRoot().getScene().setOnKeyPressed(keyEvent -> {});
+    private void selectLevel(int levelIndex) {
+        getGameScene().getRoot().getScene().setOnKeyPressed(keyEvent -> {
+        });
         this.hide();
         getMainInstance().startGame(levelIndex);
     }
 
     /**
-     * Set the instance of MainMenuController.
-     * @param mainMenuController An instance of the MainMenuController.
+     * @return The instance of the MainMenuController.
      */
-    public void setMainMenuController(MainMenuController mainMenuController)
-    {
-        this.mainMenuController = mainMenuController;
+    public MainMenuController getMainMenuController() {
+        return this.mainMenuController;
     }
 
     /**
-     * @return The instance of the MainMenuController.
+     * Set the instance of MainMenuController.
+     *
+     * @param mainMenuController An instance of the MainMenuController.
      */
-    public MainMenuController getMainMenuController()
-    {
-        return this.mainMenuController;
+    public void setMainMenuController(MainMenuController mainMenuController) {
+        this.mainMenuController = mainMenuController;
     }
 }

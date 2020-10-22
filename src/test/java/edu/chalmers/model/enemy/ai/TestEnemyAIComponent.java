@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Sam Salek
- *
+ * <p>
  * Test class for EnemyAIComponent.
  */
 public class TestEnemyAIComponent {
@@ -40,12 +40,12 @@ public class TestEnemyAIComponent {
         waitForRunLater(() -> {
             FXGLTest.clearAllEntities();
 
-            tempPlayer = spawn("player",10000,10000);
+            tempPlayer = spawn("player", 10000, 10000);
             enemy = EnemyFactory.getInstance().createEnemy("ZOMBIE", 0, 0, tempPlayer, new StatMultiplier());
             enemyAIComponent = enemy.getComponent(EnemyAIComponent.class);
 
             // Spawn the ground
-            SpawnData spawnData = new SpawnData(0 ,0);
+            SpawnData spawnData = new SpawnData(0, 0);
             spawnData.put("width", 60 * 20);
             spawnData.put("height", 60);
             spawn("platform", spawnData);
@@ -192,7 +192,7 @@ public class TestEnemyAIComponent {
             assertEquals(false, enemyAIComponent.isEntityMiddleYBelow(player));
 
             // Set player middle Y-position slightly below Enemy.
-            player.setY((player.getHeight() / 2 ) + 1);
+            player.setY((player.getHeight() / 2) + 1);
 
             assertEquals(true, enemyAIComponent.isEntityMiddleYBelow(player));
         });

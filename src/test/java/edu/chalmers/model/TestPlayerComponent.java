@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Oscar Arvidson
- *
+ * <p>
  * Test class for PlayerComponent.
  */
 public class TestPlayerComponent {
@@ -43,7 +43,7 @@ public class TestPlayerComponent {
     public void testMoveLeft() throws InterruptedException {
         resetPlayer(); //Reset all player stats
         player.moveLeft();
-        assertEquals(- player.getMoveSpeed(), (int) player.getEntity().getComponent(PhysicsComponent.class).getVelocityX());
+        assertEquals(-player.getMoveSpeed(), (int) player.getEntity().getComponent(PhysicsComponent.class).getVelocityX());
     }
 
     @Test
@@ -65,10 +65,10 @@ public class TestPlayerComponent {
     public void testStop() throws InterruptedException {
         resetPlayer();
         player.moveLeft();
-        assertEquals(-player.getMoveSpeed(), (int)player.getEntity().getComponent(PhysicsComponent.class).getVelocityX());
+        assertEquals(-player.getMoveSpeed(), (int) player.getEntity().getComponent(PhysicsComponent.class).getVelocityX());
 
         player.stop();
-        assertEquals(0, (int)player.getEntity().getComponent(PhysicsComponent.class).getVelocityX());
+        assertEquals(0, (int) player.getEntity().getComponent(PhysicsComponent.class).getVelocityX());
     }
 
     @Test
@@ -135,7 +135,7 @@ public class TestPlayerComponent {
         });
         int temp = player.getActiveWeapon().getMagazineCounter();
         player.reload();
-        assertEquals(player.getActiveWeapon().getMagazineSize(),player.getActiveWeapon().getMagazineCounter());
+        assertEquals(player.getActiveWeapon().getMagazineSize(), player.getActiveWeapon().getMagazineCounter());
     }
 
     @Test
@@ -156,7 +156,7 @@ public class TestPlayerComponent {
         resetPlayer();
         int temp = player.getJumps();
         player.jump();
-        assertEquals(temp-1, player.getJumps());
+        assertEquals(temp - 1, player.getJumps());
         assertTrue(player.getEntity().getComponent(AnimationComponent.class).isAirborne());
         player.landed();
         assertTrue(!player.getEntity().getComponent(AnimationComponent.class).isAirborne());

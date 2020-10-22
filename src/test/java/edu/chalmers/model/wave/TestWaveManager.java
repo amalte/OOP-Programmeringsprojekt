@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Malte Åkvist, Oscar Arvidson
- *
+ * <p>
  * Test class for WaveManager.
  */
 public class TestWaveManager {
@@ -25,6 +25,11 @@ public class TestWaveManager {
     @BeforeAll
     public static void initApp() throws InterruptedException {
         initialize();
+    }
+
+    @AfterClass
+    public static void tearDown() throws InterruptedException {
+        deInitialize();
     }
 
     private void resetTest() throws InterruptedException {
@@ -71,10 +76,5 @@ public class TestWaveManager {
         assertTrue(o.isTest());
         waveManager.removeObserver(o);
         assertTrue(waveManager.observers.size() == 0);
-    }
-
-    @AfterClass
-    public static void tearDown() throws InterruptedException {
-        deInitialize();
     }
 }

@@ -7,7 +7,7 @@ import edu.chalmers.view.main.MainMenu;
 
 /**
  * @author Anwarr Shiervani
- *
+ * <p>
  * The controller for the main menu view.
  */
 public class MainMenuController extends MenuController<MainMenu> {
@@ -20,8 +20,7 @@ public class MainMenuController extends MenuController<MainMenu> {
      * @param viewInstance Instance of a view to associate the controller with.
      * @param mainInstance An instance of the Main class.
      */
-    public MainMenuController(MainMenu viewInstance, Main mainInstance)
-    {
+    public MainMenuController(MainMenu viewInstance, Main mainInstance) {
         super(viewInstance, mainInstance, GameMenuType.Main);
     }
 
@@ -29,8 +28,7 @@ public class MainMenuController extends MenuController<MainMenu> {
      * Initialize the nodes (make view create them, binds actions to them, etc.)
      */
     @Override
-    protected void initializeNodes()
-    {
+    protected void initializeNodes() {
         super.initializeNodes();
 
         getViewInstance().getPlayButton().setOnMousePressed(mouseEvent -> {
@@ -53,36 +51,34 @@ public class MainMenuController extends MenuController<MainMenu> {
     }
 
     /**
-     * Set the instance of PlayMenuController.
-     * @param playMenuController An instance of the PlayMenuController.
-     */
-    public void setPlayMenuController(PlayMenuController playMenuController)
-    {
-        this.playMenuController = playMenuController;
-    }
-
-    /**
      * @return The instance of the PlayMenuController.
      */
-    public PlayMenuController getPlayMenuController()
-    {
+    public PlayMenuController getPlayMenuController() {
         return this.playMenuController;
     }
 
     /**
-     * Set the instance of SettingsMenuController.
-     * @param settingsMenuController An instance of the SettingsMenuController.
+     * Set the instance of PlayMenuController.
+     *
+     * @param playMenuController An instance of the PlayMenuController.
      */
-    public void setSettingsMenuController(SettingsMenuController settingsMenuController)
-    {
-        this.settingsMenuController = settingsMenuController;
+    public void setPlayMenuController(PlayMenuController playMenuController) {
+        this.playMenuController = playMenuController;
     }
 
     /**
      * @return The instance of the SettingsMenuController.
      */
-    public SettingsMenuController getSettingsMenuController()
-    {
+    public SettingsMenuController getSettingsMenuController() {
         return this.settingsMenuController;
+    }
+
+    /**
+     * Set the instance of SettingsMenuController.
+     *
+     * @param settingsMenuController An instance of the SettingsMenuController.
+     */
+    public void setSettingsMenuController(SettingsMenuController settingsMenuController) {
+        this.settingsMenuController = settingsMenuController;
     }
 }

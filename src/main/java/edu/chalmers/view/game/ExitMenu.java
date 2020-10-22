@@ -14,7 +14,7 @@ import static edu.chalmers.view.util.ViewUtil.createActionButton;
 
 /**
  * @author Anwarr Shiervani
- *
+ * <p>
  * Exit menu view, exit menu.
  */
 public class ExitMenu extends SubScene implements IMenu {
@@ -26,8 +26,7 @@ public class ExitMenu extends SubScene implements IMenu {
      * Create the nodes for this menu.
      */
     @Override
-    public void createNodes()
-    {
+    public void createNodes() {
         // Background
         this.backgroundPane = new AnchorPane();
         this.backgroundPane.setLayoutX(0);
@@ -45,7 +44,8 @@ public class ExitMenu extends SubScene implements IMenu {
                 FXGL.getAppHeight() / 5.0);
 
         // Main buttons
-        this.exitButton = addNode(this, createActionButton("Exit to main menu", () -> { }),
+        this.exitButton = addNode(this, createActionButton("Exit to main menu", () -> {
+                }),
                 (FXGL.getAppWidth() / 2.0) - (ActionButton.BUTTON_WIDTH / 2.0),
                 (FXGL.getAppHeight() / 2.5) - (ActionButton.BUTTON_HEIGHT / 2.0) + (0.0 * (ActionButton.BUTTON_HEIGHT / 4.0)));
     }
@@ -61,8 +61,7 @@ public class ExitMenu extends SubScene implements IMenu {
     /**
      * @return The exit button.
      */
-    public ActionButton getExitButton()
-    {
+    public ActionButton getExitButton() {
         return this.exitButton;
     }
 }

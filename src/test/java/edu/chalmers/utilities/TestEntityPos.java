@@ -13,7 +13,7 @@ import static org.testng.AssertJUnit.assertEquals;
 
 /**
  * @author Malte Åkvist
- *
+ * <p>
  * Test class for EntityPos.
  */
 public class TestEntityPos {
@@ -22,6 +22,11 @@ public class TestEntityPos {
     @BeforeAll
     public static void initApp() throws InterruptedException {
         initialize();
+    }
+
+    @AfterClass
+    public static void tearDown() throws InterruptedException {
+        deInitialize();
     }
 
     private void resetTest() throws InterruptedException {
@@ -48,7 +53,8 @@ public class TestEntityPos {
         assertEquals(0, Math.round(p1.getX()));
         assertEquals(0, Math.round(p1.getY()));
         assertEquals(200, Math.round(p2.getX()));
-        assertEquals(500, Math.round(p2.getY()));;
+        assertEquals(500, Math.round(p2.getY()));
+        ;
         assertEquals(150, Math.round(player.getX()));
         assertEquals(800, Math.round(player.getY()));
     }
@@ -62,7 +68,7 @@ public class TestEntityPos {
         int pWidth = (int) Math.round(player.getWidth());
 
         assertEquals(500, Math.round(EntityPos.getMiddleX(entity1)));
-        assertEquals(800 + pWidth/2, Math.round(EntityPos.getMiddleX(player)));
+        assertEquals(800 + pWidth / 2, Math.round(EntityPos.getMiddleX(player)));
     }
 
     @Test
@@ -74,7 +80,7 @@ public class TestEntityPos {
         int pHeight = (int) Math.round(player.getHeight());
 
         assertEquals(500, Math.round(EntityPos.getMiddleY(entity1)));
-        assertEquals(800 + pHeight/2, Math.round(EntityPos.getMiddleY(player)));
+        assertEquals(800 + pHeight / 2, Math.round(EntityPos.getMiddleY(player)));
     }
 
     @Test
@@ -123,12 +129,7 @@ public class TestEntityPos {
         player.setY(0);
         int top2 = (int) Math.round(EntityPos.getBottomY(player));
 
-        assertEquals(200+pHeight, top1);
+        assertEquals(200 + pHeight, top1);
         assertEquals(pHeight, top2);
-    }
-
-    @AfterClass
-    public static void tearDown() throws InterruptedException {
-        deInitialize();
     }
 }

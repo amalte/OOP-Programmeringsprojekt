@@ -4,7 +4,7 @@ import edu.chalmers.services.Coords;
 
 /**
  * @author Malte Åkvist
- *
+ * <p>
  * Interface for a MapObserver
  */
 public interface IMapObserver {

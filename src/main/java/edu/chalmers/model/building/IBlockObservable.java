@@ -5,7 +5,7 @@ import java.util.List;
 
 /**
  * @author Malte Åkvist
- *
+ * <p>
  * Interface for a BlockObservable
  */
 public interface IBlockObservable {

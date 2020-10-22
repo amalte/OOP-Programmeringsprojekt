@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * @author Malte Åkvist
- *
+ * <p>
  * BuildView view that draws grid and placeable box for building UI
  */
 public class BuildView {
@@ -30,11 +30,11 @@ public class BuildView {
      * Draws the tileOverlay (transparent boxes that shows where the build range is)
      */
     public void updateTileOverlay(List<Coords> reachableTiles) {
-        for (Node node: transparentRects) {
+        for (Node node : transparentRects) {
             node.setVisible(false);     // Hide all since list will get updated
         }
 
-        for(int i = 0; i < reachableTiles.size(); i++) {
+        for (int i = 0; i < reachableTiles.size(); i++) {
             Point2D reachableTilePos = CoordsCalculations.tileToPos(reachableTiles.get(i));
             transparentRects.get(i).setTranslateX(reachableTilePos.getX());
             transparentRects.get(i).setTranslateY(reachableTilePos.getY());
@@ -65,10 +65,10 @@ public class BuildView {
     }
 
     private Node[] createTransparentTiles(int buildRangeTiles) {
-        int tileWidth = buildRangeTiles*2+1;
-        int totalTiles = tileWidth*tileWidth;
+        int tileWidth = buildRangeTiles * 2 + 1;
+        int totalTiles = tileWidth * tileWidth;
 
-        for(int i = 0; i < totalTiles; i++) {
+        for (int i = 0; i < totalTiles; i++) {
             transparentRects.add(createTransparentRect());
         }
         return transparentRects.toArray(new Node[0]);

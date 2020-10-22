@@ -5,7 +5,7 @@ import java.util.List;
 
 /**
  * @author Oscar Arvidson
- *
+ * <p>
  * IObservable interface observable interface.
  */
 public interface IObservable {
@@ -16,6 +16,7 @@ public interface IObservable {
 
     /**
      * Adds an IObserver to observers.
+     *
      * @param o IObserver to be added to List observers.
      */
     void addObserver(IObserver o);
@@ -27,6 +28,7 @@ public interface IObservable {
 
     /**
      * Removes an IObserver from observers.
+     *
      * @param o IObserver to be removed form list observers.
      */
     void removeObserver(IObserver o);

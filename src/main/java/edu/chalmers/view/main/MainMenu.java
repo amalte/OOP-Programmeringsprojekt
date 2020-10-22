@@ -11,7 +11,7 @@ import static edu.chalmers.view.util.ViewUtil.*;
 
 /**
  * @author Anwarr Shiervani
- *
+ * <p>
  * The main menu.
  */
 public class MainMenu extends SubScene implements IMenu {
@@ -24,8 +24,7 @@ public class MainMenu extends SubScene implements IMenu {
      * Create the nodes for this menu.
      */
     @Override
-    public void createNodes()
-    {
+    public void createNodes() {
         // Background
         addNode(this, getBackgroundNode(), 0, 0);
 
@@ -38,13 +37,16 @@ public class MainMenu extends SubScene implements IMenu {
                 FXGL.getAppHeight() / 5.0);
 
         // Main buttons
-        this.playButton = addNode(this, createActionButton("Play", () -> { }),
+        this.playButton = addNode(this, createActionButton("Play", () -> {
+                }),
                 (FXGL.getAppWidth() / 2.0) - (ActionButton.BUTTON_WIDTH / 2.0),
                 (FXGL.getAppHeight() / 2.5) - (ActionButton.BUTTON_HEIGHT / 2.0) + (0.0 * (ActionButton.BUTTON_HEIGHT / 4.0)));
-        this.settingsButton = addNode(this, createActionButton("Settings", () -> { }),
+        this.settingsButton = addNode(this, createActionButton("Settings", () -> {
+                }),
                 (FXGL.getAppWidth() / 2.0) - (ActionButton.BUTTON_WIDTH / 2.0),
                 (FXGL.getAppHeight() / 2.5) - (ActionButton.BUTTON_HEIGHT / 2.0) + (5.0 * (ActionButton.BUTTON_HEIGHT / 4.0)));
-        this.exitButton = addNode(this, createActionButton("Exit", () -> { }),
+        this.exitButton = addNode(this, createActionButton("Exit", () -> {
+                }),
                 (FXGL.getAppWidth() / 2.0) - (ActionButton.BUTTON_WIDTH / 2.0),
                 (FXGL.getAppHeight() / 2.5) - (ActionButton.BUTTON_HEIGHT / 2.0) + (10.0 * (ActionButton.BUTTON_HEIGHT / 4.0)));
     }
@@ -60,24 +62,21 @@ public class MainMenu extends SubScene implements IMenu {
     /**
      * @return The play button.
      */
-    public ActionButton getPlayButton()
-    {
+    public ActionButton getPlayButton() {
         return this.playButton;
     }
 
     /**
      * @return The settings button.
      */
-    public ActionButton getSettingsButton()
-    {
+    public ActionButton getSettingsButton() {
         return this.settingsButton;
     }
 
     /**
      * @return The exit button.
      */
-    public ActionButton getExitButton()
-    {
+    public ActionButton getExitButton() {
         return this.exitButton;
     }
 }

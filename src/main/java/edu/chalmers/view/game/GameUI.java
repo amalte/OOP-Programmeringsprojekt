@@ -10,35 +10,33 @@ import javafx.scene.text.*;
 
 /**
  * @author Oscar Arvidson
- *
+ * <p>
  * View that creates all the nodes needed for showing game information to the user.
  */
 public class GameUI implements IObserver {
 
-    private GenericPlatformer game;
-
-    public GameUI(GenericPlatformer game) {
-        this.game = game;
-    }
-
     private final double healthBarMaxWidth = 400;
     private final double healthBarMaxHeight = 30;
+    private GenericPlatformer game;
     private Rectangle healthBar;
     private Rectangle healthBackground;
     private Text amountOfAmmoText;
     private Text activeWeaponText;
     private Text currentWaveText;
     private Text reloadingText;
+    public GameUI(GenericPlatformer game) {
+        this.game = game;
+    }
 
     /**
      * Create the nodes for this view.
      */
-    public void createNodes(){
+    public void createNodes() {
 
         //Current wave text
         currentWaveText = new Text();
         currentWaveText.setY(50);
-        currentWaveText.setX(Constants.GAME_WIDTH/2 - 150);
+        currentWaveText.setX(Constants.GAME_WIDTH / 2 - 150);
         currentWaveText.setTextAlignment(TextAlignment.LEFT);
         currentWaveText.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 36));
         currentWaveText.setFill(Color.TOMATO);
@@ -47,7 +45,7 @@ public class GameUI implements IObserver {
         FXGL.getGameScene().addUINode(currentWaveText);
 
         //Health bar
-        healthBar = new Rectangle(healthBarMaxWidth,healthBarMaxHeight, Color.LIMEGREEN);
+        healthBar = new Rectangle(healthBarMaxWidth, healthBarMaxHeight, Color.LIMEGREEN);
         healthBar.setY(10);
         healthBar.setX(10);
 
@@ -63,7 +61,7 @@ public class GameUI implements IObserver {
         FXGL.getGameScene().addUINode(healthBackground);
 
         //Amount of ammo text
-        amountOfAmmoText = new Text(10,100, "");
+        amountOfAmmoText = new Text(10, 100, "");
         amountOfAmmoText.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 24));
         amountOfAmmoText.setFill(Color.LIMEGREEN);
         amountOfAmmoText.setStroke(Color.BLACK);
@@ -91,22 +89,22 @@ public class GameUI implements IObserver {
     /**
      * Updates activeWeaponText to be equal to the name of the players selected weapon.
      */
-    public void updateActiveWeapon(){
+    public void updateActiveWeapon() {
         activeWeaponText.setText("Weapon: " + game.getPlayerComponent().getActiveWeapon().getWeaponType().getName());
     }
 
     /**
      * Updates amountOfAmmoText to be equal to the magazine of the players selected weapon.
      */
-    public void updateAmmunition(){
+    public void updateAmmunition() {
         amountOfAmmoText.setText("Ammunition: " + game.getPlayerComponent().getActiveWeapon().getMagazineCounter());
     }
 
     /**
      * Updates reloadingText depending on if the active weapon is being reloaded.
      */
-    public void updateReloading(){
-        if(game.getPlayerComponent().getActiveWeapon().isReloading()) {
+    public void updateReloading() {
+        if (game.getPlayerComponent().getActiveWeapon().isReloading()) {
             reloadingText.setText("Reloading");
             reloadingText.setFill(Color.INDIANRED);
         } else {
@@ -119,16 +117,16 @@ public class GameUI implements IObserver {
     /**
      * Changes width on healthBar when health is lowered.
      */
-    private void updateHealth(){
-        float percentage = (float)game.getPlayerComponent().getHealth()/(float)game.getPlayerComponent().getMaxHealth(); //Possible placed in controller
+    private void updateHealth() {
+        float percentage = (float) game.getPlayerComponent().getHealth() / (float) game.getPlayerComponent().getMaxHealth(); //Possible placed in controller
         healthBar.setWidth(healthBarMaxWidth * percentage);
     }
 
     /**
      * Updates currentWaveText to the number of the current wave.
      */
-    public void updateWaveCounter(){
-        currentWaveText.setText("Current Wave: "+ game.getWaveManager().getCurrentWave());
+    public void updateWaveCounter() {
+        currentWaveText.setText("Current Wave: " + game.getWaveManager().getCurrentWave());
     }
 
     /**

@@ -34,7 +34,7 @@ import static com.almasb.fxgl.dsl.FXGL.*;
 
 /**
  * @author Anwarr Shiervani
- *
+ * <p>
  * The entrypoint for this game.
  */
 public class Main extends GameApplication {
@@ -52,8 +52,10 @@ public class Main extends GameApplication {
     private Boolean gameShutdown = false;
     private Boolean testRunning = false;
     private AtomicReference<CountDownLatch> gameRunningLatch = new AtomicReference<>();
+
     /**
      * Main method. Called when running the program.
+     *
      * @param args Arguments to be passed onto FXGL.
      */
     public static void main(String[] args) {
@@ -62,7 +64,24 @@ public class Main extends GameApplication {
     }
 
     /**
+     * @return The initializedLatch for Main.
+     */
+    public static CountDownLatch getInitializedLatch() {
+        return initializedLatch.get();
+    }
+
+    /**
+     * Set the initializedLatch for Main.
+     *
+     * @param countDownLatch The instance of CountDownLatch to set initializedLatch to. This latch will be counted down, if its count is over 0, once that the initUI method has been ran.
+     */
+    public static void setInitializedLatch(CountDownLatch countDownLatch) {
+        initializedLatch.set(countDownLatch);
+    }
+
+    /**
      * Set good defaults for our game.
+     *
      * @param gameSettings A parameter to be specified by FXGL itself. Contains a reference to the an instance of the GameSettings class.
      */
     @Override
@@ -97,10 +116,8 @@ public class Main extends GameApplication {
     @Override
     protected void initUI() {
         runOnce(() -> {
-            synchronized (this.controllerList)
-            {
-                if (this.controllerList.isEmpty())
-                {
+            synchronized (this.controllerList) {
+                if (this.controllerList.isEmpty()) {
                     MainMenuController mainMenuController = new MainMenuController(new MainMenu(), this);
 
                     SettingsMenuController settingsMenuController = new SettingsMenuController(new SettingsMenu(), this);
@@ -134,11 +151,12 @@ public class Main extends GameApplication {
 
     /**
      * Runs update method that runs every tick
+     *
      * @param tpf tpf
      */
     @Override
     protected void onUpdate(double tpf) {
-        if  (buildUIController != null)
+        if (buildUIController != null)
             buildUIController.updateBuildTileUI();   // Constantly update the build UI overlay
     }
 
@@ -148,17 +166,14 @@ public class Main extends GameApplication {
     public void shutdown() {
         this.stopGame();
 
-        if (!this.testRunning)
-        {
+        if (!this.testRunning) {
             this.gameShutdown = true;
             getGameController().exit();
         }
     }
 
-    private void createBackground()
-    {
-        if (this.backgroundPane == null)
-        {
+    private void createBackground() {
+        if (this.backgroundPane == null) {
             this.backgroundPane = new AnchorPane();
             this.backgroundPane.setLayoutX(0);
             this.backgroundPane.setLayoutY(0);
@@ -167,25 +182,21 @@ public class Main extends GameApplication {
         }
     }
 
-    private void showBackground()
-    {
-        if (!getGameScene().getUiNodes().contains(this.backgroundPane))
-        {
+    private void showBackground() {
+        if (!getGameScene().getUiNodes().contains(this.backgroundPane)) {
             getGameScene().addUINode(this.backgroundPane);
         }
     }
 
     /**
      * Get a registered controller that has the same specified game menu type.
+     *
      * @param gameMenuType The game menu type to search for.
      * @return The controller with the game menu type. May be null, if not found.
      */
-    public MenuController getController(GameMenuType gameMenuType)
-    {
-        for (MenuController menuController : controllerList)
-        {
-            if (menuController.getGameMenuType() == gameMenuType)
-            {
+    public MenuController getController(GameMenuType gameMenuType) {
+        for (MenuController menuController : controllerList) {
+            if (menuController.getGameMenuType() == gameMenuType) {
                 return menuController;
             }
         }
@@ -195,12 +206,11 @@ public class Main extends GameApplication {
 
     /**
      * Start the game.
+     *
      * @param levelIndex What level index to use when loading the TMX file. Format: "level{levelIndex}.tmx"
      */
-    public void startGame(int levelIndex)
-    {
-        if (!this.getGameRunning())
-        {
+    public void startGame(int levelIndex) {
+        if (!this.getGameRunning()) {
             String levelName = "level" + levelIndex + ".tmx";
 
             game.remove();
@@ -213,7 +223,7 @@ public class Main extends GameApplication {
                 this.initExtraViews();
 
                 buildUIController = new BuildUIController(game, buildView);
-                game.getWaveManager().addObserver((IObserver)getController(GameMenuType.GameOver));
+                game.getWaveManager().addObserver((IObserver) getController(GameMenuType.GameOver));
 
                 this.gameRunning = true;
 
@@ -226,10 +236,8 @@ public class Main extends GameApplication {
     /**
      * Stop the game, if it is running.
      */
-    public void stopGame()
-    {
-        if (this.getGameRunning())
-        {
+    public void stopGame() {
+        if (this.getGameRunning()) {
             game.getWaveManager().removeObserver(gameUI);
             game.getWaveManager().removeObserver((IObserver) getController(GameMenuType.GameOver));
             this.showBackground();
@@ -242,21 +250,18 @@ public class Main extends GameApplication {
     /**
      * @return Whether or not the game has shutdown.
      */
-    public Boolean getGameShutdown()
-    {
+    public Boolean getGameShutdown() {
         return this.gameShutdown;
     }
 
     /**
      * @return Whether or not the game is running.
      */
-    public Boolean getGameRunning()
-    {
+    public Boolean getGameRunning() {
         return this.gameRunning;
     }
 
-    private void initExtraViews()
-    {
+    private void initExtraViews() {
         this.gameUI = new GameUI(game);
         this.gameUI.createNodes();
         game.getPlayerComponent().addObserver(gameUI);
@@ -267,49 +272,46 @@ public class Main extends GameApplication {
     /**
      * @return The instance of the GameUI class associated with our Main class.
      */
-    public GameUI getGameUI()
-    {
+    public GameUI getGameUI() {
         return this.gameUI;
     }
 
     /**
      * @return The instance of the InputController class associated with our Main class.
      */
-    public InputController getInputController() { return this.inputController; }
+    public InputController getInputController() {
+        return this.inputController;
+    }
 
     /**
      * @return The current, loaded level. Format: level(num).tmx
      */
-    public String getCurrentLevel() { return this.currentLevel; }
-
-    /**
-     * Set the initializedLatch for Main.
-     * @param countDownLatch The instance of CountDownLatch to set initializedLatch to. This latch will be counted down, if its count is over 0, once that the initUI method has been ran.
-     */
-    public static void setInitializedLatch(CountDownLatch countDownLatch) { initializedLatch.set(countDownLatch); }
-
-    /**
-     * @return The initializedLatch for Main.
-     */
-    public static CountDownLatch getInitializedLatch() { return initializedLatch.get(); }
-
-    /**
-     * Set the gameRunningLatch for Main.
-     * @param gameRunningLatch The instance of CountDownLatch to set gameRunningLatch to. This latch will be counted down, if its count is over 0, once that gameRunning has been set to true.
-     */
-    public void setGameRunningLatch(CountDownLatch gameRunningLatch) { this.gameRunningLatch.set(gameRunningLatch); }
+    public String getCurrentLevel() {
+        return this.currentLevel;
+    }
 
     /**
      * @return The gameRunningLatch for Main.
      */
-    public CountDownLatch getGameRunningLatch() { return this.gameRunningLatch.get(); }
+    public CountDownLatch getGameRunningLatch() {
+        return this.gameRunningLatch.get();
+    }
+
+    /**
+     * Set the gameRunningLatch for Main.
+     *
+     * @param gameRunningLatch The instance of CountDownLatch to set gameRunningLatch to. This latch will be counted down, if its count is over 0, once that gameRunning has been set to true.
+     */
+    public void setGameRunningLatch(CountDownLatch gameRunningLatch) {
+        this.gameRunningLatch.set(gameRunningLatch);
+    }
 
     /**
      * Set whether or not a unit is running for the current session.
+     *
      * @param testRunning Whether or not a unit are currently running.
      */
-    public void setTestRunning(Boolean testRunning)
-    {
+    public void setTestRunning(Boolean testRunning) {
         this.testRunning = testRunning;
     }
 }

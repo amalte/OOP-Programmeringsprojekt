@@ -5,26 +5,29 @@ import javafx.geometry.Point2D;
 
 /**
  * @author Sam Salek, Malte Åkvist
- *
+ * <p>
  * EntityPos class to get different positions of an entity.
  */
 public final class EntityPos {
 
-    private EntityPos() {}
+    private EntityPos() {
+    }
 
     /**
      * Method gets the position of an entity
+     *
      * @param entity the entity to get position from
      * @return position of the entity
      */
     public static Point2D getPosition(Entity entity) {    // Takes into account width and height of entity
         double x = getMiddleX(entity);
         double y = getMiddleY(entity);
-        return new Point2D(x,y);
+        return new Point2D(x, y);
     }
 
     /**
      * Method gets the middle X-Position of an entity.
+     *
      * @param entity The entity to get position from.
      * @return Middle X-Position of the entity.
      */
@@ -34,6 +37,7 @@ public final class EntityPos {
 
     /**
      * Method gets the middle Y-Position of an entity.
+     *
      * @param entity The entity to get position from.
      * @return Middle Y-Position of the entity.
      */
@@ -43,6 +47,7 @@ public final class EntityPos {
 
     /**
      * Method gets the right side X-Position of an entity.
+     *
      * @param entity The entity to get position from.
      * @return Right side X-Position of the entity.
      */
@@ -52,6 +57,7 @@ public final class EntityPos {
 
     /**
      * Method gets the left side X-Position of an entity.
+     *
      * @param entity The entity to get position from.
      * @return Left side X-Position of the entity.
      */
@@ -61,6 +67,7 @@ public final class EntityPos {
 
     /**
      * Method gets the top side Y-Position of an entity.
+     *
      * @param entity The entity to get position from.
      * @return Top side Y-Position of the entity.
      */
@@ -70,6 +77,7 @@ public final class EntityPos {
 
     /**
      * Method gets the bottom side Y-Position of an entity.
+     *
      * @param entity The entity to get position from.
      * @return Bottom side Y-Position of the entity.
      */

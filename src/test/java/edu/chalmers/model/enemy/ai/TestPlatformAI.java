@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Sam Salek
- *
+ * <p>
  * Test class for PlatformAI.
  */
 public class TestPlatformAI {
@@ -38,7 +38,7 @@ public class TestPlatformAI {
         waitForRunLater(() -> {
             FXGLTest.clearAllEntities();
 
-            tempPlayer = spawn("player",10000,10000);
+            tempPlayer = spawn("player", 10000, 10000);
 
             enemy = EnemyFactory.getInstance().createEnemy("Zombie", 0, 0, tempPlayer, new StatMultiplier());
             enemyAIComponent = enemy.getComponent(EnemyAIComponent.class);

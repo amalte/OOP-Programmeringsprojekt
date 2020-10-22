@@ -5,27 +5,30 @@ import javafx.geometry.Point2D;
 
 /**
  * @author Malte Åkvist
- *
+ * <p>
  * CoordsCalculations used to convert between tiles (Coords) and points.
  */
 public final class CoordsCalculations {
 
-    private CoordsCalculations() {}
+    private CoordsCalculations() {
+    }
 
     /**
      * Method converts a position to a tile on the map
+     *
      * @param pos the position to convert
      * @return a coordinate of a tile
      */
     public static Coords posToTile(Point2D pos) { // MousePos to tile, example (50,150) = (0,2)
-        int tileX = (int)(pos.getX()/Constants.TILE_SIZE);
-        int tileY = (int)(pos.getY()/Constants.TILE_SIZE);
+        int tileX = (int) (pos.getX() / Constants.TILE_SIZE);
+        int tileY = (int) (pos.getY() / Constants.TILE_SIZE);
 
         return new Coords(tileX, tileY);
     }
 
     /**
      * Method converts a tile on the map to a position
+     *
      * @param tile the tile to convert
      * @return a position with x and y value
      */
@@ -35,6 +38,7 @@ public final class CoordsCalculations {
 
     /**
      * Method converts a position to the responding tile's position
+     *
      * @param pos the position to convert
      * @return the corresponding tile's position
      */

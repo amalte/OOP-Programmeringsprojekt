@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /**
  * @author Anwarr Shiervani
- *
+ * <p>
  * Test class for all of the miscellaneous controllers.
  */
 public class TestMiscControllers {
@@ -23,6 +23,7 @@ public class TestMiscControllers {
 
     /**
      * Set up the test class.
+     *
      * @throws InterruptedException
      */
     @BeforeClass
@@ -32,7 +33,19 @@ public class TestMiscControllers {
     }
 
     /**
+     * Tear down the test class.
+     *
+     * @throws InterruptedException
+     */
+    @AfterClass
+    public static void tearDown() throws InterruptedException {
+        deInitialize();
+        mainInstance = null;
+    }
+
+    /**
      * Test the MenuController class.
+     *
      * @throws InterruptedException
      */
     @Test
@@ -40,8 +53,7 @@ public class TestMiscControllers {
         /**
          * Start classes
          */
-        class DummySubScene extends SubScene implements IMenu
-        {
+        class DummySubScene extends SubScene implements IMenu {
             private Boolean nodesCreated = false;
 
             @Override
@@ -54,14 +66,12 @@ public class TestMiscControllers {
                 return "";
             }
 
-            public boolean getNodesCreated()
-            {
+            public boolean getNodesCreated() {
                 return this.nodesCreated;
             }
         }
 
-        class DummyMenuController extends MenuController<DummySubScene>
-        {
+        class DummyMenuController extends MenuController<DummySubScene> {
             /**
              * Default constructor for DummyMenuController.
              *
@@ -111,15 +121,5 @@ public class TestMiscControllers {
         /**
          * End view test
          */
-    }
-
-    /**
-     * Tear down the test class.
-     * @throws InterruptedException
-     */
-    @AfterClass
-    public static void tearDown() throws InterruptedException {
-        deInitialize();
-        mainInstance = null;
     }
 }

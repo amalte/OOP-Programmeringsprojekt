@@ -16,20 +16,19 @@ import static com.almasb.fxgl.dsl.FXGL.runOnce;
 
 /**
  * @author Oscar Arvidson
- *
+ * <p>
  * Player class. Wraps an entity object as a Player.
  */
 public class PlayerComponent extends Component implements IObservable {
 
+    private final int AMOUNT_OF_JUMPS = 1;
     private List<Weapon> weapons = new ArrayList<>();
     private boolean testing = false; //Boolean used for testing
-
     //Stats
     private int maxHealth = 100;
     private int health = maxHealth;
     private int moveSpeed = 175;
     private int jumpHeight = 400;
-    private final int AMOUNT_OF_JUMPS = 1;
     private int jumps = AMOUNT_OF_JUMPS;
     private int buildRangeTiles = 3;
     private PhysicsComponent physics;
@@ -53,7 +52,7 @@ public class PlayerComponent extends Component implements IObservable {
      * Method moves players Entity left (negative x).
      * Calls method moveLeft from animationComponent.
      */
-    public void moveLeft(){
+    public void moveLeft() {
         physics.setVelocityX(-moveSpeed);
         entity.getComponent(AnimationComponent.class).moveLeft();
     }
@@ -62,7 +61,7 @@ public class PlayerComponent extends Component implements IObservable {
      * Method moves players Entity right (positive x).
      * Calls method moveRight from animationComponent.
      */
-    public void moveRight(){
+    public void moveRight() {
         physics.setVelocityX(moveSpeed);
         entity.getComponent(AnimationComponent.class).moveRight();
     }
@@ -72,8 +71,8 @@ public class PlayerComponent extends Component implements IObservable {
      * Reduce amount of jumps left by 1.
      * Calls method jump from animationComponent.
      */
-    public void jump(){
-        if(jumps != 0) {
+    public void jump() {
+        if (jumps != 0) {
             physics.setVelocityY(-jumpHeight);
             entity.getComponent(AnimationComponent.class).jump();
             jumps--;
@@ -97,7 +96,7 @@ public class PlayerComponent extends Component implements IObservable {
     /**
      * Method stop players Entity in the x direction.
      */
-    public void stop(){
+    public void stop() {
         physics.setVelocityX(0);
     }
 
@@ -113,22 +112,24 @@ public class PlayerComponent extends Component implements IObservable {
     /**
      * Resets players jumps to be equal to amountOfJumps variable.
      */
-    public void resetJumpAmounts(){
+    public void resetJumpAmounts() {
         jumps = AMOUNT_OF_JUMPS;
     }
 
     /**
      * Lower PlayerComponents health with damage if player have not taken damage within 1 second.
+     *
      * @param damage amount of health points to be inflicted to player.
      */
-    public void inflictDamage(int damage){
-        if(!testing) {
+    public void inflictDamage(int damage) {
+        if (!testing) {
             if (timer.isExpired()) {
                 health -= damage;
                 notifyObserver();
-                timer = runOnce(() -> {}, Duration.seconds(1));
+                timer = runOnce(() -> {
+                }, Duration.seconds(1));
             }
-        } else{
+        } else {
             health -= damage;
         }
     }
@@ -136,8 +137,9 @@ public class PlayerComponent extends Component implements IObservable {
     /**
      * Initiate damage delay timer.
      */
-    private void initTimer(){
-        timer = runOnce(() -> {}, Duration.seconds(0));
+    private void initTimer() {
+        timer = runOnce(() -> {
+        }, Duration.seconds(0));
     }
 
     @Override
@@ -147,7 +149,7 @@ public class PlayerComponent extends Component implements IObservable {
 
     @Override
     public void notifyObserver() {
-        for(IObserver o : observers){
+        for (IObserver o : observers) {
             o.update();
         }
     }
@@ -161,6 +163,7 @@ public class PlayerComponent extends Component implements IObservable {
 
     /**
      * Getter for onGround variable.
+     *
      * @return True (Player is on the ground *or* has most recently not touched a platform) or False (Enemy has not touched the ground since touching a platform).
      */
     public boolean isOnGround() {
@@ -168,7 +171,17 @@ public class PlayerComponent extends Component implements IObservable {
     }
 
     /**
+     * Setter for onGround variable.
+     *
+     * @param onGround True or False.
+     */
+    public void setOnGround(boolean onGround) {
+        this.onGround = onGround;
+    }
+
+    /**
      * Getter for isAirborne variable.
+     *
      * @return True (Player is in the air) or False (Player is on platform or ground).
      */
     public boolean isAirborne() {
@@ -176,7 +189,17 @@ public class PlayerComponent extends Component implements IObservable {
     }
 
     /**
+     * Setter for isAirborne variable.
+     *
+     * @param airborne True or False.
+     */
+    public void setAirborne(boolean airborne) {
+        isAirborne = airborne;
+    }
+
+    /**
      * Getter for the list weapons used for testing purposes.
+     *
      * @return List of Weapon "weapons".
      */
     public List<Weapon> getWeapons() {
@@ -185,6 +208,7 @@ public class PlayerComponent extends Component implements IObservable {
 
     /**
      * Getter for variable jumpHeight (intended for testing)
+     *
      * @return PlayerComponents unchangeable jumpHeight.
      */
     public int getJumpHeight() {
@@ -193,6 +217,7 @@ public class PlayerComponent extends Component implements IObservable {
 
     /**
      * Get method used fot testing purposes.
+     *
      * @return integer jumps.
      */
     public int getJumps() {
@@ -201,62 +226,36 @@ public class PlayerComponent extends Component implements IObservable {
 
     /**
      * Getter for variable buildRangeTiles.
+     *
      * @return Integer for the max range of block the player can build.
      */
-    public int getBuildRangeTiles() { return buildRangeTiles; }
+    public int getBuildRangeTiles() {
+        return buildRangeTiles;
+    }
 
     /**
      * Getter for PlayerComponents health.
+     *
      * @return Integer of PlayerComponents health.
      */
-    public int getHealth(){
+    public int getHealth() {
         return health;
     }
 
     /**
-     *Getter for variable weapon.
+     * Getter for variable weapon.
+     *
      * @return The weapon currently selected by the PlayerComponent.
      */
-    public Weapon getActiveWeapon(){
+    public Weapon getActiveWeapon() {
         return weapons.get(activeWeapon);
-    }
-
-    /**
-     * Getter for variable moveSpeed (intended for testing)
-     * @return PlayerComponents unchangeable movementSpeed.
-     */
-    public int getMoveSpeed(){
-        return moveSpeed;
-    }
-
-    /**
-     * Getter for variable maxHealth.
-     * @return Integer max health for PlayerComponent.
-     */
-    public int getMaxHealth() {
-        return maxHealth;
     }
 
     // -------- SETTERS -------- //
 
     /**
-     * Setter for onGround variable.
-     * @param onGround True or False.
-     */
-    public void setOnGround(boolean onGround) {
-        this.onGround = onGround;
-    }
-
-    /**
-     * Setter for isAirborne variable.
-     * @param airborne True or False.
-     */
-    public void setAirborne(boolean airborne) {
-        isAirborne = airborne;
-    }
-
-    /**
      * Sets the active weapon.
+     *
      * @param activeWeapon Integer to replace the current activeWeapon.
      */
     public void setActiveWeapon(int activeWeapon) {
@@ -265,10 +264,29 @@ public class PlayerComponent extends Component implements IObservable {
     }
 
     /**
+     * Getter for variable moveSpeed (intended for testing)
+     *
+     * @return PlayerComponents unchangeable movementSpeed.
+     */
+    public int getMoveSpeed() {
+        return moveSpeed;
+    }
+
+    /**
+     * Getter for variable maxHealth.
+     *
+     * @return Integer max health for PlayerComponent.
+     */
+    public int getMaxHealth() {
+        return maxHealth;
+    }
+
+    /**
      * Setter for testing variable used to test time based methods.
+     *
      * @param state True or False.
      */
-    public void setTesting(boolean state){
+    public void setTesting(boolean state) {
         testing = state;
     }
 }

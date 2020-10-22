@@ -11,7 +11,7 @@ import static edu.chalmers.view.util.ViewUtil.*;
 
 /**
  * @author Anwarr Shiervani
- *
+ * <p>
  * The play menu.
  */
 public class PlayMenu extends SubScene implements IMenu {
@@ -37,13 +37,16 @@ public class PlayMenu extends SubScene implements IMenu {
                 FXGL.getAppHeight() / 5.0);
 
         // Main buttons
-        this.level1Button = addNode(this, createActionButton("Level 1", () -> { }, "/assets/levels/level1.png"),
+        this.level1Button = addNode(this, createActionButton("Level 1", () -> {
+                }, "/assets/levels/level1.png"),
                 (FXGL.getAppWidth() / 2.0) - (ActionButton.BUTTON_WIDTH / 2.0) - (5.0 * (ActionButton.BUTTON_WIDTH / 4.0)),
                 (FXGL.getAppHeight() / 2.5) - (ActionButton.BUTTON_HEIGHT / 2.0));
-        this.level2Button = addNode(this, createActionButton("Level 2", () -> { }, "/assets/levels/level2.png"),
+        this.level2Button = addNode(this, createActionButton("Level 2", () -> {
+                }, "/assets/levels/level2.png"),
                 (FXGL.getAppWidth() / 2.0) - (ActionButton.BUTTON_WIDTH / 2.0) + (0.0 * (ActionButton.BUTTON_WIDTH / 4.0)),
                 (FXGL.getAppHeight() / 2.5) - (ActionButton.BUTTON_HEIGHT / 2.0));
-        this.level3Button = addNode(this, createActionButton("Level 3", () -> { }, "/assets/levels/level3.png"),
+        this.level3Button = addNode(this, createActionButton("Level 3", () -> {
+                }, "/assets/levels/level3.png"),
                 (FXGL.getAppWidth() / 2.0) - (ActionButton.BUTTON_WIDTH / 2.0) + (5 * (ActionButton.BUTTON_WIDTH / 4.0)),
                 (FXGL.getAppHeight() / 2.5) - (ActionButton.BUTTON_HEIGHT / 2.0));
     }
@@ -59,24 +62,21 @@ public class PlayMenu extends SubScene implements IMenu {
     /**
      * @return The level 1 button.
      */
-    public ActionButton getLevel1Button()
-    {
+    public ActionButton getLevel1Button() {
         return this.level1Button;
     }
 
     /**
      * @return The level 2 button.
      */
-    public ActionButton getLevel2Button()
-    {
+    public ActionButton getLevel2Button() {
         return this.level2Button;
     }
 
     /**
      * @return The level 3 button.
      */
-    public ActionButton getLevel3Button()
-    {
+    public ActionButton getLevel3Button() {
         return this.level3Button;
     }
 }

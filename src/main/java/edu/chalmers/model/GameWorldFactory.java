@@ -13,13 +13,14 @@ import javafx.scene.shape.Rectangle;
 
 /**
  * @author Oscar Arvidson
- *
+ * <p>
  * GameWorldFactory a factory class that creates game related entities (platform, spawnpoints, player)
  */
 public class GameWorldFactory implements EntityFactory {
 
     /**
      * Method used to spawn in "platform" types from tmx level files.
+     *
      * @param spawnData information brought over from the tmx file which contains value such as width, length, x-value and y-value.
      * @return An Entity object with physics and hit box with Enum type PLATFORM.
      */
@@ -29,33 +30,33 @@ public class GameWorldFactory implements EntityFactory {
     }
 
     @Spawns("worldBorder")
-    public Entity newWorldBorder(SpawnData spawnData){
+    public Entity newWorldBorder(SpawnData spawnData) {
         return FXGL.entityBuilder().type(EntityType.WORLDBORDER).bbox(new HitBox(BoundingShape.box(spawnData.<Integer>get("width"), spawnData.<Integer>get("height")))).with(new PhysicsComponent()).build();
     }
 
     @Spawns("player")
-    public Entity newPLayer(SpawnData spawnData){
+    public Entity newPLayer(SpawnData spawnData) {
         PhysicsComponent physics = new PhysicsComponent();
         return FXGL.entityBuilder()
                 .type(EntityType.PLAYER)
-                .at(spawnData.getX(),spawnData.getY())
-                .bbox(new HitBox(BoundingShape.box(58,58)))
+                .at(spawnData.getX(), spawnData.getY())
+                .bbox(new HitBox(BoundingShape.box(58, 58)))
                 .with(physics)
                 .with(new PlayerComponent(physics))
                 .with(new CollidableComponent(true))
-                .with(new AnimationComponent("PlayerSpriteIdle.png","PlayerSpriteWalk.png","PlayerSpriteJump.png"))
+                .with(new AnimationComponent("PlayerSpriteIdle.png", "PlayerSpriteWalk.png", "PlayerSpriteJump.png"))
                 .build();
     }
 
     @Spawns("enemySpawnPoint")
-    public Entity newEnemySpawnPoint(SpawnData spawnData){
+    public Entity newEnemySpawnPoint(SpawnData spawnData) {
         return FXGL.entityBuilder()
                 .type(EntityType.ENEMYSPAWNPOINT)
                 .build();
     }
 
     @Spawns("playerSpawnPoint")
-    public Entity newPlayerSpawnPoint(SpawnData spawnData){
+    public Entity newPlayerSpawnPoint(SpawnData spawnData) {
         return FXGL.entityBuilder()
                 .type(EntityType.PLAYERSPAWNPOINT)
                 .build();

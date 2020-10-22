@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Anwarr Shiervani
- *
+ * <p>
  * Test class for all of the game controllers.
  */
 public class TestGameControllers {
@@ -29,6 +29,7 @@ public class TestGameControllers {
 
     /**
      * Set up the test class.
+     *
      * @throws InterruptedException
      */
     @BeforeClass
@@ -38,7 +39,19 @@ public class TestGameControllers {
     }
 
     /**
+     * Tear down the test class.
+     *
+     * @throws InterruptedException
+     */
+    @AfterClass
+    public static void tearDown() throws InterruptedException {
+        deInitialize();
+        mainInstance = null;
+    }
+
+    /**
      * Test the ExitMenuController class.
+     *
      * @throws InterruptedException
      */
     @Test
@@ -49,7 +62,7 @@ public class TestGameControllers {
         MenuController menuController = mainInstance.getController(GameMenuType.Exit);
         assertNotNull(menuController);
         assertTrue(menuController instanceof ExitMenuController);
-        ExitMenuController exitMenuController = (ExitMenuController)menuController;
+        ExitMenuController exitMenuController = (ExitMenuController) menuController;
         /**
          * End retrieve controller
          */
@@ -102,7 +115,7 @@ public class TestGameControllers {
         // Exit
         assertNotNull(exitMenu.getExitButton().getOnMousePressed());
         waitForRunLater(() -> exitMenu.getExitButton().getOnMousePressed().handle(new MouseEvent(MouseEvent.MOUSE_CLICKED,
-                0,0, 0, 0, MouseButton.PRIMARY, 1, false, false,
+                0, 0, 0, 0, MouseButton.PRIMARY, 1, false, false,
                 false, false, true, false, false, true, false, true,
                 null)));
         assertFalse(exitMenuController.isVisible());
@@ -127,15 +140,5 @@ public class TestGameControllers {
         /**
          * End actions
          */
-    }
-
-    /**
-     * Tear down the test class.
-     * @throws InterruptedException
-     */
-    @AfterClass
-    public static void tearDown() throws InterruptedException {
-        deInitialize();
-        mainInstance = null;
     }
 }

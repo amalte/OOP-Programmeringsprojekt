@@ -7,7 +7,7 @@ import static org.testng.AssertJUnit.assertEquals;
 
 /**
  * @author Erik Wetter, Malte Åkvist
- *
+ * <p>
  * Test class for Point2DCalculations.
  */
 public class TestPoint2DCalculations {

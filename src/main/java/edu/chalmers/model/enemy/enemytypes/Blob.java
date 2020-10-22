@@ -2,7 +2,7 @@ package edu.chalmers.model.enemy.enemytypes;
 
 /**
  * @author Sam Salek
- *
+ * <p>
  * Blob class. A type of Enemy.
  */
 public class Blob implements IEnemyType {

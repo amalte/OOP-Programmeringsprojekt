@@ -13,7 +13,7 @@ import java.util.Optional;
 
 /**
  * @author Sam Salek
- *
+ * <p>
  * EnemyAIComponent class. Contains and gives basic Enemy AI to an Entity.
  */
 public class EnemyAIComponent extends Component {
@@ -50,7 +50,7 @@ public class EnemyAIComponent extends Component {
     public void onUpdate(double tpf) {
 
         // Fix issue when Player spawns without a PlayerComponent
-        if(!this.player.hasComponent(PlayerComponent.class)) {
+        if (!this.player.hasComponent(PlayerComponent.class)) {
             FXGL.getGameWorld().removeEntity(entity);
             entity.removeFromWorld();
             entity = null;
@@ -58,7 +58,7 @@ public class EnemyAIComponent extends Component {
         }
 
         // Reset move speed and jump height if Enemy is touching solid ground.
-        if(!thisEnemy.isAirborne()) {
+        if (!thisEnemy.isAirborne()) {
             statImprovementAI.resetSpeedAndJump();
         }
 
@@ -66,10 +66,10 @@ public class EnemyAIComponent extends Component {
         raycastAI.updateRaycastsDirection();
 
         // Check most recent platform the player was in contact with
-        if(!getPlayerComponent().isAirborne()) {
+        if (!getPlayerComponent().isAirborne()) {
             getPlatformAI().playerRecentPlatformContactCheck();
         }
-        
+
         // Move towards Player if pathfinding haven't been overridden.
         if (!pathfindingOverride) {
             movementAI.moveTowardsTarget();
@@ -81,7 +81,7 @@ public class EnemyAIComponent extends Component {
         movementAI.enemyStuckUnderPlatformFix();
 
         // If number of platforms is 4 (map is level1): Activate floatingPlatformMovement.
-        if(platformAI.getPlatforms().size() == 4) {
+        if (platformAI.getPlatforms().size() == 4) {
             movementAI.doFloatingPlatformMovement();
         }
     }
@@ -106,25 +106,26 @@ public class EnemyAIComponent extends Component {
      * Method reduces mobility issues with enemies when another Enemy is on top of them.
      */
     private void enemyAboveOrBelowFix() {
-        if(enemyDirectlyAbove() || enemyDirectlyBelow()) {
+        if (enemyDirectlyAbove() || enemyDirectlyBelow()) {
             thisEnemy.setJumpHeightMultiplier(2);
         }
     }
 
     /**
      * Method checks if another Enemy is horizontally nearby.
+     *
      * @return Returns nearby enemy if it exists.
      */
     public EnemyAIComponent getNearbyEnemyAI() {
-        if(raycastAI.getEntityRaycast() == null) {
+        if (raycastAI.getEntityRaycast() == null) {
             return null;
         }
 
         // If entityRaycast hit an Enemy (Enemy is nearby).
-        if(RaycastCalculations.checkRaycastHit(raycastAI.getEntityRaycast(), EntityType.ENEMY)) {
+        if (RaycastCalculations.checkRaycastHit(raycastAI.getEntityRaycast(), EntityType.ENEMY)) {
 
             // If the Enemy hit is not thisEnemy:
-            if(!RaycastCalculations.getRaycastHit(raycastAI.getEntityRaycast()).equals(thisEnemy.getEntity())) {
+            if (!RaycastCalculations.getRaycastHit(raycastAI.getEntityRaycast()).equals(thisEnemy.getEntity())) {
                 Optional<Entity> optionalEntity = raycastAI.getEntityRaycast().getEntity(); // Get Enemy entity
                 return optionalEntity.get().getComponent(EnemyAIComponent.class);
             }
@@ -139,6 +140,7 @@ public class EnemyAIComponent extends Component {
 
     /**
      * Getter for movementAI variable.
+     *
      * @return movementAI.
      */
     public MovementAI getMovementAI() {
@@ -147,6 +149,7 @@ public class EnemyAIComponent extends Component {
 
     /**
      * Getter for raycastAI variable.
+     *
      * @return raycastAI.
      */
     public RaycastAI getRaycastAI() {
@@ -155,6 +158,7 @@ public class EnemyAIComponent extends Component {
 
     /**
      * Getter for platformAI variable.
+     *
      * @return platformAI.
      */
     public PlatformAI getPlatformAI() {
@@ -163,6 +167,7 @@ public class EnemyAIComponent extends Component {
 
     /**
      * Getter for statImprovementAI variable.
+     *
      * @return statImprovementAI.
      */
     public StatImprovementAI getStatImprovementAI() {
@@ -171,6 +176,7 @@ public class EnemyAIComponent extends Component {
 
     /**
      * Getter for thisEnemy variable.
+     *
      * @return thisEnemy.
      */
     public EnemyComponent getThisEnemy() {
@@ -179,6 +185,7 @@ public class EnemyAIComponent extends Component {
 
     /**
      * Getter for player variable.
+     *
      * @return player.
      */
     public Entity getPlayer() {
@@ -187,6 +194,7 @@ public class EnemyAIComponent extends Component {
 
     /**
      * Getter for player's PlayerComponent class.
+     *
      * @return player.
      */
     public PlayerComponent getPlayerComponent() {
@@ -195,29 +203,40 @@ public class EnemyAIComponent extends Component {
 
     /**
      * Getter for target variable.
+     *
      * @return target.
      */
     public Entity getTarget() {
         return target;
     }
 
+    public void setTarget(Entity target) {
+        this.target = target;
+    }
+
     /**
      * Getter for playerReached variable.
+     *
      * @return playerReached variable.
      */
     public boolean isPlayerReached() {
         return playerReached;
     }
 
+    // --------- SETTERS --------- //
+
+    public void setPlayerReached(boolean playerReached) {
+        this.playerReached = playerReached;
+    }
+
     /**
      * Getter for pathfindingOverride variable.
+     *
      * @return pathFinding variable.
      */
     public boolean isPathfindingOverride() {
         return pathfindingOverride;
     }
-
-    // --------- SETTERS --------- //
 
     /**
      * Setter for pathfindingOverride variable.
@@ -226,18 +245,11 @@ public class EnemyAIComponent extends Component {
         this.pathfindingOverride = pathfindingOverride;
     }
 
-    public void setPlayerReached(boolean playerReached) {
-        this.playerReached = playerReached;
-    }
-
-    public void setTarget(Entity target) {
-        this.target = target;
-    }
-
     // --------- BOOLEANS --------- //
 
     /**
      * Method checks if the given entity's middle x-pos is to the left of the Enemy.
+     *
      * @return True or false.
      */
     public boolean isEntityMiddleToLeft(Entity entity) {
@@ -247,6 +259,7 @@ public class EnemyAIComponent extends Component {
 
     /**
      * Method checks if the given entity's middle x-pos is to the right of the Enemy.
+     *
      * @return True or false.
      */
     public boolean isEntityMiddleToRight(Entity entity) {
@@ -255,6 +268,7 @@ public class EnemyAIComponent extends Component {
 
     /**
      * Method checks if given entity's middle Y-position is above the Enemy.
+     *
      * @return True or false.
      */
     public boolean isEntityMiddleYAbove(Entity entity) {
@@ -263,6 +277,7 @@ public class EnemyAIComponent extends Component {
 
     /**
      * Method checks if given entity's bottom Y-position is above the Enemy.
+     *
      * @return True or false.
      */
     public boolean isEntityBottomYAbove(Entity entity) {
@@ -271,6 +286,7 @@ public class EnemyAIComponent extends Component {
 
     /**
      * Method checks if given entity's middle Y-position is below the Enemy.
+     *
      * @return True or false.
      */
     public boolean isEntityMiddleYBelow(Entity entity) {
@@ -279,6 +295,7 @@ public class EnemyAIComponent extends Component {
 
     /**
      * Method checks if the given entity is below the Enemy.
+     *
      * @return True or false.
      */
     public boolean isEntitySameY(Entity entity) {
@@ -287,6 +304,7 @@ public class EnemyAIComponent extends Component {
 
     /**
      * Method checks if there is an Enemy directly above this entity.
+     *
      * @return True or False.
      */
     public boolean enemyDirectlyAbove() {
@@ -298,7 +316,7 @@ public class EnemyAIComponent extends Component {
             }
         }
 
-        if(RaycastCalculations.checkRaycastHit(raycastAI.getRightUpwardRaycast(), EntityType.ENEMY)) {
+        if (RaycastCalculations.checkRaycastHit(raycastAI.getRightUpwardRaycast(), EntityType.ENEMY)) {
 
             // Is the Enemy hit not thisEnemy?
             if (!RaycastCalculations.getRaycastHit(raycastAI.getRightUpwardRaycast()).equals(thisEnemy.getEntity())) {
@@ -310,6 +328,7 @@ public class EnemyAIComponent extends Component {
 
     /**
      * Method checks if there is an Enemy directly below this entity.
+     *
      * @return True or False.
      */
     public boolean enemyDirectlyBelow() {
@@ -321,7 +340,7 @@ public class EnemyAIComponent extends Component {
             }
         }
 
-        if(RaycastCalculations.checkRaycastHit(raycastAI.getRightDownwardRaycast(), EntityType.ENEMY)) {
+        if (RaycastCalculations.checkRaycastHit(raycastAI.getRightDownwardRaycast(), EntityType.ENEMY)) {
 
             // Is the Enemy hit not thisEnemy?
             if (!RaycastCalculations.getRaycastHit(raycastAI.getRightDownwardRaycast()).equals(thisEnemy.getEntity())) {

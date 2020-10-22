@@ -2,7 +2,7 @@ package edu.chalmers.model.enemy.ai;
 
 /**
  * @author Sam Salek
- *
+ * <p>
  * StatImprovementAI. Contains all methods used when Enemy stats need to be improved because of AI.
  */
 class StatImprovementAI {
@@ -27,17 +27,17 @@ class StatImprovementAI {
     public void groundToPlatformStatImprovement() {
 
         // If Enemy is a Zombie:
-        if(AI.getThisEnemy().getEnemyType().getName().equalsIgnoreCase("Zombie")) {
+        if (AI.getThisEnemy().getEnemyType().getName().equalsIgnoreCase("Zombie")) {
             improveStats(1, getZombieGroundToPlatformJmp());
         }
 
         // If Enemy is a Rex:
-        else if(AI.getThisEnemy().getEnemyType().getName().equalsIgnoreCase("Rex")) {
+        else if (AI.getThisEnemy().getEnemyType().getName().equalsIgnoreCase("Rex")) {
             improveStats(1, getRexGroundToPlatformJmp());
         }
 
         // If Enemy is a Blob
-        else if(AI.getThisEnemy().getEnemyType().getName().equalsIgnoreCase("Blob")) {
+        else if (AI.getThisEnemy().getEnemyType().getName().equalsIgnoreCase("Blob")) {
             improveStats(1, getBlobGroundToPlatformJmp());
         }
     }
@@ -48,23 +48,24 @@ class StatImprovementAI {
     public void platformToPlatformStatImprovement() {
 
         // If Enemy is a Zombie:
-        if(AI.getThisEnemy().getEnemyType().getName().equalsIgnoreCase("Zombie")) {
+        if (AI.getThisEnemy().getEnemyType().getName().equalsIgnoreCase("Zombie")) {
             improveStats(getZombiePlatformToPlatformSpeed(), getZombiePlatformToPlatformJmp());
         }
 
         // If Enemy is a Rex:
-        else if(AI.getThisEnemy().getEnemyType().getName().equalsIgnoreCase("Rex")) {
+        else if (AI.getThisEnemy().getEnemyType().getName().equalsIgnoreCase("Rex")) {
             improveStats(getRexPlatformToPlatformSpeed(), getRexPlatformToPlatformJmp());
         }
 
         // If Enemy is a Blob
-        else if(AI.getThisEnemy().getEnemyType().getName().equalsIgnoreCase("Blob")) {
+        else if (AI.getThisEnemy().getEnemyType().getName().equalsIgnoreCase("Blob")) {
             improveStats(getBlobPlatformToPlatformSpeed(), getBlobPlatformToPlatformJmp());
         }
     }
 
     /**
      * Method improves Enemy stats with the given multiplier values.
+     *
      * @param moveSpeedMultiplier Multiplier to improve move speed with.
      * @param jmpHeightMultiplier Multiplier to improve jump height with.
      */

@@ -2,10 +2,10 @@ package edu.chalmers.model.weapon.weapontypes;
 
 /**
  * @author Erik Wetter
- *
+ * <p>
  * Handgun class. A type of weapon.
  */
-public class Handgun implements IWeaponType{
+public class Handgun implements IWeaponType {
 
     @Override
     public int getMagazineSize() {

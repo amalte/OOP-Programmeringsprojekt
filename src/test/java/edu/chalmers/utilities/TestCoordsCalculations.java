@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Malte Åkvist
- *
+ * <p>
  * Test class for CoordsCalculations.
  */
 public class TestCoordsCalculations {

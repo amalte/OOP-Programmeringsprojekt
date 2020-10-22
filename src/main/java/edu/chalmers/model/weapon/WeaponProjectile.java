@@ -14,7 +14,7 @@ import javafx.util.Duration;
 
 /**
  * @author Erik Wetter
- *
+ * <p>
  * WeaponProjectile class. Spawns a projectile that moves from the spawn point towards the given target.
  */
 public class WeaponProjectile {
@@ -34,16 +34,16 @@ public class WeaponProjectile {
 
         this.mousePoint = mousePoint;
         this.projectileSpeed = projectileSpeed;
-        if(!testing) {
+        if (!testing) {
             this.centerPlayerPoint = new Point2D(playerPoint.getX() + shooterSizeOffsetToCenter, playerPoint.getY() + shooterSizeOffsetToCenter);
-        }else {
+        } else {
             this.centerPlayerPoint = playerPoint;
         }
 
         physics.setBodyType(BodyType.KINEMATIC);
         FXGL.entityBuilder()
                 .type(EntityType.PROJECTILE)
-                .at(this.centerPlayerPoint.getX(),this.centerPlayerPoint.getY())
+                .at(this.centerPlayerPoint.getX(), this.centerPlayerPoint.getY())
                 .viewWithBBox(new Rectangle(projectileSizeW, projectileSizeH, Color.BLACK))
                 .with(physics)
                 .with(new CollidableComponent(true))
@@ -58,27 +58,30 @@ public class WeaponProjectile {
         moveProjectileOutsidePlayerHitbox(shootingAngle);
         setAngularVelocity();
     }
+
     /**
      * Sets the angular velocity of the projectile.
      */
     private void setAngularVelocity() {
-        physics.setVelocityX(projectileSpeed*Math.cos(shootingAngle));
-        physics.setVelocityY(projectileSpeed*Math.sin(shootingAngle));
+        physics.setVelocityX(projectileSpeed * Math.cos(shootingAngle));
+        physics.setVelocityY(projectileSpeed * Math.sin(shootingAngle));
     }
 
     /**
      * Moves the projectile outside the player hitbox
+     *
      * @param shootingAngle The angle between center of player and the mouse pointer
      */
     private void moveProjectileOutsidePlayerHitbox(double shootingAngle) {
-        double spawnPointX = Math.cos(shootingAngle)*(shooterSizeOffsetToCenter+15)+centerPlayerPoint.getX()-(projectileSizeW/2);
-        double spawnPointY = Math.sin(shootingAngle)*(shooterSizeOffsetToCenter+15)+centerPlayerPoint.getY()-(projectileSizeH/2);
-        Point2D spawnPoint = new Point2D(spawnPointX,spawnPointY);
+        double spawnPointX = Math.cos(shootingAngle) * (shooterSizeOffsetToCenter + 15) + centerPlayerPoint.getX() - (projectileSizeW / 2);
+        double spawnPointY = Math.sin(shootingAngle) * (shooterSizeOffsetToCenter + 15) + centerPlayerPoint.getY() - (projectileSizeH / 2);
+        Point2D spawnPoint = new Point2D(spawnPointX, spawnPointY);
         physics.overwritePosition(spawnPoint);
     }
 
     /**
      * Calculates the angle between center of player and the mouse pointer
+     *
      * @return Angle between center of player and the mouse pointer
      */
     private double calculateAngle() {

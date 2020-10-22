@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Malte Åkvist
- *
+ * <p>
  * Test class for BuildManager.
  */
 public class TestBuildManager {
@@ -25,6 +25,11 @@ public class TestBuildManager {
     @BeforeAll
     public static void initApp() throws InterruptedException {
         initialize();
+    }
+
+    @AfterClass
+    public static void tearDown() throws InterruptedException {
+        deInitialize();
     }
 
     private void resetTest() throws InterruptedException {
@@ -42,10 +47,5 @@ public class TestBuildManager {
         waitForRunLater(() -> buildManager.placeBlock(blockPos));
 
         assertEquals(1, getGameWorld().getEntitiesByType(EntityType.BLOCK).size());
-    }
-
-    @AfterClass
-    public static void tearDown() throws InterruptedException {
-        deInitialize();
     }
 }

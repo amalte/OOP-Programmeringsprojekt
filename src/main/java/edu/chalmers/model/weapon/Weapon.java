@@ -13,7 +13,7 @@ import static com.almasb.fxgl.dsl.FXGL.runOnce;
 
 /**
  * @author Erik Wetter
- *
+ * <p>
  * Weapon class. Holds the functionality of weapons.
  */
 public class Weapon implements IObservable {
@@ -42,13 +42,14 @@ public class Weapon implements IObservable {
 
     /**
      * Creates an instance of WeaponProjectile
+     *
      * @param x Players x-position
      * @param y Players y-position
      */
     public void shoot(double x, double y) {
         if (magazineCounter > 0 && !reloading) {
             magazineCounter--;
-            new WeaponProjectile(new Point2D(x,y), mouseLocation(), projectileSpeed, testing);
+            new WeaponProjectile(new Point2D(x, y), mouseLocation(), projectileSpeed, testing);
         }
     }
 
@@ -58,11 +59,11 @@ public class Weapon implements IObservable {
     public void reload() {
         reloading = true;
         notifyObserver();
-        if(!testing) {
+        if (!testing) {
             if (timerAction.isExpired()) {
-            timerAction = runOnce(() -> resetMagazine(), Duration.millis(reloadTimerMilliseconds));
+                timerAction = runOnce(() -> resetMagazine(), Duration.millis(reloadTimerMilliseconds));
             }
-        }else {
+        } else {
             resetMagazine();
         }
     }
@@ -77,11 +78,13 @@ public class Weapon implements IObservable {
     }
 
     private void initTimer() {
-        timerAction = runOnce(() -> {}, Duration.millis(0));
+        timerAction = runOnce(() -> {
+        }, Duration.millis(0));
     }
 
     /**
      * Gets the mouse position in the application
+     *
      * @return Returns the mouse position as a Point2D
      */
     private Point2D mouseLocation() {
@@ -91,18 +94,23 @@ public class Weapon implements IObservable {
 
     /**
      * Gets the weapons damage
+     *
      * @return The damage variable
      */
-    public int getDamage(){
+    public int getDamage() {
         return damage;
     }
 
-    public int getMagazineCounter() {return magazineCounter;}
+    public int getMagazineCounter() {
+        return magazineCounter;
+    }
 
     /**
      * @return The size of the weapon's magazine.
      */
-    public int getMagazineSize() { return magazineSize; }
+    public int getMagazineSize() {
+        return magazineSize;
+    }
 
     public IWeaponType getWeaponType() {
         return weaponType;
@@ -123,7 +131,7 @@ public class Weapon implements IObservable {
 
     @Override
     public void notifyObserver() {
-        for(IObserver o : observers){
+        for (IObserver o : observers) {
             o.update();
         }
     }

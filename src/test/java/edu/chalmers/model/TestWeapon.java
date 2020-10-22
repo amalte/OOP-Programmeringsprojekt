@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Erik Wetter
- *
+ * <p>
  * Test class for Weapons.
  */
 public class TestWeapon {
@@ -29,6 +29,11 @@ public class TestWeapon {
         initialize();
     }
 
+    @AfterAll
+    public static void tearDown() throws InterruptedException {
+        deInitialize();
+    }
+
     @Test
     public void testProjectileAngularVelocity() throws InterruptedException {
         waitForRunLater(() -> {
@@ -36,27 +41,27 @@ public class TestWeapon {
 
             new WeaponProjectile(new Point2D(0, 0), FXGL.getAppCenter(), 500, true);
         });
-            double angle = FXGLMath.atan2(FXGL.getAppCenter().getY(), FXGL.getAppCenter().getX());
+        double angle = FXGLMath.atan2(FXGL.getAppCenter().getY(), FXGL.getAppCenter().getX());
 
-            Point2D projectileActualVelocity = FXGL.getGameWorld().getEntities().get(0).getComponent(PhysicsComponent.class).getLinearVelocity();
-            Point2D projectileExpectedVelocity = new Point2D(500 * Math.cos(angle), 500 * Math.sin(angle));
+        Point2D projectileActualVelocity = FXGL.getGameWorld().getEntities().get(0).getComponent(PhysicsComponent.class).getLinearVelocity();
+        Point2D projectileExpectedVelocity = new Point2D(500 * Math.cos(angle), 500 * Math.sin(angle));
 
-            assertEquals((int) projectileExpectedVelocity.getY(), (int) projectileActualVelocity.getY());
-            assertEquals((int) projectileExpectedVelocity.getX(), (int) projectileActualVelocity.getX());
+        assertEquals((int) projectileExpectedVelocity.getY(), (int) projectileActualVelocity.getY());
+        assertEquals((int) projectileExpectedVelocity.getX(), (int) projectileActualVelocity.getX());
 
 
     }
 
     @Test
     public void testShoot() throws InterruptedException {
-            weapon = WeaponFactory.getInstance().createWeapon("Crossbow");
-            assertEquals(weapon.getMagazineSize(), weapon.getMagazineCounter());
-            waitForRunLater(() -> {
-                weapon.shoot(0,0);
-                assertEquals(weapon.getMagazineSize()-1, weapon.getMagazineCounter());
-                weapon.shoot(0,0);
-            });
-            assertEquals(0, weapon.getMagazineCounter());
+        weapon = WeaponFactory.getInstance().createWeapon("Crossbow");
+        assertEquals(weapon.getMagazineSize(), weapon.getMagazineCounter());
+        waitForRunLater(() -> {
+            weapon.shoot(0, 0);
+            assertEquals(weapon.getMagazineSize() - 1, weapon.getMagazineCounter());
+            weapon.shoot(0, 0);
+        });
+        assertEquals(0, weapon.getMagazineCounter());
     }
 
     @Test
@@ -67,7 +72,7 @@ public class TestWeapon {
             weapon.shoot(0, 0);
             weapon.shoot(0, 0);
         });
-        assertEquals(weapon.getMagazineSize()-2, weapon.getMagazineCounter());
+        assertEquals(weapon.getMagazineSize() - 2, weapon.getMagazineCounter());
         weapon.reload();
         assertEquals(weapon.getMagazineSize(), weapon.getMagazineCounter());
     }
@@ -98,10 +103,5 @@ public class TestWeapon {
         assertTrue(o.isTest());
         weapon.removeObserver(o);
         assertTrue(weapon.observers.size() == 0);
-    }
-
-    @AfterAll
-    public static void tearDown() throws InterruptedException {
-        deInitialize();
     }
 }

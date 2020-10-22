@@ -11,7 +11,7 @@ import javafx.scene.text.Text;
 
 /**
  * @author Anwarr Shiervani
- *
+ * <p>
  * A clickable StackPane, with a default background and text.
  */
 public class ActionButton extends StackPane {
@@ -36,8 +36,9 @@ public class ActionButton extends StackPane {
     /**
      * Default constructor.
      * Creates controls for manipulating settings and binds the action to mouse clicks.
+     *
      * @param buttonText The text of the button
-     * @param action The action of the button. It is ran when the button is clicked.
+     * @param action     The action of the button. It is ran when the button is clicked.
      */
     public ActionButton(String buttonText, Runnable action) {
         this.createControls(buttonText);
@@ -50,12 +51,12 @@ public class ActionButton extends StackPane {
      * Second constructor.
      * Creates controls for manipulating settings and binds the action to mouse clicks.
      * Uses the specified image as a background instead of just a plain-colored background.
-     * @param buttonText The text of the button
-     * @param action The action of the button. It is ran when the button is clicked.
+     *
+     * @param buttonText     The text of the button
+     * @param action         The action of the button. It is ran when the button is clicked.
      * @param backgroundPath The path to a background image.
      */
-    public ActionButton(String buttonText, Runnable action, String backgroundPath)
-    {
+    public ActionButton(String buttonText, Runnable action, String backgroundPath) {
         this.backgroundPath = backgroundPath;
         this.createControls(buttonText);
         this.setOnMouseClicked(mouseEvent -> action.run());
@@ -63,10 +64,8 @@ public class ActionButton extends StackPane {
         this.setPrefHeight(BUTTON_HEIGHT);
     }
 
-    private void createControls(String buttonText)
-    {
-        if (this.backgroundPath != null && !this.backgroundPath.trim().isEmpty())
-        {
+    private void createControls(String buttonText) {
+        if (this.backgroundPath != null && !this.backgroundPath.trim().isEmpty()) {
             ImageView backgroundImage = new ImageView(new Image(backgroundPath, BUTTON_WIDTH, BUTTON_HEIGHT, false, false));
             getChildren().add(backgroundImage);
 
@@ -87,19 +86,18 @@ public class ActionButton extends StackPane {
     }
 
     /**
-     * Set the tag of this button.
-     * @param tag The new tag.
+     * @return The tag of this button.
      */
-    public void setTag(String tag)
-    {
-        this.tag = tag;
+    public String getTag() {
+        return this.tag;
     }
 
     /**
-     * @return The tag of this button.
+     * Set the tag of this button.
+     *
+     * @param tag The new tag.
      */
-    public String getTag()
-    {
-        return this.tag;
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 }

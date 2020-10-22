@@ -19,7 +19,7 @@ import static com.almasb.fxgl.dsl.FXGL.runOnce;
 
 /**
  * @author Malte Åkvist, Sam Salek
- *
+ * <p>
  * A class for Blocks that the player can build.
  */
 public class Block implements IBlock, IBlockObservable {
@@ -37,7 +37,7 @@ public class Block implements IBlock, IBlockObservable {
         physics.setFixtureDef(new FixtureDef().friction(0.0f));
         currentBlock = FXGL.entityBuilder()
                 .type(EntityType.BLOCK)
-                .at(((int)blockPosition.getX()),((int)blockPosition.getY()))
+                .at(((int) blockPosition.getX()), ((int) blockPosition.getY()))
                 .viewWithBBox(FXGL.getAssetLoader().loadTexture("BuildingBlock.png"))
                 .with(physics)
                 .with(new CollidableComponent(true))
@@ -49,6 +49,7 @@ public class Block implements IBlock, IBlockObservable {
 
     /**
      * Method to check if object is destroyable
+     *
      * @return boolean
      */
     @Override
@@ -61,17 +62,18 @@ public class Block implements IBlock, IBlockObservable {
      */
     @Override
     public void remove() {
-        if(canBeDestroyed()) {
+        if (canBeDestroyed()) {
             FXGL.getGameWorld().removeEntity(currentBlock);
         }
     }
 
     /**
      * Lower Block health with damage.
+     *
      * @param damage Amount of health points to be inflicted to the Block.
      */
-    public void inflictDamage(int damage){
-        if(damageDelayTimer.isExpired()){
+    public void inflictDamage(int damage) {
+        if (damageDelayTimer.isExpired()) {
             int damageDelayMilliseconds = 500;   // How often it can be inflicted damage
             damageDelayTimer = runOnce(() -> health -= damage, Duration.millis(damageDelayMilliseconds));
         }
@@ -90,6 +92,7 @@ public class Block implements IBlock, IBlockObservable {
 
     /**
      * Adds an observer to the mapObserver list
+     *
      * @param IMapObserver a mapObserver
      */
     @Override
@@ -100,13 +103,11 @@ public class Block implements IBlock, IBlockObservable {
     //Method checks the block's health and takes appropriate course of action based on health left.
     private void checkHealth() {
         // Remove block if its health becomes 0 or lower
-        if(health <= 0) {
+        if (health <= 0) {
             destroyAndNotify();
-        }
-        else if(health <= 30) {
+        } else if (health <= 30) {
             changeTexture("BuildingBlockDamageStage2.png");
-        }
-        else if(health <= 70) {
+        } else if (health <= 70) {
             changeTexture("BuildingBlockDamageStage1.png");
         }
     }
@@ -125,7 +126,8 @@ public class Block implements IBlock, IBlockObservable {
     }
 
     //Method initiates damage delay timer.
-    private void initDamageDelayTimer(){
-        damageDelayTimer = runOnce(() -> {}, Duration.seconds(0));
+    private void initDamageDelayTimer() {
+        damageDelayTimer = runOnce(() -> {
+        }, Duration.seconds(0));
     }
 }

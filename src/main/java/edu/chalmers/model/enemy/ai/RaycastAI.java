@@ -5,7 +5,7 @@ import edu.chalmers.utilities.RaycastCalculations;
 
 /**
  * @author Sam Salek
- *
+ * <p>
  * RaycastAI. Contains all variables and methods used by Enemy AI regarding raycasts.
  */
 class RaycastAI {
@@ -46,7 +46,7 @@ class RaycastAI {
         // If moving left
         if (AI.getMovementAI().getMoveDirection() == MovementAI.Direction.LEFT) {
             higherHorizontalRaycast = RaycastCalculations.setHorizontalRaycast(-higherHorizontalRaycastLength, AI.getThisEnemy().getX(), AI.getThisEnemy().getY() - higherHorizontalRaycastDeltaHeight);
-            horizontalRaycast = RaycastCalculations.setHorizontalRaycast(-horizontalRaycastLength, AI.getThisEnemy().getX()+10, AI.getThisEnemy().getY() + 3);
+            horizontalRaycast = RaycastCalculations.setHorizontalRaycast(-horizontalRaycastLength, AI.getThisEnemy().getX() + 10, AI.getThisEnemy().getY() + 3);
             entityRaycast = RaycastCalculations.setHorizontalRaycast(-entityRaycastLength, AI.getThisEnemy().getX(), AI.getThisEnemy().getY() + 3);
             activeDownwardRaycast = getLeftDownwardRaycast();
 

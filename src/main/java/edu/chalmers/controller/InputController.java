@@ -15,7 +15,7 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.getInput;
 
 /**
  * @author Oscar Arvidson och Erik Wetter
- *
+ * <p>
  * This class handles player movement input.
  */
 public class InputController {
@@ -28,12 +28,20 @@ public class InputController {
 
     /**
      * Default constructor for InputController.
-     * @param game An instance of the GenericPlatformer class.
+     *
+     * @param game         An instance of the GenericPlatformer class.
      * @param mainInstance An instance of the Main class.
      */
     public InputController(GenericPlatformer game, Main mainInstance) {
         this.game = game;
         this.mainInstance = mainInstance;
+    }
+
+    /**
+     * @return Get the associated instance of the Input class.
+     */
+    public static Input getInputInstance() {
+        return inputInstance;
     }
 
     /**
@@ -60,16 +68,14 @@ public class InputController {
             inputInstance.addAction(new UserAction("Walk right") {
                 @Override
                 protected void onAction() {
-                    if (mainInstance.getGameRunning())
-                    {
+                    if (mainInstance.getGameRunning()) {
                         getPlayer().getComponent(PlayerComponent.class).moveRight();
                     }
                 }
 
                 @Override
                 protected void onActionEnd() {
-                    if (mainInstance.getGameRunning())
-                    {
+                    if (mainInstance.getGameRunning()) {
                         getPlayer().getComponent(PlayerComponent.class).stop();
                     }
                 }
@@ -78,16 +84,14 @@ public class InputController {
             inputInstance.addAction(new UserAction("Walk left") {
                 @Override
                 protected void onAction() {
-                    if (mainInstance.getGameRunning())
-                    {
+                    if (mainInstance.getGameRunning()) {
                         getPlayer().getComponent(PlayerComponent.class).moveLeft();
                     }
                 }
 
                 @Override
                 protected void onActionEnd() {
-                    if (mainInstance.getGameRunning())
-                    {
+                    if (mainInstance.getGameRunning()) {
                         getPlayer().getComponent(PlayerComponent.class).stop();
                     }
                 }
@@ -96,8 +100,7 @@ public class InputController {
             inputInstance.addAction(new UserAction("Jump") {
                 @Override
                 protected void onActionBegin() {
-                    if (mainInstance.getGameRunning())
-                    {
+                    if (mainInstance.getGameRunning()) {
                         getPlayer().getComponent(PlayerComponent.class).jump();
                     }
                 }
@@ -116,9 +119,8 @@ public class InputController {
             inputInstance.addAction(new UserAction("PlaceBlock") {
                 @Override
                 protected void onActionBegin() {
-                    if (mainInstance.getGameRunning())
-                    {
-                        if(game.getBuildManager().possibleToPlaceBlockOnPos(inputInstance.getMousePositionWorld(), EntityPos.getPosition(getPlayer()))) {
+                    if (mainInstance.getGameRunning()) {
+                        if (game.getBuildManager().possibleToPlaceBlockOnPos(inputInstance.getMousePositionWorld(), EntityPos.getPosition(getPlayer()))) {
                             game.getBuildManager().placeBlock(inputInstance.getMousePositionWorld());
                         }
                     }
@@ -170,7 +172,7 @@ public class InputController {
                         mainInstance.getGameUI().updateActiveWeapon();
                         mainInstance.getGameUI().updateAmmunition();
                         mainInstance.getGameUI().updateReloading();
-                }
+                    }
                 }
             }, KeyCode.DIGIT3);
 
@@ -178,30 +180,23 @@ public class InputController {
         }
     }
 
-    private Entity getPlayer()
-    {
+    private Entity getPlayer() {
         return game.getPlayer();
-    }
-
-    /**
-     * Set the next escape key event not to be handled.
-     * @param doNotHandleEscape Whether or not the next escape key event should be handled in initPlayerInput().
-     */
-    public void setDoNotHandleEscape(Boolean doNotHandleEscape)
-    {
-        this.doNotHandleEscape = doNotHandleEscape;
     }
 
     /**
      * @return Whether or not the next escape key event should be handled in initPlayerInput().
      */
-    public Boolean getDoNotHandleEscape()
-    {
+    public Boolean getDoNotHandleEscape() {
         return this.doNotHandleEscape;
     }
 
     /**
-     * @return Get the associated instance of the Input class.
+     * Set the next escape key event not to be handled.
+     *
+     * @param doNotHandleEscape Whether or not the next escape key event should be handled in initPlayerInput().
      */
-    public static Input getInputInstance() { return inputInstance; }
+    public void setDoNotHandleEscape(Boolean doNotHandleEscape) {
+        this.doNotHandleEscape = doNotHandleEscape;
+    }
 }

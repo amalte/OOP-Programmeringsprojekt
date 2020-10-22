@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Anwarr Shiervani
- *
+ * <p>
  * Test class for all of the main classes.
  */
 public class TestMain {
@@ -26,6 +26,7 @@ public class TestMain {
 
     /**
      * Set up the test class.
+     *
      * @throws InterruptedException
      */
     @BeforeClass
@@ -35,7 +36,19 @@ public class TestMain {
     }
 
     /**
+     * Tear down the test class.
+     *
+     * @throws InterruptedException
+     */
+    @AfterClass
+    public static void tearDown() throws InterruptedException {
+        deInitialize();
+        mainInstance = null;
+    }
+
+    /**
      * Test the Main class.
+     *
      * @throws InterruptedException
      */
     @Test
@@ -105,15 +118,5 @@ public class TestMain {
         /**
          * End null checks
          */
-    }
-
-    /**
-     * Tear down the test class.
-     * @throws InterruptedException
-     */
-    @AfterClass
-    public static void tearDown() throws InterruptedException {
-        deInitialize();
-        mainInstance = null;
     }
 }

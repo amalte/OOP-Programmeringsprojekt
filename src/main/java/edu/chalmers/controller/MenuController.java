@@ -7,10 +7,10 @@ import edu.chalmers.view.IMenu;
 import static com.almasb.fxgl.dsl.FXGL.getSceneService;
 
 /**
- * @author Anwarr Shiervani
- *
- * Class to be inherited from in menu controllers. Contains basic methods to simplify creating controllers for views extending FXGLMenu.
  * @param <T> Any class that extends SubScene. Class has to implement IMenu for nodes to be created.
+ * @author Anwarr Shiervani
+ * <p>
+ * Class to be inherited from in menu controllers. Contains basic methods to simplify creating controllers for views extending FXGLMenu.
  */
 public class MenuController<T extends SubScene> {
     private Main mainInstance;
@@ -26,8 +26,7 @@ public class MenuController<T extends SubScene> {
      * @param mainInstance An instance of the Main class.
      * @param gameMenuType The type of the associated menu view.
      */
-    protected MenuController(T viewInstance, Main mainInstance, GameMenuType gameMenuType)
-    {
+    protected MenuController(T viewInstance, Main mainInstance, GameMenuType gameMenuType) {
         this.viewInstance = viewInstance;
         this.mainInstance = mainInstance;
         this.gameMenuType = gameMenuType;
@@ -36,11 +35,9 @@ public class MenuController<T extends SubScene> {
     /**
      * Initialize the nodes (make view create them, binds actions to them, etc.)
      */
-    protected void initializeNodes()
-    {
-        if (this.viewInstance instanceof IMenu && !nodesCreated)
-        {
-            ((IMenu)this.viewInstance).createNodes();
+    protected void initializeNodes() {
+        if (this.viewInstance instanceof IMenu && !nodesCreated) {
+            ((IMenu) this.viewInstance).createNodes();
             nodesCreated = true;
         }
     }
@@ -48,13 +45,14 @@ public class MenuController<T extends SubScene> {
     /**
      * @return The main instance associated with this controller.
      */
-    public Main getMainInstance() { return this.mainInstance; }
+    public Main getMainInstance() {
+        return this.mainInstance;
+    }
 
     /**
      * @return The instance of the view.
      */
-    public final T getViewInstance()
-    {
+    public final T getViewInstance() {
         return this.viewInstance;
     }
 
@@ -69,8 +67,7 @@ public class MenuController<T extends SubScene> {
      * Show the view.
      */
     public void show() {
-        if (!this.isVisible())
-        {
+        if (!this.isVisible()) {
             this.initializeNodes();
 
             getSceneService().popSubScene();
@@ -84,8 +81,7 @@ public class MenuController<T extends SubScene> {
      * Hide the view.
      */
     public void hide() {
-        if (this.isVisible())
-        {
+        if (this.isVisible()) {
             getSceneService().popSubScene();
 
             this.visible = false;
@@ -95,8 +91,7 @@ public class MenuController<T extends SubScene> {
     /**
      * @return Whether or not the view, associated with this controller, is visible.
      */
-    public final Boolean isVisible()
-    {
+    public final Boolean isVisible() {
         return this.visible;
     }
 }

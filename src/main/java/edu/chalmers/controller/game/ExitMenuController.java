@@ -12,7 +12,7 @@ import static com.almasb.fxgl.dsl.FXGL.getGameScene;
 
 /**
  * @author Anwarr Shiervani
- *
+ * <p>
  * The controller for the exit menu view.
  */
 public class ExitMenuController extends MenuController<ExitMenu> {
@@ -24,8 +24,7 @@ public class ExitMenuController extends MenuController<ExitMenu> {
      * @param viewInstance Instance of a view to associate the controller with.
      * @param mainInstance An instance of the Main class.
      */
-    public ExitMenuController(ExitMenu viewInstance, Main mainInstance)
-    {
+    public ExitMenuController(ExitMenu viewInstance, Main mainInstance) {
         super(viewInstance, mainInstance, GameMenuType.Exit);
     }
 
@@ -33,14 +32,13 @@ public class ExitMenuController extends MenuController<ExitMenu> {
      * Initialize the nodes (make view create them, binds actions to them, etc.)
      */
     @Override
-    protected void initializeNodes()
-    {
+    protected void initializeNodes() {
         super.initializeNodes();
 
         getGameScene().getRoot().getScene().setOnKeyPressed(keyEvent -> {
-            if (keyEvent.getCode() == KeyCode.ESCAPE)
-            {
-                getGameScene().getRoot().getScene().setOnKeyPressed(keyEvent2 -> { });
+            if (keyEvent.getCode() == KeyCode.ESCAPE) {
+                getGameScene().getRoot().getScene().setOnKeyPressed(keyEvent2 -> {
+                });
                 this.hide();
 
                 // Workaround for InputController handling the key event
@@ -50,7 +48,8 @@ public class ExitMenuController extends MenuController<ExitMenu> {
         });
 
         getViewInstance().getExitButton().setOnMousePressed(mouseEvent -> {
-            getGameScene().getRoot().getScene().setOnKeyPressed(keyEvent -> { });
+            getGameScene().getRoot().getScene().setOnKeyPressed(keyEvent -> {
+            });
             this.hide();
 
             getMainInstance().stopGame();
@@ -58,19 +57,18 @@ public class ExitMenuController extends MenuController<ExitMenu> {
     }
 
     /**
-     * Set the instance of InputController.
-     * @param inputController An instance of the InputController.
+     * @return The instance of the InputController.
      */
-    public void setInputController(InputController inputController)
-    {
-        this.inputController = inputController;
+    public InputController getInputController() {
+        return this.inputController;
     }
 
     /**
-     * @return The instance of the InputController.
+     * Set the instance of InputController.
+     *
+     * @param inputController An instance of the InputController.
      */
-    public InputController getInputController()
-    {
-        return this.inputController;
+    public void setInputController(InputController inputController) {
+        this.inputController = inputController;
     }
 }

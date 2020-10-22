@@ -10,7 +10,7 @@ import edu.chalmers.utilities.EntityPos;
 
 /**
  * @author Oscar Arvidson
- *
+ * <p>
  * CollisionDetection class, handles all collision in the game.
  */
 public class CollisionDetection {
@@ -18,11 +18,11 @@ public class CollisionDetection {
     /**
      * Handle all entity Collision that has a direct effect on either one or both of the Entities.
      */
-    public CollisionDetection(PlayerComponent player){
+    public CollisionDetection(PlayerComponent player) {
         FXGL.getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityType.PLAYER, EntityType.PLATFORM) {
             @Override
             protected void onCollisionBegin(Entity a, Entity b) {
-                if(aboveMiddleCollision(a, b) && !sideCollision(a, b)) {  // Can only jump if standing above and on platform.
+                if (aboveMiddleCollision(a, b) && !sideCollision(a, b)) {  // Can only jump if standing above and on platform.
                     if (a.hasComponent(PlayerComponent.class)) {
                         a.getComponent(PlayerComponent.class).landed();
                         // onGround check.
@@ -49,7 +49,7 @@ public class CollisionDetection {
             @Override
             protected void onCollisionBegin(Entity a, Entity b) {
 
-                if(aboveMiddleCollision(a, b) && !sideCollision(a, b)) {  // Can only jump if standing above and on block
+                if (aboveMiddleCollision(a, b) && !sideCollision(a, b)) {  // Can only jump if standing above and on block
 
                     if (a.hasComponent(PlayerComponent.class)) {
                         a.getComponent(PlayerComponent.class).landed();
@@ -86,7 +86,7 @@ public class CollisionDetection {
             @Override
             protected void onCollisionBegin(Entity a, Entity b) {
 
-                if(aboveMiddleCollision(a, b)) {  // Can only jump if standing above and on block
+                if (aboveMiddleCollision(a, b)) {  // Can only jump if standing above and on block
                     if (a.hasComponent(EnemyComponent.class)) {
                         a.getComponent(EnemyComponent.class).landed();
                     }
@@ -102,7 +102,7 @@ public class CollisionDetection {
 
                 // onGround check.
                 // If the platform has X-Position of 0, then the platform is the ground.
-                if(b.getX() == 0) {
+                if (b.getX() == 0) {
                     if (a.hasComponent(EnemyComponent.class))
                         a.getComponent(EnemyComponent.class).setOnGround(true);
                 } else {
@@ -153,7 +153,7 @@ public class CollisionDetection {
             @Override
             protected void onCollisionBegin(Entity a, Entity b) {
                 // Remove projectile's velocity so Enemies don't get pushed.
-                if(b.hasComponent(PhysicsComponent.class)) {
+                if (b.hasComponent(PhysicsComponent.class)) {
                     b.getComponent(PhysicsComponent.class).setVelocityY(0);
                     b.getComponent(PhysicsComponent.class).setVelocityX(0);
                 }

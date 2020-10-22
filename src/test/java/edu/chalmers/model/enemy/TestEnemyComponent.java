@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Sam Salek
- *
+ * <p>
  * Test class for EnemyComponent.
  */
 public class TestEnemyComponent {
@@ -41,7 +41,7 @@ public class TestEnemyComponent {
         waitForRunLater(() -> {
             FXGLTest.clearAllEntities();
 
-            player = spawn("player",0,0).getComponent(PlayerComponent.class);
+            player = spawn("player", 0, 0).getComponent(PlayerComponent.class);
             enemy = EnemyFactory.getInstance().createEnemy("ZOMBIE", 0, 0, player.getEntity(), new StatMultiplier());
             enemyComponent = enemy.getComponent(EnemyComponent.class);
         });

@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * @author Malte Åkvist
- *
+ * <p>
  * TileMap service, loads an array (map of a level) from TMX file and converts it to a HashMap.
  */
 public class TileMap {
@@ -22,6 +22,7 @@ public class TileMap {
 
     /**
      * Method converts an int array from a certain level to a hash map containing blocks and coordinates of the blocks
+     *
      * @param levelName name of the level
      * @return hash map containing coordinates of the map and the corresponding block present on coordinate
      */
@@ -29,9 +30,9 @@ public class TileMap {
         HashMap<Coords, IBlock> blockMap = new HashMap<>();
         List<Integer> dataList = getDataFromLevel(levelName);
 
-        for(int i = 0; i < dataList.size(); i++) {
-            if(dataList.get(i) != emptyTile) {    // contains permanent that cant be removed (platforms)
-                blockMap.put(new Coords(i% Constants.TILEMAP_WIDTH, i/Constants.TILEMAP_WIDTH), new PermanentBlock());
+        for (int i = 0; i < dataList.size(); i++) {
+            if (dataList.get(i) != emptyTile) {    // contains permanent that cant be removed (platforms)
+                blockMap.put(new Coords(i % Constants.TILEMAP_WIDTH, i / Constants.TILEMAP_WIDTH), new PermanentBlock());
             }
         }
 

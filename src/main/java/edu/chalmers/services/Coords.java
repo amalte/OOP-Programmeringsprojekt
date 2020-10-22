@@ -4,7 +4,7 @@ import java.util.Objects;
 
 /**
  * @author Malte Åkvist
- *
+ * <p>
  * Coords class used for tiles in the game (game has 32*18 tiles)
  */
 public class Coords {
@@ -18,14 +18,21 @@ public class Coords {
 
     /**
      * Get method for the x value
+     *
      * @return int x value
      */
-    public int x() { return x; }
+    public int x() {
+        return x;
+    }
+
     /**
      * Get method for the y value
+     *
      * @return int y value
      */
-    public int y() { return y; }
+    public int y() {
+        return y;
+    }
 
     @Override
     public boolean equals(Object o) {

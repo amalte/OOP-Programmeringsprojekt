@@ -4,13 +4,14 @@ import edu.chalmers.model.building.IBlock;
 
 /**
  * @author Malte Åkvist
- *
+ * <p>
  * PermanentBlock that can't be removed (platforms in the game)
  */
 public class PermanentBlock implements IBlock {
 
     /**
      * Method to check if object is destroyable
+     *
      * @return boolean
      */
     @Override
@@ -23,7 +24,7 @@ public class PermanentBlock implements IBlock {
      */
     @Override
     public void remove() {
-        if(canBeDestroyed()) {
+        if (canBeDestroyed()) {
             this.remove();
         }
     }

@@ -6,7 +6,7 @@ import java.util.*;
 
 /**
  * @author Malte Åkvist
- *
+ * <p>
  * MapManager handles the map in the game (map of where all buildable blocks and permanent blocks are)
  */
 public class MapManager implements IMapObserver {
@@ -20,7 +20,7 @@ public class MapManager implements IMapObserver {
         HashSet<Coords> levitatingTiles = new HashSet<>();
 
         for (Coords tile : blockMap.keySet()) {
-            if(!levitatingTiles.contains(tile) && isTileLevitatingDFS(tile)) {
+            if (!levitatingTiles.contains(tile) && isTileLevitatingDFS(tile)) {
                 levitatingTiles.addAll(getConnectedTiles(tile));
             }
         }
@@ -32,22 +32,22 @@ public class MapManager implements IMapObserver {
     }
 
     private boolean isTileLevitatingDFS(Coords tile) {
-        if(blockMap.get(tile) == null) return true;
+        if (blockMap.get(tile) == null) return true;
 
         return isTileLevitatingDFS(tile, new HashSet<>());
     }
 
     // Method checks if a tile with a block on it in any way is connected to a permanent block
     private boolean isTileLevitatingDFS(Coords tile, HashSet<Coords> visitedTiles) {
-        if(!blockMap.get(tile).canBeDestroyed()) {   // Found a path if the block is indestructible
+        if (!blockMap.get(tile).canBeDestroyed()) {   // Found a path if the block is indestructible
             return false;
         }
         visitedTiles.add(tile);
 
         List<Coords> popNeighbours = getPopulatedNeighbourTiles(tile);
         for (Coords neighbour : popNeighbours) {
-            if(!visitedTiles.contains(neighbour)) {   // Check tile if neighbour is not already visited
-                if(!isTileLevitatingDFS(neighbour, visitedTiles)) {
+            if (!visitedTiles.contains(neighbour)) {   // Check tile if neighbour is not already visited
+                if (!isTileLevitatingDFS(neighbour, visitedTiles)) {
                     return false;
                 }
             }
@@ -58,6 +58,7 @@ public class MapManager implements IMapObserver {
 
     /**
      * Method that checks if a tile is empty
+     *
      * @param tile the tile to check
      * @return boolean
      */
@@ -67,6 +68,7 @@ public class MapManager implements IMapObserver {
 
     /**
      * Method that checks if a tile has any neighbours
+     *
      * @param tile the tile to check
      * @return boolean
      */
@@ -77,7 +79,8 @@ public class MapManager implements IMapObserver {
 
     /**
      * Adds a block to the blockMap
-     * @param tile the position of the block
+     *
+     * @param tile  the position of the block
      * @param block instance of the block to add to blockMap
      */
     void addBlockToMap(Coords tile, IBlock block) {
@@ -99,7 +102,7 @@ public class MapManager implements IMapObserver {
 
         List<Coords> popNeighbours = getPopulatedNeighbourTiles(tile);
         for (Coords neighbour : popNeighbours) {
-            if(!connectedTiles.contains(neighbour)) {  // Check the neighbours of neighbour if it isn't null and it is not already visited
+            if (!connectedTiles.contains(neighbour)) {  // Check the neighbours of neighbour if it isn't null and it is not already visited
                 getConnectedTiles(neighbour, connectedTiles);
             }
         }
@@ -120,13 +123,25 @@ public class MapManager implements IMapObserver {
         return Arrays.asList(getTileAbove(tile), getTileRight(tile), getTileBelow(tile), getTileLeft(tile));
     }
 
-    private Coords getTileAbove(Coords tile) { return new Coords(tile.x(), tile.y()-1); }
-    private Coords getTileRight(Coords tile) { return new Coords(tile.x()+1, tile.y()); }
-    private Coords getTileBelow(Coords tile) { return new Coords(tile.x(), tile.y()+1); }
-    private Coords getTileLeft(Coords tile) { return new Coords(tile.x()-1, tile.y()); }
+    private Coords getTileAbove(Coords tile) {
+        return new Coords(tile.x(), tile.y() - 1);
+    }
+
+    private Coords getTileRight(Coords tile) {
+        return new Coords(tile.x() + 1, tile.y());
+    }
+
+    private Coords getTileBelow(Coords tile) {
+        return new Coords(tile.x(), tile.y() + 1);
+    }
+
+    private Coords getTileLeft(Coords tile) {
+        return new Coords(tile.x() - 1, tile.y());
+    }
 
     /**
      * Method is called when a block has died (enemy has killed it) and updates the map with correct info about blocks
+     *
      * @param tileRemoved the position of the block that has died
      */
     @Override

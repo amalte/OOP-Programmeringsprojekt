@@ -27,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Anwarr Shiervani
- *
+ * <p>
  * Test class for all of the main controllers.
  */
 public class TestMainControllers {
@@ -35,6 +35,7 @@ public class TestMainControllers {
 
     /**
      * Set up the test class.
+     *
      * @throws InterruptedException
      */
     @BeforeClass
@@ -44,7 +45,19 @@ public class TestMainControllers {
     }
 
     /**
+     * Tear down the test class.
+     *
+     * @throws InterruptedException
+     */
+    @AfterClass
+    public static void tearDown() throws InterruptedException {
+        deInitialize();
+        mainInstance = null;
+    }
+
+    /**
      * Test the MainMenuController class.
+     *
      * @throws InterruptedException
      */
     @Test
@@ -55,7 +68,7 @@ public class TestMainControllers {
         MenuController menuController = mainInstance.getController(GameMenuType.Main);
         assertNotNull(menuController);
         assertTrue(menuController instanceof MainMenuController);
-        MainMenuController mainMenuController = (MainMenuController)menuController;
+        MainMenuController mainMenuController = (MainMenuController) menuController;
         /**
          * End retrieve controller
          */
@@ -110,14 +123,14 @@ public class TestMainControllers {
 
         // Play
         waitForRunLater(() -> mainMenu.getPlayButton().getOnMousePressed().handle(new MouseEvent(MouseEvent.MOUSE_CLICKED,
-                0,0, 0, 0, MouseButton.PRIMARY, 1, false, false,
+                0, 0, 0, 0, MouseButton.PRIMARY, 1, false, false,
                 false, false, true, false, false, true, false, true,
                 null)));
         assertTrue(playMenuController.isVisible());
 
         // Settings
         waitForRunLater(() -> mainMenu.getSettingsButton().getOnMousePressed().handle(new MouseEvent(MouseEvent.MOUSE_CLICKED,
-                0,0, 0, 0, MouseButton.PRIMARY, 1, false, false,
+                0, 0, 0, 0, MouseButton.PRIMARY, 1, false, false,
                 false, false, true, false, false, true, false, true,
                 null)));
         assertTrue(settingsMenuController.isVisible());
@@ -130,7 +143,7 @@ public class TestMainControllers {
 // ERROR assertTrue(gameRunningLatch.await(AWAIT_TIMEOUT_SEC, TimeUnit.SECONDS));
 
         waitForRunLater(() -> mainMenu.getExitButton().getOnMousePressed().handle(new MouseEvent(MouseEvent.MOUSE_CLICKED,
-                0,0, 0, 0, MouseButton.PRIMARY, 1, false, false,
+                0, 0, 0, 0, MouseButton.PRIMARY, 1, false, false,
                 false, false, true, false, false, true, false, true,
                 null)));
         assertFalse(mainInstance.getGameRunning());
@@ -141,6 +154,7 @@ public class TestMainControllers {
 
     /**
      * Test the PlayMenuController class.
+     *
      * @throws InterruptedException
      */
     @Test
@@ -151,7 +165,7 @@ public class TestMainControllers {
         MenuController menuController = mainInstance.getController(GameMenuType.Play);
         assertNotNull(menuController);
         assertTrue(menuController instanceof PlayMenuController);
-        PlayMenuController playMenuController = (PlayMenuController)menuController;
+        PlayMenuController playMenuController = (PlayMenuController) menuController;
         /**
          * End retrieve controller
          */
@@ -197,7 +211,7 @@ public class TestMainControllers {
         // Level 1
         assertNotNull(playMenu.getLevel1Button().getOnMousePressed());
         waitForRunLater(() -> playMenu.getLevel1Button().getOnMousePressed().handle(new MouseEvent(MouseEvent.MOUSE_CLICKED,
-                0,0, 0, 0, MouseButton.PRIMARY, 1, false, false,
+                0, 0, 0, 0, MouseButton.PRIMARY, 1, false, false,
                 false, false, true, false, false, true, false, true,
                 null)));
         assertEquals("level1.tmx", mainInstance.getCurrentLevel());
@@ -205,7 +219,7 @@ public class TestMainControllers {
         // Level 2
         assertNotNull(playMenu.getLevel2Button().getOnMousePressed());
         waitForRunLater(() -> playMenu.getLevel2Button().getOnMousePressed().handle(new MouseEvent(MouseEvent.MOUSE_CLICKED,
-                0,0, 0, 0, MouseButton.PRIMARY, 1, false, false,
+                0, 0, 0, 0, MouseButton.PRIMARY, 1, false, false,
                 false, false, true, false, false, true, false, true,
                 null)));
         assertEquals("level2.tmx", mainInstance.getCurrentLevel());
@@ -213,7 +227,7 @@ public class TestMainControllers {
         // Level 3
         assertNotNull(playMenu.getLevel3Button().getOnMousePressed());
         waitForRunLater(() -> playMenu.getLevel3Button().getOnMousePressed().handle(new MouseEvent(MouseEvent.MOUSE_CLICKED,
-                0,0, 0, 0, MouseButton.PRIMARY, 1, false, false,
+                0, 0, 0, 0, MouseButton.PRIMARY, 1, false, false,
                 false, false, true, false, false, true, false, true,
                 null)));
         assertEquals("level3.tmx", mainInstance.getCurrentLevel());
@@ -233,6 +247,7 @@ public class TestMainControllers {
 
     /**
      * Test the SettingsMenuController class.
+     *
      * @throws InterruptedException
      */
     @Test
@@ -302,7 +317,7 @@ public class TestMainControllers {
         // Jump
         assertNotNull(settingsMenu.getControlJumpButton().getOnMousePressed());
         waitForRunLater(() -> settingsMenu.getControlJumpButton().getOnMousePressed().handle(new MouseEvent(settingsMenu.getControlJumpButton(), settingsMenu.getControlJumpButton(),
-                MouseEvent.MOUSE_CLICKED,0,0, 0, 0, MouseButton.PRIMARY, 1, false, false,
+                MouseEvent.MOUSE_CLICKED, 0, 0, 0, 0, MouseButton.PRIMARY, 1, false, false,
                 false, false, true, false, false, true, false, true,
                 null)));
         keyEventHandler.handle(new KeyEvent(new EventType<>("GAME_A-0001"), "", "", KeyCode.GAME_A, false, false, false, false));
@@ -311,7 +326,7 @@ public class TestMainControllers {
         // Walk left
         assertNotNull(settingsMenu.getControlWalkLeftButton().getOnMousePressed());
         waitForRunLater(() -> settingsMenu.getControlWalkLeftButton().getOnMousePressed().handle(new MouseEvent(settingsMenu.getControlWalkLeftButton(), settingsMenu.getControlWalkLeftButton(),
-                MouseEvent.MOUSE_CLICKED,0,0, 0, 0, MouseButton.PRIMARY, 1, false, false,
+                MouseEvent.MOUSE_CLICKED, 0, 0, 0, 0, MouseButton.PRIMARY, 1, false, false,
                 false, false, true, false, false, true, false, true,
                 null)));
         keyEventHandler.handle(new KeyEvent(new EventType<>("COMPOSE-0001"), "", "", KeyCode.COMPOSE, false, false, false, false));
@@ -320,7 +335,7 @@ public class TestMainControllers {
         // Walk right
         assertNotNull(settingsMenu.getControlWalkRightButton().getOnMousePressed());
         waitForRunLater(() -> settingsMenu.getControlWalkRightButton().getOnMousePressed().handle(new MouseEvent(settingsMenu.getControlWalkRightButton(), settingsMenu.getControlWalkRightButton(),
-                MouseEvent.MOUSE_CLICKED,0,0, 0, 0, MouseButton.PRIMARY, 1, false, false,
+                MouseEvent.MOUSE_CLICKED, 0, 0, 0, 0, MouseButton.PRIMARY, 1, false, false,
                 false, false, true, false, false, true, false, true,
                 null)));
         keyEventHandler.handle(new KeyEvent(new EventType<>("CLEAR-0001"), "", "", KeyCode.CLEAR, false, false, false, false));
@@ -329,7 +344,7 @@ public class TestMainControllers {
         // Reload
         assertNotNull(settingsMenu.getControlReloadButton().getOnMousePressed());
         waitForRunLater(() -> settingsMenu.getControlReloadButton().getOnMousePressed().handle(new MouseEvent(settingsMenu.getControlReloadButton(), settingsMenu.getControlReloadButton(),
-                MouseEvent.MOUSE_CLICKED,0,0, 0, 0, MouseButton.PRIMARY, 1, false, false,
+                MouseEvent.MOUSE_CLICKED, 0, 0, 0, 0, MouseButton.PRIMARY, 1, false, false,
                 false, false, true, false, false, true, false, true,
                 null)));
         keyEventHandler.handle(new KeyEvent(new EventType<>("HELP-0001"), "", "", KeyCode.HELP, false, false, false, false));
@@ -338,7 +353,7 @@ public class TestMainControllers {
         // Weapon 1
         assertNotNull(settingsMenu.getControlFirstWeaponButton().getOnMousePressed());
         waitForRunLater(() -> settingsMenu.getControlFirstWeaponButton().getOnMousePressed().handle(new MouseEvent(settingsMenu.getControlFirstWeaponButton(), settingsMenu.getControlFirstWeaponButton(),
-                MouseEvent.MOUSE_CLICKED,0,0, 0, 0, MouseButton.PRIMARY, 1, false, false,
+                MouseEvent.MOUSE_CLICKED, 0, 0, 0, 0, MouseButton.PRIMARY, 1, false, false,
                 false, false, true, false, false, true, false, true,
                 null)));
         keyEventHandler.handle(new KeyEvent(new EventType<>("HIRAGANA-0001"), "", "", KeyCode.HIRAGANA, false, false, false, false));
@@ -347,7 +362,7 @@ public class TestMainControllers {
         // Weapon 2
         assertNotNull(settingsMenu.getControlSecondWeaponButton().getOnMousePressed());
         waitForRunLater(() -> settingsMenu.getControlSecondWeaponButton().getOnMousePressed().handle(new MouseEvent(settingsMenu.getControlSecondWeaponButton(), settingsMenu.getControlSecondWeaponButton(),
-                MouseEvent.MOUSE_CLICKED,0,0, 0, 0, MouseButton.PRIMARY, 1, false, false,
+                MouseEvent.MOUSE_CLICKED, 0, 0, 0, 0, MouseButton.PRIMARY, 1, false, false,
                 false, false, true, false, false, true, false, true,
                 null)));
         keyEventHandler.handle(new KeyEvent(new EventType<>("META-0001"), "", "", KeyCode.META, false, false, false, false));
@@ -356,7 +371,7 @@ public class TestMainControllers {
         // Weapon 3
         assertNotNull(settingsMenu.getControlThirdWeaponButton().getOnMousePressed());
         waitForRunLater(() -> settingsMenu.getControlThirdWeaponButton().getOnMousePressed().handle(new MouseEvent(settingsMenu.getControlThirdWeaponButton(), settingsMenu.getControlThirdWeaponButton(),
-                MouseEvent.MOUSE_CLICKED,0,0, 0, 0, MouseButton.PRIMARY, 1, false, false,
+                MouseEvent.MOUSE_CLICKED, 0, 0, 0, 0, MouseButton.PRIMARY, 1, false, false,
                 false, false, true, false, false, true, false, true,
                 null)));
         keyEventHandler.handle(new KeyEvent(new EventType<>("KANA-0001"), "", "", KeyCode.KANA, false, false, false, false));
@@ -364,7 +379,7 @@ public class TestMainControllers {
 
         // Weapon 2 -> Weapon 3
         waitForRunLater(() -> settingsMenu.getControlSecondWeaponButton().getOnMousePressed().handle(new MouseEvent(settingsMenu.getControlSecondWeaponButton(), settingsMenu.getControlSecondWeaponButton(),
-                MouseEvent.MOUSE_CLICKED,0,0, 0, 0, MouseButton.PRIMARY, 1, false, false,
+                MouseEvent.MOUSE_CLICKED, 0, 0, 0, 0, MouseButton.PRIMARY, 1, false, false,
                 false, false, true, false, false, true, false, true,
                 null)));
         keyEventHandler.handle(new KeyEvent(new EventType<>("KANA-0002"), "", "", KeyCode.KANA, false, false, false, false));
@@ -373,9 +388,9 @@ public class TestMainControllers {
 
         // Escape
         waitForRunLater(() -> settingsMenu.getControlThirdWeaponButton().getOnMousePressed().handle(new MouseEvent(settingsMenu.getControlThirdWeaponButton(), settingsMenu.getControlThirdWeaponButton(),
-                    MouseEvent.MOUSE_CLICKED,0,0, 0, 0, MouseButton.PRIMARY, 1, false, false,
-                    false, false, true, false, false, true, false, true,
-                    null)));
+                MouseEvent.MOUSE_CLICKED, 0, 0, 0, 0, MouseButton.PRIMARY, 1, false, false,
+                false, false, true, false, false, true, false, true,
+                null)));
         waitForRunLater(() -> getGameScene().getRoot().getScene().getOnKeyPressed().handle(new KeyEvent(new EventType<>("ESC-0002"), "", "", KeyCode.ESCAPE, false, false, false, false)));
         assertFalse(settingsMenuController.isVisible());
         assertTrue(mainMenuController.isVisible());
@@ -385,7 +400,7 @@ public class TestMainControllers {
         waitForRunLater(() -> {
             settingsMenuController.show();
             settingsMenu.getBackButton().getOnMousePressed().handle(new MouseEvent(MouseEvent.MOUSE_CLICKED,
-                    0,0, 0, 0, MouseButton.PRIMARY, 1, false, false, false,
+                    0, 0, 0, 0, MouseButton.PRIMARY, 1, false, false, false,
                     false, true, false, false, true, false, true, null));
             getGameScene().getRoot().getScene().getOnKeyPressed().handle(new KeyEvent(new EventType<>("ESC-0003"), "", "", KeyCode.ESCAPE, false, false, false, false));
         });
@@ -395,15 +410,5 @@ public class TestMainControllers {
         /**
          * End actions
          */
-    }
-
-    /**
-     * Tear down the test class.
-     * @throws InterruptedException
-     */
-    @AfterClass
-    public static void tearDown() throws InterruptedException {
-        deInitialize();
-        mainInstance = null;
     }
 }

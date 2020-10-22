@@ -16,7 +16,7 @@ import static com.almasb.fxgl.dsl.FXGL.runOnce;
 
 /**
  * @author Malte Åkvist
- *
+ * <p>
  * A RunnableClass that spawns enemies.
  */
 public class SpawnEnemyRunnable implements Runnable {
@@ -36,6 +36,7 @@ public class SpawnEnemyRunnable implements Runnable {
 
     /**
      * Getter for if the runnable is active
+     *
      * @return boolean isRunnableActive
      */
     boolean getIsRunnableActive() {
@@ -44,14 +45,16 @@ public class SpawnEnemyRunnable implements Runnable {
 
     /**
      * Set isRunnableActive variable
+     *
      * @param value the boolean value to set
      */
     void setIsRunnableActive(boolean value) {
-         isRunnableActive = value;
+        isRunnableActive = value;
     }
 
     /**
      * Getter for enemies to spawn list
+     *
      * @return list enemies to spawn
      */
     List<String> getEnemiesToSpawn() {
@@ -60,6 +63,7 @@ public class SpawnEnemyRunnable implements Runnable {
 
     /**
      * Setter for enemies to spawn list
+     *
      * @param enemiesToSpawn enemies to spawn from wave
      */
     void setEnemiesToSpawn(List<String> enemiesToSpawn) {
@@ -68,18 +72,25 @@ public class SpawnEnemyRunnable implements Runnable {
 
     /**
      * Getter for longest time between enemies spawning
+     *
      * @return int long spawn ms
      */
-    int getLongSpawnMs() { return longSpawnMs; }
+    int getLongSpawnMs() {
+        return longSpawnMs;
+    }
 
     /**
      * Getter for lowest time between enemies spawning
+     *
      * @return int short spawn ms
      */
-    int getShortSpawnMs() { return shortSpawnMs; }
+    int getShortSpawnMs() {
+        return shortSpawnMs;
+    }
 
     /**
      * Setter for statMultiplier
+     *
      * @param statMultiplier enemy stats
      */
     void setStatMultiplier(StatMultiplier statMultiplier) {
@@ -100,8 +111,7 @@ public class SpawnEnemyRunnable implements Runnable {
 
         if (enemiesToSpawn.size() > 0) {
             runOnce(this, Duration.millis(random.nextInt(longSpawnMs - shortSpawnMs) + shortSpawnMs));
-        }
-        else {  // No more enemies to spawn, runnable will no longer be active
+        } else {  // No more enemies to spawn, runnable will no longer be active
             isRunnableActive = false;
         }
     }

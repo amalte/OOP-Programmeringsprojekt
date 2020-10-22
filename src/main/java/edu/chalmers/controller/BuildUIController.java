@@ -9,7 +9,7 @@ import static com.almasb.fxgl.dsl.FXGL.getInput;
 
 /**
  * @author Malte Åkvist
- *
+ * <p>
  * The controller for updating the BuildUI
  */
 public class BuildUIController {
@@ -27,10 +27,9 @@ public class BuildUIController {
     public void updateBuildTileUI() {
         buildView.updateTileOverlay(game.getBuildManager().getEmptyReachableTiles(CoordsCalculations.posToTile(EntityPos.getPosition(game.getPlayer()))));
 
-        if(game.getBuildManager().isInBuildRange(CoordsCalculations.posToTile(getInput().getMousePositionWorld()), CoordsCalculations.posToTile(EntityPos.getPosition(game.getPlayer())))) {
+        if (game.getBuildManager().isInBuildRange(CoordsCalculations.posToTile(getInput().getMousePositionWorld()), CoordsCalculations.posToTile(EntityPos.getPosition(game.getPlayer())))) {
             buildView.showBuildUI(getInput().getMousePositionWorld(), game.getBuildManager().possibleToPlaceBlockOnPos(getInput().getMousePositionWorld(), EntityPos.getPosition(game.getPlayer())));
-        }
-        else {
+        } else {
             buildView.hideBuildUI();
         }
     }
