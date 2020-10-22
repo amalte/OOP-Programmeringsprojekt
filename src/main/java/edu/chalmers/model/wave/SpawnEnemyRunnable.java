@@ -30,7 +30,7 @@ public class SpawnEnemyRunnable implements Runnable {
     private EnemyFactory enemyFactory = EnemyFactory.getInstance();
     private boolean isRunnableActive = false;
 
-    public SpawnEnemyRunnable(Entity player) {
+    SpawnEnemyRunnable(Entity player) {
         this.player = player;
     }
 
@@ -38,7 +38,7 @@ public class SpawnEnemyRunnable implements Runnable {
      * Getter for if the runnable is active
      * @return boolean isRunnableActive
      */
-    public boolean getIsRunnableActive() {
+    boolean getIsRunnableActive() {
         return isRunnableActive;
     }
 
@@ -46,7 +46,7 @@ public class SpawnEnemyRunnable implements Runnable {
      * Set isRunnableActive variable
      * @param value the boolean value to set
      */
-    public void setIsRunnableActive(boolean value) {
+    void setIsRunnableActive(boolean value) {
          isRunnableActive = value;
     }
 
@@ -54,7 +54,7 @@ public class SpawnEnemyRunnable implements Runnable {
      * Getter for enemies to spawn list
      * @return list enemies to spawn
      */
-    public List<String> getEnemiesToSpawn() {
+    List<String> getEnemiesToSpawn() {
         return new ArrayList<>(enemiesToSpawn);
     }
 
@@ -62,7 +62,7 @@ public class SpawnEnemyRunnable implements Runnable {
      * Setter for enemies to spawn list
      * @param enemiesToSpawn enemies to spawn from wave
      */
-    public void setEnemiesToSpawn(List<String> enemiesToSpawn) {
+    void setEnemiesToSpawn(List<String> enemiesToSpawn) {
         this.enemiesToSpawn = enemiesToSpawn;
     }
 
@@ -70,24 +70,24 @@ public class SpawnEnemyRunnable implements Runnable {
      * Getter for longest time between enemies spawning
      * @return int long spawn ms
      */
-    public int getLongSpawnMs() { return longSpawnMs; }
+    int getLongSpawnMs() { return longSpawnMs; }
 
     /**
      * Getter for lowest time between enemies spawning
      * @return int short spawn ms
      */
-    public int getShortSpawnMs() { return shortSpawnMs; }
+    int getShortSpawnMs() { return shortSpawnMs; }
 
     /**
      * Setter for statMultiplier
      * @param statMultiplier enemy stats
      */
-    public void setStatMultiplier(StatMultiplier statMultiplier) {
+    void setStatMultiplier(StatMultiplier statMultiplier) {
         this.statMultiplier = statMultiplier;
     }
 
     /**
-     * Method spawns all enemies in a time interval on a random spawn position
+     * Method spawns all enemies with a time interval on a random spawn position
      */
     @Override
     public void run() {

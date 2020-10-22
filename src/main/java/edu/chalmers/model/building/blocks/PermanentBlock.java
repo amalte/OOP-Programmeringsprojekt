@@ -9,18 +9,22 @@ import edu.chalmers.model.building.IBlock;
  */
 public class PermanentBlock implements IBlock {
 
+    /**
+     * Method to check if object is destroyable
+     * @return boolean
+     */
     @Override
     public boolean canBeDestroyed() {
         return false;
     }
 
+    /**
+     * Remove entity from world
+     */
     @Override
     public void remove() {
-       // Can't be removed.
-    }
-
-    @Override
-    public void inflictDamage(int damage) {
-        // No damage for permanent blocks
+        if(canBeDestroyed()) {
+            this.remove();
+        }
     }
 }

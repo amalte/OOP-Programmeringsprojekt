@@ -36,7 +36,8 @@ public class WaveManager implements IObservable {
     public void generateNewWave() {
         currentWave++;
         calculateEnemiesToSpawn();
-        updateEnemyStats();
+        increaseEnemyStats();
+        baseWaveTimeSec += 5;   // Timer for how long a wave can last increases by 5 seconds each wave
         startNewWaveTimer();    // Will generateNewWave if timer reaches 0 (Warning will be infinite loop unless timer is stopped somewhere)
         spawnEnemies(spawnEnemyRunnable);
         notifyObserver();
@@ -49,10 +50,10 @@ public class WaveManager implements IObservable {
         for (int i = 0; i < currentWave; i++) {
             enemiesToSpawn.add("ZOMBIE");
         }
-        for (int i = 0; i < Math.round((double)currentWave / 3); i++) {
+        for (int i = 0; i < Math.round((double)currentWave / 2); i++) {
             enemiesToSpawn.add("BLOB");
         }
-        if(currentWave % 5 == 0) {  // Spawn difficult enemy every 5 waves
+        if(currentWave % 3 == 0) {  // Spawn difficult enemy every 3 waves
             for (int i = 0; i < currentWave / 5; i++) {
                 enemiesToSpawn.add("REX");
             }
@@ -60,8 +61,8 @@ public class WaveManager implements IObservable {
         spawnEnemyRunnable.setEnemiesToSpawn(enemiesToSpawn);
     }
 
-    private void updateEnemyStats() {
-        spawnEnemyRunnable.setStatMultiplier(new StatMultiplier(1 + currentWave*0.1, 1 + currentWave*0.1));
+    private void increaseEnemyStats() {
+        spawnEnemyRunnable.setStatMultiplier(new StatMultiplier(1 + currentWave*0.05));   // Health of enemies increases by 5% every wave
     }
 
     //Method will spawn enemies from enemiesToSpawnList with an interval of shortSpawnMs to longSpawnMs milliseconds
@@ -72,7 +73,7 @@ public class WaveManager implements IObservable {
         }
     }
 
-     //Creates a timer which will call generateNewWave() method after baseWaveTimeSec + getSpawnTimeSec() seconds
+    //Creates a timer which will call generateNewWave() method after baseWaveTimeSec + getSpawnTimeSec() seconds
     private void startNewWaveTimer() {    // Begin wave timer
         stopWaveTimer();   // Stop and remove currentWaveTimer since a new one should start
         waveTimerAction = createWaveTimer();  // Create new timer, when timer reaches 0 it will generate wave
@@ -81,25 +82,23 @@ public class WaveManager implements IObservable {
     /**
      * Stop the current waveTimer, if it exists and is not expired.
      */
-    public void stopWaveTimer() { if(waveTimerAction != null && !waveTimerAction.isExpired()) waveTimerAction.expire(); }
-
-    private TimerAction createWaveTimer() {
-        return runOnce(() -> generateNewWave(), Duration.seconds(baseWaveTimeSec + getSpawnTimeSec()));
+    public void stopWaveTimer() {
+        if(waveTimerAction != null && !waveTimerAction.isExpired()) waveTimerAction.expire();
     }
 
-    /**
-     * Returns the amount of seconds it will take to spawn the current wave
-     * @return integer seconds it takes to spawn wave
-     */
-    public int getSpawnTimeSec() {
+    private TimerAction createWaveTimer() {
+        return runOnce(this::generateNewWave, Duration.seconds(baseWaveTimeSec + getSpawnTimeSec()));
+    }
+
+    //Returns the amount of seconds it will take to spawn the current wave
+    private int getSpawnTimeSec() {
         if(spawnEnemyRunnable.getEnemiesToSpawn().size() == 0) {
-            System.out.println("SpawnTime cant be calculated because enemiesToSpawn list is empty");
-            return 0;
+            return 0;   // SpawnTime cant be calculated because enemiesToSpawn list is empty
         }
         return Math.round((spawnEnemyRunnable.getEnemiesToSpawn().size() * averageSpawnIntervalSec()) - averageSpawnIntervalSec());     // -averageSpawnTime since first enemy takes no time to spawn
     }
 
-    //Method calculates on average how long it should take to spawn one enemy
+    //Method calculates on average how long the spawn interval for each enemy is
     private float averageSpawnIntervalSec() {
         return (float)(spawnEnemyRunnable.getLongSpawnMs() + spawnEnemyRunnable.getShortSpawnMs()) / (2 * 1000);    // Divided by 1000 to convert ms to sec
     }
@@ -113,19 +112,25 @@ public class WaveManager implements IObservable {
     }
 
     private void startTimerAllEnemiesDead() {
-        // No enemies to spawn and no enemies left
         FXGL.getGameTimer().runAtInterval(() -> {
-            if (FXGL.getGameWorld().getEntitiesByType(EntityType.ENEMY).size() == 0 && spawnEnemyRunnable.getEnemiesToSpawn().size() == 0) { // No enemies to spawn and no enemies left
+            if (FXGL.getGameWorld().getEntitiesByType(EntityType.ENEMY).size() == 0 && spawnEnemyRunnable.getEnemiesToSpawn().size() == 0) {  // No enemies to spawn and no enemies left
                 generateNewWave();
             }
         }, Duration.seconds(1));
     }
 
+    /**
+     * Adds an observer to the observers list
+     * @param o the observer to add
+     */
     @Override
     public void addObserver(IObserver o) {
         observers.add(o);
     }
 
+    /**
+     * Notifies the observers an update has happened
+     */
     @Override
     public void notifyObserver() {
         for(IObserver o : observers){
@@ -133,6 +138,10 @@ public class WaveManager implements IObservable {
         }
     }
 
+    /**
+     * Removes an observer from the observers list
+     * @param o the observer to remove
+     */
     @Override
     public void removeObserver(IObserver o) {
         observers.remove(o);

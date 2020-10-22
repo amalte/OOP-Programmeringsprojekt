@@ -27,6 +27,9 @@ public class BuildView {
         FXGL.getGameScene().addUINodes(createMouseRect());
     }
 
+    /**
+     * Draws the tileOverlay (transparent boxes that shows where the build range is)
+     */
     public void updateTileOverlay(List<Coords> reachableTiles) {
         for (Node node: transparentRects) {
             node.setVisible(false);     // Hide all since list will get updated
@@ -40,10 +43,16 @@ public class BuildView {
         }
     }
 
+    /**
+     * Hides the build box UI
+     */
     public void hideBuildUI() {
         mouseRect.setVisible(false);
     }
 
+    /**
+     * Shows the build box UI and draws a red or green box depending on if it's possible to build at the tile
+     */
     public void showBuildUI(Point2D mousePos, boolean possibleToPlaceBlock) {
         mouseRect.setVisible(true);
         if (possibleToPlaceBlock) {

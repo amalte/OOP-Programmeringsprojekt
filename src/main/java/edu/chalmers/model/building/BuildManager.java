@@ -51,12 +51,10 @@ public class BuildManager {
         return mapManager.isTileEmpty(buildTile) && mapManager.isTileConnected(buildTile);
     }
 
-    /**
-     * Method gets the tiles player can reach (depending on buildrange of player)
-     * @param playerTile position of player
-     * @return list of reachable tiles
-     */
-    public List<Coords> getReachableTiles(Coords playerTile) {
+     /* Method gets the tiles player can reach (depending on buildrange of player)
+     @param playerTile position of player
+     @return list of reachable tiles */
+    private List<Coords> getReachableTiles(Coords playerTile) {
         Coords startTile = new Coords(playerTile.x()-buildRangeTiles, playerTile.y()-buildRangeTiles);
 
         List<Coords> reachableTiles = new ArrayList<>();
@@ -109,22 +107,4 @@ public class BuildManager {
     private boolean tileIsInsideMap(Coords tile) {
         return 0 <= tile.x() && tile.y() < Constants.TILEMAP_WIDTH && 0 <= tile.y() && tile.y() < Constants.TILEMAP_HEIGHT;
     }
-
-    /*private boolean collidesWithSomething(Point2D tilePos) {
-        Rectangle2D range = new Rectangle2D(tilePos.getX()+1, tilePos.getY()+1, tileSize-4, tileSize-4);    // Make rectangle a pixel smaller on each side
-        System.out.println("ENTITIES IN RANGE: " + FXGL.getGameWorld().getEntitiesInRange(range).toString());
-
-        Entity woodBlock;
-        PhysicsComponent physics = new PhysicsComponent();
-        physics.setBodyType(BodyType.STATIC);
-        Entity hello = FXGL.entityBuilder()
-                .type(EntityType.BLOCK)
-                .at((range.getMinX()),(range.getMinY()))
-                .viewWithBBox(new Rectangle(56, 56, Color.BLACK))
-                .with(physics)
-                .with(new CollidableComponent(true))
-                .buildAndAttach();
-
-        return FXGL.getGameWorld().getEntitiesInRange(range).size() >= 1;
-    }*/
 }

@@ -7,7 +7,7 @@ import java.util.*;
 /**
  * @author Malte Åkvist
  *
- * MapManager handles the map in the game (where all buildable blocks and permanent blocks are)
+ * MapManager handles the map in the game (map of where all buildable blocks and permanent blocks are)
  */
 public class MapManager implements IMapObserver {
     private HashMap<Coords, IBlock> blockMap;
@@ -28,28 +28,6 @@ public class MapManager implements IMapObserver {
         for (Coords levitatingTile : levitatingTiles) {    // Removes all levitating blocks
             blockMap.get(levitatingTile).remove();
             removeBlockFromMap(levitatingTile);
-        }
-    }
-
-    /**
-     * Method that removes all neighbour blocks that are levitating (not connected to a permanent block)
-     * @param tile all neighbours of this tile will be removed if they are levitating
-     */
-    public void removeLevitatingNeighbours(Coords tile) {   // Method should be called when any block on the map has been removed
-
-        List<Coords> popNeighbours = getPopulatedNeighbourTiles(tile);
-        HashSet<Coords> levitatingTiles = new HashSet<>();  // Tiles that are levitating and will be removed
-
-        for(int i = 0; i < popNeighbours.size(); i++) {
-            Coords tileToCheck = popNeighbours.get(i);
-
-            if(isTileLevitatingDFS(tileToCheck)) {
-                levitatingTiles.addAll(getConnectedTiles(tileToCheck));     // Add all connected tiles of the levitating tile (they are also levitating)
-            }
-        }
-
-        for (Coords levitatingTile : levitatingTiles) {    // Removes all levitating blocks
-            blockMap.get(levitatingTile).remove();
         }
     }
 
@@ -83,7 +61,7 @@ public class MapManager implements IMapObserver {
      * @param tile the tile to check
      * @return boolean
      */
-    public boolean isTileEmpty(Coords tile) {
+    boolean isTileEmpty(Coords tile) {
         return blockMap.get(tile) == null;
     }
 
@@ -92,31 +70,23 @@ public class MapManager implements IMapObserver {
      * @param tile the tile to check
      * @return boolean
      */
-    public boolean isTileConnected(Coords tile) {
+    boolean isTileConnected(Coords tile) {
         return blockMap.containsKey(getTileAbove(tile)) || blockMap.containsKey(getTileRight(tile)) || blockMap.containsKey(getTileBelow(tile)) || blockMap.containsKey(getTileLeft(tile));
         //return !getTileAbove(tile).equals(null) || !getTileRight(tile).equals(null) || !getTileBelow(tile).equals(null) || !getTileLeft(tile).equals(null);
     }
-
-    /**
-     * Get method for blockMap
-     * @return HashMap<Coords, IBlock> blockMap which connects all positions on the map to a block (if it exists)
-     */
-    public HashMap<Coords, IBlock> getBlockMap() { return blockMap; }
 
     /**
      * Adds a block to the blockMap
      * @param tile the position of the block
      * @param block instance of the block to add to blockMap
      */
-    public void addBlockToMap(Coords tile, IBlock block) {
+    void addBlockToMap(Coords tile, IBlock block) {
         blockMap.putIfAbsent(tile, block);
     }
 
-    /**
-     * Removes a block from the blockMap
-     * @param tile the position of the block to remove
-     */
-    public void removeBlockFromMap(Coords tile) {
+    /* Removes a block from the blockMap
+     @param tile the position of the block to remove */
+    private void removeBlockFromMap(Coords tile) {
         blockMap.remove(tile);
     }
 
@@ -155,6 +125,10 @@ public class MapManager implements IMapObserver {
     private Coords getTileBelow(Coords tile) { return new Coords(tile.x(), tile.y()+1); }
     private Coords getTileLeft(Coords tile) { return new Coords(tile.x()-1, tile.y()); }
 
+    /**
+     * Method is called when a block has died (enemy has killed it) and updates the map with correct info about blocks
+     * @param tileRemoved the position of the block that has died
+     */
     @Override
     public void update(Coords tileRemoved) {    // block has died
         removeBlockFromMap(tileRemoved);
