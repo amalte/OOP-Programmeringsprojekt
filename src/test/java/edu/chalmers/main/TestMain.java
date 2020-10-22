@@ -2,20 +2,16 @@ package edu.chalmers.main;
 
 import edu.chalmers.FXGLTest;
 import edu.chalmers.controller.GameMenuType;
-import edu.chalmers.controller.InputController;
 import edu.chalmers.controller.MenuController;
 import edu.chalmers.controller.game.ExitMenuController;
 import edu.chalmers.controller.main.MainMenuController;
 import edu.chalmers.controller.main.PlayMenuController;
 import edu.chalmers.controller.main.SettingsMenuController;
-import edu.chalmers.view.main.MainMenu;
-import edu.chalmers.view.main.PlayMenu;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 
 import static edu.chalmers.FXGLTest.*;
 import static org.junit.jupiter.api.Assertions.*;

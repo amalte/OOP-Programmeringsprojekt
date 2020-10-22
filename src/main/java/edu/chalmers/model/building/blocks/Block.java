@@ -7,9 +7,11 @@ import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
 import com.almasb.fxgl.time.TimerAction;
-import edu.chalmers.model.building.*;
-import edu.chalmers.utilities.CoordsCalculations;
 import edu.chalmers.model.EntityType;
+import edu.chalmers.model.building.IBlock;
+import edu.chalmers.model.building.IBlockObservable;
+import edu.chalmers.model.building.IMapObserver;
+import edu.chalmers.utilities.CoordsCalculations;
 import javafx.geometry.Point2D;
 import javafx.util.Duration;
 

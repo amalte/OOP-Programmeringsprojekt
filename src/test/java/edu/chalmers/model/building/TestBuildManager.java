@@ -1,18 +1,14 @@
 package edu.chalmers.model.building;
 
 import com.almasb.fxgl.physics.PhysicsComponent;
-import com.almasb.fxgl.test.RunWithFX;
 import edu.chalmers.FXGLTest;
 import edu.chalmers.model.EntityType;
 import edu.chalmers.model.PlayerComponent;
-import edu.chalmers.model.building.BuildManager;
-import edu.chalmers.model.building.MapManager;
 import edu.chalmers.services.TileMap;
 import javafx.geometry.Point2D;
 import org.junit.AfterClass;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameWorld;
 import static edu.chalmers.FXGLTest.*;

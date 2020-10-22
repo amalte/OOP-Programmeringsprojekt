@@ -2,7 +2,6 @@ package edu.chalmers.utilities;
 
 import com.almasb.fxgl.entity.Entity;
 import edu.chalmers.FXGLTest;
-import edu.chalmers.model.wave.WaveManager;
 import javafx.geometry.Point2D;
 import org.junit.AfterClass;
 import org.junit.jupiter.api.BeforeAll;

@@ -8,8 +8,10 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import static edu.chalmers.FXGLTest.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static edu.chalmers.FXGLTest.deInitialize;
+import static edu.chalmers.FXGLTest.initialize;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /**
  * @author Anwarr Shiervani

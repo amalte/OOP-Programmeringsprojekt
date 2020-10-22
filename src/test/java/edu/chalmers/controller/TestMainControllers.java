@@ -20,10 +20,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 
 import static com.almasb.fxgl.dsl.FXGL.getGameScene;
-import static com.almasb.fxgl.dsl.FXGL.getSceneService;
 import static edu.chalmers.FXGLTest.*;
 import static org.junit.jupiter.api.Assertions.*;
 

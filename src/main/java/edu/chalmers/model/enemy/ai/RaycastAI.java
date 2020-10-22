@@ -1,9 +1,7 @@
 package edu.chalmers.model.enemy.ai;
 
-import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.physics.RaycastResult;
 import edu.chalmers.utilities.RaycastCalculations;
-import javafx.scene.shape.Line;
 
 /**
  * @author Sam Salek

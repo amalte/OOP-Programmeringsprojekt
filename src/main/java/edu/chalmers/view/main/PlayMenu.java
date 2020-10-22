@@ -4,7 +4,6 @@ import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.scene.SubScene;
 import edu.chalmers.view.IMenu;
 import edu.chalmers.view.nodes.ActionButton;
-import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 

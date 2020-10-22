@@ -1,9 +1,8 @@
 package edu.chalmers.view.game;
 
 import com.almasb.fxgl.dsl.FXGL;
-import com.almasb.fxgl.texture.Texture;
-import edu.chalmers.utilities.CoordsCalculations;
 import edu.chalmers.services.Coords;
+import edu.chalmers.utilities.CoordsCalculations;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;

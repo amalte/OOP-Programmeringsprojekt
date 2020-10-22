@@ -1,20 +1,15 @@
 package edu.chalmers.model.wave;
 
 import com.almasb.fxgl.entity.Entity;
-import com.almasb.fxgl.test.RunWithFX;
 import edu.chalmers.FXGLTest;
 import edu.chalmers.model.MockObserver;
-import edu.chalmers.model.wave.WaveManager;
-import edu.chalmers.model.weapon.WeaponFactory;
 import org.junit.AfterClass;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
-import static edu.chalmers.FXGLTest.waitForRunLater;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static edu.chalmers.FXGLTest.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**

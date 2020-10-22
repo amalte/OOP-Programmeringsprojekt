@@ -1,14 +1,12 @@
 package edu.chalmers.model.enemy.ai;
 
 import com.almasb.fxgl.entity.Entity;
-import com.almasb.fxgl.test.RunWithFX;
 import edu.chalmers.FXGLTest;
 import edu.chalmers.model.enemy.EnemyFactory;
 import edu.chalmers.model.enemy.StatMultiplier;
 import org.junit.AfterClass;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.spawn;
 import static edu.chalmers.FXGLTest.*;
