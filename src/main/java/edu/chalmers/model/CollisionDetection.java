@@ -158,7 +158,6 @@ public class CollisionDetection {
                     b.getComponent(PhysicsComponent.class).setVelocityX(0);
                 }
 
-                //ToDo implement direct contact with projectile to receive proper damage and not from player.
                 if (a.hasComponent(EnemyComponent.class)) {
                     a.getComponent(EnemyComponent.class).inflictDamage(player.getActiveWeapon().getDamage());
                 }
