@@ -4,9 +4,6 @@ import edu.chalmers.controller.GameMenuType;
 import edu.chalmers.controller.MenuController;
 import edu.chalmers.main.Main;
 import edu.chalmers.view.main.MainMenu;
-import edu.chalmers.view.main.SettingsMenu;
-
-import static com.almasb.fxgl.dsl.FXGL.getGameController;
 
 /**
  * @author Anwarr Shiervani

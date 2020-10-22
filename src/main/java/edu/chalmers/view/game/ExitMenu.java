@@ -5,7 +5,6 @@ import com.almasb.fxgl.scene.SubScene;
 import edu.chalmers.utilities.Constants;
 import edu.chalmers.view.IMenu;
 import edu.chalmers.view.nodes.ActionButton;
-import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;

@@ -4,9 +4,6 @@ import com.almasb.fxgl.scene.SubScene;
 import edu.chalmers.main.Main;
 import edu.chalmers.view.IMenu;
 
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.atomic.AtomicReference;
-
 import static com.almasb.fxgl.dsl.FXGL.getSceneService;
 
 /**

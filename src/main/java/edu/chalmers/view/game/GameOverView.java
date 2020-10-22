@@ -13,7 +13,7 @@ import static edu.chalmers.view.util.ViewUtil.addNode;
 import static edu.chalmers.view.util.ViewUtil.createActionButton;
 
 /**
- * @author Anwarr Shiervani
+ * @author Oscar Arvidson
  *
  * The game over Scene.
  */
