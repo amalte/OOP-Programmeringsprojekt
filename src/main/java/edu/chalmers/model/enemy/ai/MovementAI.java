@@ -15,14 +15,18 @@ import static com.almasb.fxgl.dsl.FXGL.runOnce;
  */
 class MovementAI {
 
+    public enum Direction {LEFT, RIGHT}
+
     private EnemyAIComponent AI;
     private Direction moveDirection;
     private Entity closestPlatform = null;
     private TimerAction underPlatformTimer;
     private TimerAction moveToNextPlatformTimer;
+
     private boolean underPlatform = false;
     private boolean moveToNextPlatform = true;
     private boolean jumpAllowed = true;
+
     public MovementAI(EnemyAIComponent enemyAIComponent) {
         this.AI = enemyAIComponent;
         initTimer();
@@ -272,8 +276,6 @@ class MovementAI {
         return moveDirection;
     }
 
-    // ------- GETTERS ------- //
-
     /**
      * Setter for moveDirection variable.
      *
@@ -310,8 +312,6 @@ class MovementAI {
         return underPlatform;
     }
 
-    // ------- SETTERS ------- //
-
     /**
      * Setter for underPlatform variable.
      *
@@ -338,6 +338,4 @@ class MovementAI {
     public void setMoveToNextPlatform(boolean moveToNextPlatform) {
         this.moveToNextPlatform = moveToNextPlatform;
     }
-
-    public enum Direction {LEFT, RIGHT}
 }

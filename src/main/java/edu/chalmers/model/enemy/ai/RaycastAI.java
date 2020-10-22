@@ -11,7 +11,6 @@ import edu.chalmers.utilities.RaycastCalculations;
 class RaycastAI {
 
     private EnemyAIComponent AI;
-    //Line line;        // Debug line
 
     // ---- RAYCAST VARIABLES ---- //
     private RaycastResult higherHorizontalRaycast;
@@ -30,9 +29,6 @@ class RaycastAI {
 
     public RaycastAI(EnemyAIComponent enemyAIComponent) {
         this.AI = enemyAIComponent;
-
-//        line = new Line(AI.getThisEnemy().getRightX(), AI.getThisEnemy().getY()+3, AI.getThisEnemy().getRightX()+horizontalRaycastLength, AI.getThisEnemy().getY()+3);
-//        FXGL.getGameScene().addUINode(line);
     }
 
     /**
@@ -49,10 +45,6 @@ class RaycastAI {
             horizontalRaycast = RaycastCalculations.setHorizontalRaycast(-horizontalRaycastLength, AI.getThisEnemy().getX() + 10, AI.getThisEnemy().getY() + 3);
             entityRaycast = RaycastCalculations.setHorizontalRaycast(-entityRaycastLength, AI.getThisEnemy().getX(), AI.getThisEnemy().getY() + 3);
             activeDownwardRaycast = getLeftDownwardRaycast();
-
-//            FXGL.getGameScene().removeUINode(line);
-//            line = new Line(AI.getThisEnemy().getX()+10, AI.getThisEnemy().getY()+3, AI.getThisEnemy().getX()+5-horizontalRaycastLength, AI.getThisEnemy().getY()+3);
-//            FXGL.getGameScene().addUINode(line);
         }
         // If moving right
         else if (AI.getMovementAI().getMoveDirection() == MovementAI.Direction.RIGHT) {
@@ -60,10 +52,6 @@ class RaycastAI {
             horizontalRaycast = RaycastCalculations.setHorizontalRaycast(horizontalRaycastLength, AI.getThisEnemy().getRightX(), AI.getThisEnemy().getY() + 3);
             entityRaycast = RaycastCalculations.setHorizontalRaycast(entityRaycastLength, AI.getThisEnemy().getRightX(), AI.getThisEnemy().getY() + 3);
             activeDownwardRaycast = getRightDownwardRaycast();
-
-//            FXGL.getGameScene().removeUINode(line);
-//            line = new Line(AI.getThisEnemy().getRightX(), AI.getThisEnemy().getY()+3, AI.getThisEnemy().getRightX()+horizontalRaycastLength, AI.getThisEnemy().getY()+3);
-//            FXGL.getGameScene().addUINode(line);
         }
     }
 

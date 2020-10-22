@@ -20,6 +20,7 @@ public class EnemyAIComponent extends Component {
 
     private EnemyComponent thisEnemy;
     private Entity player;
+    private Entity target;
     private MovementAI movementAI;
     private RaycastAI raycastAI;
     private PlatformAI platformAI;
@@ -27,22 +28,20 @@ public class EnemyAIComponent extends Component {
 
     private boolean pathfindingOverride = false;
     private boolean playerReached = false;
-    private Entity target;
-
 
     public EnemyAIComponent(EnemyComponent thisEnemy, Entity player) {
         this.player = player;
         this.thisEnemy = thisEnemy;
-        movementAI = new MovementAI(this);
-        raycastAI = new RaycastAI(this);
-        platformAI = new PlatformAI(this);
-        statImprovementAI = new StatImprovementAI(this);
-
         target = player;
     }
 
     @Override
     public void onAdded() {
+        movementAI = new MovementAI(this);
+        raycastAI = new RaycastAI(this);
+        platformAI = new PlatformAI(this);
+        statImprovementAI = new StatImprovementAI(this);
+
         platformAI.updatePlatforms();
     }
 
@@ -210,10 +209,6 @@ public class EnemyAIComponent extends Component {
         return target;
     }
 
-    public void setTarget(Entity target) {
-        this.target = target;
-    }
-
     /**
      * Getter for playerReached variable.
      *
@@ -221,12 +216,6 @@ public class EnemyAIComponent extends Component {
      */
     public boolean isPlayerReached() {
         return playerReached;
-    }
-
-    // --------- SETTERS --------- //
-
-    public void setPlayerReached(boolean playerReached) {
-        this.playerReached = playerReached;
     }
 
     /**
@@ -238,11 +227,27 @@ public class EnemyAIComponent extends Component {
         return pathfindingOverride;
     }
 
+    // --------- SETTERS --------- //
+
+    /**
+     * Setter for playerReached variable.
+     */
+    public void setPlayerReached(boolean playerReached) {
+        this.playerReached = playerReached;
+    }
+
     /**
      * Setter for pathfindingOverride variable.
      */
     public void setPathfindingOverride(boolean pathfindingOverride) {
         this.pathfindingOverride = pathfindingOverride;
+    }
+
+    /**
+     * Setter for target variable.
+     */
+    public void setTarget(Entity target) {
+        this.target = target;
     }
 
     // --------- BOOLEANS --------- //
@@ -309,7 +314,6 @@ public class EnemyAIComponent extends Component {
      */
     public boolean enemyDirectlyAbove() {
         if (RaycastCalculations.checkRaycastHit(raycastAI.getLeftUpwardRaycast(), EntityType.ENEMY)) {
-
             // Is the Enemy hit not thisEnemy?
             if (!RaycastCalculations.getRaycastHit(raycastAI.getLeftUpwardRaycast()).equals(thisEnemy.getEntity())) {
                 return true;
@@ -317,12 +321,12 @@ public class EnemyAIComponent extends Component {
         }
 
         if (RaycastCalculations.checkRaycastHit(raycastAI.getRightUpwardRaycast(), EntityType.ENEMY)) {
-
             // Is the Enemy hit not thisEnemy?
             if (!RaycastCalculations.getRaycastHit(raycastAI.getRightUpwardRaycast()).equals(thisEnemy.getEntity())) {
                 return true;
             }
         }
+
         return false;
     }
 
@@ -333,7 +337,6 @@ public class EnemyAIComponent extends Component {
      */
     public boolean enemyDirectlyBelow() {
         if (RaycastCalculations.checkRaycastHit(raycastAI.getLeftDownwardRaycast(), EntityType.ENEMY)) {
-
             // Is the Enemy hit not thisEnemy?
             if (!RaycastCalculations.getRaycastHit(raycastAI.getLeftDownwardRaycast()).equals(thisEnemy.getEntity())) {
                 return true;
@@ -341,12 +344,12 @@ public class EnemyAIComponent extends Component {
         }
 
         if (RaycastCalculations.checkRaycastHit(raycastAI.getRightDownwardRaycast(), EntityType.ENEMY)) {
-
             // Is the Enemy hit not thisEnemy?
             if (!RaycastCalculations.getRaycastHit(raycastAI.getRightDownwardRaycast()).equals(thisEnemy.getEntity())) {
                 return true;
             }
         }
+
         return false;
     }
 }

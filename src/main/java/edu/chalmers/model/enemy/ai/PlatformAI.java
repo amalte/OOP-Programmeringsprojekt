@@ -244,8 +244,6 @@ class PlatformAI {
         }
     }
 
-    // ---------- GETTERS ---------- //
-
     /**
      * Getter for playerRecentPlatformContact variable.
      *
