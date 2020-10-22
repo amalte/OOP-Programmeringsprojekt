@@ -3,12 +3,12 @@ package edu.chalmers.controller.game;
 import edu.chalmers.controller.GameMenuType;
 import edu.chalmers.controller.InputController;
 import edu.chalmers.controller.MenuController;
-import edu.chalmers.controller.main.MainMenuController;
 import edu.chalmers.main.Main;
 import edu.chalmers.view.game.ExitMenu;
 import javafx.scene.input.KeyCode;
 
 import static com.almasb.fxgl.dsl.FXGL.getGameScene;
+
 
 /**
  * @author Anwarr Shiervani

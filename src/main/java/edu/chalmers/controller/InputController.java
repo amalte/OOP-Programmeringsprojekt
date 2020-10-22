@@ -7,7 +7,6 @@ import edu.chalmers.controller.game.ExitMenuController;
 import edu.chalmers.main.Main;
 import edu.chalmers.model.GenericPlatformer;
 import edu.chalmers.model.PlayerComponent;
-import edu.chalmers.model.weapon.Weapon;
 import edu.chalmers.utilities.EntityPos;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
@@ -15,7 +14,7 @@ import javafx.scene.input.MouseButton;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getInput;
 
 /**
- * @author Oscar Arvidson, Erik Wetter, Anwarr Shiervani
+ * @author Oscar Arvidson och Erik Wetter
  *
  * This class handles player movement input.
  */
@@ -131,9 +130,9 @@ public class InputController {
                 @Override
                 protected void onActionBegin() {
                     if (mainInstance.getGameRunning()) {
-                        Weapon weapon = getPlayer().getComponent(PlayerComponent.class).getActiveWeapon();
+                        getPlayer().getComponent(PlayerComponent.class).getActiveWeapon();
 
-                        if (weapon.getMagazineCounter() < weapon.getMagazineSize())
+                        if (getPlayer().getComponent(PlayerComponent.class).getActiveWeapon().getMagazineCounter() < getPlayer().getComponent(PlayerComponent.class).getActiveWeapon().getMagazineSize())
                             getPlayer().getComponent(PlayerComponent.class).reload();
                     }
                 }

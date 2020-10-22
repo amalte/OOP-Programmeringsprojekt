@@ -12,7 +12,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.text.Text;
 
 import static com.almasb.fxgl.dsl.FXGL.getGameScene;
-import static com.almasb.fxgl.dsl.FXGL.getInput;
 
 /**
  * @author Anwarr Shiervani
