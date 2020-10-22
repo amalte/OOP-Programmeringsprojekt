@@ -8,7 +8,9 @@ import javafx.geometry.Point2D;
  *
  * CoordsCalculations used to convert between tiles (Coords) and points.
  */
-public class CoordsCalculations {
+public final class CoordsCalculations {
+
+    private CoordsCalculations() {}
 
     /**
      * Method converts a position to a tile on the map

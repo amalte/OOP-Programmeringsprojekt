@@ -43,7 +43,7 @@ public class WeaponProjectile {
         physics.setBodyType(BodyType.KINEMATIC);
         FXGL.entityBuilder()
                 .type(EntityType.PROJECTILE)
-                .at((this.centerPlayerPoint.getX()),(this.centerPlayerPoint.getY()))
+                .at(this.centerPlayerPoint.getX(),this.centerPlayerPoint.getY())
                 .viewWithBBox(new Rectangle(projectileSizeW, projectileSizeH, Color.BLACK))
                 .with(physics)
                 .with(new CollidableComponent(true))
@@ -71,8 +71,8 @@ public class WeaponProjectile {
      * @param shootingAngle The angle between center of player and the mouse pointer
      */
     private void moveProjectileOutsidePlayerHitbox(double shootingAngle) {
-        double spawnPointX = Math.cos(shootingAngle)*(shooterSizeOffsetToCenter+15)+(centerPlayerPoint.getX())-(projectileSizeW/2);
-        double spawnPointY = Math.sin(shootingAngle)*(shooterSizeOffsetToCenter+15)+(centerPlayerPoint.getY())-(projectileSizeH/2);
+        double spawnPointX = Math.cos(shootingAngle)*(shooterSizeOffsetToCenter+15)+centerPlayerPoint.getX()-(projectileSizeW/2);
+        double spawnPointY = Math.sin(shootingAngle)*(shooterSizeOffsetToCenter+15)+centerPlayerPoint.getY()-(projectileSizeH/2);
         Point2D spawnPoint = new Point2D(spawnPointX,spawnPointY);
         physics.overwritePosition(spawnPoint);
     }

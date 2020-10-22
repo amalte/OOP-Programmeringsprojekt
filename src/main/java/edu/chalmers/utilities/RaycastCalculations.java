@@ -14,7 +14,9 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.getPhysicsWorld;
  *
  * RaycastCalculations performs raycastcalculations
  */
-public class RaycastCalculations {
+public final class RaycastCalculations {
+
+    private RaycastCalculations() {}
 
     /**
      * Method sets a horizontal raycast.

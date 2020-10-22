@@ -14,8 +14,8 @@ import javafx.util.Duration;
  */
 public class AnimationComponent extends Component {
 
-    private int timer = 0;
-    private boolean isAirborne = false;
+    private int timer;
+    private boolean isAirborne;
 
     private final AnimatedTexture texture;
     private final AnimationChannel animIdle, animWalk, animJump;
@@ -59,7 +59,9 @@ public class AnimationComponent extends Component {
                     timer = 0;
                     texture.loopAnimationChannel(animIdle);
                 }
-            }else texture.loopAnimationChannel(animIdle);
+            }else {
+                texture.loopAnimationChannel(animIdle);
+            }
         }else {
             if (texture.getAnimationChannel() == animIdle || texture.getAnimationChannel() == animWalk) {
                 texture.playAnimationChannel(animJump);
@@ -73,7 +75,7 @@ public class AnimationComponent extends Component {
      */
     public void moveRight() {
         timer = 100;
-        getEntity().setScaleX(1);
+        entity.setScaleX(1);
     }
 
     /**
@@ -81,7 +83,7 @@ public class AnimationComponent extends Component {
      */
     public void moveLeft() {
         timer = 100;
-        getEntity().setScaleX(-1);
+        entity.setScaleX(-1);
     }
 
     /**

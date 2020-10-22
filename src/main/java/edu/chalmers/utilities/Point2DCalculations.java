@@ -8,7 +8,9 @@ import javafx.geometry.Point2D;
  *
  * Point2DCalculations calculations for points
  */
-public class Point2DCalculations {
+public final class Point2DCalculations {
+
+    private Point2DCalculations() {}
 
     /**
      * Method gets the angle between two points

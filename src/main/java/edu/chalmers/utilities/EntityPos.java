@@ -8,7 +8,9 @@ import javafx.geometry.Point2D;
  *
  * EntityPos class to get different positions of an entity.
  */
-public class EntityPos {
+public final class EntityPos {
+
+    private EntityPos() {}
 
     /**
      * Method gets the position of an entity
