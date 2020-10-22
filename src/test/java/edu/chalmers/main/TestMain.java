@@ -7,9 +7,9 @@ import edu.chalmers.controller.game.ExitMenuController;
 import edu.chalmers.controller.main.MainMenuController;
 import edu.chalmers.controller.main.PlayMenuController;
 import edu.chalmers.controller.main.SettingsMenuController;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.CountDownLatch;
 
@@ -29,7 +29,7 @@ public class TestMain {
      *
      * @throws InterruptedException
      */
-    @BeforeClass
+    @BeforeAll
     public static void setUp() throws InterruptedException {
         initialize();
         mainInstance = FXGLTest.getMainInstance();
@@ -40,7 +40,7 @@ public class TestMain {
      *
      * @throws InterruptedException
      */
-    @AfterClass
+    @AfterAll
     public static void tearDown() throws InterruptedException {
         deInitialize();
         mainInstance = null;

@@ -4,9 +4,9 @@ import com.almasb.fxgl.scene.SubScene;
 import edu.chalmers.FXGLTest;
 import edu.chalmers.main.Main;
 import edu.chalmers.view.IMenu;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import static edu.chalmers.FXGLTest.deInitialize;
 import static edu.chalmers.FXGLTest.initialize;
@@ -26,7 +26,7 @@ public class TestMiscControllers {
      *
      * @throws InterruptedException
      */
-    @BeforeClass
+    @BeforeAll
     public static void setUp() throws InterruptedException {
         initialize();
         mainInstance = FXGLTest.getMainInstance();
@@ -37,7 +37,7 @@ public class TestMiscControllers {
      *
      * @throws InterruptedException
      */
-    @AfterClass
+    @AfterAll
     public static void tearDown() throws InterruptedException {
         deInitialize();
         mainInstance = null;

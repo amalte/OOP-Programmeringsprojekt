@@ -15,9 +15,9 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.CountDownLatch;
 
@@ -38,7 +38,7 @@ public class TestMainControllers {
      *
      * @throws InterruptedException
      */
-    @BeforeClass
+    @BeforeAll
     public static void setUp() throws InterruptedException {
         initialize();
         mainInstance = FXGLTest.getMainInstance();
@@ -49,7 +49,7 @@ public class TestMainControllers {
      *
      * @throws InterruptedException
      */
-    @AfterClass
+    @AfterAll
     public static void tearDown() throws InterruptedException {
         deInitialize();
         mainInstance = null;

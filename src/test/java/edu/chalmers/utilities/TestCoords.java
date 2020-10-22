@@ -2,7 +2,7 @@ package edu.chalmers.utilities;
 
 import edu.chalmers.services.Coords;
 import javafx.geometry.Point2D;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.testng.AssertJUnit.*;
 
