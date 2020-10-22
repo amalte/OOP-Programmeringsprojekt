@@ -7,6 +7,11 @@ import edu.chalmers.view.game.BuildView;
 
 import static com.almasb.fxgl.dsl.FXGL.getInput;
 
+/**
+ * @author Malte Åkvist
+ *
+ * Controller for BuildView
+ */
 public class BuildUIController {
     GenericPlatformer game;
     BuildView buildView;

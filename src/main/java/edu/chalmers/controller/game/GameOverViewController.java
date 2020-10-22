@@ -10,6 +10,8 @@ import edu.chalmers.view.game.GameOverView;
 import static com.almasb.fxgl.dsl.FXGL.getGameScene;
 
 /**
+ * @author Oscar Arvidson
+ *
  * The controller for the exit menu view.
  */
 public class GameOverViewController extends MenuController<GameOverView> implements IObserver {

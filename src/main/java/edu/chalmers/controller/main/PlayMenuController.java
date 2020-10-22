@@ -9,6 +9,8 @@ import javafx.scene.input.KeyCode;
 import static com.almasb.fxgl.dsl.FXGL.getGameScene;
 
 /**
+ * @author Anwarr Shiervani
+ *
  * The controller for the play menu view.
  */
 public class PlayMenuController extends MenuController<PlayMenu> {
