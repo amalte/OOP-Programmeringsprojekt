@@ -24,4 +24,5 @@ public interface IBlockObservable {
      * Adds an IMapObserver to the observer list
      */
     void addObserver(IMapObserver IMapObserver);
+
 }

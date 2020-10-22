@@ -33,7 +33,7 @@ public final class CoordsCalculations {
      * @return a position with x and y value
      */
     public static Point2D tileToPos(Coords tile) {  // Coords to TilePos, example (0,2) = (0,120)
-        return new Point2D(tile.x() * Constants.TILE_SIZE, tile.y() * Constants.TILE_SIZE);
+        return new Point2D(tile.getX() * Constants.TILE_SIZE, tile.getY() * Constants.TILE_SIZE);
     }
 
     /**

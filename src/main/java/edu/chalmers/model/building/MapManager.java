@@ -93,6 +93,13 @@ public class MapManager implements IMapObserver {
         blockMap.remove(tile);
     }
 
+    /**
+     * Getter for the blockMap
+     *
+     * @return HashMap<Coords, IBlock> the blockMap
+     */
+    HashMap<Coords, IBlock> getBlockMap() { return blockMap; }
+
     private HashSet<Coords> getConnectedTiles(Coords tile) {
         return getConnectedTiles(tile, new HashSet<>());
     }
@@ -124,19 +131,19 @@ public class MapManager implements IMapObserver {
     }
 
     private Coords getTileAbove(Coords tile) {
-        return new Coords(tile.x(), tile.y() - 1);
+        return new Coords(tile.getX(), tile.getY() - 1);
     }
 
     private Coords getTileRight(Coords tile) {
-        return new Coords(tile.x() + 1, tile.y());
+        return new Coords(tile.getX() + 1, tile.getY());
     }
 
     private Coords getTileBelow(Coords tile) {
-        return new Coords(tile.x(), tile.y() + 1);
+        return new Coords(tile.getX(), tile.getY() + 1);
     }
 
     private Coords getTileLeft(Coords tile) {
-        return new Coords(tile.x() - 1, tile.y());
+        return new Coords(tile.getX() - 1, tile.getY());
     }
 
     /**

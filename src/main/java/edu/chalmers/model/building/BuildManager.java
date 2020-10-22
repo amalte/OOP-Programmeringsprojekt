@@ -57,7 +57,7 @@ public class BuildManager {
     @param playerTile position of player
     @return list of reachable tiles */
     private List<Coords> getReachableTiles(Coords playerTile) {
-        Coords startTile = new Coords(playerTile.x() - buildRangeTiles, playerTile.y() - buildRangeTiles);
+        Coords startTile = new Coords(playerTile.getX() - buildRangeTiles, playerTile.getY() - buildRangeTiles);
 
         List<Coords> reachableTiles = new ArrayList<>();
 
@@ -66,7 +66,7 @@ public class BuildManager {
 
         for (int i = 0; i < tilesInRange; i++) {
 
-            Coords tile = new Coords(startTile.x() + (i / tileInRangeSize), startTile.y() + i % tileInRangeSize);   // reachableTile
+            Coords tile = new Coords(startTile.getX() + (i / tileInRangeSize), startTile.getY() + i % tileInRangeSize);   // reachableTile
 
             if (tileIsInsideMap(tile)) {  // Tile cant be outside of map
                 reachableTiles.add(tile);
@@ -102,13 +102,13 @@ public class BuildManager {
      * @return boolean
      */
     public boolean isInBuildRange(Coords buildTile, Coords playerTile) {
-        if (Math.abs(buildTile.x() - playerTile.x()) > buildRangeTiles) return false;
-        if (Math.abs(buildTile.y() - playerTile.y()) > buildRangeTiles) return false;
+        if (Math.abs(buildTile.getX() - playerTile.getX()) > buildRangeTiles) return false;
+        if (Math.abs(buildTile.getY() - playerTile.getY()) > buildRangeTiles) return false;
 
         return true;
     }
 
     private boolean tileIsInsideMap(Coords tile) {
-        return 0 <= tile.x() && tile.y() < Constants.TILEMAP_WIDTH && 0 <= tile.y() && tile.y() < Constants.TILEMAP_HEIGHT;
+        return 0 <= tile.getX() && tile.getY() < Constants.TILEMAP_WIDTH && 0 <= tile.getY() && tile.getY() < Constants.TILEMAP_HEIGHT;
     }
 }

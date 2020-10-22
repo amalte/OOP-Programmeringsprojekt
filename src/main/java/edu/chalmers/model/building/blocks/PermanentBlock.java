@@ -24,8 +24,6 @@ public class PermanentBlock implements IBlock {
      */
     @Override
     public void remove() {
-        if (canBeDestroyed()) {
-            this.remove();
-        }
+        // Cant be removed
     }
 }

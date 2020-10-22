@@ -50,14 +50,6 @@ public class TestWaveManager {
     }
 
     @Test
-    public void testGetSpawnTimeSec() throws InterruptedException {
-        resetTest();
-        //assertEquals(0, waveManager.getSpawnTimeSec());
-        waveManager.generateNewWave();
-        //assertEquals(2, waveManager.getSpawnTimeSec());
-    }
-
-    @Test
     public void testGetCurrentWave() throws InterruptedException {
         resetTest();
         assertEquals(0, waveManager.getCurrentWave());
@@ -69,12 +61,12 @@ public class TestWaveManager {
     public void testObserverMethods() throws InterruptedException {
         resetTest();
         MockObserver o = new MockObserver();
-        assertTrue(waveManager.observers.size() == 0);
+        assertEquals(0, waveManager.observers.size());
         waveManager.addObserver(o);
-        assertTrue(waveManager.observers.size() == 1);
+        assertEquals(1, waveManager.observers.size());
         waveManager.notifyObserver();
         assertTrue(o.isTest());
         waveManager.removeObserver(o);
-        assertTrue(waveManager.observers.size() == 0);
+        assertEquals(0, waveManager.observers.size());
     }
 }

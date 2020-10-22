@@ -18,10 +18,10 @@ public class TestCoordsCalculations {
         Point2D p1 = new Point2D(50, 150);
         Point2D p2 = new Point2D(-1001, -1001);
 
-        assertEquals(0, CoordsCalculations.posToTile(p1).x());
-        assertEquals(2, CoordsCalculations.posToTile(p1).y());
-        assertEquals(-16, CoordsCalculations.posToTile(p2).x());
-        assertEquals(-16, CoordsCalculations.posToTile(p2).y());
+        assertEquals(0, CoordsCalculations.posToTile(p1).getX());
+        assertEquals(2, CoordsCalculations.posToTile(p1).getY());
+        assertEquals(-16, CoordsCalculations.posToTile(p2).getX());
+        assertEquals(-16, CoordsCalculations.posToTile(p2).getY());
     }
 
     @Test

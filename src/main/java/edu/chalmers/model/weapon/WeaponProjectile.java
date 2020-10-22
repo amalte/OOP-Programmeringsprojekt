@@ -6,6 +6,7 @@ import com.almasb.fxgl.entity.components.CollidableComponent;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import edu.chalmers.model.EntityType;
+import edu.chalmers.utilities.EntityPos;
 import edu.chalmers.utilities.Point2DCalculations;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;

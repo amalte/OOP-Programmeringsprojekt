@@ -26,6 +26,8 @@ public class Block implements IBlock, IBlockObservable {
 
     private Entity currentBlock;
 
+    private boolean testing = false; //Boolean used for testing
+
     private int health = 100;
     private TimerAction damageDelayTimer;
 
@@ -73,11 +75,26 @@ public class Block implements IBlock, IBlockObservable {
      * @param damage Amount of health points to be inflicted to the Block.
      */
     public void inflictDamage(int damage) {
-        if (damageDelayTimer.isExpired()) {
-            int damageDelayMilliseconds = 500;   // How often it can be inflicted damage
-            damageDelayTimer = runOnce(() -> health -= damage, Duration.millis(damageDelayMilliseconds));
+        if(!testing) {
+            if (damageDelayTimer.isExpired()) {
+                int damageDelayMilliseconds = 500;   // How often it can be inflicted damage
+                damageDelayTimer = runOnce(() -> health -= damage, Duration.millis(damageDelayMilliseconds));
+            }
         }
+        else {
+            health-= damage;
+        }
+
         checkHealth();
+    }
+
+    /**
+     * Getter for Blocks health.
+     *
+     * @return int of Blocks health.
+     */
+    public int getHealth() {
+        return health;
     }
 
     /**
@@ -129,5 +146,14 @@ public class Block implements IBlock, IBlockObservable {
     private void initDamageDelayTimer() {
         damageDelayTimer = runOnce(() -> {
         }, Duration.seconds(0));
+    }
+
+    /**
+     * Setter for testing variable used to test time based methods.
+     *
+     * @param state True or False.
+     */
+    public void setTesting(boolean state) {
+        testing = state;
     }
 }

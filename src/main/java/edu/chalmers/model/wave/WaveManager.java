@@ -47,14 +47,14 @@ public class WaveManager implements IObservable {
     private void calculateEnemiesToSpawn() {
         List<String> enemiesToSpawn = spawnEnemyRunnable.getEnemiesToSpawn();
 
-        for (int i = 0; i < currentWave; i++) {
+        for (int i = 0; i < Math.round(currentWave*0.8); i++) {
             enemiesToSpawn.add("ZOMBIE");
         }
         for (int i = 0; i < Math.round((double) currentWave / 2); i++) {
             enemiesToSpawn.add("BLOB");
         }
         if (currentWave % 3 == 0) {  // Spawn difficult enemy every 3 waves
-            for (int i = 0; i < currentWave / 5; i++) {
+            for (int i = 0; i < 1 + (currentWave / 5); i++) {
                 enemiesToSpawn.add("REX");
             }
         }

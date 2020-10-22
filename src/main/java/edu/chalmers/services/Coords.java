@@ -21,7 +21,7 @@ public class Coords {
      *
      * @return int x value
      */
-    public int x() {
+    public int getX() {
         return x;
     }
 
@@ -30,10 +30,27 @@ public class Coords {
      *
      * @return int y value
      */
-    public int y() {
-        return y;
-    }
+    public int getY() { return y; }
 
+    /**
+     * Set method for the x value
+     *
+     * @param x X value
+     */
+    public void setX(int x) { this.x = x; }
+
+    /**
+     * Set method for the y value
+     *
+     * @param y Y value
+     */
+    public void setY(int y) { this.y = y; }
+
+    /**
+     * Equals method to check if this object is equal to another
+     *
+     * @param o Object to check if equal to
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -43,6 +60,11 @@ public class Coords {
                 y == coords.y;
     }
 
+    /**
+     * Get hash code
+     *
+     * @return hashCode
+     */
     @Override
     public int hashCode() {
         return Objects.hash(x, y);

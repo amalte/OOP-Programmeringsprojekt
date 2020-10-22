@@ -7,6 +7,7 @@ import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
 import com.almasb.fxgl.time.TimerAction;
 import edu.chalmers.model.weapon.Weapon;
 import edu.chalmers.model.weapon.WeaponFactory;
+import edu.chalmers.utilities.EntityPos;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
@@ -82,9 +83,7 @@ public class PlayerComponent extends Component implements IObservable {
     /**
      * Calls method shoot from PlayerComponent's selected weapon.
      */
-    public void shoot() {
-        weapons.get(activeWeapon).shoot(entity.getX(), entity.getY());
-    }
+    public void shoot() { weapons.get(activeWeapon).shoot(entity.getX(), entity.getY()); }
 
     /**
      * Calls method reload from PlayerComponent's selected weapon.
