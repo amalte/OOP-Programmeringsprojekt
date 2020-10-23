@@ -89,7 +89,7 @@ public class Main extends GameApplication {
         gameSettings.setPreserveResizeRatio(true);
         gameSettings.setManualResizeEnabled(false);
         gameSettings.setFullScreenAllowed(true);
-        gameSettings.setFullScreenFromStart(false);
+        gameSettings.setFullScreenFromStart(true);
         gameSettings.setWidth(Constants.GAME_WIDTH);
         gameSettings.setHeight(Constants.GAME_HEIGHT);
         gameSettings.setTitle("Generic Platformer");
