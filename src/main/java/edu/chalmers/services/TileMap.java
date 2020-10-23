@@ -50,13 +50,6 @@ public class TileMap {
     }
 
     private TiledMap getTileMap(String levelName) {
-        String fileName = "src/main/resources/assets/levels/";
-        try {
-            return new TMXLevelLoader().parse(Files.newInputStream(Paths.get(fileName + levelName)));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return null;
+        return new TMXLevelLoader().parse(getClass().getResourceAsStream("/assets/levels/" + levelName));
     }
 }
